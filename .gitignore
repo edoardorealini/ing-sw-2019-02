@@ -10,3 +10,9 @@ buildNumber.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
+
+#Custom ignore
+.idea/
+ingsw201902.iml
+
+#Con **.mp3 ignoro tutti i file di tipo mp3
