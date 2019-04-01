@@ -17,3 +17,6 @@ buildNumber.properties
 ingsw201902.iml
 
 #Con **.mp3 ignoro tutti i file di tipo mp3
+src/.DS_Store
+src/main/.DS_Store
+.DS_Store
