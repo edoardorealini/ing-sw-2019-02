@@ -4,7 +4,7 @@ public class AmmoCard {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;
-    //private PowerUp powerUp;
+    private boolean powerUp;
     //TODO
 
 
@@ -18,6 +18,10 @@ public class AmmoCard {
 
     public int getYellowAmmo() {
         return yellowAmmo;
+    }
+
+    public boolean isTherePowerUp() {
+        return powerUp;
     }
 
     //TODO
