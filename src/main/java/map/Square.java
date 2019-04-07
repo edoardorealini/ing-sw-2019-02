@@ -2,11 +2,17 @@ package map;
 import java.util.*;
 
 public class Square {
+
     private boolean activeStatus;
     private Color color;
-    // private boolean door;       secondo me è una ripetizione, è già incluso in doors appena sotto RS
-    private ArrayList<Boolean> allowedMoves;
-    private ArrayList<Boolean> doors;
+    private Directions[] allowedMoves;//Directions of the allowed moves in the single Square.
+    private Directions[] doors;       //Direction of door
+
+
+
+    public Square(){
+        //TODO costruttore
+    }
 
     public boolean isActiveStatus() {
         return activeStatus;
@@ -16,12 +22,13 @@ public class Square {
         return color;
     }
 
-    public ArrayList<Boolean> getDoors() {
-        return doors;
-    }
-
-    public ArrayList<Boolean> getAllowedMoves() {
+    public Directions[] getAllowedMoves() {
+        //TODO correggere: non posso dare in return direttamente il riferimento all'array!
         return allowedMoves;
     }
 
+    public Directions[] getDoors() {
+        //TODO correggere: non posso dare in return direttamente il riferimento all'array!
+        return doors;
+    }
 }

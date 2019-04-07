@@ -1,11 +1,11 @@
 package map;
 
 public enum Color {
-    blue,
-    red,
-    yellow,
-    purple,
-    grey,
-    white,
-    green        //added purple, grey e green for players and rooms
+    BLUE,
+    RED,
+    YELLOW,
+    PURPLE,
+    GREY,
+    WHITE,
+    GREEN        //added purple, grey e green for players and rooms
 }
