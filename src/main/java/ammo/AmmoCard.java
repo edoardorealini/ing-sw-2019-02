@@ -1,11 +1,13 @@
 package ammo;
 
+import powerUps.PowerUps;
+
 public class AmmoCard {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;
     private boolean powerUp;
-    //TODO
+    private PowerUps powerUps;
 
 
     public int getBlueAmmo() {

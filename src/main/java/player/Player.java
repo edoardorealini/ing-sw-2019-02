@@ -56,27 +56,27 @@ public class Player {
         this.position = position;
     }
 
-    public String addWeapons( Weapon w) {
+    public void addWeapons( Weapon w) {
         for (int i=0; i<3; i++){
             if (weapons[i]==null) {
                 this.weapons[i] = w;
-                return "Weapon aggiunta";
+               // return "Weapon aggiunta";
             }
         }
 
-        return "spazio armi esaurito";
+        //return "spazio armi esaurito";
     }
 
     public Weapon[] getWeapons() {
         return weapons;
     }
 
-    public String removeWeapons(int i){
-        if (i<=3 && i>=1){
+    public void removeWeapons(int i){
+        if (i<3 && i>=0){
             weapons[i]=null;
-            return "arma tolta";
+            //return "arma tolta";
         }
-        else return "impossibile togliere arma";
+        //else return "impossibile togliere arma";
     }
 
     public Ammo getAmmo() {
@@ -110,23 +110,23 @@ public class Player {
         return powerUps;
     }
 
-    public String addPowerUps(PowerUps p) {
+    public void addPowerUps(PowerUps p) {
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
-                return "PowerUps aggiunto";
+                //return "PowerUps aggiunto";
             }
         }
 
-        return "spazio powerUps esaurito";
+        //return "spazio powerUps esaurito";
     }
 
-    public String removePowerUps(int i) {
-        if (i<=3 && i>=1){
+    public void removePowerUps(int i) {
+        if (i<3 && i>=0){
             powerUps[i]=null;
-            return "PowerUps tolto";
+            //return "PowerUps tolto";
         }
-        else return "impossibile togliere PowerUps";
+        //else return "impossibile togliere PowerUps";
     }
 
     public int getPoints() {

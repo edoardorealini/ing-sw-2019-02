@@ -4,7 +4,6 @@ public class Ammo {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;
-    private boolean powerUp;
 
 
     public int getBlueAmmo() {
@@ -17,10 +16,6 @@ public class Ammo {
 
     public int getYellowAmmo() {
         return yellowAmmo;
-    }
-
-    public boolean isTherePowerUp() {
-        return powerUp;
     }
 
     public void setBlueAmmo(int blueAmmo) {
