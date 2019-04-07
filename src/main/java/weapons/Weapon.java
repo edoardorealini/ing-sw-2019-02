@@ -3,7 +3,7 @@ package weapons;
 
 import java.util.*;
 
-public class Weapon {
+public abstract class Weapon {
     private String name;
     private Color color;
     private ArrayList<Color> cost;
@@ -12,7 +12,6 @@ public class Weapon {
     private int involvedPlayers;
 
     public Weapon(){
-        //TODO
     }
 
     public String getName() {
@@ -23,7 +22,7 @@ public class Weapon {
         return color;
     }
 
-    public ArrayList<Color> getCost() {
+    public List<Color> getCost() {
         return cost;
     }
 

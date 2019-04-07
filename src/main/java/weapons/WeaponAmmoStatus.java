@@ -1,7 +1,7 @@
 package weapons;
 
 public enum WeaponAmmoStatus {
-    loaded,
-    partiallyLoaded,
-    unloaded;
+    LOADED,
+    PARTIALLYLOADED,
+    UNLOADED;
 }
