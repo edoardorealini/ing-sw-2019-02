@@ -21,4 +21,15 @@ public class PowerUpsDeck {
         powerUpsDeck.add(new PowerUps('Y', "Teletrasporto"));
 
     }
+
+
+    public PowerUps removePowerUps(){
+         return powerUpsDeck.get(0);
+         //TODO come cancello la prima cella ?
+
+    }
+
+    public void addPowerUps(PowerUps powerUps){
+        powerUpsDeck.add(powerUpsDeck.size()-1,powerUps);
+    }
 }
