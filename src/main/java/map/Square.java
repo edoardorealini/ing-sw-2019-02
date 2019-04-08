@@ -6,11 +6,11 @@ public class Square {
     private boolean activeStatus;
     private Color color;
     private Directions[] allowedMoves;//Directions of the allowed moves in the single Square.
-    private Directions[] doors;       //Direction of door
+    private Door[] doors;       //Direction of door
 
 
 
-    public Square(){
+    public Square(Color color){
         //TODO costruttore
     }
 
