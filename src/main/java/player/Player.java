@@ -9,7 +9,7 @@ import powerUps.PowerUps;
 public class Player {
 
     private String nickname;
-    private int id;
+    private int id;                  // NB. id = 9 non si può usare, vedi inizializzazione board
     private Square position;
     private Board board;
     private Weapon[] weapons = {null, null, null};
@@ -56,6 +56,10 @@ public class Player {
         this.position = position;
     }
 
+    public Weapon[] getWeapons() {
+        return weapons;
+    }
+
     public void addWeapons( Weapon w) {
         for (int i=0; i<3; i++){
             if (weapons[i]==null) {
@@ -65,10 +69,6 @@ public class Player {
         }
 
         //return "spazio armi esaurito";
-    }
-
-    public Weapon[] getWeapons() {
-        return weapons;
     }
 
     public void removeWeapons(int i){
@@ -84,26 +84,33 @@ public class Player {
     }
 
     public void addAmmo(AmmoCard ammoCard) {
-        if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>3){
+        if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>=3){
             ammo.setBlueAmmo(3);
         }
         else ammo.setBlueAmmo(ammo.getBlueAmmo()+ammoCard.getBlueAmmo());
 
-        if ((ammo.getYellowAmmo()+ammoCard.getYellowAmmo())>3){
+        if ((ammo.getYellowAmmo()+ammoCard.getYellowAmmo())>=3){
             ammo.setYellowAmmo(3);
         }
         else ammo.setYellowAmmo(ammo.getYellowAmmo()+ammoCard.getYellowAmmo());
 
-        if ((ammo.getRedAmmo()+ammoCard.getRedAmmo())>3){
+        if ((ammo.getRedAmmo()+ammoCard.getRedAmmo())>=3){
             ammo.setRedAmmo(3);
         }
         else ammo.setRedAmmo(ammo.getRedAmmo()+ammoCard.getRedAmmo());
 
-        //TODO aggiungere powerUps
+        if (ammoCard.isTherePowerUp()){
+            for (int i=0; i<3; i++){
+                if (powerUps[i]==null) {
+                    this.powerUps[i] = ammoCard.getPowerUps();      // controlla che prenda indirizzo di powerUps della carta;
+                    return;
+                }
+            }
+        }
     }
 
     public void removeAmmo(Ammo ammo) {
-        // TODO da fare quando si implementa la classe weapon
+        // TODO da fare quando si implementa la classe weapon, ho bisogno il numero di ogni colore
     }
 
     public PowerUps[] getPowerUps() {
