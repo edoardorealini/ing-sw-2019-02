@@ -9,14 +9,18 @@ public abstract class Weapon {
     private ArrayList<Color> cost;
     private WeaponAmmoStatus ammoStatus;
     private int basicDamage;
-    private int basicTargets;
+    private int basicMarks;
     private int involvedPlayers;
+    private int minShootingDistance;
+    private boolean visibleTarget;
 
     public Weapon(){
+        this.cost = new ArrayList<>();
+        this.ammoStatus = WeaponAmmoStatus.PARTIALLYLOADED;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -24,7 +28,7 @@ public abstract class Weapon {
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(Color color) {
@@ -32,34 +36,33 @@ public abstract class Weapon {
     }
 
     public List<Color> getCost() {
-        return cost;
+        return this.cost;
     }
 
-    public void setCost(Color one, Color two, Color three) {
-        this.cost = new ArrayList<Color>()   //continue
-        this.getCost().add(one);
-        this.getCost().add(two);
-        this.getCost().add(three);
-    }
+    public abstract void setCost(Color one, Color two, Color three);
 
     public int getBasicDamage() {
-        return basicDamage;
+        return this.basicDamage;
     }
 
-    public void setBasicDamage(int basicDamage) {
+    void setBasicDamage(int basicDamage) {
         this.basicDamage = basicDamage;
     }
 
-    public int getBasicTargets() {
-        return basicTargets;
+    public int getBasicMarks() {
+        return basicMarks;
     }
 
-    public void setBasicTargets(int basicTargets) {
-        this.basicTargets = basicTargets;
+    void setBasicMarks(int basicMarks) {
+        this.basicMarks = basicMarks;
     }
 
     public int getInvolvedPlayers() {
         return involvedPlayers;
+    }
+
+    public void setInvolvedPlayers(int involvedPlayers) {
+        this.involvedPlayers = involvedPlayers;
     }
 
     public WeaponAmmoStatus getAmmoStatus() {
@@ -68,5 +71,21 @@ public abstract class Weapon {
 
     public void setAmmoStatus(WeaponAmmoStatus ammoStatus) {
         this.ammoStatus = ammoStatus;
+    }
+
+    public int getMinShootingDistance() {
+        return minShootingDistance;
+    }
+
+    void setMinShootingDistance(int minShootingDistance) {
+        this.minShootingDistance = minShootingDistance;
+    }
+
+    void setVisibleTarget(boolean visibleTarget) {
+        this.visibleTarget = visibleTarget;
+    }
+
+    public boolean needVisibleTarget() {
+        return visibleTarget;
     }
 }
