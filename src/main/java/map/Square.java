@@ -48,6 +48,8 @@ public class Square {
         return allowedMoves;
     }
 
-
-
+    public Directions[] getDoors() {
+        //TODO correggere: non posso dare in return direttamente il riferimento all'array!
+        return doors;
+    }
 }

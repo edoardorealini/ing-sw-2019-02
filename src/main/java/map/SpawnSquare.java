@@ -6,8 +6,9 @@ import weapons.*;
 public class SpawnSquare extends Square {
     private ArrayList<Weapon> weaponBox; //array che contiene i ref alle armi presenti nel box
 
-    public SpawnSquare(Color color, Boolean activeStatus, Directions[] allowedMoves, Directions[] doors){
+    public SpawnSquare(Color color, Boolean activeStatus, Directions[] allowedMoves, Directions[] doors, ArrayList<Weapon> weapons){
         super(color, activeStatus, allowedMoves, doors);
+        weaponBox = new ArrayList<>(weapons);
     }
 
     public SpawnSquare(Boolean activeStatus){
