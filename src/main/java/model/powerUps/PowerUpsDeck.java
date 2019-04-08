@@ -1,4 +1,4 @@
-package powerUps;
+package model.powerUps;
 
 import java.util.ArrayList;
 

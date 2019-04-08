@@ -1,4 +1,4 @@
-package weapons;
+package model.weapons;
 
 public enum WeaponAmmoStatus {
     LOADED,

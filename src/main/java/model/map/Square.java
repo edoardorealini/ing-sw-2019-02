@@ -1,5 +1,4 @@
-package map;
-import java.util.*;
+package model.map;
 
 public class Square {
 

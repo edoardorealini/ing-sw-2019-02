@@ -90,7 +90,7 @@
 													"top": 391,
 													"width": 258.30615234375,
 													"height": 13,
-													"text": "map"
+													"text": "model.map"
 												},
 												{
 													"_type": "LabelView",
@@ -6436,7 +6436,7 @@
 													"top": 914,
 													"width": 255,
 													"height": 13,
-													"text": "-weapons: Weapon",
+													"text": "-model.weapons: Weapon",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6453,7 +6453,7 @@
 													"top": 929,
 													"width": 255,
 													"height": 13,
-													"text": "-ammo: Ammo",
+													"text": "-model.ammo: Ammo",
 													"horizontalAlignment": 0
 												},
 												{
@@ -6470,7 +6470,7 @@
 													"top": 944,
 													"width": 255,
 													"height": 13,
-													"text": "-powerUps: PowerUp",
+													"text": "-model.powerUps: PowerUp",
 													"horizontalAlignment": 0
 												},
 												{
@@ -8958,7 +8958,7 @@
 									"top": 432,
 									"width": 121,
 									"height": 144,
-									"text": "Ogni  classe map andrà ad implementare la mappa corretta tra le 4 disponibili\nOgni costruttore di ogni classe genera la struttura dati corretta"
+									"text": "Ogni  classe model.map andrà ad implementare la mappa corretta tra le 4 disponibili\nOgni costruttore di ogni classe genera la struttura dati corretta"
 								},
 								{
 									"_type": "UMLNoteView",
@@ -12586,7 +12586,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFp1XEMOHGOyzE="
 							},
-							"name": "map",
+							"name": "model.map",
 							"ownedElements": [
 								{
 									"_type": "UMLAssociation",
@@ -14180,7 +14180,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp2pHtZgPzL8k="
 									},
-									"name": "weapons",
+									"name": "model.weapons",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFp19P5JdnmKOY="
@@ -14192,7 +14192,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp2pHtZgPzL8k="
 									},
-									"name": "ammo",
+									"name": "model.ammo",
 									"visibility": "private",
 									"type": "Ammo"
 								},
@@ -14202,7 +14202,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp2pHtZgPzL8k="
 									},
-									"name": "powerUps",
+									"name": "model.powerUps",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFp183OiNBKOmg="

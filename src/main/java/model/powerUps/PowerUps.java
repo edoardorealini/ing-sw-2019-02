@@ -1,4 +1,4 @@
-package powerUps;
+package model.powerUps;
 
 public class PowerUps {
     private char color;

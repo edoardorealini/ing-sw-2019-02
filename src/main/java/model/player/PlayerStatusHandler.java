@@ -1,4 +1,4 @@
-package player;
+package model.player;
 
 public class PlayerStatusHandler {
     private RoundStatus turnStatus;

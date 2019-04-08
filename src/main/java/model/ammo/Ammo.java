@@ -1,13 +1,9 @@
-package ammo;
+package model.ammo;
 
-import powerUps.PowerUps;
-
-public class AmmoCard {
+public class Ammo {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;
-    private boolean isTherepowerUp;
-    private PowerUps powerUps;
 
 
     public int getBlueAmmo() {
@@ -22,13 +18,17 @@ public class AmmoCard {
         return yellowAmmo;
     }
 
-    public boolean isTherePowerUp() {
-        return isTherepowerUp;
+    public void setBlueAmmo(int blueAmmo) {
+        this.blueAmmo = blueAmmo;
     }
 
-    public PowerUps getPowerUps() {
-        return powerUps;
+    public void setRedAmmo(int redAmmo) {
+        this.redAmmo = redAmmo;
     }
 
-    //TODO
+    public void setYellowAmmo(int yellowAmmo) {
+        this.yellowAmmo = yellowAmmo;
+    }
+
+
 }

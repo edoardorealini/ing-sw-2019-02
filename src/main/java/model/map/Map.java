@@ -1,10 +1,8 @@
-package map;
-import java.util.*;
+package model.map;
 
 public class Map {
     private Square[][] squaresMatrix; //sta cosa va bene?!
     private int mapID;
-    private ArrayList<Door>  doors;
 
     //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
 

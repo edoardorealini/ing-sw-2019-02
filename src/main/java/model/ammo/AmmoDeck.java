@@ -1,4 +1,4 @@
-package ammo;
+package model.ammo;
 
 import java.util.ArrayList;
 

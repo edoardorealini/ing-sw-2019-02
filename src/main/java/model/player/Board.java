@@ -1,4 +1,4 @@
-package player;
+package model.player;
 
 import java.util.ArrayList;     // NB. id = 9 non si può usare per i giocatori
 

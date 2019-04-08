@@ -1,10 +1,10 @@
-package player;
+package model.player;
 
-import ammo.AmmoCard;
-import weapons.Weapon;
-import map.Square;
-import ammo.Ammo;
-import powerUps.PowerUps;
+import model.ammo.AmmoCard;
+import model.weapons.Weapon;
+import model.map.Square;
+import model.ammo.Ammo;
+import model.powerUps.PowerUps;
 
 public class Player {
 
@@ -102,7 +102,7 @@ public class Player {
         if (ammoCard.isTherePowerUp()){
             for (int i=0; i<3; i++){
                 if (powerUps[i]==null) {
-                    this.powerUps[i] = ammoCard.getPowerUps();      // controlla che prenda indirizzo di powerUps della carta;
+                    this.powerUps[i] = ammoCard.getPowerUps();      // controlla che prenda indirizzo di model.powerUps della carta;
                     return;
                 }
             }
@@ -125,7 +125,7 @@ public class Player {
             }
         }
 
-        //return "spazio powerUps esaurito";
+        //return "spazio model.powerUps esaurito";
     }
 
     public void removePowerUps(int i) {

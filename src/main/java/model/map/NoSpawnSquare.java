@@ -1,5 +1,5 @@
-package map;
-import ammo.*;
+package model.map;
+import model.ammo.*;
 
 public class NoSpawnSquare extends Square{
     private AmmoCard ammoTile;

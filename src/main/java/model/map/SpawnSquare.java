@@ -1,7 +1,7 @@
-package map;
+package model.map;
 import java.util.*;
 
-import weapons.*;
+import model.weapons.*;
 
 public class SpawnSquare extends Square {
     private ArrayList<Weapon> weaponBox; //array che contiene i ref alle armi presenti nel box

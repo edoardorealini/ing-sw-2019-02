@@ -1,4 +1,4 @@
-package map;
+package model.map;
 
 public enum Directions {
     UP,
