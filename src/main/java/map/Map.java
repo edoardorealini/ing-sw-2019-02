@@ -2,18 +2,15 @@ package map;
 import java.util.*;
 
 public class Map {
-    private ArrayList<ArrayList<Square>> squaresMatrix; //sta cosa va bene?!
+    private Square[][] squaresMatrix; //sta cosa va bene?!
     private int mapID;
+    private ArrayList<Door>  doors;
+
+    //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
 
     public int getMapID(){
         return mapID;
     }
 
-    public boolean isFull(){
-        if(squaresMatrix.isEmpty())
-            return false;
-
-        return true;
-    }
 
 }
