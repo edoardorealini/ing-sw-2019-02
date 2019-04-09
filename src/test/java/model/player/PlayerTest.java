@@ -8,15 +8,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     private Player p1;
+    private Player p2;
 
     @BeforeEach
     void setUp() {
-        p1 = new Player();
+
+        p1 = new Player("johnny", 0);
+        p2 = new Player("edoz", 1);
     }
 
     @Test
     void getNickname() {
+
         assertEquals(p1.getNickname(), "johnny");
+        assertEquals(p2.getNickname(), "edoz");
     }
 
     @Test
@@ -33,10 +38,8 @@ class PlayerTest {
 
     @Test
     void getPosition() {
-    }
-
-    @Test
-    void getNickname1() {
+        assertNull(p1.getPosition());
+        assertNull(p2.getPosition());
     }
 
     @Test
@@ -45,15 +48,14 @@ class PlayerTest {
 
     @Test
     void getId1() {
+        assertEquals(p1.getId(), 0);
+        assertEquals(p2.getId(), 1);
     }
 
     @Test
     void setId1() {
     }
 
-    @Test
-    void getPosition1() {
-    }
 
     @Test
     void setPosition() {
@@ -61,6 +63,7 @@ class PlayerTest {
 
     @Test
     void getWeapons() {
+       
     }
 
     @Test
