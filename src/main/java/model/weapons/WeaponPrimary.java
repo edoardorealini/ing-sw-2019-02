@@ -17,7 +17,7 @@ public class WeaponPrimary extends Weapon {
 			this.setBasicMarks(1);
 			this.setMinShootingDistance(2);
 			this.setVisibleTarget(true);
-			this.setInvolvedPlayers(1);
+			this.setInvolvedPlayersPrimary(1);
 		}
 
 		//constructor for Heatseeker
@@ -29,7 +29,7 @@ public class WeaponPrimary extends Weapon {
 			this.setBasicMarks(0);
 			this.setMinShootingDistance(2);
 			this.setVisibleTarget(false);
-			this.setInvolvedPlayers(1);
+			this.setInvolvedPlayersPrimary(1);
 		}
 	}
 

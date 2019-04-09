@@ -4,21 +4,26 @@ package model.weapons;
 import java.util.*;
 
 public abstract class Weapon {
+
+    //attributes
     private String name;
     private Color color;
     private ArrayList<Color> cost;
     private WeaponAmmoStatus ammoStatus;
     private int basicDamage;
     private int basicMarks;
-    private int involvedPlayers;
+    private int involvedPlayersPrimary;  //number of target players (-1 means "not limited")
     private int minShootingDistance;
     private boolean visibleTarget;
 
+
+    //constructor
     public Weapon(){
         this.cost = new ArrayList<>();
         this.ammoStatus = WeaponAmmoStatus.PARTIALLYLOADED;
     }
 
+    //other methods
     public String getName() {
         return this.name;
     }
@@ -58,11 +63,11 @@ public abstract class Weapon {
     }
 
     public int getInvolvedPlayers() {
-        return involvedPlayers;
+        return involvedPlayersPrimary;
     }
 
-    public void setInvolvedPlayers(int involvedPlayers) {
-        this.involvedPlayers = involvedPlayers;
+    public void setInvolvedPlayersPrimary(int involvedPlayersPrimary) {
+        this.involvedPlayersPrimary = involvedPlayersPrimary;
     }
 
     public WeaponAmmoStatus getAmmoStatus() {
