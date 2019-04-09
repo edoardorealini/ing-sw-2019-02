@@ -33,6 +33,10 @@ public class PlayerStatusHandler {
 
 // metodi set per TurnStatus
 
+    public void setTurnStatusMaster(){
+        this.turnStatus = RoundStatus.Master;
+    }
+
     public void setTurnStatusWaitTurn() {
 
         this.turnStatus = RoundStatus.waitTurn;
