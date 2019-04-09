@@ -49,4 +49,20 @@ public class Square {
     public Directions[] getDoors() {
         return doors;
     }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setActiveStatus(Boolean activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
+    public void setAllowedMoves(Directions[] allowedMoves) {
+        this.allowedMoves = allowedMoves;
+    }
+
+    public void setDoors(Directions[] doors) {
+        this.doors = doors;
+    }
 }
