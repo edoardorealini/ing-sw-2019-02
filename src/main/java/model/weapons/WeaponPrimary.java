@@ -6,6 +6,7 @@ public class WeaponPrimary extends Weapon {
 
 	public WeaponPrimary(String weaponName){
 
+		super();
 
 		//constructor for Whisper
 		if (weaponName.equals("Whisper")) {
