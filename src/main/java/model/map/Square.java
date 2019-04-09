@@ -16,7 +16,6 @@ public class Square {
         this.doors = null;
     }
 
-
     public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
         this.color = color;
         this.activeStatus = activeStatus;

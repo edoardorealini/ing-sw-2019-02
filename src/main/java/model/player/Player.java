@@ -108,7 +108,7 @@ public class Player {
         if (ammoCard.isTherePowerUp()){
             for (int i=0; i<3; i++){
                 if (powerUps[i]==null) {
-                    this.powerUps[i] = ammoCard.getPowerUps();      // controlla che prenda indirizzo di model.powerUps della carta;
+                    this.powerUps[i] = ammoCard.getPowerUps();// controlla che prenda indirizzo di model.powerUps della carta;
                     return;
                 }
             }

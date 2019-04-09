@@ -1,6 +1,7 @@
 package model.map;
 import model.ammo.*;
 import model.weapons.WeaponDeck;
+import com.google.gson.*;
 
 public class Map {
     private Square[][] squaresMatrix;
