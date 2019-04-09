@@ -6,13 +6,11 @@ public class Board {
     private int[] lifePoints;
     private ArrayList<Integer> target;
 
+
+
     public void Board(){
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
-        }
-
-        for (int i=0; i<6; i++){         // creo per il momento 6 slot per target
-            target.add(i, 9);
         }
     }
 
@@ -33,8 +31,45 @@ public class Board {
 
     }
 
-    public ArrayList<Integer> getTarget() {
-        return target;
+    public void updateTarget(int damageTarget, int idPlayerAttaccante){
+        int countTarget=0;
+        for (int i=0; i<target.size(); i++){
+            if (target.get(i) ==idPlayerAttaccante) countTarget++;
+        }
+        if (countTarget<3){
+            // allora posso aggiungere dei taget
+            if (countTarget+damageTarget>3){
+                // aggiungo la differenza tra il massimo(3) e quelli che già ho
+                for (int i=0; i<(3-countTarget); i++){
+                    target.add(target.size(), idPlayerAttaccante);
+                }
+            }
+            else {
+                // aggiungo numero di target pari al damageTarget
+                for (int i=0; i<damageTarget; i++){
+                    target.add(target.size(), idPlayerAttaccante);
+                }
+
+            }
+        }
+    }
+
+    public void removeTarget(int numeroDiTargetDaTogliere, int idPlayerAttaccante){
+        int countTarget=0;
+        for (int i=0; i<target.size() || countTarget<numeroDiTargetDaTogliere; i++){
+            if (target.get(i)==idPlayerAttaccante) {
+                target.remove(i);
+                countTarget++;
+            }
+        }
+    }
+
+    public int getTarget(int idPlayerAttaccante) {
+        int countTarget=0;
+        for (int i=0; i<target.size(); i++){
+            if (target.get(i) ==idPlayerAttaccante) countTarget++;
+        }
+        return countTarget;
     }
 
 
