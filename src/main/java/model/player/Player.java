@@ -20,14 +20,14 @@ public class Player {
     private boolean dead;
 
     public Player (String nickname, int id, Square position, Board board,
-                   PowerUps powerUps, PlayerStatusHandler status, boolean dead ){
+                   PowerUps powerUps, PlayerStatusHandler status){
         this.nickname=nickname;
         this.id=id;
         this.position=null;
         this.board=new Board();
         ammo = new Ammo();
         points=0;
-        //status
+        // TODO status of player appena creato
         dead=false;
 
     }
