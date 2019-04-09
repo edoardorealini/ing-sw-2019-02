@@ -31,10 +31,6 @@ public class Board {
             }
         }
 
-        if (isFullLife()){
-            // TODO resetta board, assegna punteggi
-        }
-
     }
 
     public ArrayList<Integer> getTarget() {
@@ -53,6 +49,7 @@ public class Board {
         if (i==12) return true;
         else return false;
     }
+
 
 
 }
