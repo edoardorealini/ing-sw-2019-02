@@ -34,7 +34,7 @@ public class Square {
         this.activeStatus = activeStatus;
     }
 
-    public boolean getActiveStatus() {
+    public Boolean getActiveStatus() {
         return activeStatus;
     }
 
@@ -43,12 +43,10 @@ public class Square {
     }
 
     public Directions[] getAllowedMoves() {
-        //TODO correggere: non posso dare in return direttamente il riferimento all'array!
         return allowedMoves;
     }
 
     public Directions[] getDoors() {
-        //TODO correggere: non posso dare in return direttamente il riferimento all'array!
         return doors;
     }
 }
