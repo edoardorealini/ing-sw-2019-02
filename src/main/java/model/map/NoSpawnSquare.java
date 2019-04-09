@@ -1,11 +1,13 @@
 package model.map;
 import model.ammo.*;
 
+import java.util.ArrayList;
+
 public class NoSpawnSquare extends Square{
     private AmmoCard ammoTile;
     private AmmoDeck deckOfAmmo;
 
-    public NoSpawnSquare(Color color, Boolean activeStatus, Directions[] allowedMoves, Directions[] doors, AmmoCard ammoTile, AmmoDeck deckOfAmmo) {
+    public NoSpawnSquare(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors, AmmoCard ammoTile, AmmoDeck deckOfAmmo) {
         super(color, activeStatus, allowedMoves, doors);
         this.ammoTile = ammoTile;
         this.deckOfAmmo = deckOfAmmo;

@@ -1,11 +1,13 @@
 package model.map;
 
+import java.util.*;
+
 public class Square {
 
     private Boolean activeStatus; //in una mappa possono esserci degli square non attivi.
     private Color color;           //indica il colore della stanza.
-    private Directions[] allowedMoves;//Directions of the allowed moves in the single Square.
-    private Directions[] doors;       //Direction of door (if a direction is present, that is the door).
+    private ArrayList<Directions> allowedMoves;//Directions of the allowed moves in the single Square.
+    private ArrayList<Directions> doors;       //Direction of door (if a direction is present, that is the door).
 
     public Square(){
         this.color = null;
@@ -15,19 +17,13 @@ public class Square {
     }
 
 
-    public Square(Color color, Boolean activeStatus, Directions[] allowedMoves, Directions[] doors){
+    public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
         this.color = color;
         this.activeStatus = activeStatus;
-        this.allowedMoves = new Directions[4];
-        this.allowedMoves[0] = allowedMoves[0];
-        this.allowedMoves[1] = allowedMoves[1];
-        this.allowedMoves[2] = allowedMoves[2];
-        this.allowedMoves[3] = allowedMoves[3];
-        this.doors = new Directions[4];
-        this.doors[0] = doors[0];
-        this.doors[1] = doors[1];
-        this.doors[2] = doors[2];
-        this.doors[3] = doors[3];
+        this.allowedMoves = new ArrayList<>();
+        this.allowedMoves.addAll(allowedMoves);
+        this.doors = new ArrayList<>();
+        this.doors.addAll(doors);
     }
 
     public Square(Boolean activeStatus){ //secondo costruttore per costruire square inattivi
@@ -42,11 +38,11 @@ public class Square {
         return color;
     }
 
-    public Directions[] getAllowedMoves() {
+    public ArrayList<Directions> getAllowedMoves() {
         return allowedMoves;
     }
 
-    public Directions[] getDoors() {
+    public ArrayList<Directions> getDoors() {
         return doors;
     }
 
@@ -58,11 +54,11 @@ public class Square {
         this.activeStatus = activeStatus;
     }
 
-    public void setAllowedMoves(Directions[] allowedMoves) {
+    public void setAllowedMoves(ArrayList<Directions> allowedMoves) {
         this.allowedMoves = allowedMoves;
     }
 
-    public void setDoors(Directions[] doors) {
+    public void setDoors(ArrayList<Directions> doors) {
         this.doors = doors;
     }
 }
