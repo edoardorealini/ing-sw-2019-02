@@ -19,15 +19,21 @@ public class Player {
     private PlayerStatusHandler status;
     private boolean dead;
 
-    public Player (String nickname, int id, Square position, Board board,
-                   PowerUps powerUps, PlayerStatusHandler status){
+    public Player (String nickname, int id){
         this.nickname=nickname;
         this.id=id;
         this.position=null;
         this.board=new Board();
         ammo = new Ammo();
         points=0;
-        // TODO status of player appena creato
+        status = new PlayerStatusHandler();
+        if (id==0){
+            this.status.setTurnStatusMaster();
+        }
+        else {
+            this.status.setTurnStatusWaitTurn();
+        }
+        this.status.setSpecialAbilityNormal();
         dead=false;
 
     }
