@@ -3,6 +3,7 @@ package model.weapons;
 
 import java.util.*;
 
+
 public abstract class Weapon {
 
     //attributes
@@ -90,7 +91,7 @@ public abstract class Weapon {
         this.visibleTarget = visibleTarget;
     }
 
-    public boolean needVisibleTarget() {
+    public boolean isVisibleTarget() {
         return visibleTarget;
     }
 }
