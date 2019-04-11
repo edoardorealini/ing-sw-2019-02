@@ -5,6 +5,9 @@ public class Effect {
 	private int mark;
 	private int moveYourself;
 	private int moveTarget;
+	private int involvedPlayers;
+	private boolean needVisibleTarget;
+	private int minShootDistance;
 
 	//constructor
 	public Effect(){
@@ -12,6 +15,9 @@ public class Effect {
 		mark = 0;
 		moveYourself = 0;
 		moveTarget = 0;
+		involvedPlayers = 0;
+		needVisibleTarget = true;
+		minShootDistance = 0;
 	}
 
 	public int getDamage() {
@@ -46,4 +52,27 @@ public class Effect {
 		this.moveYourself = moveYourself;
 	}
 
+	public void setInvolvedPlayers(int involvedPlayers) {
+		this.involvedPlayers = involvedPlayers;
+	}
+
+	public int getInvolvedPlayers() {
+		return involvedPlayers;
+	}
+
+	public int getMinShootDistance() {
+		return minShootDistance;
+	}
+
+	public void setMinShootDistance(int minShootDistance) {
+		this.minShootDistance = minShootDistance;
+	}
+
+	public void setNeedVisibleTarget(boolean needVisibleTarget) {
+		this.needVisibleTarget = needVisibleTarget;
+	}
+
+	public boolean isNeedVisibleTarget() {
+		return needVisibleTarget;
+	}
 }

@@ -4,32 +4,38 @@ package model.weapons;
 import java.util.*;
 
 
-public abstract class Weapon {
+public class Weapon {
 
     //attributes
-    private String name;
+    private WeaponName name;
     private Color color;
     private ArrayList<Color> cost;
     private WeaponAmmoStatus ammoStatus;
-    private int basicDamage;
-    private int basicMarks;
-    private int involvedPlayersPrimary;  //number of target players (-1 means "not limited")
-    private int minShootingDistance;
-    private boolean visibleTarget;
+
+    private ArrayList<Effect> basicEffect;
+    private ArrayList<Effect> optionalEffectOne;
+    private ArrayList<Effect> optionalEffectTwo;
+    private ArrayList<Effect> alternateEffect;
+
 
 
     //constructor
-    public Weapon(){
+    public Weapon() {
+        this.basicEffect = new ArrayList<>();
+        this.optionalEffectOne = new ArrayList<>();
+        this.optionalEffectTwo = new ArrayList<>();
+        this.alternateEffect = new ArrayList<>();
         this.cost = new ArrayList<>();
         this.ammoStatus = WeaponAmmoStatus.PARTIALLYLOADED;
     }
 
+
     //other methods
-    public String getName() {
+    public WeaponName getName() {
         return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(WeaponName name) {
         this.name = name;
     }
 
@@ -45,30 +51,19 @@ public abstract class Weapon {
         return this.cost;
     }
 
-    public abstract void setCost(Color one, Color two, Color three);
-
-    public int getBasicDamage() {
-        return this.basicDamage;
+    public void setCost(Color one){
+        this.cost.add(one);
     }
 
-    void setBasicDamage(int basicDamage) {
-        this.basicDamage = basicDamage;
+    public void setCost(Color one, Color two){
+        this.cost.add(one);
+        this.cost.add(two);
     }
 
-    public int getBasicMarks() {
-        return basicMarks;
-    }
-
-    void setBasicMarks(int basicMarks) {
-        this.basicMarks = basicMarks;
-    }
-
-    public int getInvolvedPlayers() {
-        return involvedPlayersPrimary;
-    }
-
-    public void setInvolvedPlayersPrimary(int involvedPlayersPrimary) {
-        this.involvedPlayersPrimary = involvedPlayersPrimary;
+    public void setCost(Color one, Color two, Color three){
+        this.cost.add(one);
+        this.cost.add(two);
+        this.cost.add(three);
     }
 
     public WeaponAmmoStatus getAmmoStatus() {
@@ -79,19 +74,7 @@ public abstract class Weapon {
         this.ammoStatus = ammoStatus;
     }
 
-    public int getMinShootingDistance() {
-        return minShootingDistance;
-    }
+    //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamaree
+    //i metodi deglli effetti quando istanzio le armi in Deck
 
-    void setMinShootingDistance(int minShootingDistance) {
-        this.minShootingDistance = minShootingDistance;
-    }
-
-    void setVisibleTarget(boolean visibleTarget) {
-        this.visibleTarget = visibleTarget;
-    }
-
-    public boolean isVisibleTarget() {
-        return visibleTarget;
-    }
 }
