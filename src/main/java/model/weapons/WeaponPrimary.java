@@ -1,6 +1,6 @@
 package model.weapons;
 
-
+/*
 
 public class WeaponPrimary extends Weapon {
 
@@ -43,3 +43,4 @@ public class WeaponPrimary extends Weapon {
 
 }
 
+*/

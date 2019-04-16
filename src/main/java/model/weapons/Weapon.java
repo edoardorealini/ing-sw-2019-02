@@ -74,7 +74,14 @@ public class Weapon {
         this.ammoStatus = ammoStatus;
     }
 
-    //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamaree
-    //i metodi deglli effetti quando istanzio le armi in Deck
+    public void setBasicEffect(Effect a, Effect b, Effect c, Effect d) {
+        this.basicEffect.add(a);
+        this.basicEffect.add(b);
+        this.basicEffect.add(c);
+        this.basicEffect.add(d);
+    }
+
+    //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamare
+    //i metodi degli effetti quando istanzio le armi in Deck
 
 }
