@@ -10,6 +10,9 @@ public class Weapon {
     private WeaponName name;
     private Color color;
     private ArrayList<Color> cost;
+    private ArrayList<Color> costOpt1;
+    private ArrayList<Color> costOpt2;
+    private ArrayList<Color> costAlternate;
     private WeaponAmmoStatus ammoStatus;
 
     private ArrayList<Effect> basicEffect;
@@ -66,6 +69,15 @@ public class Weapon {
         this.cost.add(three);
     }
 
+    public void setCostOpt1(Color one){
+        this.costOpt1.add(one);
+    }
+
+    public void setCostOpt1(Color one, Color two){
+        this.costOpt1.add(one);
+        this.costOpt1.add(two);
+    }
+
     public WeaponAmmoStatus getAmmoStatus() {
         return ammoStatus;
     }
@@ -74,12 +86,82 @@ public class Weapon {
         this.ammoStatus = ammoStatus;
     }
 
+    //overloading setBasicEffect
+
+    public void setBasicEffect(Effect a) {
+        this.basicEffect.add(a);
+    }
+
+    public void setBasicEffect(Effect a, Effect b) {
+        this.basicEffect.add(a);
+        this.basicEffect.add(b);
+    }
+
+    public void setBasicEffect(Effect a, Effect b, Effect c) {
+        this.basicEffect.add(a);
+        this.basicEffect.add(b);
+        this.basicEffect.add(c);
+    }
+
     public void setBasicEffect(Effect a, Effect b, Effect c, Effect d) {
         this.basicEffect.add(a);
         this.basicEffect.add(b);
         this.basicEffect.add(c);
         this.basicEffect.add(d);
     }
+
+    //overloading setOptionalEffectOne
+
+    public void setOptionalEffectOne(Effect a) {
+        this.optionalEffectOne.add(a);
+    }
+
+    public void setOptionalEffectOne(Effect a, Effect b) {
+        this.optionalEffectOne.add(a);
+        this.optionalEffectOne.add(b);
+    }
+
+    public void setOptionalEffectOne(Effect a, Effect b, Effect c) {
+        this.optionalEffectOne.add(a);
+        this.optionalEffectOne.add(b);
+        this.optionalEffectOne.add(c);
+    }
+
+    //overloading setOptionalEffectTwo
+
+    public void setOptionalEffectTwo(Effect a) {
+        this.optionalEffectTwo.add(a);
+    }
+
+    public void setOptionalEffectTwo(Effect a, Effect b) {
+        this.optionalEffectTwo.add(a);
+        this.optionalEffectTwo.add(b);
+    }
+
+    public void setOptionalEffectTwo(Effect a, Effect b, Effect c) {
+        this.optionalEffectTwo.add(a);
+        this.optionalEffectTwo.add(b);
+        this.optionalEffectTwo.add(c);
+    }
+
+    //overloading setAlternateEffect
+
+    public void setAlternateEffect(Effect a) {
+        this.alternateEffect.add(a);
+    }
+
+    public void setAlternateEffect(Effect a, Effect b) {
+        this.alternateEffect.add(a);
+        this.alternateEffect.add(b);
+    }
+
+    public void setAlternateEffect(Effect a, Effect b, Effect c) {
+        this.alternateEffect.add(a);
+        this.alternateEffect.add(b);
+        this.alternateEffect.add(c);
+    }
+
+
 
     //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamare
     //i metodi degli effetti quando istanzio le armi in Deck
