@@ -1,3 +1,22 @@
-{
-
-}
+[
+  [
+    {"activeStatus":false},
+    {"activeStatus":true,"color":"RED"},
+    {"activeStatus":true,"color":"BLUE"}
+  ],
+  [
+    {"activeStatus":true,"color":"WHITE"},
+    {"activeStatus":true,"color":"RED"},
+    {"activeStatus":true,"color":"BLUE"}
+  ],
+  [
+    {"activeStatus":true,"color":"YELLOW"},
+    {"activeStatus":true,"color":"YELLOW"},
+    {"activeStatus":true,"color":"BLUE"}
+  ],
+  [
+    {"activeStatus":true,"color":"YELLOW"},
+    {"activeStatus":true,"color":"YELLOW"},
+    {"activeStatus":true,"color":"GREEN"}
+  ]
+]
