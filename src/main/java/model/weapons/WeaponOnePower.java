@@ -5,7 +5,6 @@ import java.util.*;
 
 
 public class WeaponOnePower extends  Weapon {
-
 	private ArrayList<Color> powerCost;
 	private int additionalDamage;
 	private int additionalMark;
@@ -114,4 +113,5 @@ public class WeaponOnePower extends  Weapon {
 	public boolean isVisibleTargetOptional() {
 		return visibleTargetOptional;
 	}
+
 }
