@@ -37,11 +37,11 @@ public class Square {
         return color;
     }
 
-    public ArrayList<Directions> getAllowedMoves() {
+    public List<Directions> getAllowedMoves() {
         return allowedMoves;
     }
 
-    public ArrayList<Directions> getDoors() {
+    public List<Directions> getDoors() {
         return doors;
     }
 
