@@ -2,7 +2,7 @@ package model.weapons;
 
 
 import java.util.*;
-
+/*
 
 public class WeaponOnePower extends  Weapon {
 	private ArrayList<Color> powerCost;
@@ -115,3 +115,5 @@ public class WeaponOnePower extends  Weapon {
 	}
 
 }
+
+*/
