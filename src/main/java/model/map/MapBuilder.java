@@ -10,6 +10,10 @@ public class MapBuilder {
     private int mapID;
     private Gson json;
 
+    /*
+        declaration of all the paths to the json files containing the map information
+    */
+
     private String map1Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
             + File.separatorChar + "resources" + File.separatorChar + "map1.json";
 
@@ -28,6 +32,9 @@ public class MapBuilder {
         json = new Gson();
     }
 
+    /*
+        makeMap builds the correct map from json according to the mapID index given in input.
+     */
     public Map makeMap(int mapID){
         map.setMapID(mapID);
         switch (mapID){

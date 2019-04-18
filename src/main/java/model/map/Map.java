@@ -27,13 +27,21 @@ public class Map {
 
     }
 
-    public List<Directions> allowedMoves(Square square) { //questo metodo dovrebbe lanciare una SquareNotValidException ? (controllo)
-    //TODO qui c'è la logica che verifica quali spostamenti posso fare a partire da uno square;
+    /*
+        allowedMoves tells me which moves i can do from a specific square.
+     */
+    public List<Directions> allowedMoves(Square square) {
+        //questo metodo dovrebbe lanciare una SquareNotValidException ? (controllo)
+        //TODO qui c'è la logica che verifica quali spostamenti posso fare a partire da uno square;
+
         ArrayList<Directions> alwdMoves = new ArrayList<>();
 
         return alwdMoves;
     }
 
+    /*
+    test method to understand the json structure of the class
+     */
     public String toJson(){
         Gson json = new Gson();
         return json.toJson(this);
