@@ -9,17 +9,18 @@ public class Map {
     private AmmoDeck ammoDeck;
     private WeaponDeck weaponDeck;
 
-    //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
     /*public Map(){
         this.mapID = 0;
         this.squaresMatrix = null;
-    }*/
+    }
     public Map(int mapID){
         this.mapID = mapID;
         this.squaresMatrix = new Square[4][3];
         this.ammoDeck = new AmmoDeck();
 
-    }
+    }*/  //rimosso costruttori, uso MapBuilder per costruire la mappa!
+
+    //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
 
     public int getMapID(){
         return mapID;

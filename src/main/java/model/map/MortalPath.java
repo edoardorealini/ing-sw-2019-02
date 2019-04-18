@@ -26,7 +26,9 @@ public class MortalPath {
 		return skulls;
 	}
 
-	public void startLastRound() {}
+	public void startLastRound() {
+		//TODO
+	}
 
 	public void kill(int shots, int idPlayer) {		//shots can be 1 or 2, depending on the rage damage
 		mortalShots.add(idPlayer);
