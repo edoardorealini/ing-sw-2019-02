@@ -15,9 +15,9 @@ public class Effect {
 		mark = 0;
 		moveYourself = 0;
 		moveTarget = 0;
-		involvedPlayers = 0;
+		involvedPlayers = 0;   //-1 means every player
 		needVisibleTarget = true;
-		minShootDistance = 0;
+		minShootDistance = 0;   //-1 means the same square in which the striker is
 	}
 
 	public int getDamage() {

@@ -54,6 +54,18 @@ public class Weapon {
         return this.cost;
     }
 
+    public List<Color> getCostOpt1() {
+        return costOpt1;
+    }
+
+    public List<Color> getCostOpt2() {
+        return costOpt2;
+    }
+
+    public List<Color> getCostAlternate() {
+        return costAlternate;
+    }
+
     public void setCost(Color one){
         this.cost.add(one);
     }
@@ -76,6 +88,24 @@ public class Weapon {
     public void setCostOpt1(Color one, Color two){
         this.costOpt1.add(one);
         this.costOpt1.add(two);
+    }
+
+    public void setCostOpt2(Color one){
+        this.costOpt2.add(one);
+    }
+
+    public void setCostOpt2(Color one, Color two){
+        this.costOpt2.add(one);
+        this.costOpt2.add(two);
+    }
+
+    public void setCostAlternate(Color one){
+        this.costAlternate.add(one);
+    }
+
+    public void setCostAlternate(Color one, Color two){
+        this.costAlternate.add(one);
+        this.costAlternate.add(two);
     }
 
     public WeaponAmmoStatus getAmmoStatus() {
