@@ -1,19 +1,22 @@
 package model.player;
 
 public class PlayerStatusHandler {
+
     private RoundStatus turnStatus;
     private AbilityStatus specialAbility;
 
-    public RoundStatus getTurnStatus(){
-        return turnStatus;
+
+    //TODO da rivedere il costruttore perchè il primo giocatore dovrebbe avere RoundStatus.master
+    public void PlayerStatusHandler(){
+        turnStatus = RoundStatus.waitTurn;
+        specialAbility = AbilityStatus.normal;
     }
+
+// metodi set per SpecialAbility
 
     public AbilityStatus getSpecialAbility(){
         return specialAbility;
     }
-
-
-// metodi set per SpecialAbility
 
     public void setSpecialAbilityNormal() {
         this.specialAbility = AbilityStatus.normal;
@@ -32,6 +35,10 @@ public class PlayerStatusHandler {
     }
 
 // metodi set per TurnStatus
+
+    public RoundStatus getTurnStatus(){
+        return turnStatus;
+    }
 
     public void setTurnStatusMaster(){
         this.turnStatus = RoundStatus.Master;

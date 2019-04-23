@@ -7,10 +7,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStatusHandlerTest {
 
+    private Player p1 = new Player("Test", 8);
+
     @BeforeEach
     void setUp() {
     }
 
+    @Test
+    void PlayerStatusHandler(){
+        assertEquals(RoundStatus.waitTurn, p1.getStatus().getTurnStatus());
+        assertEquals(AbilityStatus.normal, p1.getStatus().getSpecialAbility());
+    }
     @Test
     void getTurnStatus() {
     }
@@ -25,6 +32,8 @@ class PlayerStatusHandlerTest {
 
     @Test
     void setSpecialAbilityAdrenalinePick() {
+        p1.getStatus().setSpecialAbilityAdrenalinePick();
+        assertEquals(AbilityStatus.adrenalinePick,p1.getStatus().getSpecialAbility());
     }
 
     @Test

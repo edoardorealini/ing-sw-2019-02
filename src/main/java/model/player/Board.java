@@ -1,6 +1,7 @@
 package model.player;
 
 import java.util.ArrayList;     // NB. id = 9 non si può usare per i giocatori
+import java.util.List;
 
 public class Board {
     private int[] lifePoints;
@@ -9,6 +10,8 @@ public class Board {
 
 
     public void Board(){
+        lifePoints = new int[12];
+        target = new ArrayList<>();
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
@@ -64,7 +67,11 @@ public class Board {
         }
     }
 
-    public int getTarget(int idPlayerAttaccante) {
+    public List<Integer> getTarget() {
+        return target;
+    }
+
+    public int getSpecificTarget(int idPlayerAttaccante) {
         int countTarget=0;
         for (int i=0; i<target.size(); i++){
             if (target.get(i) ==idPlayerAttaccante) countTarget++;

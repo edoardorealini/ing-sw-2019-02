@@ -62,6 +62,10 @@ public class Player {
         this.position = position;
     }
 
+    public Board getBoard(){
+        return this.board;
+    }
+
     public Weapon[] getWeapons() {
         return weapons;
     }
@@ -150,12 +154,8 @@ public class Player {
         points += p;
     }
 
-    public PlayerStatusHandler getStatus() {
+    public PlayerStatusHandler getStatus(){
         return status;
-    }
-
-    public void setStatus(PlayerStatusHandler status) {
-        this.status = status;
     }
 
     public void trueDead() {
