@@ -99,6 +99,7 @@ public class WeaponDeck {
         weaponDeck.get(5).setOptionalEffectTwo(new EffectDamage(1, 1, true, 0));  //same target
         weaponDeck.get(5).setAlternateEffect(null);
 
+
         //WHISPER
         weaponDeck.add(new Weapon());
         weaponDeck.get(6).setName(WeaponName.WHISPER);
@@ -111,6 +112,49 @@ public class WeaponDeck {
         weaponDeck.get(6).setOptionalEffectOne(null);
         weaponDeck.get(6).setOptionalEffectTwo(null);
         weaponDeck.get(6).setAlternateEffect(null);
+
+
+        //VORTEX CANNON
+        weaponDeck.add(new Weapon());
+        weaponDeck.get(7).setName(WeaponName.VORTEX_CANNON);
+        weaponDeck.get(7).setColor(Color.RED);
+        weaponDeck.get(7).setCost(Color.RED, Color.BLUE);
+        weaponDeck.get(7).setCostOpt1(Color.RED);
+        weaponDeck.get(7).setCostOpt2(null);
+        weaponDeck.get(7).setCostAlternate(null);
+        weaponDeck.get(7).setBasicEffect(new EffectMoveTarget(1, 1, false, 0), new EffectDamage(2, 1, true, 1));  //same target
+        weaponDeck.get(7).setOptionalEffectOne(new EffectMoveTarget(1, 2, false, 0), new EffectDamage(1, 2, true, 1));  //same targets
+        weaponDeck.get(7).setOptionalEffectTwo(null);
+        weaponDeck.get(7).setAlternateEffect(null);
+
+
+        //FURNACE
+        weaponDeck.add(new Weapon());
+        weaponDeck.get(8).setName(WeaponName.FURNACE);
+        weaponDeck.get(8).setColor(Color.RED);
+        weaponDeck.get(8).setCost(Color.RED, Color.BLUE);
+        weaponDeck.get(8).setCostOpt1(null);
+        weaponDeck.get(8).setCostOpt2(null);
+        weaponDeck.get(8).setCostAlternate(null);
+        weaponDeck.get(8).setBasicEffect(new EffectDamage(1, -1, true, 1));
+        weaponDeck.get(8).setOptionalEffectOne(null);
+        weaponDeck.get(8).setOptionalEffectTwo(null);
+        weaponDeck.get(8).setAlternateEffect(new EffectDamage(1, -1, true, 1), new EffectMark(1, -1, true, 1));  //same targets
+
+
+        //HEATSEEKER
+        weaponDeck.add(new Weapon());
+        weaponDeck.get(9).setName(WeaponName.HEATSEEKER);
+        weaponDeck.get(9).setColor(Color.RED);
+        weaponDeck.get(9).setCost(Color.RED, Color.RED, Color.YELLOW);
+        weaponDeck.get(9).setCostOpt1(null);
+        weaponDeck.get(9).setCostOpt2(null);
+        weaponDeck.get(9).setCostAlternate(null);
+        weaponDeck.get(9).setBasicEffect(new EffectDamage(3, 1, false, 2));  //only non visible targets
+        weaponDeck.get(9).setOptionalEffectOne(null);
+        weaponDeck.get(9).setOptionalEffectTwo(null);
+        weaponDeck.get(9).setAlternateEffect(null);
+
 
     }
 

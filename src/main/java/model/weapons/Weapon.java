@@ -29,6 +29,9 @@ public class Weapon {
         this.optionalEffectTwo = new ArrayList<>();
         this.alternateEffect = new ArrayList<>();
         this.cost = new ArrayList<>();
+        this.costOpt1 = new ArrayList<>();
+        this.costOpt2 = new ArrayList<>();
+        this.costAlternate = new ArrayList<>();
         this.ammoStatus = WeaponAmmoStatus.PARTIALLYLOADED;
     }
 
