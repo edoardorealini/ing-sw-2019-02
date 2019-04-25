@@ -9,7 +9,7 @@ public class Board {
 
 
 
-    public void Board(){
+    public Board(){
         lifePoints = new int[12];
         target = new ArrayList<>();
         for (int i=0; i<12; i++){
@@ -26,9 +26,10 @@ public class Board {
     public void updateLife(int damage, int idPlayerAttaccante){
         for (int i=0; i<12; i++){
             if (lifePoints[i]==9){
-                for (int k=0; k<damage || (i+k) <12 ; k++){
+                for (int k=0; (k<damage) && ((i+k) <12) ; k++){
                     lifePoints[i+k] = idPlayerAttaccante;
                 }
+                return;
             }
         }
 
@@ -59,10 +60,11 @@ public class Board {
 
     public void removeTarget(int numeroDiTargetDaTogliere, int idPlayerAttaccante){
         int countTarget=0;
-        for (int i=0; i<target.size() || countTarget<numeroDiTargetDaTogliere; i++){
+        for (int i=0; (i<target.size()) && (countTarget<numeroDiTargetDaTogliere); i++){
             if (target.get(i)==idPlayerAttaccante) {
                 target.remove(i);
                 countTarget++;
+                i=i-1;
             }
         }
     }
@@ -86,7 +88,8 @@ public class Board {
 
     public boolean isFullLife(){
         int i=0;
-        for (; lifePoints[i]!=9 || i<12; i++){
+        for (;i < 12;){
+            if (lifePoints[i] != 9) i++;
         }
         if (i==12) return true;
         else return false;

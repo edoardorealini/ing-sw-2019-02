@@ -9,6 +9,11 @@ public class AmmoCard {
     private boolean isTherePowerUp;
     private PowerUps powerUps;
 
+    public AmmoCard(){
+        redAmmo = 1;
+        blueAmmo = 1;
+        yellowAmmo = 1;
+    }
 
     public int getBlueAmmo() {
         return blueAmmo;

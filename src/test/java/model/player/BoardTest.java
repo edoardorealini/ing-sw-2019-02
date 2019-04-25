@@ -4,16 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
     private Player p1 = new Player("Test", 8);
-
-    @BeforeEach
-    void setUp() {
-    }
+    private Board b1 = new Board();
 
     @Test
     void board() {
@@ -21,40 +19,51 @@ class BoardTest {
 
     @Test
     void initializeBoard() {
-        int[] b = p1.getBoard().getLifePoints();
+
         for (int i=0; i<12; i++) {
-            assertEquals(9, b[i]);
+            assertEquals(9, b1.getLifePoints()[i]);
         }
     }
 
     @Test
     void updateLife() {
-        p1.getBoard().updateLife(7,p1.getId());
+        b1.updateLife(7,p1.getId());
 
         // creo array contenente la vita che mi aspetto, cosi da far la equal
         int[] life = {p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),9,9,9,9,9};
+        System.out.println(Arrays.toString(life));
+        System.out.println(Arrays.toString(b1.getLifePoints()));
 
-        assertEquals(p1.getBoard().getLifePoints(), life);
+        assertEquals(Arrays.toString(b1.getLifePoints()), Arrays.toString(life));
     }
 
     @Test
     void updateTarget() {
-        p1.getBoard().updateTarget(4, p1.getId());
+        System.out.println(b1.getTarget());
+        b1.updateTarget(4, p1.getId());
+        System.out.println(b1.getTarget());
+        // è giusto che ne aggiunga solo 3 perchè è il massimo
         // creo arrayList in cui il target è ciò che mi aspetto
         ArrayList<Integer> target = new ArrayList<>();
         target.add(0,p1.getId());
         target.add(1,p1.getId());
         target.add(2,p1.getId());
-
-        assertEquals(target, p1.getBoard().getTarget());
+        assertEquals(target, b1.getTarget());
+        // cerco di fregarlo
+        b1.updateTarget(1, p1.getId());
+        assertEquals(b1.getTarget(), target);
 
     }
 
     @Test
     void removeTarget() {
-        p1.getBoard().updateTarget(4, p1.getId());
-        p1.getBoard().removeTarget(4, p1.getId());
-        assertEquals(0,p1.getBoard().getTarget().size());
+        Player p2 = new Player("solo per questo test", 2);
+        b1.updateTarget(2,p2.getId());
+        b1.updateTarget(4, p1.getId());
+        b1.updateTarget(2,p2.getId());
+        b1.removeTarget(2, p1.getId());
+        b1.removeTarget(3, p2.getId());
+        System.out.println(b1.getTarget());
     }
 
     @Test
@@ -67,7 +76,9 @@ class BoardTest {
 
     @Test
     void isFullLife() {
-        p1.getBoard().updateLife(12,p1.getId());
-        assertTrue(p1.getBoard().isFullLife());
+        System.out.println(Arrays.toString(b1.getLifePoints()));
+        b1.updateLife(12,p1.getId());
+        System.out.println(Arrays.toString(b1.getLifePoints()));
+        assertTrue(b1.isFullLife());
     }
 }

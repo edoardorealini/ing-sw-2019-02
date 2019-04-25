@@ -5,6 +5,11 @@ public class Ammo {
     private int blueAmmo;
     private int yellowAmmo;
 
+    public Ammo (){
+        redAmmo=0;
+        blueAmmo=0;
+        yellowAmmo=0;
+    }
 
     public int getBlueAmmo() {
         return blueAmmo;

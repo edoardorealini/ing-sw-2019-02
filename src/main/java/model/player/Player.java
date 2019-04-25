@@ -1,6 +1,7 @@
 package model.player;
 
 import model.ammo.AmmoCard;
+import model.powerUps.PowerUpsDeck;
 import model.weapons.Weapon;
 import model.map.Square;
 import model.ammo.Ammo;
@@ -85,6 +86,7 @@ public class Player {
         return ammo;
     }
 
+
     public void addAmmo(AmmoCard ammoCard) {
         if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>=3){
             ammo.setBlueAmmo(3);
@@ -119,10 +121,21 @@ public class Player {
         return powerUps;
     }
 
-    public void addPowerUps(PowerUps p) {
+    public void addPowerUpsCard(PowerUps p) { // metodo in cui so quale sia il powerUps da aggiungere (es PowerUps nella carta sulla mappa)
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
+                //return "PowerUps aggiunto";
+            }
+        }
+
+        //return "spazio model.powerUps esaurito";
+    }
+
+    public void addPowerUpsHaphazard(PowerUpsDeck p) { // pesco casualmente un PowerUps bisogna passargli il deck come parametro altrimenti devo metterlo come attributo a tutti i players
+        for (int i=0; i<3; i++){
+            if (powerUps[i]==null) {
+                powerUps[i] = p.removePowerUps();
                 //return "PowerUps aggiunto";
             }
         }
