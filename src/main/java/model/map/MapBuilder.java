@@ -56,8 +56,8 @@ public class MapBuilder {
                 }                break;
             case 3:
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader(map3Path));
-                    map = json.fromJson(br, Map.class);
+                    BufferedReader br1 = new BufferedReader(new FileReader(map3Path));
+                    map = json.fromJson(br1, Map.class);
                 }catch(IOException e) {
                     e.printStackTrace();
                 }                break;
