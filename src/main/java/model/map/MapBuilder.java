@@ -62,4 +62,8 @@ public class MapBuilder {
     public String getMap1Path() {
         return map1Path;
     }
+
+    public String getMap2Path() {
+        return map2Path;
+    }
 }
