@@ -1,13 +1,12 @@
 package model.map;
-
 import java.util.*;
 
 public class Square {
 
-    private Boolean activeStatus; //in una mappa possono esserci degli square non attivi.
-    private Color color;           //indica il colore della stanza.
-    private ArrayList<Directions> allowedMoves;//Directions of the allowed moves in the single Square.
-    private ArrayList<Directions> doors;       //Direction of door (if a direction is present, that is the door).
+    private Boolean activeStatus;               //in una mappa possono esserci degli square non attivi.
+    private Color color;                        //indica il colore della stanza.
+    private ArrayList<Directions> allowedMoves; //Directions of the allowed moves in the single Square.
+    private ArrayList<Directions> doors;        //Direction of door (if a direction is present, that is the door).
 
     public Square(){
         this.color = null;
