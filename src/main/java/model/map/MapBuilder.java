@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.*;
 
 public class MapBuilder {
-    //TODO Classe che serve per costruire le mappe.
+    //Classe che serve per costruire le mappe.
 
     private Map map;
     private int mapID;
@@ -37,39 +37,29 @@ public class MapBuilder {
         makeMap builds the correct map from json according to the mapID index given in input.
      */
     public Map makeMap(int mapID) throws IOException{
-        map.setMapID(mapID);
         switch (mapID){
             case 1:
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(map1Path));
-                    map = json.fromJson(br, Map.class);
-                }catch(IOException e) {
-                    e.printStackTrace();
-                }
+                BufferedReader br1 = new BufferedReader(new FileReader(map1Path));
+                map = json.fromJson(br1, Map.class);
                 break;
             case 2:
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(map2Path));
-                    map = json.fromJson(br, Map.class);
-                }catch(IOException e) {
-                    e.printStackTrace();
-                }                break;
+                BufferedReader br2 = new BufferedReader(new FileReader(map2Path));
+                map = json.fromJson(br2, Map.class);
+                break;
             case 3:
-                try {
-                    BufferedReader br1 = new BufferedReader(new FileReader(map3Path));
-                    map = json.fromJson(br1, Map.class);
-                }catch(IOException e) {
-                    e.printStackTrace();
-                }                break;
+                BufferedReader br3 = new BufferedReader(new FileReader(map3Path));
+                map = json.fromJson(br3, Map.class);
+                break;
             case 4:
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(map4Path));
-                    map = json.fromJson(br, Map.class);
-                }catch(IOException e) {
-                    e.printStackTrace();
-                }                break;
+                BufferedReader br4 = new BufferedReader(new FileReader(map4Path));
+                map = json.fromJson(br4, Map.class);
+                break;
         }
 
         return map;
+    }
+
+    public String getMap1Path() {
+        return map1Path;
     }
 }

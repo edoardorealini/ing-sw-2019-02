@@ -1,91 +1,93 @@
-[   //TODO remove comments before parsing
-  [	//colonna 0
-    {	//posizione 0-0
-      "activeStatus":false
-    },
+{
+  "squaresMatrix":[
+    [
+      {
+        "activeStatus":false
+      },
 
-    {   //posizione 0-1
-      "activeStatus":true,
-      "color":"RED",
-      "allowedMoves":["UP","RIGHT"],
-      "doors":["UP"]
-    },
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["UP","RIGHT"],
+        "doors":["UP"]
+      },
 
-    {	//posizione 0-2
-      "activeStatus":true,
-      "color":"BLUE",
-      "allowedMoves":["DOWN","RIGHT"],
-      "doors":["DOWN"]
-    }
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["DOWN","RIGHT"],
+        "doors":["DOWN"]
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"WHITE",
+        "allowedMoves":["UP","RIGHT"],
+        "doors":["UP", "RIGHT"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["LEFT"],
+        "doors":["DOWN"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["LEFT","RIGHT"],
+        "doors":[]
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","LEFT"],
+        "doors":["LEFT"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","DOWN"],
+        "doors":["UP"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["DOWN","RIGHT","LEFT"],
+        "doors":["DOWN", "RIGHT"]
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT"],
+        "doors":[]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT","DOWN"],
+        "doors":["UP"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"GREEN",
+        "allowedMoves":["DOWN","LEFT"],
+        "doors":["DOWN","LEFT"]
+      }
+    ]
   ],
-
-  [	//colonna 1
-    {	//posizione 1-0
-      "activeStatus":true,
-      "color":"WHITE",
-      "allowedMoves":["UP","RIGHT"],
-      "doors":["UP", "RIGHT"]
-    },
-
-    {	//posizione 1-1
-      "activeStatus":true,
-      "color":"RED",
-      "allowedMoves":["LEFT"],
-      "doors":["DOWN"]
-    },
-
-    {	//posizione 1-2
-      "activeStatus":true,
-      "color":"BLUE",
-      "allowedMoves":["LEFT","RIGHT"],
-      "doors":[]
-    }
-  ],
-
-  [	//colonna 2
-    {	//posizione 2-0
-      "activeStatus":true,
-      "color":"YELLOW",
-      "allowedMoves":["UP","RIGHT","LEFT"],
-      "doors":["LEFT"]
-    },
-
-    {	//posizione 2-1
-      "activeStatus":true,
-      "color":"YELLOW",
-      "allowedMoves":["UP","RIGHT","DOWN"],
-      "doors":["UP"]
-    },
-
-    {	//posizione 2-2
-      "activeStatus":true,
-      "color":"BLUE",
-      "allowedMoves":["DOWN","RIGHT","LEFT"],
-      "doors":["DOWN", "RIGHT"]
-    }
-  ],
-
-  [	//colonna 3
-    {	//posizione 3-0
-      "activeStatus":true,
-      "color":"YELLOW",
-      "allowedMoves":["UP","LEFT"],
-      "doors":[]
-    },
-
-    {	//posizione 3-1
-      "activeStatus":true,
-      "color":"YELLOW",
-      "allowedMoves":["UP","LEFT","DOWN"],
-      "doors":["UP"]
-    },
-
-    {	//posizione 3-2
-      "activeStatus":true,
-      "color":"GREEN",
-      "allowedMoves":["DOWN","LEFT"],
-      "doors":["DOWN","LEFT"]
-    }
-  ]
-]{
+  "mapID": 1
 }

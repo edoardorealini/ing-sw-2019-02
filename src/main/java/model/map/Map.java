@@ -9,40 +9,40 @@ public class Map {
 
     private Square[][] squaresMatrix;
     private int mapID;
-    private AmmoDeck ammoDeck;
-    private WeaponDeck weaponDeck;
 
     //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
+    /*
+        allowedMoves tells me which moves i can do from a specific square.
+        returns empty list if square not found in squaresMatrix.
+     */
+    public List<Directions> allowedMoves(Square square) {
+        int i;
+        int j;
 
-    public int getMapID(){
+        for(i = 0; i < 4; i++){
+            for(j = 0; j < 3; j++){
+                if(square.equals(squaresMatrix[i][j])){
+                    return squaresMatrix[i][j].getAllowedMoves();
+                }
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+    public int getMapID() {
         return mapID;
     }
 
-    public void setMapID(int mapID) {
-        this.mapID = mapID;
+    public Square[][] getSquaresMatrix() {
+        return squaresMatrix;
     }
 
-    public void setSquareColor(int x, int y, Color color){
-        squaresMatrix[x][y].setColor(color);
-    }
-
-    /*
-        allowedMoves tells me which moves i can do from a specific square.
-     */
-    public List<Directions> allowedMoves(Square square) {
-        //questo metodo dovrebbe lanciare una SquareNotValidException ? (controllo)
-        ArrayList<Directions> alwdMoves = new ArrayList<>();
-
-        //TODO qui c'è la logica che verifica quali spostamenti posso fare a partire da uno square;
-
-        return alwdMoves;
+    public String printSquare(int i, int j){
+        return squaresMatrix[i][j].toString();
     }
 
     /*
     test method to understand the json structure of the class
      */
-    public String toJson(){
-        Gson json = new Gson();
-        return json.toJson(this);
-    }
 }
