@@ -60,15 +60,4 @@ public class Square {
         this.doors = doors;
     }
 
-    @Override
-    public String toString() {
-        String square = "";
-        square.concat(this.getColor().toString());
-        square.concat(this.getActiveStatus().toString());
-        square.concat(this.getAllowedMoves().toString());
-        square.concat(this.getDoors().toString());
-
-        return square;
-
-    }
 }

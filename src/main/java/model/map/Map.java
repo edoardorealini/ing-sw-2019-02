@@ -38,11 +38,4 @@ public class Map {
         return squaresMatrix;
     }
 
-    public String printSquare(int i, int j){
-        return squaresMatrix[i][j].toString();
-    }
-
-    /*
-    test method to understand the json structure of the class
-     */
 }
