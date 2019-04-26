@@ -188,10 +188,11 @@ public class Weapon {
         this.alternateEffect.add(b);
     }
 
-    public void setAlternateEffect(Effect a, Effect b, Effect c) {
+    public void setAlternateEffect(Effect a, Effect b, Effect c, Effect d) {
         this.alternateEffect.add(a);
         this.alternateEffect.add(b);
         this.alternateEffect.add(c);
+        this.alternateEffect.add(d);
     }
 
 
