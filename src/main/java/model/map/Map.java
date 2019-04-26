@@ -6,6 +6,7 @@ import com.google.gson.*;
 import java.util.*;
 
 public class Map {
+
     private Square[][] squaresMatrix;
     private int mapID;
     private AmmoDeck ammoDeck;
@@ -32,9 +33,9 @@ public class Map {
      */
     public List<Directions> allowedMoves(Square square) {
         //questo metodo dovrebbe lanciare una SquareNotValidException ? (controllo)
-        //TODO qui c'è la logica che verifica quali spostamenti posso fare a partire da uno square;
-
         ArrayList<Directions> alwdMoves = new ArrayList<>();
+
+        //TODO qui c'è la logica che verifica quali spostamenti posso fare a partire da uno square;
 
         return alwdMoves;
     }
