@@ -12,7 +12,6 @@ public class Map {
     private AmmoDeck ammoDeck;
     private WeaponDeck weaponDeck;
 
-
     //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
 
     public int getMapID(){
@@ -25,7 +24,6 @@ public class Map {
 
     public void setSquareColor(int x, int y, Color color){
         squaresMatrix[x][y].setColor(color);
-
     }
 
     /*
@@ -47,5 +45,4 @@ public class Map {
         Gson json = new Gson();
         return json.toJson(this);
     }
-
 }
