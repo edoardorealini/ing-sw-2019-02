@@ -1,19 +1,19 @@
 package model.weapons;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collections;
 
 //it's a singleton, how do I declare it?  Fix it in the next days
 
 public class WeaponDeck {
-    private ArrayList<Weapon> weaponDeck;
+    private LinkedList<Weapon> weaponDeck;
 
     //constructor
     public WeaponDeck(){
-        this.weaponDeck = new ArrayList<>();
+        this.weaponDeck = new LinkedList<>();
 
         //LOCK RIFLE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(0).setName(WeaponName.LOCK_RIFLE);
         weaponDeck.get(0).setColor(Color.BLUE);
         weaponDeck.get(0).setCost(Color.BLUE, Color.BLUE);
@@ -27,7 +27,7 @@ public class WeaponDeck {
 
 
         //ELECTROSCYTHE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(1).setName(WeaponName.ELECTROSCYTHE);
         weaponDeck.get(1).setColor(Color.BLUE);
         weaponDeck.get(1).setCost(Color.BLUE);
@@ -41,7 +41,7 @@ public class WeaponDeck {
 
 
         //MACHINE GUN
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(2).setName(WeaponName.MACHINE_GUN);
         weaponDeck.get(2).setColor(Color.BLUE);
         weaponDeck.get(2).setCost(Color.BLUE, Color.RED);
@@ -58,7 +58,7 @@ public class WeaponDeck {
 
 
         //TRaCTOR BEAM
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(3).setName(WeaponName.TRACTOR_BEAM);
         weaponDeck.get(3).setColor(Color.BLUE);
         weaponDeck.get(3).setCost(Color.BLUE);
@@ -72,7 +72,7 @@ public class WeaponDeck {
 
 
         //T.H.O.R.
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(4).setName(WeaponName.THOR);
         weaponDeck.get(4).setColor(Color.BLUE);
         weaponDeck.get(4).setCost(Color.BLUE, Color.RED);
@@ -87,7 +87,7 @@ public class WeaponDeck {
 
 
         //PLASMA GUN
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(5).setName(WeaponName.PLASMA_GUN);
         weaponDeck.get(5).setColor(Color.BLUE);
         weaponDeck.get(5).setCost(Color.BLUE, Color.YELLOW);
@@ -101,7 +101,7 @@ public class WeaponDeck {
 
 
         //WHISPER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(6).setName(WeaponName.WHISPER);
         weaponDeck.get(6).setColor(Color.BLUE);
         weaponDeck.get(6).setCost(Color.BLUE, Color.BLUE, Color.YELLOW);
@@ -115,7 +115,7 @@ public class WeaponDeck {
 
 
         //VORTEX CANNON
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(7).setName(WeaponName.VORTEX_CANNON);
         weaponDeck.get(7).setColor(Color.RED);
         weaponDeck.get(7).setCost(Color.RED, Color.BLUE);
@@ -129,7 +129,7 @@ public class WeaponDeck {
 
 
         //FURNACE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(8).setName(WeaponName.FURNACE);
         weaponDeck.get(8).setColor(Color.RED);
         weaponDeck.get(8).setCost(Color.RED, Color.BLUE);
@@ -143,7 +143,7 @@ public class WeaponDeck {
 
 
         //HEATSEEKER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(9).setName(WeaponName.HEATSEEKER);
         weaponDeck.get(9).setColor(Color.RED);
         weaponDeck.get(9).setCost(Color.RED, Color.RED, Color.YELLOW);
@@ -157,7 +157,7 @@ public class WeaponDeck {
 
 
         //HELLION
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(10).setName(WeaponName.HELLION);
         weaponDeck.get(10).setColor(Color.RED);
         weaponDeck.get(10).setCost(Color.RED, Color.YELLOW);
@@ -171,7 +171,7 @@ public class WeaponDeck {
 
 
         //FLAMETHROWER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(11).setName(WeaponName.FLAMETHROWER);
         weaponDeck.get(11).setColor(Color.RED);
         weaponDeck.get(11).setCost(Color.RED);
@@ -185,7 +185,7 @@ public class WeaponDeck {
 
 
         //GRENADE LAUNCHER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(12).setName(WeaponName.GRENADE_LAUNCHER);
         weaponDeck.get(12).setColor(Color.RED);
         weaponDeck.get(12).setCost(Color.RED);
@@ -199,7 +199,7 @@ public class WeaponDeck {
 
 
         //ROCKET LAUNCHER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(13).setName(WeaponName.ROCKET_LAUNCHER);
         weaponDeck.get(13).setColor(Color.RED);
         weaponDeck.get(13).setCost(Color.RED, Color.RED);
@@ -213,7 +213,7 @@ public class WeaponDeck {
 
 
         //RAILGUN
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(14).setName(WeaponName.RAILGUN);
         weaponDeck.get(14).setColor(Color.YELLOW);
         weaponDeck.get(14).setCost(Color.YELLOW, Color.YELLOW, Color.BLUE);
@@ -227,7 +227,7 @@ public class WeaponDeck {
 
 
         //CYBERBLADE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(15).setName(WeaponName.CYBERBLADE);
         weaponDeck.get(15).setColor(Color.YELLOW);
         weaponDeck.get(15).setCost(Color.YELLOW, Color.RED);
@@ -241,7 +241,7 @@ public class WeaponDeck {
 
 
         //ZX-2
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(16).setName(WeaponName.ZX_2);
         weaponDeck.get(16).setColor(Color.YELLOW);
         weaponDeck.get(16).setCost(Color.YELLOW, Color.RED);
@@ -255,7 +255,7 @@ public class WeaponDeck {
 
 
         //SHOTGUN
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(17).setName(WeaponName.SHOTGUN);
         weaponDeck.get(17).setColor(Color.YELLOW);
         weaponDeck.get(17).setCost(Color.YELLOW, Color.YELLOW);
@@ -269,7 +269,7 @@ public class WeaponDeck {
 
 
         //POWER GLOVE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(18).setName(WeaponName.POWER_GLOVE);
         weaponDeck.get(18).setColor(Color.YELLOW);
         weaponDeck.get(18).setCost(Color.YELLOW, Color.BLUE);
@@ -283,7 +283,7 @@ public class WeaponDeck {
 
 
         //SHOCKWAVE
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(19).setName(WeaponName.SCHOCKWAVE);
         weaponDeck.get(19).setColor(Color.YELLOW);
         weaponDeck.get(19).setCost(Color.YELLOW);
@@ -297,7 +297,7 @@ public class WeaponDeck {
 
 
         //SLEDGEHAMMER
-        weaponDeck.add(new Weapon());
+        weaponDeck.addLast(new Weapon());
         weaponDeck.get(20).setName(WeaponName.SLEDGEHAMMER);
         weaponDeck.get(20).setColor(Color.YELLOW);
         weaponDeck.get(20).setCost(Color.YELLOW);
@@ -307,7 +307,7 @@ public class WeaponDeck {
         weaponDeck.get(20).setBasicEffect(new EffectDamage(2, 1, true, -1));
         weaponDeck.get(20).setOptionalEffectOne(null);
         weaponDeck.get(20).setOptionalEffectTwo(null);
-        weaponDeck.get(20).setAlternateEffect(new EffectDamage(3, 11, true, -1), new EffectMoveTarget(2, 1, true,-1)); //same target
+        weaponDeck.get(20).setAlternateEffect(new EffectDamage(3, 1, true, -1), new EffectMoveTarget(2, 1, true,-1)); //same target
     }
 
 
@@ -319,6 +319,9 @@ public class WeaponDeck {
         Collections.shuffle(this.weaponDeck);
     }
 
-
-    //TODO
+    //getFirst is already implemented in LinkedList
+    
+    public void shiftDeck() {
+        weaponDeck.removeFirst();
+    }
 }
