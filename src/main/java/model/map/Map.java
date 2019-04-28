@@ -55,8 +55,12 @@ public class Map {
         return visibleColors;
     }
 
+    /*
+        getSquare returns a square reference to the square near the input square
+        in the specified direction
+    */
     public Square getSquare(Directions direction, Square square){
-        Square result;
+        Square result = new Square();
 
         int i = getIndex(square).get(0);
         int j = getIndex(square).get(1);
