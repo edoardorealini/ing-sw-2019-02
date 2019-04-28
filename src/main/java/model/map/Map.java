@@ -1,6 +1,6 @@
 package model.map;
 import model.ammo.*;
-import model.weapons.WeaponDeck;
+import model.weapons.*;
 import com.google.gson.*;
 
 import java.util.*;
@@ -10,12 +10,11 @@ public class Map {
     private Square[][] squaresMatrix;
     private int mapID;
 
-    //TODO inserire tutta la logica (metodi) per capire dato uno square chi posso vedere e che spostamenti posso fare
     /*
         allowedMoves tells me which moves i can do from a specific square.
         returns empty list if square not found in squaresMatrix.
-     */
-    public List<Directions> allowedMoves(Square square) {
+    */
+    public List<Directions> getAllowedMoves(Square square) {
 
         for (Square[] row : squaresMatrix) {
             for (Square sq: row) {
@@ -29,31 +28,40 @@ public class Map {
         return Collections.emptyList();
     }
 
+    /*
+        getVisibleRooms returns a list containing the colours of the visible rooms
+        with this information the player is able to know who can see.
+    */
     public List<Color> getVisibileRooms(Square square){
-        List<Integer> indexes = new ArrayList<>();
-        indexes = searchIndex(square);
+
+        int i = searchIndex(square).get(0);
+        int j = searchIndex(square).get(1);
 
         List<Color> visibleColors = new ArrayList<>();
         visibleColors.add(square.getColor());
 
         if (!square.getDoors().isEmpty()){
             if(square.getDoors().contains(Directions.UP)){
-                //TODO
+                visibleColors.add(squaresMatrix[i][j + 1].getColor());
             }
             if(square.getDoors().contains(Directions.DOWN)){
-                //TODO
+                visibleColors.add(squaresMatrix[i][j - 1].getColor());
             }
             if(square.getDoors().contains(Directions.RIGHT)){
-                //TODO
+                visibleColors.add(squaresMatrix[i + 1][j].getColor());
             }
             if(square.getDoors().contains(Directions.LEFT)){
-                //TODO
+                visibleColors.add(squaresMatrix[i - 1][j].getColor());
             }
         }
 
         return visibleColors;
     }
 
+    /*
+        private method used to get the indexes of a square in the matrix.
+        the indexes are returned as a list of integers.
+    */
     private List<Integer> searchIndex(Square square){
         int i;
         int j;
