@@ -25,13 +25,13 @@
         "activeStatus":true,
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
-        "doors":["UP", "RIGHT"]
+        "doors":["UP"]
       },
 
       {
         "activeStatus":true,
         "color":"RED",
-        "allowedMoves":["LEFT"],
+        "allowedMoves":["LEFT", "RIGHT", "DOWN"],
         "doors":["DOWN"]
       },
 
@@ -46,23 +46,23 @@
     [
       {
         "activeStatus":true,
-        "color":"YELLOW",
-        "allowedMoves":["UP","RIGHT","LEFT"],
-        "doors":["LEFT"]
+        "color":"WHITE",
+        "allowedMoves":["RIGHT","LEFT"],
+        "doors":["RIGHT"]
       },
 
       {
         "activeStatus":true,
-        "color":"YELLOW",
-        "allowedMoves":["UP","RIGHT","DOWN"],
-        "doors":["UP"]
+        "color":"PURPLE",
+        "allowedMoves":["UP","RIGHT","LEFT"],
+        "doors":["UP", "RIGHT"]
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
-        "allowedMoves":["DOWN","RIGHT","LEFT"],
-        "doors":["DOWN", "RIGHT"]
+        "allowedMoves":["DOWN","LEFT"],
+        "doors":["DOWN"]
       }
     ],
 
@@ -71,23 +71,20 @@
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT"],
-        "doors":[]
+        "doors":["LEFT"]
       },
 
       {
         "activeStatus":true,
         "color":"YELLOW",
-        "allowedMoves":["UP","LEFT","DOWN"],
-        "doors":["UP"]
+        "allowedMoves":["DOWN","LEFT"],
+        "doors":["LEFT"]
       },
 
       {
-        "activeStatus":true,
-        "color":"GREEN",
-        "allowedMoves":["DOWN","LEFT"],
-        "doors":["DOWN","LEFT"]
+        "activeStatus":false
       }
     ]
   ],
-  "mapID": 1
+  "mapID": 3
 }
