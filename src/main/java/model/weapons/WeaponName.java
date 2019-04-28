@@ -22,6 +22,6 @@ public enum WeaponName {
 	SCHOCKWAVE,
 	CYBERBLADE,
 	SLEDGEHAMMER,
-
+	//TEST_NAME,
 }
 

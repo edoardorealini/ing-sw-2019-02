@@ -1,5 +1,6 @@
 package model.weapons;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Collections;
 
@@ -311,17 +312,37 @@ public class WeaponDeck {
     }
 
 
-    public boolean isInDeck(Weapon weapon) {
-        return weaponDeck.contains(weapon);
+    public boolean isInDeck(WeaponName weapon) {
+        Iterator<Weapon> iterDeck = weaponDeck.iterator();
+        while (iterDeck.hasNext()) {
+           if(iterDeck.next().getName().equals(weapon)) {
+               return true;
+           }
+        }
+        return false;
     }
 
     public void shuffleDeck() {
         Collections.shuffle(this.weaponDeck);
     }
 
-    //getFirst is already implemented in LinkedList
-    
+    public Weapon getFirst() {
+        return weaponDeck.getFirst();
+    }
+
+
     public void shiftDeck() {
         weaponDeck.removeFirst();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder deck = new StringBuilder();
+        for(int i=0; i<weaponDeck.size(); i++) {
+            deck.append(weaponDeck.get(i).getName());
+            deck.append(" - ");
+        }
+        return deck.toString();
+    }
+
 }
