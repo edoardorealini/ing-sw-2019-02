@@ -40,7 +40,7 @@ class MapTest {
     }
 
     @Test
-    void getSquaresMatrix(){
-        //non serve
+    void getSquare(){
+        //TODO
     }
 }
