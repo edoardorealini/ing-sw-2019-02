@@ -2,21 +2,24 @@
   "squaresMatrix":[
     [
       {
-        "activeStatus":false
-      },
-
-      {
         "activeStatus":true,
-        "color":"RED",
+        "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"]
       },
 
       {
         "activeStatus":true,
-        "color":"BLUE",
-        "allowedMoves":["DOWN","RIGHT"],
+        "color":"RED",
+        "allowedMoves":["UP","DOWN"],
         "doors":["DOWN"]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["DOWN","RIGHT"],
+        "doors":["RIGHT"]
       }
     ],
 
@@ -24,22 +27,22 @@
       {
         "activeStatus":true,
         "color":"WHITE",
-        "allowedMoves":["UP","RIGHT"],
+        "allowedMoves":["UP","RIGHT", "LEFT"],
         "doors":["UP", "RIGHT"]
       },
 
       {
         "activeStatus":true,
-        "color":"RED",
-        "allowedMoves":["LEFT"],
-        "doors":["DOWN"]
+        "color":"PURPLE",
+        "allowedMoves":["UP", "DOWN"],
+        "doors":["UP","DOWN"]
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
-        "allowedMoves":["LEFT","RIGHT"],
-        "doors":[]
+        "allowedMoves":["LEFT","RIGHT", "DOWN"],
+        "doors":["LEFT", "DOWN"]
       }
     ],
 

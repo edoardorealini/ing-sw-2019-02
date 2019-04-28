@@ -53,7 +53,7 @@
 
       {
         "activeStatus":true,
-        "color":"PURPLE",
+        "color":"RED",
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["UP", "RIGHT"]
       },
