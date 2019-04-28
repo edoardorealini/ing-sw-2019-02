@@ -1,7 +1,4 @@
 package model.map;
-import model.ammo.*;
-import model.weapons.*;
-import com.google.gson.*;
 
 import java.util.*;
 
@@ -34,8 +31,8 @@ public class Map {
     */
     public List<Color> getVisibileRooms(Square square){
 
-        int i = searchIndex(square).get(0);
-        int j = searchIndex(square).get(1);
+        int i = getIndex(square).get(0);
+        int j = getIndex(square).get(1);
 
         List<Color> visibleColors = new ArrayList<>();
         visibleColors.add(square.getColor());
@@ -58,11 +55,39 @@ public class Map {
         return visibleColors;
     }
 
+    public Square getSquare(Directions direction, Square square){
+        Square result;
+
+        int i = getIndex(square).get(0);
+        int j = getIndex(square).get(1);
+
+        switch(direction){
+            case UP:
+                result = squaresMatrix[i][j + 1];
+                break;
+
+            case DOWN:
+                result = squaresMatrix[i][j - 1];
+                break;
+
+            case LEFT:
+                result = squaresMatrix[i - 1][j];
+                break;
+
+            case RIGHT:
+                result = squaresMatrix[i + 1][j];
+                break;
+        }
+
+        return result;
+
+    }
+
     /*
         private method used to get the indexes of a square in the matrix.
         the indexes are returned as a list of integers.
     */
-    private List<Integer> searchIndex(Square square){
+    private List<Integer> getIndex(Square square){
         int i;
         int j;
 
