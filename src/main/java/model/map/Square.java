@@ -15,7 +15,7 @@ public class Square {
 
     //TODO: Aggiungere i campi weaponBox e ammoTile nei file json inizializzati a null quando serve!
 
-    /*      COSTRUTTORI DEPRECATI
+
 
     public Square(){
         this.color = null;
@@ -23,6 +23,7 @@ public class Square {
         this.allowedMoves = null;
         this.doors = null;
     }
+    /*      COSTRUTTORI DEPRECATI
 
     public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
         this.color = color;
