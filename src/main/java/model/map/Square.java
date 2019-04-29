@@ -1,4 +1,6 @@
 package model.map;
+import model.ammo.*;
+import model.weapons.*;
 import java.util.*;
 
 public class Square {
@@ -8,6 +10,11 @@ public class Square {
     private ArrayList<Directions> allowedMoves; //Directions of the allowed moves in the single Square.
     private ArrayList<Directions> doors;        //Direction of door (if a direction is present, that is the door).
     private SquareType type;
+    private ArrayList<Weapon> weaponBox; //array che contiene i ref alle armi presenti nel box
+    private AmmoCard ammoTile;
+
+
+    /*      COSTRUTTORI DEPRECATI
 
     public Square(){
         this.color = null;
@@ -23,6 +30,43 @@ public class Square {
         this.allowedMoves.addAll(allowedMoves);
         this.doors = new ArrayList<>();
         this.doors.addAll(doors);
+    }
+
+    */
+
+    public List<Weapon> getWeaponBox() {
+        return weaponBox;
+    }
+
+    public Boolean addWeapon(Weapon weapon){
+        if(weaponBox.size() < 3) {
+            weaponBox.add(weapon);
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean removeWeapon(Weapon weapon){
+        if(weaponBox.contains(weapon)) {
+            weaponBox.remove(weapon);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public String listAvailableWeapons(){
+        //TODO better implemetation
+        return weaponBox.toString();
+    }
+
+    public AmmoCard getAmmoTile() {
+        return ammoTile;
+    }
+
+    public void setAmmoTile(AmmoCard ammoTile) {
+        this.ammoTile = ammoTile;
     }
 
     public Square(Boolean activeStatus){ //secondo costruttore per costruire square inattivi
