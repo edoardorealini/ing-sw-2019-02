@@ -10,7 +10,7 @@
         "color":"RED",
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"],
-        "SquareType": "SPAWN"
+        "type": "SPAWN"
       },
 
       {
@@ -18,7 +18,7 @@
         "color":"BLUE",
         "allowedMoves":["DOWN","RIGHT"],
         "doors":["DOWN"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       }
     ],
 
@@ -28,7 +28,7 @@
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP", "RIGHT"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       },
 
       {
@@ -36,7 +36,7 @@
         "color":"RED",
         "allowedMoves":["LEFT"],
         "doors":["DOWN"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       },
 
       {
@@ -44,7 +44,7 @@
         "color":"BLUE",
         "allowedMoves":["LEFT","RIGHT"],
         "doors":[],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       }
     ],
 
@@ -54,7 +54,7 @@
         "color":"YELLOW",
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["LEFT"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       },
 
       {
@@ -62,7 +62,7 @@
         "color":"YELLOW",
         "allowedMoves":["UP","RIGHT","DOWN"],
         "doors":["UP"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       },
 
       {
@@ -70,7 +70,7 @@
         "color":"BLUE",
         "allowedMoves":["DOWN","RIGHT","LEFT"],
         "doors":["DOWN", "RIGHT"],
-        "SquareType": "SPAWN"
+        "type": "SPAWN"
       }
     ],
 
@@ -80,7 +80,7 @@
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT"],
         "doors":[],
-        "SquareType": "SPAWN"
+        "type": "SPAWN"
       },
 
       {
@@ -88,7 +88,7 @@
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT","DOWN"],
         "doors":["UP"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       },
 
       {
@@ -96,7 +96,7 @@
         "color":"GREEN",
         "allowedMoves":["DOWN","LEFT"],
         "doors":["DOWN","LEFT"],
-        "SquareType": "NOSPAWN"
+        "type": "NOSPAWN"
       }
     ]
   ],

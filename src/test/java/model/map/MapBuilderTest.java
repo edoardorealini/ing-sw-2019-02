@@ -65,6 +65,10 @@ class MapBuilderTest {
         assertEquals(mapTest1.getSquaresMatrix()[1][1].getColor(), Color.RED);
         assertEquals(mapTest1.getSquaresMatrix()[1][2].getColor(), Color.BLUE);
 
+        assertEquals(mapTest1.getSquaresMatrix()[0][1].getType(), SquareType.SPAWN);
+        assertEquals(mapTest1.getSquaresMatrix()[0][2].getType(), SquareType.NOSPAWN);
+
+
         assertEquals(mapTest1.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.UP, Directions.RIGHT));
         assertNotEquals(mapTest1.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.LEFT, Directions.RIGHT));
 

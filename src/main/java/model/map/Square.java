@@ -61,4 +61,7 @@ public class Square {
         this.doors = doors;
     }
 
+    public SquareType getType() {
+        return type;
+    }
 }

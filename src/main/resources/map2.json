@@ -5,21 +5,24 @@
         "activeStatus":true,
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
-        "doors":["UP"]
+        "doors":["UP"],
+        "type": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"RED",
         "allowedMoves":["UP","DOWN"],
-        "doors":["DOWN"]
+        "doors":["DOWN"],
+        "type": "SPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"RED",
         "allowedMoves":["DOWN","RIGHT"],
-        "doors":["RIGHT"]
+        "doors":["RIGHT"],
+        "type": "NOSPAWN"
       }
     ],
 
@@ -28,21 +31,24 @@
         "activeStatus":true,
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT","LEFT"],
-        "doors":["UP"]
+        "doors":["UP"],
+        "type": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"PURPLE",
         "allowedMoves":["RIGHT", "UP", "DOWN"],
-        "doors":["DOWN", "UP"]
+        "doors":["DOWN", "UP"],
+        "type": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
         "allowedMoves":["LEFT","RIGHT", "DOWN"],
-        "doors":["LEFT", "DOWN"]
+        "doors":["LEFT", "DOWN"],
+        "type": "NOSPAWN"
       }
     ],
 
@@ -51,21 +57,24 @@
         "activeStatus":true,
         "color":"WHITE",
         "allowedMoves":["RIGHT","LEFT"],
-        "doors":["RIGHT"]
+        "doors":["RIGHT"],
+        "type": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"PURPLE",
         "allowedMoves":["UP","RIGHT","LEFT"],
-        "doors":["UP", "RIGHT"]
+        "doors":["UP", "RIGHT"],
+        "type": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
         "allowedMoves":["DOWN","LEFT"],
-        "doors":["DOWN"]
+        "doors":["DOWN"],
+        "type": "SPAWN"
       }
     ],
 
@@ -74,14 +83,16 @@
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT"],
-        "doors":["LEFT"]
+        "doors":["LEFT"],
+        "type": "SPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["LEFT","DOWN"],
-        "doors":["LEFT"]
+        "doors":["LEFT"],
+        "type": "NOSPAWN"
       },
 
       {
