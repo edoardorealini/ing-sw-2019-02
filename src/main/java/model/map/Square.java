@@ -13,6 +13,7 @@ public class Square {
     private ArrayList<Weapon> weaponBox; //array che contiene i ref alle armi presenti nel box
     private AmmoCard ammoTile;
 
+    //TODO: Aggiungere i campi weaponBox e ammoTile nei file json inizializzati a null quando serve!
 
     /*      COSTRUTTORI DEPRECATI
 
