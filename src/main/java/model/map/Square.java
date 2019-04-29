@@ -7,6 +7,7 @@ public class Square {
     private Color color;                        //indica il colore della stanza.
     private ArrayList<Directions> allowedMoves; //Directions of the allowed moves in the single Square.
     private ArrayList<Directions> doors;        //Direction of door (if a direction is present, that is the door).
+    private SquareType type;
 
     public Square(){
         this.color = null;

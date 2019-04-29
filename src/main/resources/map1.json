@@ -9,14 +9,16 @@
         "activeStatus":true,
         "color":"RED",
         "allowedMoves":["UP","RIGHT"],
-        "doors":["UP"]
+        "doors":["UP"],
+        "SquareType": "SPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
         "allowedMoves":["DOWN","RIGHT"],
-        "doors":["DOWN"]
+        "doors":["DOWN"],
+        "SquareType": "NOSPAWN"
       }
     ],
 
@@ -25,21 +27,24 @@
         "activeStatus":true,
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
-        "doors":["UP", "RIGHT"]
+        "doors":["UP", "RIGHT"],
+        "SquareType": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"RED",
         "allowedMoves":["LEFT"],
-        "doors":["DOWN"]
+        "doors":["DOWN"],
+        "SquareType": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
         "allowedMoves":["LEFT","RIGHT"],
-        "doors":[]
+        "doors":[],
+        "SquareType": "NOSPAWN"
       }
     ],
 
@@ -48,21 +53,24 @@
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","RIGHT","LEFT"],
-        "doors":["LEFT"]
+        "doors":["LEFT"],
+        "SquareType": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","RIGHT","DOWN"],
-        "doors":["UP"]
+        "doors":["UP"],
+        "SquareType": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"BLUE",
         "allowedMoves":["DOWN","RIGHT","LEFT"],
-        "doors":["DOWN", "RIGHT"]
+        "doors":["DOWN", "RIGHT"],
+        "SquareType": "SPAWN"
       }
     ],
 
@@ -71,21 +79,24 @@
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT"],
-        "doors":[]
+        "doors":[],
+        "SquareType": "SPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT","DOWN"],
-        "doors":["UP"]
+        "doors":["UP"],
+        "SquareType": "NOSPAWN"
       },
 
       {
         "activeStatus":true,
         "color":"GREEN",
         "allowedMoves":["DOWN","LEFT"],
-        "doors":["DOWN","LEFT"]
+        "doors":["DOWN","LEFT"],
+        "SquareType": "NOSPAWN"
       }
     ]
   ],
