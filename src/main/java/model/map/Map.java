@@ -1,5 +1,4 @@
 package model.map;
-
 import java.util.*;
 
 public class Map {
@@ -116,5 +115,4 @@ public class Map {
     public Square[][] getSquaresMatrix() {
         return squaresMatrix;
     }
-
 }

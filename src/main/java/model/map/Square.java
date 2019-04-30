@@ -10,7 +10,7 @@ public class Square {
     private ArrayList<Directions> allowedMoves; //Directions of the allowed moves in the single Square.
     private ArrayList<Directions> doors;        //Direction of door (if a direction is present, that is the door).
     private SquareType type;
-    private ArrayList<Weapon> weaponBox; //array che contiene i ref alle armi presenti nel box
+    private ArrayList<Weapon> weaponBox;        //array che contiene i ref alle armi presenti nel box
     private AmmoCard ammoTile;
 
     //TODO: Aggiungere i campi weaponBox e ammoTile nei file json inizializzati a null quando serve!
@@ -23,9 +23,10 @@ public class Square {
         this.allowedMoves = null;
         this.doors = null;
     }
-    /*      COSTRUTTORI DEPRECATI
 
-    public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
+    /*      COSTRUTTORI DE PRECATI
+
+        public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
         this.color = color;
         this.activeStatus = activeStatus;
         this.allowedMoves = new ArrayList<>();
@@ -87,19 +88,19 @@ public class Square {
         return allowedMoves;
     }
 
-    public List<Directions> getDoors() {
+    public List<Directions> getDoors(){
         return doors;
     }
 
-    public void setColor(Color color) {
+    public void setColor(Color color){
         this.color = color;
     }
 
-    public void setActiveStatus(Boolean activeStatus) {
+    public void setActiveStatus(Boolean activeStatus){
         this.activeStatus = activeStatus;
     }
 
-    public void setAllowedMoves(ArrayList<Directions> allowedMoves) {
+    public void setAllowedMoves(ArrayList<Directions> allowedMoves){
         this.allowedMoves = allowedMoves;
     }
 
