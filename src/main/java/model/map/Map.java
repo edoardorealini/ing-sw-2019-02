@@ -1,5 +1,6 @@
 package model.map;
 import java.util.*;
+import  model.Color;
 
 public class Map {
 

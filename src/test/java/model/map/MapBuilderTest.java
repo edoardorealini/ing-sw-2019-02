@@ -1,4 +1,5 @@
 package model.map;
+import  model.Color;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

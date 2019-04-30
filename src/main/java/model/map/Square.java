@@ -2,6 +2,7 @@ package model.map;
 import model.ammo.*;
 import model.weapons.*;
 import java.util.*;
+import  model.Color;
 
 public class Square {
 
