@@ -10,6 +10,7 @@ public class EffectMoveYourself extends Effect{
 		this.setMark(0);
 		this.setMoveTarget(0);
 		this.setMoveYourself(move);
+		this.setSameTarget(-1);
 	}
 
 }

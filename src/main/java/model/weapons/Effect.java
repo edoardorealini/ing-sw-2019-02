@@ -10,6 +10,7 @@ public class Effect {
 	private int involvedPlayers;
 	private boolean needVisibleTarget;
 	private int minShootDistance;
+	private int sameTarget;
 
 	//constructor
 	public Effect(){
@@ -20,6 +21,7 @@ public class Effect {
 		involvedPlayers = 0;   //-1 means every player
 		needVisibleTarget = true;
 		minShootDistance = 0;   //-1 means the same square in which the striker is
+		sameTarget = 0;  //index of the array of players choosen as targets
 	}
 
 	public int getDamage() {
@@ -76,5 +78,13 @@ public class Effect {
 
 	public boolean isNeedVisibleTarget() {
 		return needVisibleTarget;
+	}
+
+	public int getSameTarget() {
+		return sameTarget;
+	}
+
+	public void setSameTarget(int sameTarget) {
+		this.sameTarget = sameTarget;
 	}
 }

@@ -2,7 +2,7 @@ package model.weapons;
 
 public class EffectDamage extends Effect {
 
-	public EffectDamage (int damage, int targets, boolean visible, int distance) {
+	public EffectDamage (int damage, int targets, int sameTarget, boolean visible, int distance) {
 		this.setDamage(damage);
 		this.setInvolvedPlayers(targets);
 		this.setMinShootDistance(distance);
@@ -10,6 +10,7 @@ public class EffectDamage extends Effect {
 		this.setMark(0);
 		this.setMoveTarget(0);
 		this.setMoveYourself(0);
+		this.setSameTarget(sameTarget);
 
 	}
 }
