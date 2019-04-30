@@ -28,8 +28,11 @@ public class PowerUpsDeck {
 
 
     public PowerUps removePowerUps(){
-         return powerUpsDeck.getFirst();
-         //TODO come cancello la prima cella ?
+         PowerUps powerUpsTemp;
+         powerUpsTemp = powerUpsDeck.getFirst();
+         powerUpsDeck.removeFirst();
+         return powerUpsTemp;
+
 
     }
 
