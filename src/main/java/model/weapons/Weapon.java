@@ -195,7 +195,12 @@ public class Weapon {
         this.alternateEffect.add(d);
     }
 
-
+    @Override
+    public String toString() {
+        StringBuilder nameWeap = new StringBuilder();
+        nameWeap.append(this.name);
+        return nameWeap.toString();
+    }
 
     //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamare
     //i metodi degli effetti quando istanzio le armi in Deck

@@ -30,11 +30,13 @@ class WeaponDeckTest {
 	}
 
 	@Test
-	void shiftDeck() {
+	void pickFirstCard() {
+		Weapon temp;
 		System.out.println(deckTest.toString());
 		deckTest.shuffleDeck();
 		System.out.println(deckTest.toString());
-		deckTest.shiftDeck();
+		temp = deckTest.pickFirstCard();
+		System.out.println(temp.toString());
 		System.out.println(deckTest.toString());
 	}
 

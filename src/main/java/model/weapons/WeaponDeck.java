@@ -326,13 +326,10 @@ public class WeaponDeck {
         Collections.shuffle(this.weaponDeck);
     }
 
-    public Weapon getFirst() {
-        return weaponDeck.getFirst();
-    }
-
-
-    public void shiftDeck() {
+    public Weapon pickFirstCard() {
+        Weapon temp = weaponDeck.getFirst();
         weaponDeck.removeFirst();
+        return temp;
     }
 
     @Override
