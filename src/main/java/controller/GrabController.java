@@ -4,8 +4,21 @@ import model.player.Player;
 
 public class GrabController extends ActionController {
 
+
+
+
+
+
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
+    public boolean moveAdmitted(){
+
     }
 }

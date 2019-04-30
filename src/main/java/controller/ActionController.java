@@ -3,7 +3,7 @@ package controller;
 import model.player.Player;
 
 public  abstract class ActionController {
-    private Player player;
+    protected Player player;
 
     public abstract Player getPlayer();
 
