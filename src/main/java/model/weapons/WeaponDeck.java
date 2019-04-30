@@ -1,8 +1,6 @@
 package model.weapons;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Collections;
+import java.util.*;
 
 //it's a singleton, how do I declare it?  Fix it in the next days
 

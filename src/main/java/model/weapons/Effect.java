@@ -1,5 +1,7 @@
 package model.weapons;
 
+import java.util.*;
+
 public class Effect {
 	private int damage;
 	private int mark;
