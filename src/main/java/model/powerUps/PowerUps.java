@@ -1,15 +1,17 @@
 package model.powerUps;
 
+import model.Color;
+
 public class PowerUps {
-    private char color;
+    private Color color;
     private String name;
 
-    public PowerUps (char color, String name){
+    public PowerUps (Color color, String name){
         this.color=color;
         this.name=name;
     }
 
-    public char getColor() {
+    public Color getColor() {
         return color;
     }
 

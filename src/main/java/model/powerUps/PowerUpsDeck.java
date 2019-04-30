@@ -1,5 +1,6 @@
 package model.powerUps;
 
+import model.Color;
 import java.util.*;
 
 public class PowerUpsDeck {
@@ -7,18 +8,18 @@ public class PowerUpsDeck {
 
     public PowerUpsDeck(){
 
-        powerUpsDeck.add(new PowerUps('B', "TagBack Grenade"));
-        powerUpsDeck.add(new PowerUps('R', "TagBack Grenade"));
-        powerUpsDeck.add(new PowerUps('Y', "TagBack Grenade"));
-        powerUpsDeck.add(new PowerUps('B', "Targeting Scope"));
-        powerUpsDeck.add(new PowerUps('R', "Targeting Scope"));
-        powerUpsDeck.add(new PowerUps('Y', "Targeting Scope"));
-        powerUpsDeck.add(new PowerUps('B', "Newton"));
-        powerUpsDeck.add(new PowerUps('R', "Newton"));
-        powerUpsDeck.add(new PowerUps('Y', "Newton"));
-        powerUpsDeck.add(new PowerUps('B', "Teleporter"));
-        powerUpsDeck.add(new PowerUps('R', "Teleporter"));
-        powerUpsDeck.add(new PowerUps('Y', "Teleporter"));
+        powerUpsDeck.add(new PowerUps(Color.BLUE, "TagBack Grenade"));
+        powerUpsDeck.add(new PowerUps(Color.RED, "TagBack Grenade"));
+        powerUpsDeck.add(new PowerUps(Color.YELLOW, "TagBack Grenade"));
+        powerUpsDeck.add(new PowerUps(Color.BLUE, "Targeting Scope"));
+        powerUpsDeck.add(new PowerUps(Color.RED, "Targeting Scope"));
+        powerUpsDeck.add(new PowerUps(Color.YELLOW, "Targeting Scope"));
+        powerUpsDeck.add(new PowerUps(Color.BLUE, "Newton"));
+        powerUpsDeck.add(new PowerUps(Color.RED, "Newton"));
+        powerUpsDeck.add(new PowerUps(Color.YELLOW, "Newton"));
+        powerUpsDeck.add(new PowerUps(Color.BLUE, "Teleporter"));
+        powerUpsDeck.add(new PowerUps(Color.RED, "Teleporter"));
+        powerUpsDeck.add(new PowerUps(Color.YELLOW, "Teleporter"));
 
     }
 
