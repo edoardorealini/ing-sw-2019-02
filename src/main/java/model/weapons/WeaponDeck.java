@@ -2,7 +2,6 @@ package model.weapons;
 
 import java.util.*;
 
-//it's a singleton, how do I declare it?  Fix it in the next days
 
 public class WeaponDeck {
     private LinkedList<Weapon> weaponDeck;
