@@ -1,6 +1,6 @@
 package model.map;
 import model.ammo.*;
-import model.weapons.*;
+import model.weapons.Weapon;
 import java.util.*;
 import  model.Color;
 

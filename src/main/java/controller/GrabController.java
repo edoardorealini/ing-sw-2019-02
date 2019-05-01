@@ -4,11 +4,6 @@ import model.player.Player;
 
 public class GrabController extends ActionController {
 
-
-
-
-
-
     @Override
     public Player getPlayer() {
         return player;
@@ -19,6 +14,7 @@ public class GrabController extends ActionController {
     }
 
     public boolean moveAdmitted(){
-
+        return false;
     }
+
 }

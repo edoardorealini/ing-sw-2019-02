@@ -1,7 +1,7 @@
 package model.player;
 
 import model.ammo.AmmoCard;
-import model.powerUps.PowerUps;
+import model.powerUp.PowerUp;
 import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -153,9 +153,9 @@ class PlayerTest {
 
     @Test
     void addPowerUpsCard() {
-        PowerUps c1 = new PowerUps('Y',"cazzotto rotante");
-        PowerUps c2 = new PowerUps('B',"granata sensei");
-        PowerUps c3 = new PowerUps('R',"super trotamissile");
+        PowerUp c1 = new PowerUp('Y',"cazzotto rotante");
+        PowerUp c2 = new PowerUp('B',"granata sensei");
+        PowerUp c3 = new PowerUp('R',"super trotamissile");
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);
@@ -169,9 +169,9 @@ class PlayerTest {
 
     @Test
     void removePowerUps() {
-        PowerUps c1 = new PowerUps('Y',"cazzotto rotante");
-        PowerUps c2 = new PowerUps('B',"granata sensei");
-        PowerUps c3 = new PowerUps('R',"super trotamissile");
+        PowerUp c1 = new PowerUp('Y',"cazzotto rotante");
+        PowerUp c2 = new PowerUp('B',"granata sensei");
+        PowerUp c3 = new PowerUp('R',"super trotamissile");
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);

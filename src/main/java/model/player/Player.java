@@ -1,11 +1,11 @@
 package model.player;
 
 import model.ammo.AmmoCard;
-import model.powerUps.PowerUpsDeck;
+import model.powerUp.PowerUpDeck;
 import model.weapons.Weapon;
 import model.map.Square;
 import model.ammo.Ammo;
-import model.powerUps.PowerUps;
+import model.powerUp.PowerUp;
 
 public class Player {
 
@@ -15,7 +15,7 @@ public class Player {
     private Board board;
     private Weapon[] weapons = {null, null, null};
     private Ammo ammo;
-    private PowerUps[] powerUps = {null, null, null};
+    private PowerUp[] powerUps = {null, null, null};
     private int points;
     private PlayerStatusHandler status;
     private boolean dead;
@@ -106,7 +106,7 @@ public class Player {
         if (ammoCard.isTherePowerUp()){
             for (int i=0; i<3; i++){
                 if (powerUps[i]==null) {
-                    this.powerUps[i] = ammoCard.getPowerUps();// controlla che prenda indirizzo di model.powerUps della carta;
+                    this.powerUps[i] = ammoCard.getPowerUp();// controlla che prenda indirizzo di model.powerUp della carta;
                     return;
                 }
             }
@@ -117,38 +117,38 @@ public class Player {
         // TODO da fare quando si implementa la classe weapon, ho bisogno il numero di ogni colore
     }
 
-    public PowerUps[] getPowerUps() {
+    public PowerUp[] getPowerUps() {
         return powerUps;
     }
 
-    public void addPowerUpsCard(PowerUps p) { // metodo in cui so quale sia il powerUps da aggiungere (es PowerUps nella carta sulla mappa)
+    public void addPowerUpsCard(PowerUp p) { // metodo in cui so quale sia il powerUp da aggiungere (es PowerUp nella carta sulla mappa)
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
-                //return "PowerUps aggiunto";
+                //return "PowerUp aggiunto";
             }
         }
 
-        //return "spazio model.powerUps esaurito";
+        //return "spazio model.powerUp esaurito";
     }
 
-    public void addPowerUpsHaphazard(PowerUpsDeck p) { // pesco casualmente un PowerUps bisogna passargli il deck come parametro altrimenti devo metterlo come attributo a tutti i players
+    public void addPowerUpsHaphazard(PowerUpDeck p) { // pesco casualmente un PowerUp bisogna passargli il deck come parametro altrimenti devo metterlo come attributo a tutti i players
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p.removePowerUps();
-                //return "PowerUps aggiunto";
+                //return "PowerUp aggiunto";
             }
         }
 
-        //return "spazio model.powerUps esaurito";
+        //return "spazio model.powerUp esaurito";
     }
 
     public void removePowerUps(int i) {
         if (i<3 && i>=0){
             powerUps[i]=null;
-            //return "PowerUps tolto";
+            //return "PowerUp tolto";
         }
-        //else return "impossibile togliere PowerUps";
+        //else return "impossibile togliere PowerUp";
     }
 
     public int getPoints() {

@@ -6470,7 +6470,7 @@
 													"top": 944,
 													"width": 255,
 													"height": 13,
-													"text": "-model.powerUps: PowerUp",
+													"text": "-model.powerUp: PowerUp",
 													"horizontalAlignment": 0
 												},
 												{
@@ -14202,7 +14202,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp2pHtZgPzL8k="
 									},
-									"name": "model.powerUps",
+									"name": "model.powerUp",
 									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAFp183OiNBKOmg="

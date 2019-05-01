@@ -1,13 +1,13 @@
 package model.ammo;
 
-import model.powerUps.PowerUps;
+import model.powerUp.PowerUp;
 
 public class AmmoCard {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;
     private boolean isTherePowerUp;
-    private PowerUps powerUps;
+    private PowerUp powerUp;
 
     public AmmoCard(){
         redAmmo = 1;
@@ -31,8 +31,8 @@ public class AmmoCard {
         return isTherePowerUp;
     }
 
-    public PowerUps getPowerUps() {
-        return powerUps;
+    public PowerUp getPowerUp() {
+        return powerUp;
     }
 
     //TODO
