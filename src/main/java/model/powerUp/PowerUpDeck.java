@@ -9,16 +9,28 @@ public class PowerUpDeck {
     public PowerUpDeck(){
 
         powerUpDeck.add(new PowerUp(Color.BLUE, "TagBack Grenade"));
+        powerUpDeck.add(new PowerUp(Color.BLUE, "TagBack Grenade"));
+        powerUpDeck.add(new PowerUp(Color.RED, "TagBack Grenade"));
         powerUpDeck.add(new PowerUp(Color.RED, "TagBack Grenade"));
         powerUpDeck.add(new PowerUp(Color.YELLOW, "TagBack Grenade"));
+        powerUpDeck.add(new PowerUp(Color.YELLOW, "TagBack Grenade"));
+        powerUpDeck.add(new PowerUp(Color.BLUE, "Targeting Scope"));
         powerUpDeck.add(new PowerUp(Color.BLUE, "Targeting Scope"));
         powerUpDeck.add(new PowerUp(Color.RED, "Targeting Scope"));
+        powerUpDeck.add(new PowerUp(Color.RED, "Targeting Scope"));
+        powerUpDeck.add(new PowerUp(Color.YELLOW, "Targeting Scope"));
         powerUpDeck.add(new PowerUp(Color.YELLOW, "Targeting Scope"));
         powerUpDeck.add(new PowerUp(Color.BLUE, "Newton"));
+        powerUpDeck.add(new PowerUp(Color.BLUE, "Newton"));
+        powerUpDeck.add(new PowerUp(Color.RED, "Newton"));
         powerUpDeck.add(new PowerUp(Color.RED, "Newton"));
         powerUpDeck.add(new PowerUp(Color.YELLOW, "Newton"));
+        powerUpDeck.add(new PowerUp(Color.YELLOW, "Newton"));
+        powerUpDeck.add(new PowerUp(Color.BLUE, "Teleporter"));
         powerUpDeck.add(new PowerUp(Color.BLUE, "Teleporter"));
         powerUpDeck.add(new PowerUp(Color.RED, "Teleporter"));
+        powerUpDeck.add(new PowerUp(Color.RED, "Teleporter"));
+        powerUpDeck.add(new PowerUp(Color.YELLOW, "Teleporter"));
         powerUpDeck.add(new PowerUp(Color.YELLOW, "Teleporter"));
 
     }

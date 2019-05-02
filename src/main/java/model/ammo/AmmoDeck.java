@@ -27,24 +27,24 @@ public class AmmoDeck {
         ammoDeck.add(new AmmoCard(0,1,2,false));
         ammoDeck.add(new AmmoCard(2,1,0,false));
 
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
-        ammoDeck.add(new AmmoCard(0,0,0,true));
+        ammoDeck.add(new AmmoCard(2,0,0,true));
+        ammoDeck.add(new AmmoCard(0,2,0,true));
+        ammoDeck.add(new AmmoCard(0,0,2,true));
+        ammoDeck.add(new AmmoCard(1,0,1,true));
+        ammoDeck.add(new AmmoCard(0,1,1,true));
+        ammoDeck.add(new AmmoCard(1,1,0,true));
+        ammoDeck.add(new AmmoCard(1,0,1,true));
+        ammoDeck.add(new AmmoCard(1,1,0,true));
+        ammoDeck.add(new AmmoCard(0,1,1,true));
+        ammoDeck.add(new AmmoCard(2,0,0,true));
+        ammoDeck.add(new AmmoCard(0,2,0,true));
+        ammoDeck.add(new AmmoCard(0,0,2,true));
+        ammoDeck.add(new AmmoCard(1,0,1,true));
+        ammoDeck.add(new AmmoCard(0,1,1,true));
+        ammoDeck.add(new AmmoCard(1,1,0,true));
+        ammoDeck.add(new AmmoCard(1,0,1,true));
+        ammoDeck.add(new AmmoCard(1,1,0,true));
+        ammoDeck.add(new AmmoCard(0,1,1,true));
 
 
     }
