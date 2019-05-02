@@ -9,10 +9,12 @@ public class AmmoCard {
     private boolean isTherePowerUp;
     private PowerUp powerUp;
 
-    public AmmoCard(){
-        redAmmo = 1;
-        blueAmmo = 1;
-        yellowAmmo = 1;
+    public AmmoCard(int redAmmo, int blueAmmo, int yellowAmmo, boolean isTherePowerUp, PowerUp powerUp){
+        this.redAmmo =redAmmo;
+        this.blueAmmo =blueAmmo;
+        this.yellowAmmo =yellowAmmo;
+        this.isTherePowerUp= isTherePowerUp;
+        this.powerUp= powerUp;
     }
 
     public int getBlueAmmo() {
