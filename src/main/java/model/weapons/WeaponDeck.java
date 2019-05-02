@@ -107,7 +107,7 @@ public class WeaponDeck {
         weaponDeck.get(6).setCostOpt1(null);
         weaponDeck.get(6).setCostOpt2(null);
         weaponDeck.get(6).setCostAlternate(null);
-        weaponDeck.get(6).setBasicEffect(new EffectDamage(3, 1, 0, true, 2), new EffectMark(1, 1, true, 2));  //same target
+        weaponDeck.get(6).setBasicEffect(new EffectDamage(3, 1, 0, true, 2), new EffectMark(1, 1, 0, true, 2));  //same target
         weaponDeck.get(6).setOptionalEffectOne(null);
         weaponDeck.get(6).setOptionalEffectTwo(null);
         weaponDeck.get(6).setAlternateEffect(null);
@@ -138,7 +138,7 @@ public class WeaponDeck {
         weaponDeck.get(8).setBasicEffect(new EffectDamage(1, -1, -1, true, 1));
         weaponDeck.get(8).setOptionalEffectOne(null);
         weaponDeck.get(8).setOptionalEffectTwo(null);
-        weaponDeck.get(8).setAlternateEffect(new EffectDamage(1, -1, -1, true, 1), new EffectMark(1, -1, true, 1));  //same targets
+        weaponDeck.get(8).setAlternateEffect(new EffectDamage(1, -1, -1, true, 1), new EffectMark(1, -1, -1, true, 1));  //same targets
 
 
         //HEATSEEKER
@@ -233,9 +233,9 @@ public class WeaponDeck {
         weaponDeck.get(15).setCostOpt1(null);
         weaponDeck.get(15).setCostOpt2(Color.YELLOW);
         weaponDeck.get(15).setCostAlternate(null);
-        weaponDeck.get(15).setBasicEffect(new EffectDamage(2, 1, true, -1));
+        weaponDeck.get(15).setBasicEffect(new EffectDamage(2, 1, 0, true, -1));
         weaponDeck.get(15).setOptionalEffectOne(new EffectMoveYourself(1));   //before or after the basic effect
-        weaponDeck.get(15).setOptionalEffectTwo(new EffectDamage(2, 1, true, -1));   //different target from basic effect
+        weaponDeck.get(15).setOptionalEffectTwo(new EffectDamage(2, 1, 1, true, -1));   //different target from basic effect
         weaponDeck.get(15).setAlternateEffect(null);
 
 
@@ -247,10 +247,10 @@ public class WeaponDeck {
         weaponDeck.get(16).setCostOpt1(null);
         weaponDeck.get(16).setCostOpt2(null);
         weaponDeck.get(16).setCostAlternate(null);
-        weaponDeck.get(16).setBasicEffect(new EffectDamage(1, 1, true, 0), new EffectMark(2, 1, true, 0));  //same target
+        weaponDeck.get(16).setBasicEffect(new EffectDamage(1, 1, 0, true, 0), new EffectMark(2, 1, 0, true, 0));  //same target
         weaponDeck.get(16).setOptionalEffectOne(null);
         weaponDeck.get(16).setOptionalEffectTwo(null);
-        weaponDeck.get(16).setAlternateEffect(new EffectMark(1, 3, true, 0));
+        weaponDeck.get(16).setAlternateEffect(new EffectMark(1, 3, -1, true, 0));
 
 
         //SHOTGUN
@@ -261,10 +261,10 @@ public class WeaponDeck {
         weaponDeck.get(17).setCostOpt1(null);
         weaponDeck.get(17).setCostOpt2(null);
         weaponDeck.get(17).setCostAlternate(null);
-        weaponDeck.get(17).setBasicEffect(new EffectDamage(3, 1, true, -1), new EffectMoveTarget(1, 1, true, -1));  //same target
+        weaponDeck.get(17).setBasicEffect(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(1, 1, 0, true, -1));  //same target
         weaponDeck.get(17).setOptionalEffectOne(null);
         weaponDeck.get(17).setOptionalEffectTwo(null);
-        weaponDeck.get(17).setAlternateEffect(new EffectDamage(2, 1, true, 1));   //exactly one move away
+        weaponDeck.get(17).setAlternateEffect(new EffectDamage(2, 1, 0, true, 1));   //exactly one move away
 
 
         //POWER GLOVE
@@ -275,10 +275,10 @@ public class WeaponDeck {
         weaponDeck.get(18).setCostOpt1(null);
         weaponDeck.get(18).setCostOpt2(null);
         weaponDeck.get(18).setCostAlternate(Color.BLUE);
-        weaponDeck.get(18).setBasicEffect(new EffectMoveYourself(1), new EffectDamage(1, 1, true, -1), new EffectMark(2, 1, true, -1));  //same target
+        weaponDeck.get(18).setBasicEffect(new EffectMoveYourself(1), new EffectDamage(1, 1, 0, true, -1), new EffectMark(2, 1, 0, true, -1));  //same target
         weaponDeck.get(18).setOptionalEffectOne(null);
         weaponDeck.get(18).setOptionalEffectTwo(null);
-        weaponDeck.get(18).setAlternateEffect(new EffectMoveYourself(1), new EffectDamage(2, 1, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, true, -1));
+        weaponDeck.get(18).setAlternateEffect(new EffectMoveYourself(1), new EffectDamage(2, 1, 0, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, 1, true, -1));
 
 
         //SHOCKWAVE
@@ -289,10 +289,10 @@ public class WeaponDeck {
         weaponDeck.get(19).setCostOpt1(null);
         weaponDeck.get(19).setCostOpt2(null);
         weaponDeck.get(19).setCostAlternate(Color.YELLOW);
-        weaponDeck.get(19).setBasicEffect(new EffectDamage(1, 1, true, 1), new EffectDamage(1, 1, true, 1), new EffectDamage(1, 1, true, 1));  //different targets exactly one move away
+        weaponDeck.get(19).setBasicEffect(new EffectDamage(1, 1, 0, true, 1), new EffectDamage(1, 1, 1, true, 1), new EffectDamage(1, 1, 2,  true, 1));  //different targets exactly one move away
         weaponDeck.get(19).setOptionalEffectOne(null);
         weaponDeck.get(19).setOptionalEffectTwo(null);
-        weaponDeck.get(19).setAlternateEffect(new EffectDamage(1, -1, true, 1));   //exactly one move away
+        weaponDeck.get(19).setAlternateEffect(new EffectDamage(1, -1, -1, true, 1));   //exactly one move away
 
 
         //SLEDGEHAMMER
@@ -303,10 +303,10 @@ public class WeaponDeck {
         weaponDeck.get(20).setCostOpt1(null);
         weaponDeck.get(20).setCostOpt2(null);
         weaponDeck.get(20).setCostAlternate(Color.RED);
-        weaponDeck.get(20).setBasicEffect(new EffectDamage(2, 1, true, -1));
+        weaponDeck.get(20).setBasicEffect(new EffectDamage(2, 1, 0, true, -1));
         weaponDeck.get(20).setOptionalEffectOne(null);
         weaponDeck.get(20).setOptionalEffectTwo(null);
-        weaponDeck.get(20).setAlternateEffect(new EffectDamage(3, 1, true, -1), new EffectMoveTarget(2, 1, true,-1)); //same target
+        weaponDeck.get(20).setAlternateEffect(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(2, 1, 0, true,-1)); //same target
     }
 
 
