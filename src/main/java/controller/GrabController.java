@@ -13,11 +13,11 @@ public class GrabController extends ActionController {
 
     @Override
     public Player getPlayer() {
-        return player;
+        return match.getCurrentPlayer();
     }
 
     public void setPlayer(Player player){
-        this.player = player;
+        this.match.setCurrentPlayer(player);
     }
 
     public Match getMatch() {
@@ -29,24 +29,21 @@ public class GrabController extends ActionController {
     }
 
     public boolean moveAdmitted(Directions direction){
-        return((map.getAllowedMoves(player.getPosition())).contains(direction));
+        return((match.getMap().getAllowedMoves(match.getCurrentPlayer().getPosition())).contains(direction));
 
     }
 
     public void moveOneSquare(Directions direction){
-        player.setPosition(map.getSquare(direction, player.getPosition()));
+        match.getCurrentPlayer().setPosition(match.getMap().getSquare(direction, match.getCurrentPlayer().getPosition()));
     }
 
     public void grabAmmoCard(){
-        if(player.getPosition().getType() == SquareType.NOSPAWN){
-            player.addAmmo(player.getPosition().getAmmoTile());
-            match.getAmmoDeck().addAmmoCard(player.getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
-            player.getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
+        if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
+            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile());
+            match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
         }
     }
-
-
-
     // grab ammo
 
 }

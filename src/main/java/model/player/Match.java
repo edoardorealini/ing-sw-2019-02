@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Match {
     private ArrayList<Player> players;
-    private int playerIdCorrente;
+    private Player currentPlayer;
     private PowerUpDeck powerUpDeck;
     private AmmoDeck ammoDeck;
     private Map map;
@@ -47,5 +47,13 @@ public class Match {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }
