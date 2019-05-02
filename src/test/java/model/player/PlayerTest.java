@@ -107,7 +107,7 @@ class PlayerTest {
     void getAmmo() {
         assertNotNull(p1.getAmmo());
     }
-
+/*
     @Test
     void addAmmo() {
         AmmoCard a1 = new AmmoCard();
@@ -144,6 +144,8 @@ class PlayerTest {
         //TODO da pensare bene per via del costo che potrebbero avere le armi
 
     }
+
+ */
 
     @Test
     void getPowerUps() {

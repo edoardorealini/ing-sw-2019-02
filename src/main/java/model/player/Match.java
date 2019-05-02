@@ -1,9 +1,10 @@
 package model.player;
 
 import model.ammo.AmmoDeck;
-import model.map.Map;
+import model.map.*;
 import model.powerUp.PowerUpDeck;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Match {
@@ -12,6 +13,21 @@ public class Match {
     private PowerUpDeck powerUpDeck;
     private AmmoDeck ammoDeck;
     private Map map;
+
+    /*
+        costruttore di match si aspetta in input id della mappa da costruire
+    */
+
+    public Match(int mapID){
+        this.players = new ArrayList<>();
+        this.powerUpDeck = new PowerUpDeck();
+        this.ammoDeck = new AmmoDeck();
+        try {
+            this.map = new MapBuilder().makeMap(mapID);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
     public void setAmmoDeck(AmmoDeck ammoDeck) {
         this.ammoDeck = ammoDeck;

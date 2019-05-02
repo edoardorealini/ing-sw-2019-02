@@ -36,7 +36,7 @@ public class MapBuilder {
     /*
         makeMap builds the correct map from json according to the mapID index given in input.
      */
-    public Map makeMap(int mapID) throws IOException{
+    public Map makeMap(int mapID) throws  IOException{
         switch (mapID){
             case 1:
                 BufferedReader br1 = new BufferedReader(new FileReader(map1Path));
