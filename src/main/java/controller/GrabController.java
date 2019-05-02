@@ -1,11 +1,9 @@
 package controller;
 
 import model.map.SquareType;
-import model.player.Match;
+import model.Match;
 import model.player.Player;
-import model.map.Map;
 import model.map.Directions;
-import model.ammo.AmmoDeck;
 
 public class GrabController extends ActionController {
 

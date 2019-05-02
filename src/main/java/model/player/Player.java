@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Match;
 import model.ammo.AmmoCard;
 import model.powerUp.PowerUpDeck;
 import model.weapons.Weapon;

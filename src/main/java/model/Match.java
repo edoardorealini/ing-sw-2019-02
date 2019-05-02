@@ -1,7 +1,8 @@
-package model.player;
+package model;
 
 import model.ammo.AmmoDeck;
 import model.map.*;
+import model.player.Player;
 import model.powerUp.PowerUpDeck;
 
 import java.io.IOException;

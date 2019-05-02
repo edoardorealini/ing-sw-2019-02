@@ -1,6 +1,6 @@
 package controller;
 
-import model.player.Match;
+import model.Match;
 
 public class MatchController{
     public Match match;
