@@ -19,6 +19,7 @@ public class Player {
     private int points;
     private PlayerStatusHandler status;
     private boolean dead;
+    private Match match;
 
     public Player (String nickname, int id){
         this.nickname=nickname;
@@ -106,7 +107,7 @@ public class Player {
         if (ammoCard.isTherePowerUp()){
             for (int i=0; i<3; i++){
                 if (powerUps[i]==null) {
-                    this.powerUps[i] = ammoCard.getPowerUp();// controlla che prenda indirizzo di model.powerUp della carta;
+                    this.powerUps[i] = match.getPowerUpDeck().removePowerUps();
                     return;
                 }
             }

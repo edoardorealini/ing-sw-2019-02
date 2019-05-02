@@ -7,14 +7,12 @@ public class AmmoCard {
     private int blueAmmo;
     private int yellowAmmo;
     private boolean isTherePowerUp;
-    private PowerUp powerUp;
 
-    public AmmoCard(int redAmmo, int blueAmmo, int yellowAmmo, boolean isTherePowerUp, PowerUp powerUp){
+    public AmmoCard(int redAmmo, int blueAmmo, int yellowAmmo, boolean isTherePowerUp){
         this.redAmmo =redAmmo;
         this.blueAmmo =blueAmmo;
         this.yellowAmmo =yellowAmmo;
         this.isTherePowerUp= isTherePowerUp;
-        this.powerUp= powerUp;
     }
 
     public int getBlueAmmo() {
@@ -33,9 +31,6 @@ public class AmmoCard {
         return isTherePowerUp;
     }
 
-    public PowerUp getPowerUp() {
-        return powerUp;
-    }
 
     //TODO
 }

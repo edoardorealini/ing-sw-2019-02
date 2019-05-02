@@ -1,6 +1,7 @@
 package controller;
 
 import model.map.SquareType;
+import model.player.Match;
 import model.player.Player;
 import model.map.Map;
 import model.map.Directions;
@@ -8,7 +9,7 @@ import model.ammo.AmmoDeck;
 
 public class GrabController extends ActionController {
 
-    private AmmoDeck ammoDeck;
+    private Match match;
 
     @Override
     public Player getPlayer() {
@@ -19,12 +20,12 @@ public class GrabController extends ActionController {
         this.player = player;
     }
 
-    public void setMap(Map map){
-        this.map = map;
+    public Match getMatch() {
+        return match;
     }
 
-    public void setAmmoDeck(AmmoDeck ammoDeck) {
-        this.ammoDeck = ammoDeck;
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public boolean moveAdmitted(Directions direction){
@@ -39,11 +40,13 @@ public class GrabController extends ActionController {
     public void grabAmmoCard(){
         if(player.getPosition().getType() == SquareType.NOSPAWN){
             player.addAmmo(player.getPosition().getAmmoTile());
-            ammoDeck.addAmmoCard(player.getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
-            player.getPosition().setAmmoTile(ammoDeck.removeAmmoCard()); // rimpiazzo la carta
+            match.getAmmoDeck().addAmmoCard(player.getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            player.getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
         }
     }
 
     
+
+    // grab ammo
 
 }
