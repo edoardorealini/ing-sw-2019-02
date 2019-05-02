@@ -1,6 +1,7 @@
 package controller;
 
 import model.player.Player;
+import model.map.Map;
 
 public class GrabController extends ActionController {
 
@@ -10,10 +11,17 @@ public class GrabController extends ActionController {
     }
 
     public void setPlayer(Player player){
+
         this.player = player;
     }
 
-    public boolean moveAdmitted(){
+
+
+    public boolean moveAdmitted(String direction){
+
+
+
+
         return false;
     }
 
