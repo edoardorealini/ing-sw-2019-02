@@ -51,6 +51,8 @@ public class Match {
         return ammoDeck;
     }
 
+    public WeaponDeck getWeaponDeck() { return weaponDeck; }
+
     public PowerUpDeck getPowerUpDeck() {
         return powerUpDeck;
     }

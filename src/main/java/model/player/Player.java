@@ -115,8 +115,21 @@ public class Player {
         }
     }
 
-    public void removeAmmo(Ammo ammo) {
-        // TODO da fare quando si implementa la classe weapon, ho bisogno il numero di ogni colore
+    public void removeAmmo(int redAmmo, int blueAmmo, int yellowAmmo) {
+        if ((ammo.getRedAmmo()-redAmmo)<=0){
+            ammo.setRedAmmo(0);
+        }
+        else ammo.setRedAmmo(ammo.getRedAmmo()-redAmmo);
+
+        if ((ammo.getBlueAmmo()+blueAmmo)<=0){
+            ammo.setBlueAmmo(0);
+        }
+        else ammo.setBlueAmmo(ammo.getBlueAmmo()-blueAmmo);
+
+        if ((ammo.getYellowAmmo()-yellowAmmo)<=0){
+            ammo.setYellowAmmo(0);
+        }
+        else ammo.setYellowAmmo(ammo.getYellowAmmo()-yellowAmmo);
     }
 
     public PowerUp[] getPowerUps() {

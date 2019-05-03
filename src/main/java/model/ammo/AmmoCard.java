@@ -30,7 +30,5 @@ public class AmmoCard {
     public boolean isTherePowerUp() {
         return isTherePowerUp;
     }
-
-
-    //TODO
+    
 }

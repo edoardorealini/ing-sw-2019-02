@@ -42,6 +42,21 @@ public class GrabController extends ActionController {
             match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
         }
     }
-    // grab ammo
+
+    public void grabWeapon(int numberOfWeapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
+        if ((numberOfWeapon<3) && (numberOfWeapon>=0)){
+            if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
+                // if (check)
+                match.getCurrentPlayer().addWeapons(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // arma aggiunta al giocatore
+                match.getCurrentPlayer().getPosition().removeWeapon(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // rimuovo arma dallo square
+                match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
+            }
+        }
+
+    }
+
+    public boolean checkAmmoForWeapon(int numberOfWeapon){
+        // TODO CHIUEDERE A RICHI QUALE SIA IL COSTO BASE DI UN ARMA
+    }
 
 }
