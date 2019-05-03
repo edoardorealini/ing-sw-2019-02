@@ -7,7 +7,7 @@
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       },
 
       {
@@ -25,7 +25,7 @@
         "allowedMoves":["DOWN","RIGHT"],
         "doors":["RIGHT"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       }
     ],
 
@@ -36,7 +36,7 @@
         "allowedMoves":["UP","RIGHT", "LEFT"],
         "doors":["UP", "RIGHT"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       },
 
       {
@@ -44,7 +44,8 @@
         "color":"PURPLE",
         "allowedMoves":["UP", "DOWN"],
         "doors":["UP","DOWN"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":[]
       },
 
       {
@@ -53,7 +54,7 @@
         "allowedMoves":["LEFT","RIGHT", "DOWN"],
         "doors":["LEFT", "DOWN"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       }
     ],
 
@@ -64,7 +65,7 @@
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["LEFT"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       },
 
       {
@@ -73,7 +74,7 @@
         "allowedMoves":["UP","RIGHT","DOWN"],
         "doors":["UP"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       },
 
       {
@@ -102,7 +103,7 @@
         "allowedMoves":["UP","LEFT","DOWN"],
         "doors":["UP"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       },
 
       {
@@ -111,7 +112,7 @@
         "allowedMoves":["DOWN","LEFT"],
         "doors":["DOWN","LEFT"],
         "type": "NOSPAWN",
-        "weaponBox":null
+        "weaponBox":[]
       }
     ]
   ],
