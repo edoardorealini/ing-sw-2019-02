@@ -1,6 +1,7 @@
 package controller;
 
 import model.Match;
+import model.map.*;
 
 public class MatchController{
     private Match match;
@@ -23,5 +24,8 @@ public class MatchController{
         match.getMap().fillAmmo(match.getAmmoDeck());
     }
 
+    public Map getMap(){
+        return match.getMap();
+    }
 
 }

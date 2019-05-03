@@ -1,6 +1,7 @@
-package model;
+package controller;
 
 import controller.ActionController;
+import model.Match;
 import model.player.Player;
 
 public class ShootController extends ActionController {
