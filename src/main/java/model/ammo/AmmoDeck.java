@@ -49,11 +49,11 @@ public class AmmoDeck {
 
     }
 
-    public void shuffle(){
+    public void shuffleDeck(){
         Collections.shuffle(ammoDeck);
     }
 
-    public AmmoCard removeAmmoCard(){
+    public AmmoCard pickFirstCard(){
         AmmoCard AmmoCardTemp;
         AmmoCardTemp = ammoDeck.getFirst();
         ammoDeck.removeFirst();

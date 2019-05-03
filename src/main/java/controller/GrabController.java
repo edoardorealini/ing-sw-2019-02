@@ -39,7 +39,7 @@ public class GrabController extends ActionController {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
             match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile());
             match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
-            match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
+            match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().pickFirstCard()); // rimpiazzo la carta
         }
     }
 
@@ -57,6 +57,7 @@ public class GrabController extends ActionController {
 
     public boolean checkAmmoForWeapon(int numberOfWeapon){
         // TODO CHIUEDERE A RICHI QUALE SIA IL COSTO BASE DI UN ARMA
+        return false; //provvisorio per far compilare
     }
 
 }

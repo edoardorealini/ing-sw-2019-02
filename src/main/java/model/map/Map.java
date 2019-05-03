@@ -1,6 +1,8 @@
 package model.map;
 import java.util.*;
 import  model.Color;
+import model.ammo.AmmoDeck;
+import model.weapons.WeaponDeck;
 
 public class Map {
 
@@ -115,5 +117,33 @@ public class Map {
 
     public Square[][] getSquaresMatrix() {
         return squaresMatrix;
+    }
+
+    public void fillWeaponBox(WeaponDeck deck){
+        int i;
+        int j;
+        for(i = 0; i < 4; i++){
+            for(j = 0; j < 3; j++){
+                if(squaresMatrix[i][j].getType() == SquareType.SPAWN){
+                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                }
+            }
+        }
+    }
+
+    public void fillAmmo(AmmoDeck deck){
+        int i;
+        int j;
+        for(i = 0; i < 4; i++){
+            for(j = 0; j < 3; j++){
+                if(squaresMatrix[i][j].getType() == SquareType.NOSPAWN){
+                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                }
+            }
+        }
     }
 }

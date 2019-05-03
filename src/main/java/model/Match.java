@@ -27,12 +27,15 @@ public class Match {
         this.ammoDeck = new AmmoDeck();
         this.weaponDeck = new WeaponDeck();
         weaponDeck.shuffleDeck();
+        ammoDeck.shuffleDeck();
 
         try {
             this.map = new MapBuilder().makeMap(mapID);
         }catch(IOException e){
-            e.printStackTrace();
+            e.printStackTrace(); //non serve per ora gestire con logger
         }
+
+        //TODO qui si potrebbe mettere la logica che riempie l'oggetto "map"
     }
 
     public void setAmmoDeck(AmmoDeck ammoDeck) {
@@ -41,10 +44,6 @@ public class Match {
 
     public void setPowerUpDeck(PowerUpDeck powerUpDeck) {
         this.powerUpDeck = powerUpDeck;
-    }
-
-    public void setMap(Map map) {
-        this.map = map;
     }
 
     public AmmoDeck getAmmoDeck() {
