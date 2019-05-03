@@ -6,7 +6,8 @@
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
@@ -14,7 +15,8 @@
         "color":"RED",
         "allowedMoves":["UP","DOWN"],
         "doors":["DOWN"],
-        "type": "SPAWN"
+        "type": "SPAWN",
+        "ammoTile": null
       },
 
       {
@@ -22,7 +24,8 @@
         "color":"RED",
         "allowedMoves":["DOWN","RIGHT"],
         "doors":["RIGHT"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       }
     ],
 
@@ -32,7 +35,8 @@
         "color":"WHITE",
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["UP"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
@@ -40,7 +44,8 @@
         "color":"PURPLE",
         "allowedMoves":["RIGHT", "UP", "DOWN"],
         "doors":["DOWN", "UP"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
@@ -48,7 +53,8 @@
         "color":"BLUE",
         "allowedMoves":["LEFT","RIGHT", "DOWN"],
         "doors":["LEFT", "DOWN"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       }
     ],
 
@@ -58,7 +64,8 @@
         "color":"WHITE",
         "allowedMoves":["RIGHT","LEFT"],
         "doors":["RIGHT"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
@@ -66,7 +73,8 @@
         "color":"PURPLE",
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["UP", "RIGHT"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
@@ -74,7 +82,8 @@
         "color":"BLUE",
         "allowedMoves":["DOWN","LEFT"],
         "doors":["DOWN"],
-        "type": "SPAWN"
+        "type": "SPAWN",
+        "ammoTile": null
       }
     ],
 
@@ -84,7 +93,8 @@
         "color":"YELLOW",
         "allowedMoves":["UP","LEFT"],
         "doors":["LEFT"],
-        "type": "SPAWN"
+        "type": "SPAWN",
+        "ammoTile": null
       },
 
       {
@@ -92,7 +102,8 @@
         "color":"YELLOW",
         "allowedMoves":["LEFT","DOWN"],
         "doors":["LEFT"],
-        "type": "NOSPAWN"
+        "type": "NOSPAWN",
+        "weaponBox":null
       },
 
       {
