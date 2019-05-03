@@ -9,6 +9,8 @@ public class GrabController extends ActionController {
 
     private Match match;
 
+    //TODO costruttore?
+
     @Override
     public Player getPlayer() {
         return match.getCurrentPlayer();

@@ -3,8 +3,8 @@ package controller;
 import model.Match;
 
 public class MatchController{
-    public Match match;
-    public GrabController grabController;
+    private Match match;
+    private GrabController grabController;
 
     //TODO ci sono altri attributi da mettere qui?
 
@@ -17,10 +17,10 @@ public class MatchController{
     */
     public MatchController(int mapID){
         this.match = new Match(mapID);
+        this.grabController = new GrabController();
 
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());
-
     }
 
 
