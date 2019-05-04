@@ -6,9 +6,10 @@ import model.map.*;
 public class MatchController{
     private Match match;
     private GrabController grabController;
+    private PowerUpController powerUpController;
+    private ShootController shootController;
 
     //TODO ci sono altri attributi da mettere qui?
-
 
     /*
         required mapID in input in order to build the correct type of configuration.
@@ -19,14 +20,16 @@ public class MatchController{
     public MatchController(int mapID){
         this.match = new Match(mapID);
         this.grabController = new GrabController();
+        this.powerUpController = new PowerUpController();
+        this.shootController = new ShootController();
 
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());
     }
 
     /*
-    implementazione del metodo astratto dalla classe abstract.
-     */
+        implementazione del metodo astratto dalla classe abstract.
+    */
     public Match getMatch() {
         return match;
     }
