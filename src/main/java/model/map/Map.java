@@ -119,6 +119,9 @@ public class Map {
         return squaresMatrix;
     }
 
+    /*
+        Riempie la WeaponBox con le armi prese a caso dal deck
+     */
     public void fillWeaponBox(WeaponDeck deck){
         int i;
         int j;
@@ -133,6 +136,9 @@ public class Map {
         }
     }
 
+    /*
+        Riempie le ammo di tutta la mappa prendendo dal deck di ammo
+    */
     public void fillAmmo(AmmoDeck deck){
         int i;
         int j;
@@ -146,4 +152,88 @@ public class Map {
             }
         }
     }
+
+    /*
+        getAllSquaresInDirection gives in return a list of all the squares in a direction
+        from the starting point given in input, giving no fucks about the walls
+    */
+    public List<Square> getAllSquaresInDirection(Directions direction, Square square){
+
+        List<Square> result = new ArrayList<>();
+        result = Collections.emptyList();
+
+        int x = getIndex(square).get(0);
+        int y = getIndex(square).get(1);
+
+        switch(direction){
+            case UP:
+                for(int k = x; k < 4; k++){
+                    result.add(squaresMatrix[k][y]);
+                }
+                break;
+
+            case DOWN:
+                for(int k = x; k >= 0; k--){
+                    result.add(squaresMatrix[k][y]);
+                }
+                break;
+
+            case RIGHT:
+                for(int k = y; k < 3; k++){
+                    result.add(squaresMatrix[x][k]);
+                }
+                break;
+
+            case LEFT:
+                for(int k = x; k >= 0; k--){
+                    result.add(squaresMatrix[x][k]);
+                }
+                break;
+        }
+
+        return result;
+    }
+
+    /*
+        getAllSquaresInDirection gives in return a list of all the squares in a direction
+        from the starting point given in input, walls BLOCK the direction
+    */
+    public List<Square> getAllowedSquaresInDirection(Directions direction, Square square){
+        //TODO
+
+        List<Square> result = new ArrayList<>();
+        result = Collections.emptyList();
+
+        int x = getIndex(square).get(0);
+        int y = getIndex(square).get(1);
+
+        switch(direction){
+            case UP:
+                for(int k = x; k < 4 && square.getAllowedMoves().contains(direction); k++){
+                    result.add(squaresMatrix[k][y]);
+                }
+                break;
+
+            case DOWN:
+                for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
+                    result.add(squaresMatrix[k][y]);
+                }
+                break;
+
+            case RIGHT:
+                for(int k = y; k < 3 && square.getAllowedMoves().contains(direction); k++){
+                    result.add(squaresMatrix[x][k]);
+                }
+                break;
+
+            case LEFT:
+                for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
+                    result.add(squaresMatrix[x][k]);
+                }
+                break;
+        }
+
+        return result;
+    }
+
 }
