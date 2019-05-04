@@ -1,7 +1,6 @@
 package controller;
 
 import controller.ActionController;
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 import model.Match;
 import model.player.Player;
 
@@ -12,6 +11,9 @@ public class ShootController extends ActionController {
 	private Match match;
 	private ArrayList<Player> targetPlayers;
 
+	public void setMatch(Match match) {
+		this.match = match;
+	}
 
 	public Player getPlayer() {
 		return match.getCurrentPlayer();
