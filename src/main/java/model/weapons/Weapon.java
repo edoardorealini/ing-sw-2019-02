@@ -53,9 +53,7 @@ public class Weapon {
         this.color = color;
     }
 
-    public List<Color> getCost() {
-        return this.cost;
-    }
+    public List<Color> getCost() { return this.cost; }
 
     public List<Color> getCostOpt1() {
         return costOpt1;

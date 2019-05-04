@@ -147,10 +147,11 @@ public class Player {
         //return "spazio model.powerUp esaurito";
     }
 
-    public void addPowerUpsHaphazard(PowerUpDeck p) { // pesco casualmente un PowerUp bisogna passargli il deck come parametro altrimenti devo metterlo come attributo a tutti i players
+    // servirà per l'inzio del gioco nel quale i giocatori pescano i powerUps
+    public void addPowerUpsHaphazard() { // pesco casualmente un PowerUp
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
-                powerUps[i] = p.removePowerUps();
+                powerUps[i] = match.getPowerUpDeck().removePowerUps();
                 //return "PowerUp aggiunto";
             }
         }
