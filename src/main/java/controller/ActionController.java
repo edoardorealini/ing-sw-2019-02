@@ -1,14 +1,10 @@
 package controller;
 
-import model.map.Map;
-import model.player.Player;
-import model.map.Map;
+import model.Match;
 
 public  abstract class ActionController {
-    protected Player player;
-    protected Map map;
 
-    public abstract Player getPlayer();
-
+    protected Match match;
+    public abstract Match getMatch();
 
 }

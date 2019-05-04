@@ -24,6 +24,13 @@ public class MatchController{
         match.getMap().fillAmmo(match.getAmmoDeck());
     }
 
+    /*
+    implementazione del metodo astratto dalla classe abstract.
+     */
+    public Match getMatch() {
+        return match;
+    }
+
     public Map getMap(){
         return match.getMap();
     }

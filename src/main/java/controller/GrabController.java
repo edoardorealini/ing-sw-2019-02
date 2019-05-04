@@ -11,7 +11,6 @@ public class GrabController extends ActionController {
 
     //TODO costruttore?
 
-    @Override
     public Player getPlayer() {
         return match.getCurrentPlayer();
     }
@@ -20,6 +19,9 @@ public class GrabController extends ActionController {
         this.match.setCurrentPlayer(player);
     }
 
+    /*
+        implementazione del metodo astratto dalla classe abstract.
+    */
     public Match getMatch() {
         return match;
     }
