@@ -43,8 +43,8 @@ public class GrabController extends ActionController {
 
     public void grabAmmoCard(){
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
-            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile());
-            match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // reinserisco la carta nel deck
             match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().pickFirstCard()); // rimpiazzo la carta
         }
          // else  TODO THROW WRONGPOSITION ?
@@ -53,6 +53,7 @@ public class GrabController extends ActionController {
     public void grabWeapon(int numberOfWeapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
         if ((numberOfWeapon<3) && (numberOfWeapon>=0)){
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
+                // inizio controllo munizioni disponibili
                 List<Color> weaponCost = match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon).getCost();
                 int redTmp=0, blueTemp=0, yelloTmp=0;
                 for (int i=1; i<weaponCost.size(); i++){
@@ -72,6 +73,7 @@ public class GrabController extends ActionController {
                 if (    ((match.getCurrentPlayer().getAmmo().getRedAmmo()-redTmp)>=0)
                         && ((match.getCurrentPlayer().getAmmo().getBlueAmmo()-blueTemp)>=0)
                         && ((match.getCurrentPlayer().getAmmo().getYellowAmmo()-yelloTmp)>=0)) {
+                    // fine controllo munizioni disponibili
                     match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp); // il giocatore paga l'arma
                     match.getCurrentPlayer().addWeapons(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // arma aggiunta al giocatore
                     match.getCurrentPlayer().getPosition().removeWeapon(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // rimuovo arma dallo square
