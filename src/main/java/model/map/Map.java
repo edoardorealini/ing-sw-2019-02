@@ -199,7 +199,6 @@ public class Map {
         from the starting point given in input, walls BLOCK the direction
     */
     public List<Square> getAllowedSquaresInDirection(Directions direction, Square square){
-        //TODO
 
         List<Square> result = new ArrayList<>();
         result = Collections.emptyList();
@@ -210,25 +209,29 @@ public class Map {
         switch(direction){
             case UP:
                 for(int k = x; k < 4 && square.getAllowedMoves().contains(direction); k++){
-                    result.add(squaresMatrix[k][y]);
+                    if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[k][y]);
                 }
                 break;
 
             case DOWN:
                 for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
-                    result.add(squaresMatrix[k][y]);
+                    if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[k][y]);
                 }
                 break;
 
             case RIGHT:
                 for(int k = y; k < 3 && square.getAllowedMoves().contains(direction); k++){
-                    result.add(squaresMatrix[x][k]);
+                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[x][k]);
                 }
                 break;
 
             case LEFT:
                 for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
-                    result.add(squaresMatrix[x][k]);
+                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[x][k]);
                 }
                 break;
         }
