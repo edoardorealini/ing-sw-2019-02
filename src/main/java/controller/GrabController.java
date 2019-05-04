@@ -54,9 +54,8 @@ public class GrabController extends ActionController {
         if ((numberOfWeapon<3) && (numberOfWeapon>=0)){
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
                 List<Color> weaponCost = match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon).getCost();
-                weaponCost.remove(0); // tolgo il primo costo perchè non si paga
                 int redTmp=0, blueTemp=0, yelloTmp=0;
-                for (int i=0; i<weaponCost.size(); i++){
+                for (int i=1; i<weaponCost.size(); i++){
                     switch (weaponCost.get(i)){
                         case BLUE:
                             blueTemp++;
