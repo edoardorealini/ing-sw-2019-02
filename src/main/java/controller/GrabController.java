@@ -56,6 +56,7 @@ public class GrabController extends ActionController {
                 match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
             }
         }
+        //throw exception
 
     }
 
