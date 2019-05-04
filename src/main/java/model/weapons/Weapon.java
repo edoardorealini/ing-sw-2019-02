@@ -200,7 +200,20 @@ public class Weapon {
         return nameWeap.toString();
     }
 
-    //inserisci metodi per settare gli effetti oppure cerca di capire se posso direttamente chiamare
-    //i metodi degli effetti quando istanzio le armi in Deck
+	public List<Effect> getBasicEffect() {
+		return basicEffect;
+	}
+
+	public List<Effect> getOptionalEffectOne() {
+		return optionalEffectOne;
+	}
+
+	public List<Effect> getOptionalEffectTwo() {
+		return optionalEffectTwo;
+	}
+
+	public List<Effect> getAlternateEffect() {
+		return alternateEffect;
+	}
 
 }

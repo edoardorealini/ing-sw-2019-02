@@ -1,6 +1,5 @@
 package model.player;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -39,31 +38,31 @@ class BoardTest {
 
     @Test
     void updateTarget() {
-        System.out.println(b1.getTarget());
-        b1.updateTarget(4, p1.getId());
-        System.out.println(b1.getTarget());
+        System.out.println(b1.getMarks());
+        b1.updateMarks(4, p1.getId());
+        System.out.println(b1.getMarks());
         // è giusto che ne aggiunga solo 3 perchè è il massimo
         // creo arrayList in cui il target è ciò che mi aspetto
         ArrayList<Integer> target = new ArrayList<>();
         target.add(0,p1.getId());
         target.add(1,p1.getId());
         target.add(2,p1.getId());
-        assertEquals(target, b1.getTarget());
+        assertEquals(target, b1.getMarks());
         // cerco di fregarlo
-        b1.updateTarget(1, p1.getId());
-        assertEquals(b1.getTarget(), target);
+        b1.updateMarks(1, p1.getId());
+        assertEquals(b1.getMarks(), target);
 
     }
 
     @Test
     void removeTarget() {
         Player p2 = new Player("solo per questo test", 2);
-        b1.updateTarget(2,p2.getId());
-        b1.updateTarget(4, p1.getId());
-        b1.updateTarget(2,p2.getId());
-        b1.removeTarget(2, p1.getId());
-        b1.removeTarget(3, p2.getId());
-        System.out.println(b1.getTarget());
+        b1.updateMarks(2,p2.getId());
+        b1.updateMarks(4, p1.getId());
+        b1.updateMarks(2,p2.getId());
+        b1.removeMarks(2, p1.getId());
+        b1.removeMarks(3, p2.getId());
+        System.out.println(b1.getMarks());
     }
 
     @Test

@@ -1,8 +1,7 @@
 package model.weapons;
 
-import java.util.*;
-
 public class Effect {
+	private EffectType type;
 	private int damage;
 	private int mark;
 	private int moveYourself;
@@ -14,6 +13,7 @@ public class Effect {
 
 	//constructor
 	public Effect(){
+		type = EffectType.NOEFFECT;
 		damage = 0;
 		mark = 0;
 		moveYourself = 0;
@@ -21,7 +21,11 @@ public class Effect {
 		involvedPlayers = 0;   //-1 means every player
 		needVisibleTarget = true;
 		minShootDistance = 0;   //-1 means the same square in which the striker is
-		sameTarget = 0;  //index of the array of players choosen as targets
+		sameTarget = 0;  //index of the array of players choosen as targets, -1 means all targets
+	}
+
+	public EffectType getType() {
+		return type;
 	}
 
 	public int getDamage() {
@@ -38,6 +42,10 @@ public class Effect {
 
 	public int getMoveYourself() {
 		return this.moveYourself;
+	}
+
+	public void setType(EffectType type) {
+		this.type = type;
 	}
 
 	public void setDamage(int damage) {
@@ -86,5 +94,30 @@ public class Effect {
 
 	public void setSameTarget(int sameTarget) {
 		this.sameTarget = sameTarget;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder name = new StringBuilder();
+		name.append(this.type);
+		switch (type) {
+			case DAMAGE:
+				name.append(" of ");
+				name.append(damage);
+				break;
+			case MARK:
+				name.append(" of ");
+				name.append(mark);
+				break;
+			case MOVETARGET:
+				name.append(" of ");
+				name.append(moveTarget);
+				break;
+			case MOVEYOURSELF:
+				name.append(" of ");
+				name.append(moveYourself);
+				break;
+		}
+		return name.toString();
 	}
 }

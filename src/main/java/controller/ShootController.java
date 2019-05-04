@@ -3,6 +3,7 @@ package controller;
 import model.Color;
 import model.Match;
 import model.player.Player;
+import model.weapons.Effect;
 import model.weapons.Weapon;
 import java.util.*;
 
@@ -29,40 +30,88 @@ public class ShootController extends ActionController {
 		return match;
 	}
 
-	public void shoot (Weapon weapon, ShootEffect effect , List<Player> targets) throws IllegalArgumentException{
+	public void shoot(Weapon weapon, ShootEffect WeapEffect, List<Player> targets) throws IllegalArgumentException{
 		/* ShootEffect is an enum used to choose which effect of the weapon the players wants to use
 		   In this method the choice is between BASIC EFFECT OR ALTERNATE EFFECT
 		*/
 
-		if (effect.equals(ShootEffect.OPTIONAL1) || effect.equals(ShootEffect.OPTIONAL2)) {
+		if (WeapEffect.equals(ShootEffect.OPTIONAL1) || WeapEffect.equals(ShootEffect.OPTIONAL2)) {
 			throw new IllegalArgumentException(); }
 		else {
-			if (effect.equals(ShootEffect.ALTERNATE)) {
-				List<Color> cost = weapon.getCostAlternate();
-				int r = 0;
-				int b = 0;
-				int y = 0;
-				for (Color color: cost) {
-					switch (color) {
-						case RED:
-							r++;
-							break;
-						case BLUE:
-							b++;
-							break;
-						case YELLOW:
-							y++;
-							break;
-						default:
-							break;
+			switch (WeapEffect) {
+
+				case ALTERNATE:				//check if the player wants to use the ALTERNATE effect and, if so, try to remove his ammos
+					List<Color> cost = weapon.getCostAlternate();
+					int r = 0;
+					int b = 0;
+					int y = 0;
+					for (Color color: cost) {
+						switch (color) {
+							case RED:
+								r++;
+								break;
+							case BLUE:
+								b++;
+								break;
+							case YELLOW:
+								y++;
+								break;
+							default:
+								break;
+						}
 					}
-				}
-				match.getCurrentPlayer().removeAmmo(r, b, y);
+					if (match.getCurrentPlayer().getAmmo().getRedAmmo()-r<0 || match.getCurrentPlayer().getAmmo().getBlueAmmo()-b<0 || match.getCurrentPlayer().getAmmo().getYellowAmmo()-y<0) {
+						//TODO throw new OutOfAmmoException
+					} else {
+						match.getCurrentPlayer().removeAmmo(r, b, y);
+					}
+					for (Effect eff: weapon.getAlternateEffect()) {
+						this.executeEffect(eff);
+					}
+					break;
+
+				case BASIC:
+
+					break;
+
+				default:
+					break;
+
 			}
+
+
 			
 		}
 
 	}
 
+	public void executeEffect(Effect effect) {
+		switch (effect.getType()) {
 
+			case DAMAGE:
+				targetPlayers.get(effect.getSameTarget()).getBoard().updateLife(effect.getDamage(), match.getCurrentPlayer().getId());   //updating life points of the target
+				int transferringMarks = targetPlayers.get(effect.getSameTarget()).getBoard().getSpecificMarks(match.getCurrentPlayer().getId());  //local variable to increase understandability
+				while (transferringMarks>0 && targetPlayers.get(effect.getSameTarget()).getBoard().getNumberOfDamages()<=12) {
+					targetPlayers.get(effect.getSameTarget()).getBoard().updateLife(1, match.getCurrentPlayer().getId());   //converting marks to life points
+					targetPlayers.get(effect.getSameTarget()).getBoard().removeMarks(1, match.getCurrentPlayer().getId());	//removing the converted mark
+					transferringMarks--;
+				}
+				break;
+
+			case MARK:
+				targetPlayers.get(effect.getSameTarget()).getBoard().updateMarks(effect.getMark(), match.getCurrentPlayer().getId());   //updating life points of the target
+				break;
+
+			case MOVETARGET:
+				//TODO
+				break;
+
+			case MOVEYOURSELF:
+				//TODO
+				break;
+
+			default:
+				break;
+		}
+	}
 }

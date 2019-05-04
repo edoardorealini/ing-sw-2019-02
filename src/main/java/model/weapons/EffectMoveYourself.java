@@ -3,6 +3,7 @@ package model.weapons;
 public class EffectMoveYourself extends Effect{
 
 	public EffectMoveYourself (int move) {
+		this.setType(EffectType.MOVEYOURSELF);
 		this.setDamage(0);
 		this.setInvolvedPlayers(0);
 		this.setMinShootDistance(0);
@@ -10,7 +11,7 @@ public class EffectMoveYourself extends Effect{
 		this.setMark(0);
 		this.setMoveTarget(0);
 		this.setMoveYourself(move);
-		this.setSameTarget(-1);
+		this.setSameTarget(0);		//is it correct as "escape flag"?
 	}
 
 }
