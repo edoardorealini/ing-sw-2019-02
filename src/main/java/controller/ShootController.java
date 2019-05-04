@@ -59,7 +59,7 @@ public class ShootController extends ActionController {
 				}
 				match.getCurrentPlayer().removeAmmo(r, b, y);
 			}
-
+			
 		}
 
 	}
