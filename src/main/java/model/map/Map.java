@@ -10,6 +10,10 @@ public class Map {
     private int mapID;
 
     /*
+        NB: non fare mai la new di Map, va costruito con MapBuilder
+    */
+
+    /*
         allowedMoves tells me which moves i can do from a specific square.
         returns empty list if square not found in squaresMatrix.
     */
