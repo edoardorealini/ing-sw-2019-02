@@ -11,7 +11,8 @@ public class GrabController extends ActionController {
 
     private Match match;
 
-    @Override
+    //TODO costruttore?
+
     public Player getPlayer() {
         return match.getCurrentPlayer();
     }
@@ -20,6 +21,9 @@ public class GrabController extends ActionController {
         this.match.setCurrentPlayer(player);
     }
 
+    /*
+        implementazione del metodo astratto dalla classe abstract.
+    */
     public Match getMatch() {
         return match;
     }
@@ -39,9 +43,9 @@ public class GrabController extends ActionController {
 
     public void grabAmmoCard(){
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
-            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
-            match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // reinserisco la carta nel deck
-            match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().removeAmmoCard()); // rimpiazzo la carta
+            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile());
+            match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().pickFirstCard()); // rimpiazzo la carta
         }
          // else  TODO THROW WRONGPOSITION ?
     }
@@ -80,7 +84,5 @@ public class GrabController extends ActionController {
         }
         else throw new IndexOutOfBoundsException();
     }
-
-
 
 }

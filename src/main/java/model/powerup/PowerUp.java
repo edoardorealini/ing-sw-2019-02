@@ -1,4 +1,4 @@
-package model.powerUp;
+package model.powerup;
 
 import model.Color;
 

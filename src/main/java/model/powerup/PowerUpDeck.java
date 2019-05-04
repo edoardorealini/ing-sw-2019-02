@@ -1,4 +1,4 @@
-package model.powerUp;
+package model.powerup;
 
 import model.Color;
 import java.util.*;
@@ -40,7 +40,7 @@ public class PowerUpDeck {
     }
 
 
-    public PowerUp removePowerUps(){
+    public PowerUp pickFirstCard(){
          PowerUp powerUpTemp;
          powerUpTemp = powerUpDeck.getFirst();
          powerUpDeck.removeFirst();

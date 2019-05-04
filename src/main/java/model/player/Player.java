@@ -2,11 +2,11 @@ package model.player;
 
 import model.Match;
 import model.ammo.AmmoCard;
-import model.powerUp.PowerUpDeck;
+import model.powerup.PowerUpDeck;
 import model.weapons.Weapon;
 import model.map.Square;
 import model.ammo.Ammo;
-import model.powerUp.PowerUp;
+import model.powerup.PowerUp;
 
 public class Player {
 
@@ -108,7 +108,7 @@ public class Player {
         if (ammoCard.isTherePowerUp()){
             for (int i=0; i<3; i++){
                 if (powerUps[i]==null) {
-                    this.powerUps[i] = match.getPowerUpDeck().removePowerUps();
+                    this.powerUps[i] = match.getPowerUpDeck().pickFirstCard();
                     return;
                 }
             }
@@ -136,7 +136,7 @@ public class Player {
         return powerUps;
     }
 
-    public void addPowerUpsCard(PowerUp p) { // metodo in cui so quale sia il powerUp da aggiungere (es PowerUp nella carta sulla mappa)
+    public void addPowerUpsCard(PowerUp p) { // metodo in cui so quale sia il powerup da aggiungere (es PowerUp nella carta sulla mappa)
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
@@ -144,19 +144,19 @@ public class Player {
             }
         }
 
-        //return "spazio model.powerUp esaurito";
+        //return "spazio model.powerup esaurito";
     }
 
     // servirà per l'inzio del gioco nel quale i giocatori pescano i powerUps
     public void addPowerUpsHaphazard() { // pesco casualmente un PowerUp
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
-                powerUps[i] = match.getPowerUpDeck().removePowerUps();
+                powerUps[i] = match.getPowerUpDeck().pickFirstCard();
                 //return "PowerUp aggiunto";
             }
         }
 
-        //return "spazio model.powerUp esaurito";
+        //return "spazio model.powerup esaurito";
     }
 
     public void removePowerUps(int i) {

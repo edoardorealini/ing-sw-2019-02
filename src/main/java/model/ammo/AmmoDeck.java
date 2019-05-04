@@ -1,7 +1,7 @@
 package model.ammo;
 
 import java.util.*;
-import model.powerUp.PowerUpDeck;
+import model.powerup.PowerUpDeck;
 
 public class AmmoDeck {
     private LinkedList<AmmoCard> ammoDeck;
@@ -49,11 +49,11 @@ public class AmmoDeck {
 
     }
 
-    public void shuffle(){
+    public void shuffleDeck(){
         Collections.shuffle(ammoDeck);
     }
 
-    public AmmoCard removeAmmoCard(){
+    public AmmoCard pickFirstCard(){
         AmmoCard AmmoCardTemp;
         AmmoCardTemp = ammoDeck.getFirst();
         ammoDeck.removeFirst();
