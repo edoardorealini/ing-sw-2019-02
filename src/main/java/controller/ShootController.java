@@ -1,6 +1,6 @@
 package controller;
 
-import controller.ActionController;
+import model.Color;
 import model.Match;
 import model.player.Player;
 import model.weapons.Weapon;
@@ -34,19 +34,32 @@ public class ShootController extends ActionController {
 		   In this method the choice is between BASIC EFFECT OR ALTERNATE EFFECT
 		*/
 
-		if (!effect.equals(ShootEffect.BASIC) || !effect.equals(ShootEffect.ALTERNATE))
-			throw new IllegalArgumentException();
+		if (effect.equals(ShootEffect.OPTIONAL1) || effect.equals(ShootEffect.OPTIONAL2)) {
+			throw new IllegalArgumentException(); }
 		else {
-			switch (effect) {
-
-				case BASIC:
-
-					break;
-
-				case ALTERNATE:
-
-					break;
+			if (effect.equals(ShootEffect.ALTERNATE)) {
+				List<Color> cost = weapon.getCostAlternate();
+				int r = 0;
+				int b = 0;
+				int y = 0;
+				for (Color color: cost) {
+					switch (color) {
+						case RED:
+							r++;
+							break;
+						case BLUE:
+							b++;
+							break;
+						case YELLOW:
+							y++;
+							break;
+						default:
+							break;
+					}
+				}
+				match.getCurrentPlayer().removeAmmo(r, b, y);
 			}
+
 		}
 
 	}
