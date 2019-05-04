@@ -1,7 +1,5 @@
 package model.ammo;
 
-import model.powerUp.PowerUp;
-
 public class AmmoCard {
     private int redAmmo;
     private int blueAmmo;

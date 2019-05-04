@@ -1,7 +1,7 @@
 package model.ammo;
 
 import java.util.*;
-import model.powerUp.PowerUpDeck;
+import model.powerup.PowerUpDeck;
 
 public class AmmoDeck {
     private LinkedList<AmmoCard> ammoDeck;

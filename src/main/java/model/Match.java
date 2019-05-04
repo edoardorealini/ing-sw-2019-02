@@ -3,7 +3,7 @@ package model;
 import model.ammo.AmmoDeck;
 import model.map.*;
 import model.player.Player;
-import model.powerUp.PowerUpDeck;
+import model.powerup.PowerUpDeck;
 import model.weapons.WeaponDeck;
 
 import java.io.IOException;

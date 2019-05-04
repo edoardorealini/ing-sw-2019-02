@@ -1,8 +1,7 @@
 package model.player;
 
 import model.Color;
-import model.ammo.AmmoCard;
-import model.powerUp.PowerUp;
+import model.powerup.PowerUp;
 import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
