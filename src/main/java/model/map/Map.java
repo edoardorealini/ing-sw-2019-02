@@ -65,11 +65,11 @@ public class Map {
         getSquare returns a square reference to the square near the input square
         in the specified direction
     */
-    public Square getSquare(Directions direction, Square square){
+    public Square getSquare(Directions direction, Square startingSquare){
         Square result = new Square();
 
-        int i = getIndex(square).get(0);
-        int j = getIndex(square).get(1);
+        int i = getIndex(startingSquare).get(0);
+        int j = getIndex(startingSquare).get(1);
 
         switch(direction){
             case UP:
@@ -242,5 +242,50 @@ public class Map {
 
         return result;
     }
+
+    /*
+        This method verifies that the minimum distance between the 2 input squares
+        is less than the maxDistance setted as parameter.
+
+        How: exploring the map.
+            - form the starting point i explore all the squares directly linked. (dist = 1)
+            - then i explore all linked squares to the squares thar were linked to the starting point (list = 2)
+     */
+
+    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance){
+        List<Square> explored = new ArrayList<>(); //contiene gli squares esplorati
+        List<Square> toExplore = new ArrayList<>(); //contiene gli square da esplorare
+        int distance = 1;
+
+        explored.add(startingPoint);
+
+        if(startingPoint.equals(destination))
+            return true;
+
+        while(distance <= maxDistance){
+
+            for(Square exploredSquare : explored){
+                for(Directions dir: exploredSquare.getAllowedMoves()){
+                    if(!explored.contains(getSquare(dir, exploredSquare)))
+                        toExplore.add(getSquare(dir, exploredSquare));
+                }
+
+                if(toExplore.contains(destination))
+                    return true;
+            }
+
+            explored.addAll(toExplore);
+            toExplore.clear();
+            distance++;
+        }
+
+        return false; //uscito da while, eccesso di maxDistance
+    }
+
+    //FOR TEST USE ONLY for now
+    public Square getSquare(int i, int j){
+        return squaresMatrix[i][j];
+    }
+
 
 }

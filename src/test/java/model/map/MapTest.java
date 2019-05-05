@@ -43,4 +43,31 @@ class MapTest {
     void getSquare(){
         //TODO
     }
+
+    @Test
+    void isAllowedMove(){
+        Square startingPoint = mapTest.getSquare(0,2);
+        Square destination = mapTest.getSquare(3,0);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , false);
+
+        startingPoint = mapTest.getSquare(0,2);
+        destination = mapTest.getSquare(2,1);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
+
+        startingPoint = mapTest.getSquare(0,2);
+        destination = mapTest.getSquare(1,0);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
+
+        startingPoint = mapTest.getSquare(0,1);
+        destination = mapTest.getSquare(2,0);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
+        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
+
+
+    }
 }

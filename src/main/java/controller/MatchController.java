@@ -8,6 +8,7 @@ public class MatchController{
     private GrabController grabController;
     private PowerUpController powerUpController;
     private ShootController shootController;
+    private MoveController moveController;
 
     //TODO ci sono altri attributi da mettere qui?
 
@@ -20,8 +21,9 @@ public class MatchController{
     public MatchController(int mapID){
         this.match = new Match(mapID);
         this.grabController = new GrabController();
-        this.powerUpController = new PowerUpController();
+        this.powerUpController = new PowerUpController(this.match);
         this.shootController = new ShootController();
+        this.moveController = new MoveController(this.match);
 
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());

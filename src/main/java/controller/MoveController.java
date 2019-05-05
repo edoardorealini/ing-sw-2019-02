@@ -54,5 +54,9 @@ public class MoveController {
         }
     }
 
+    public void move(Player player, Square destination) throws  NotAllowedMoveException{
+
+    }
+
 
 }

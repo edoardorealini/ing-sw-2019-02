@@ -6,6 +6,7 @@ public class PowerUp {
     private Color color;
     private String name;
 
+
     public PowerUp(Color color, String name){
         this.color=color;
         this.name=name;
