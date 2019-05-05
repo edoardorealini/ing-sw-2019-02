@@ -19,7 +19,7 @@ class BoardTest {
     @Test
     void initializeBoard() {
 
-        for (int i=0; i<12; i++) {
+        for (int i=0; i<11; i++) {
             assertEquals(9, b1.getLifePoints()[i]);
         }
     }
@@ -29,7 +29,7 @@ class BoardTest {
         b1.updateLife(7,p1.getId());
 
         // creo array contenente la vita che mi aspetto, cosi da far la equal
-        int[] life = {p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),9,9,9,9,9};
+        int[] life = {p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),9,9,9,9};
         System.out.println(Arrays.toString(life));
         System.out.println(Arrays.toString(b1.getLifePoints()));
 
