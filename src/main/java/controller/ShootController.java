@@ -45,19 +45,21 @@ public class ShootController extends ActionController {
 					int r = 0;
 					int b = 0;
 					int y = 0;
-					for (Color color: cost) {
-						switch (color) {
-							case RED:
-								r++;
-								break;
-							case BLUE:
-								b++;
-								break;
-							case YELLOW:
-								y++;
-								break;
-							default:
-								break;
+					if (cost != null) {
+						for (Color color : cost) {
+							switch (color) {
+								case RED:
+									r++;
+									break;
+								case BLUE:
+									b++;
+									break;
+								case YELLOW:
+									y++;
+									break;
+								default:
+									break;
+							}
 						}
 					}
 					if (match.getCurrentPlayer().getAmmo().getRedAmmo()-r<0 || match.getCurrentPlayer().getAmmo().getBlueAmmo()-b<0 || match.getCurrentPlayer().getAmmo().getYellowAmmo()-y<0) {
@@ -71,29 +73,31 @@ public class ShootController extends ActionController {
 					break;
 
 				case BASIC:
-
+					for (Effect eff: weapon.getAlternateEffect()) {
+						this.executeEffect(eff);
+					}
 					break;
 
 				default:
 					break;
 
-			}
-
-
-			
-		}
-
-	}
+			}		//end switch
+		} 	 	//end else
+	}		//end method
 
 	public void executeEffect(Effect effect) {
 		switch (effect.getType()) {
 
 			case DAMAGE:
 				targetPlayers.get(effect.getSameTarget()).getBoard().updateLife(effect.getDamage(), match.getCurrentPlayer().getId());   //updating life points of the target
+				if (targetPlayers.get(effect.getSameTarget()).getBoard().isDead())			//check if the target is dead
+					targetPlayers.get(effect.getSameTarget()).trueDead();
 				int transferringMarks = targetPlayers.get(effect.getSameTarget()).getBoard().getSpecificMarks(match.getCurrentPlayer().getId());  //local variable to increase understandability
-				while (transferringMarks>0 && targetPlayers.get(effect.getSameTarget()).getBoard().getNumberOfDamages()<=12) {
+				while (transferringMarks>0 && !targetPlayers.get(effect.getSameTarget()).getBoard().isOverKilled()) {
 					targetPlayers.get(effect.getSameTarget()).getBoard().updateLife(1, match.getCurrentPlayer().getId());   //converting marks to life points
 					targetPlayers.get(effect.getSameTarget()).getBoard().removeMarks(1, match.getCurrentPlayer().getId());	//removing the converted mark
+					if (targetPlayers.get(effect.getSameTarget()).getBoard().isDead())		//check if the target is dead
+						targetPlayers.get(effect.getSameTarget()).trueDead();
 					transferringMarks--;
 				}
 				break;
@@ -103,7 +107,7 @@ public class ShootController extends ActionController {
 				break;
 
 			case MOVETARGET:
-				//TODO
+				//TODO chiedi a Edo che giro devo fare per poter accedere al suo metodo perchè non riesco a trovare il moveController
 				break;
 
 			case MOVEYOURSELF:

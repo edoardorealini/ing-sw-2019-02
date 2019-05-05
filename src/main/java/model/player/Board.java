@@ -10,23 +10,23 @@ public class Board {
 
 
     public Board(){
-        lifePoints = new int[11];
+        lifePoints = new int[12];
         marks = new ArrayList<>();
-        for (int i=0; i<11; i++){
+        for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
     }
 
     public void InitializeBoard(){   // serve anche per quando muore un giocatore
-        for (int i=0; i<11; i++){
+        for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
     }
 
     public void updateLife(int damage, int idPlayerAttaccante){
-        for (int i=0; i<11; i++){
+        for (int i=0; i<12; i++){
             if (lifePoints[i]==9){
-                for (int k=0; (k<damage) && ((i+k) <11) ; k++){
+                for (int k=0; (k<damage) && ((i+k) <12) ; k++){
                     lifePoints[i+k] = idPlayerAttaccante;
                 }
                 return;
@@ -87,25 +87,25 @@ public class Board {
 
     public boolean isDead(){
         int damage=0;
-        for (int i=0;i < 11;i++){
+        for (int i=0;i < 12;i++){
             if (lifePoints[i] != 9) damage++;
         }
-        if (damage>8) return true;
+        if (damage>9) return true;
         else return false;
     }
 
-    public boolean isRaged(){
+    public boolean isOverKilled(){
         int damage=0;
-        for (int i=0;i < 11;i++){
+        for (int i=0;i < 12;i++){
             if (lifePoints[i] != 9) damage++;
         }
-        if (damage==10) return true;
+        if (damage==11) return true;
         else return false;
     }
 
     public int getNumberOfDamages() {       //necessary to know the progress status of life points independently by who made damages
         int damages = 0;
-        for (int i=0; i<11; i++) {
+        for (int i=0; i<12; i++) {
             if (lifePoints[i] != 9)
                 damages++;
         }

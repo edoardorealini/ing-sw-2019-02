@@ -176,4 +176,7 @@ public class Player {
         dead = false;
     }
 
+    public boolean isDead() {
+        return dead;
+    }
 }
