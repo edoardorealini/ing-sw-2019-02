@@ -14,10 +14,6 @@ public class Square {
     private ArrayList<Weapon> weaponBox;        //array che contiene i ref alle armi presenti nel box
     private AmmoCard ammoTile;
 
-    //TODO: Aggiungere i campi weaponBox e ammoTile nei file json inizializzati a null quando serve!
-
-
-
     public Square(){
         this.color = null;
         this.activeStatus = null;
@@ -25,7 +21,7 @@ public class Square {
         this.doors = null;
     }
 
-    /*      COSTRUTTORI DE PRECATI
+    /*      COSTRUTTORI DEPRECATI
 
         public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
         this.color = color;
