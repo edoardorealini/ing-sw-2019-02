@@ -6,7 +6,6 @@ public class PlayerStatusHandler {
     private AbilityStatus specialAbility;
 
 
-    //TODO da rivedere il costruttore perchè il primo giocatore dovrebbe avere RoundStatus.master
     public void PlayerStatusHandler(){
         turnStatus = RoundStatus.waitTurn;
         specialAbility = AbilityStatus.normal;

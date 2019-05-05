@@ -78,6 +78,6 @@ class BoardTest {
         System.out.println(Arrays.toString(b1.getLifePoints()));
         b1.updateLife(12,p1.getId());
         System.out.println(Arrays.toString(b1.getLifePoints()));
-        assertTrue(b1.isFullLife());
+        assertTrue(b1.isDead());
     }
 }

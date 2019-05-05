@@ -87,12 +87,12 @@ public class Board {
         return lifePoints;
     }
 
-    public boolean isFullLife(){
-        int i=0;
-        for (;i < 12;){
-            if (lifePoints[i] != 9) i++;
+    public boolean isDead(){
+        int damage=0;
+        for (int i=0;i < 12;i++){
+            if (lifePoints[i] != 9) damage++;
         }
-        if (i==12) return true;
+        if (damage>8) return true;
         else return false;
     }
 
