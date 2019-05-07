@@ -119,7 +119,7 @@ public class Map {
         return mapID;
     }
 
-    private Square[][] getSquaresMatrix() {
+    public Square[][] getSquaresMatrix() {
         return squaresMatrix;
     }
 
