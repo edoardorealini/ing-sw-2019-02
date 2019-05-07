@@ -34,7 +34,7 @@ public class Square {
 
     */
 
-    public List<Weapon> getWeaponBox() {
+    public ArrayList<Weapon> getWeaponBox() {
         return weaponBox;
     }
 

@@ -6,12 +6,16 @@ import model.Match;
 import model.player.Player;
 import model.map.Directions;
 import model.weapons.Weapon;
+
+import java.lang.reflect.Array;
 import java.util.*;
 public class GrabController extends ActionController {
 
     private Match match;
 
-    //TODO costruttore?
+    public GrabController(Match match){
+        this.match = match;
+    }
 
     public Player getPlayer() {
         return match.getCurrentPlayer();
@@ -50,40 +54,41 @@ public class GrabController extends ActionController {
          // else  TODO THROW WRONGPOSITION ?
     }
 
-    public void grabWeapon(int numberOfWeapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
-        if ((numberOfWeapon<3) && (numberOfWeapon>=0)){
+    public void grabWeapon(Weapon weapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
                 // inizio controllo munizioni disponibili
-                List<Color> weaponCost = match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon).getCost();
-                int redTmp=0, blueTemp=0, yelloTmp=0;
-                for (int i=1; i<weaponCost.size(); i++){
-                    switch (weaponCost.get(i)){
-                        case BLUE:
-                            blueTemp++;
-                            break;
-                        case RED:
-                            redTmp++;
-                            break;
-                        case YELLOW:
-                            yelloTmp++;
-                            break;
+                if (match.getCurrentPlayer().getPosition().getWeaponBox().contains(weapon)){
+                    List <Color> weaponCost = weapon.getCost();
+                    int redTmp=0, blueTemp=0, yelloTmp=0;
+                    for (int i=1; i<weaponCost.size(); i++){
+                        switch (weaponCost.get(i)){
+                            case BLUE:
+                                blueTemp++;
+                                break;
+                            case RED:
+                                redTmp++;
+                                break;
+                            case YELLOW:
+                                yelloTmp++;
+                                break;
+                        }
                     }
-                }
 
-                if (    ((match.getCurrentPlayer().getAmmo().getRedAmmo()-redTmp)>=0)
-                        && ((match.getCurrentPlayer().getAmmo().getBlueAmmo()-blueTemp)>=0)
-                        && ((match.getCurrentPlayer().getAmmo().getYellowAmmo()-yelloTmp)>=0)) {
-                    // fine controllo munizioni disponibili
-                    match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp); // il giocatore paga l'arma
-                    match.getCurrentPlayer().addWeapons(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // arma aggiunta al giocatore
-                    match.getCurrentPlayer().getPosition().removeWeapon(match.getCurrentPlayer().getPosition().getWeaponBox().get(numberOfWeapon)); // rimuovo arma dallo square
-                    match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
+                    if (    ((match.getCurrentPlayer().getAmmo().getRedAmmo()-redTmp)>=0)
+                            && ((match.getCurrentPlayer().getAmmo().getBlueAmmo()-blueTemp)>=0)
+                            && ((match.getCurrentPlayer().getAmmo().getYellowAmmo()-yelloTmp)>=0)) {
+                        // fine controllo munizioni disponibili
+                        match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp); // il giocatore paga l'arma
+                        match.getCurrentPlayer().addWeapons(weapon); // arma aggiunta al giocatore
+                        match.getCurrentPlayer().getPosition().removeWeapon(weapon); // rimuovo arma dallo square
+                        match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
+                    }
+                    // else  TODO THROW notEnoughAmmo ? gestisci di conseguenza se vuole pagare con i PowerUps
+
                 }
-                // else  TODO THROW notEnoughAmmo ? gestisci di conseguenza se vuole pagare con i PowerUps
+                // else TODO noWeaponInBox
             }
             // else  TODO THROW WRONGPOSITION ?
-        }
-        else throw new IndexOutOfBoundsException();
     }
 
 }
