@@ -2,6 +2,7 @@ package controller;
 
 import model.Match;
 import model.Color;
+import model.powerup.PowerUp;
 
 /*
     This Class is used to manage all the possibilities from the PowerUps
@@ -19,5 +20,11 @@ public class PowerUpController{
         this.moveController = moveCtrl;
     }
 
-    //TODO
+    public void usePowerUp(PowerUp powerUp){
+        //TODO
+    }
+
+    private void useTeleporter(PowerUp teleporter){
+        //TODO
+    }
 }
