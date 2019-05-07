@@ -1,8 +1,10 @@
 package model.player;
 
+import model.Color;
 import model.Match;
 import model.ammo.AmmoCard;
 import model.powerup.PowerUpDeck;
+import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.map.Square;
 import model.ammo.Ammo;
@@ -111,6 +113,18 @@ public class Player {
                     this.powerUps[i] = match.getPowerUpDeck().pickFirstCard();
                     return;
                 }
+            }
+        }
+    }
+
+    // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
+    public void trasformPowerUpToAmmo(Color color, PowerUpName powerUpName){
+        for (int i=0; i<3; i++){
+            if ((powerUps[i].getColor()==color)&&(powerUps[i].getName()==powerUpName)){
+                match.getPowerUpDeck().addPowerUps(powerUps[i]);
+                powerUps[i]=null;
+                ammo.addSpecificAmmo(color, 1);
+                return;
             }
         }
     }

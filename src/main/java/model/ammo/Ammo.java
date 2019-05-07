@@ -1,5 +1,7 @@
 package model.ammo;
 
+import model.Color;
+
 public class Ammo {
     private int redAmmo;
     private int blueAmmo;
@@ -33,6 +35,32 @@ public class Ammo {
 
     public void setYellowAmmo(int yellowAmmo) {
         this.yellowAmmo = yellowAmmo;
+    }
+
+    public void addSpecificAmmo(Color color, int number){
+        switch (color){
+            case BLUE:
+                if ((this.getBlueAmmo()+number)>=3){
+                    this.setBlueAmmo(3);
+                }
+                else this.setBlueAmmo(this.getBlueAmmo()+number);
+                break;
+
+            case YELLOW:
+                if ((this.getYellowAmmo()+number)>=3){
+                    this.setYellowAmmo(3);
+                }
+                else this.setYellowAmmo(this.getYellowAmmo()+number);
+                break;
+
+            case RED:
+                if ((this.getRedAmmo()+number)>=3){
+                    this.setRedAmmo(3);
+                }
+                else this.setRedAmmo(this.getRedAmmo()+number);
+                break;
+
+        }
     }
 
 

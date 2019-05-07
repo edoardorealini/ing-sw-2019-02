@@ -1,5 +1,7 @@
 package controller;
 
+import exception.NotEnoughAmmo;
+import exception.WrongPositionException;
 import model.Color;
 import model.map.SquareType;
 import model.Match;
@@ -46,16 +48,16 @@ public class GrabController extends ActionController {
         match.getCurrentPlayer().setPosition(match.getMap().getSquare(direction, match.getCurrentPlayer().getPosition()));
     }
 
-    public void grabAmmoCard(){
+    public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
             match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
             match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // reinserisco la carta nel deck
             match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().pickFirstCard()); // rimpiazzo la carta
         }
-         // else  TODO THROW WRONGPOSITION ?
+        else throw new WrongPositionException("Square is not type NOSPAWN");
     }
 
-    public void grabWeapon(Weapon weapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
+    public void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmo {
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
                 // inizio controllo munizioni disponibili
                 if (match.getCurrentPlayer().getPosition().getAvailableWeapons().contains(weapon)){
@@ -84,12 +86,12 @@ public class GrabController extends ActionController {
                         match.getCurrentPlayer().getPosition().removeWeapon(weapon); // rimuovo arma dallo square
                         match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
                     }
-                    // else  TODO THROW notEnoughAmmo ? gestisci di conseguenza se vuole pagare con i PowerUps
+                    else throw new NotEnoughAmmo("Not enough ammo to buy this weapon");
 
                 }
-                // else TODO noWeaponInBox
+                else throw new IllegalArgumentException("No such a weapon in weaponBox");
             }
-            // else  TODO THROW WRONGPOSITION ?
+            else throw new WrongPositionException("Square is not type SPAWN");
     }
 
 }
