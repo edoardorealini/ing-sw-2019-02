@@ -108,22 +108,22 @@ class PlayerTest {
     }
 /*
     @Test
-    void addAmmo() {
+    void addAmmoCard() {
         AmmoCard a1 = new AmmoCard();
         AmmoCard a2 = new AmmoCard();
         AmmoCard a3 = new AmmoCard();
         AmmoCard a4 = new AmmoCard();
 
-        p1.addAmmo(a1);
-        p1.addAmmo(a2);
+        p1.addAmmoCard(a1);
+        p1.addAmmoCard(a2);
 
         assert(p1.getAmmo().getBlueAmmo()==2);
         assert(p1.getAmmo().getRedAmmo()==2);
         assert(p1.getAmmo().getYellowAmmo()==2);
 
-        p1.addAmmo(a3);
+        p1.addAmmoCard(a3);
         // cerco di fregarlo aggiungendone più del possibile
-        p1.addAmmo(a4);
+        p1.addAmmoCard(a4);
 
         assert(p1.getAmmo().getBlueAmmo()==3);
         assert(p1.getAmmo().getRedAmmo()==3);
@@ -136,8 +136,8 @@ class PlayerTest {
     void removeAmmo() {
         AmmoCard a1 = new AmmoCard();
         AmmoCard a2 = new AmmoCard();
-        p1.addAmmo(a1);
-        p1.addAmmo(a2);
+        p1.addAmmoCard(a1);
+        p1.addAmmoCard(a2);
         assert(p1.getAmmo().getBlueAmmo()==2);
         assert(p1.getAmmo().getRedAmmo()==2);
         //TODO da pensare bene per via del costo che potrebbero avere le armi

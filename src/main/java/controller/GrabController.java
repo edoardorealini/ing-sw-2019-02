@@ -50,7 +50,7 @@ public class GrabController extends ActionController {
 
     public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
-            match.getCurrentPlayer().addAmmo(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
+            match.getCurrentPlayer().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player
             match.getAmmoDeck().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // reinserisco la carta nel deck
             match.getCurrentPlayer().getPosition().setAmmoTile(match.getAmmoDeck().pickFirstCard()); // rimpiazzo la carta
         }

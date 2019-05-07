@@ -91,7 +91,7 @@ public class Player {
     }
 
 
-    public void addAmmo(AmmoCard ammoCard) {
+    public void addAmmoCard(AmmoCard ammoCard) {
         if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>=3){
             ammo.setBlueAmmo(3);
         }
