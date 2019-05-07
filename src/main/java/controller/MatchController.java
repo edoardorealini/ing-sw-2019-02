@@ -20,9 +20,9 @@ public class MatchController{
     */
     public MatchController(int mapID){
         this.match = new Match(mapID);
-        this.grabController = new GrabController();
+        this.grabController = new GrabController(this.match);
         this.powerUpController = new PowerUpController(this.match);
-        this.shootController = new ShootController();
+        this.shootController = new ShootController(this.match);
         this.moveController = new MoveController(this.match);
 
         match.getMap().fillWeaponBox(match.getWeaponDeck());

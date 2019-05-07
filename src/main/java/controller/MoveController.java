@@ -54,8 +54,16 @@ public class MoveController {
         }
     }
 
-    public void move(Player player, Square destination) throws  NotAllowedMoveException{
+    /*
+        Given a Player, a destination Square and the maxDistanceAllowed,
+        this method changes the player position only if the move is allowed by the map configuration.
+    */
+    public void move(Player player, Square destination, int maxDistanceAllowed) throws  NotAllowedMoveException{
+        if(! match.getMap().isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))
+            throw new NotAllowedMoveException();
 
+        else
+            player.setPosition(destination);
     }
 
 
