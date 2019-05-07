@@ -2,6 +2,7 @@ package model.player;
 
 import model.Color;
 import model.powerup.PowerUp;
+import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -155,9 +156,9 @@ class PlayerTest {
 
     @Test
     void addPowerUpsCard() {
-        PowerUp c1 = new PowerUp(Color.YELLOW,"cazzotto rotante");
-        PowerUp c2 = new PowerUp(Color.RED,"granata sensei");
-        PowerUp c3 = new PowerUp(Color.BLUE,"super trotamissile");
+        PowerUp c1 = new PowerUp(Color.YELLOW, PowerUpName.NEWTON);
+        PowerUp c2 = new PowerUp(Color.RED,PowerUpName.TAGBACK_GRENADE);
+        PowerUp c3 = new PowerUp(Color.BLUE,PowerUpName.TELEPORTER);
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);
@@ -171,9 +172,9 @@ class PlayerTest {
 
     @Test
     void removePowerUps() {
-        PowerUp c1 = new PowerUp(Color.YELLOW,"cazzotto rotante");
-        PowerUp c2 = new PowerUp(Color.BLUE,"granata sensei");
-        PowerUp c3 = new PowerUp(Color.RED,"super trotamissile");
+        PowerUp c1 = new PowerUp(Color.YELLOW,PowerUpName.NEWTON);
+        PowerUp c2 = new PowerUp(Color.BLUE,PowerUpName.TAGBACK_GRENADE);
+        PowerUp c3 = new PowerUp(Color.RED,PowerUpName.TELEPORTER);
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);
