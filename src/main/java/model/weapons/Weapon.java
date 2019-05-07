@@ -158,6 +158,13 @@ public class Weapon {
         this.optionalEffectOne.add(c);
     }
 
+    public void setOptionalEffectOne(Effect a, Effect b, Effect c, Effect d) {
+        this.optionalEffectOne.add(a);
+        this.optionalEffectOne.add(b);
+        this.optionalEffectOne.add(c);
+        this.optionalEffectOne.add(d);
+    }
+
     //overloading setOptionalEffectTwo
 
     public void setOptionalEffectTwo(Effect a) {
