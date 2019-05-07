@@ -1,7 +1,8 @@
 package model.weapons;
 
-public class Effect {
-	private EffectType type;
+import model.Match;
+
+public abstract class Effect {
 	private int damage;
 	private int mark;
 	private int moveYourself;
@@ -13,7 +14,6 @@ public class Effect {
 
 	//constructor
 	public Effect(){
-		type = EffectType.NOEFFECT;
 		damage = 0;
 		mark = 0;
 		moveYourself = 0;
@@ -24,9 +24,6 @@ public class Effect {
 		sameTarget = 0;  //index of the array of players choosen as targets, -1 means all targets
 	}
 
-	public EffectType getType() {
-		return type;
-	}
 
 	public int getDamage() {
 		return this.damage;
@@ -42,10 +39,6 @@ public class Effect {
 
 	public int getMoveYourself() {
 		return this.moveYourself;
-	}
-
-	public void setType(EffectType type) {
-		this.type = type;
 	}
 
 	public void setDamage(int damage) {
@@ -96,28 +89,5 @@ public class Effect {
 		this.sameTarget = sameTarget;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder name = new StringBuilder();
-		name.append(this.type);
-		switch (type) {
-			case DAMAGE:
-				name.append(" of ");
-				name.append(damage);
-				break;
-			case MARK:
-				name.append(" of ");
-				name.append(mark);
-				break;
-			case MOVETARGET:
-				name.append(" of ");
-				name.append(moveTarget);
-				break;
-			case MOVEYOURSELF:
-				name.append(" of ");
-				name.append(moveYourself);
-				break;
-		}
-		return name.toString();
-	}
+	public abstract void executeEffect(Match match, );
 }

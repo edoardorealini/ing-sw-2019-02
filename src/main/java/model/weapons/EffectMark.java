@@ -3,7 +3,6 @@ package model.weapons;
 public class EffectMark extends Effect {
 
 	public EffectMark (int mark, int targets, int sameTarget, boolean visible, int distance) {
-		this.setType(EffectType.MARK);
 		this.setDamage(0);
 		this.setInvolvedPlayers(targets);
 		this.setMinShootDistance(distance);
@@ -12,6 +11,13 @@ public class EffectMark extends Effect {
 		this.setMoveTarget(0);
 		this.setMoveYourself(0);
 		this.setSameTarget(sameTarget);
+	}
 
+	@Override
+	public String toString() {
+		StringBuilder name = new StringBuilder();
+		name.append("Mark of: ");
+		name.append(this.getMark());
+		return name.toString();
 	}
 }
