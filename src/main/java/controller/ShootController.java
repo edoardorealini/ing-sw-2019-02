@@ -115,7 +115,7 @@ public class ShootController extends ActionController {
 
 	public void executeEffect(Effect effect) {
 		/*	This method execute the effect according to its type
-		 */
+
 		switch (effect.getType()) {
 
 			case DAMAGE:
@@ -149,6 +149,7 @@ public class ShootController extends ActionController {
 			default:
 				break;
 		}
+		*/
 	}
 
 	public boolean isVisibleTarget (Player player1, Player player2) {

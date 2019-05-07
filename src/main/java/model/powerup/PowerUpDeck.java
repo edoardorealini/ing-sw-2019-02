@@ -10,30 +10,33 @@ public class PowerUpDeck {
 
         powerUpDeck = new LinkedList<>();
 
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TAGBACK_GRENADE));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TARGETING_SCOPE));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.NEWTON));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TELEPORTER));
-        powerUpDeck.add(new PowerUp(Color.BLUE, PowerUpName.TELEPORTER));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TELEPORTER));
-        powerUpDeck.add(new PowerUp(Color.RED, PowerUpName.TELEPORTER));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TELEPORTER));
-        powerUpDeck.add(new PowerUp(Color.YELLOW, PowerUpName.TELEPORTER));
+        powerUpDeck.add(new TagbackGrenade(Color.BLUE));
+        powerUpDeck.add(new TagbackGrenade(Color.BLUE));
+        powerUpDeck.add(new TagbackGrenade(Color.RED));
+        powerUpDeck.add(new TagbackGrenade(Color.RED));
+        powerUpDeck.add(new TagbackGrenade(Color.YELLOW));
+        powerUpDeck.add(new TagbackGrenade(Color.YELLOW));
+
+        powerUpDeck.add(new TargetingScope(Color.BLUE));
+        powerUpDeck.add(new TargetingScope(Color.BLUE));
+        powerUpDeck.add(new TargetingScope(Color.RED));
+        powerUpDeck.add(new TargetingScope(Color.RED));
+        powerUpDeck.add(new TargetingScope(Color.YELLOW));
+        powerUpDeck.add(new TargetingScope(Color.YELLOW));
+
+        powerUpDeck.add(new Newton(Color.BLUE));
+        powerUpDeck.add(new Newton(Color.BLUE));
+        powerUpDeck.add(new Newton(Color.RED));
+        powerUpDeck.add(new Newton(Color.RED));
+        powerUpDeck.add(new Newton(Color.YELLOW));
+        powerUpDeck.add(new Newton(Color.YELLOW));
+
+        powerUpDeck.add(new Teleporter(Color.BLUE));
+        powerUpDeck.add(new Teleporter(Color.BLUE));
+        powerUpDeck.add(new Teleporter(Color.RED));
+        powerUpDeck.add(new Teleporter(Color.RED));
+        powerUpDeck.add(new Teleporter(Color.YELLOW));
+        powerUpDeck.add(new Teleporter(Color.YELLOW));
 
     }
 

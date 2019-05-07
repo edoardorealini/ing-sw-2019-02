@@ -21,6 +21,10 @@ public class PowerUpController{
     }
 
     public void usePowerUp(PowerUp powerUp){
+        //TODO capire come implementare bene questa parte
+    }
+
+    public void usePowerUpAsAmmo(PowerUp powerUp){
         //TODO
     }
 

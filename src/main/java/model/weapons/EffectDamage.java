@@ -1,5 +1,7 @@
 package model.weapons;
 
+import model.Match;
+
 public class EffectDamage extends Effect {
 
 	public EffectDamage (int damage, int targets, int sameTarget, boolean visible, int distance) {
@@ -22,7 +24,7 @@ public class EffectDamage extends Effect {
 	}
 
 	@Override
-	public void executeEffect() {
+	public void executeEffect(Match match) {
 
 	}
 }

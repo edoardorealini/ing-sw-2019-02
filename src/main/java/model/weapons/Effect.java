@@ -89,5 +89,5 @@ public abstract class Effect {
 		this.sameTarget = sameTarget;
 	}
 
-	public abstract void executeEffect(Match match, );
+	public abstract void executeEffect(Match match);
 }
