@@ -55,9 +55,9 @@ class MapBuilderTest {
 
 
         assertEquals(mapTest1.getMapID(), 1);
-        assertEquals(mapTest1.getSquaresMatrix()[0][0].getActiveStatus(), false);
-        assertEquals(mapTest1.getSquaresMatrix()[0][1].getActiveStatus(), true);
-        assertEquals(mapTest1.getSquaresMatrix()[0][2].getActiveStatus(), true);
+        assertEquals(mapTest1.getSquaresMatrix()[0][0].isActive(), false);
+        assertEquals(mapTest1.getSquaresMatrix()[0][1].isActive(), true);
+        assertEquals(mapTest1.getSquaresMatrix()[0][2].isActive(), true);
 
         assertEquals(mapTest1.getSquaresMatrix()[0][1].getColor(), Color.RED);
         assertEquals(mapTest1.getSquaresMatrix()[0][2].getColor(), Color.BLUE);
@@ -76,9 +76,9 @@ class MapBuilderTest {
         System.out.println("map1 tested OK");
 
         assertEquals(mapTest2.getMapID(), 2);
-        assertEquals(mapTest2.getSquaresMatrix()[0][0].getActiveStatus(), true);
-        assertEquals(mapTest2.getSquaresMatrix()[0][1].getActiveStatus(), true);
-        assertEquals(mapTest2.getSquaresMatrix()[0][2].getActiveStatus(), true);
+        assertEquals(mapTest2.getSquaresMatrix()[0][0].isActive(), true);
+        assertEquals(mapTest2.getSquaresMatrix()[0][1].isActive(), true);
+        assertEquals(mapTest2.getSquaresMatrix()[0][2].isActive(), true);
 
         assertEquals(mapTest2.getSquaresMatrix()[0][0].getColor(), Color.WHITE);
         assertEquals(mapTest2.getSquaresMatrix()[0][1].getColor(), Color.RED);
@@ -95,9 +95,9 @@ class MapBuilderTest {
         System.out.println("map2 tested OK");
 
         assertEquals(mapTest3.getMapID(), 3);
-        assertEquals(mapTest3.getSquaresMatrix()[0][0].getActiveStatus(), false);
-        assertEquals(mapTest3.getSquaresMatrix()[0][1].getActiveStatus(), true);
-        assertEquals(mapTest3.getSquaresMatrix()[0][2].getActiveStatus(), true);
+        assertEquals(mapTest3.getSquaresMatrix()[0][0].isActive(), false);
+        assertEquals(mapTest3.getSquaresMatrix()[0][1].isActive(), true);
+        assertEquals(mapTest3.getSquaresMatrix()[0][2].isActive(), true);
 
         assertEquals(mapTest3.getSquaresMatrix()[0][1].getColor(), Color.RED);
         assertEquals(mapTest3.getSquaresMatrix()[0][2].getColor(), Color.BLUE);
@@ -112,9 +112,9 @@ class MapBuilderTest {
         System.out.println("map3 tested OK");
 
         assertEquals(mapTest3.getMapID(), 3);
-        assertEquals(mapTest3.getSquaresMatrix()[0][0].getActiveStatus(), false);
-        assertEquals(mapTest3.getSquaresMatrix()[0][1].getActiveStatus(), true);
-        assertEquals(mapTest3.getSquaresMatrix()[0][2].getActiveStatus(), true);
+        assertEquals(mapTest3.getSquaresMatrix()[0][0].isActive(), false);
+        assertEquals(mapTest3.getSquaresMatrix()[0][1].isActive(), true);
+        assertEquals(mapTest3.getSquaresMatrix()[0][2].isActive(), true);
 
         assertEquals(mapTest3.getSquaresMatrix()[0][1].getColor(), Color.RED);
         assertEquals(mapTest3.getSquaresMatrix()[0][2].getColor(), Color.BLUE);
@@ -129,9 +129,9 @@ class MapBuilderTest {
         System.out.println("map4 tested OK");
 
         assertEquals(mapTest4.getMapID(), 4);
-        assertEquals(mapTest4.getSquaresMatrix()[0][0].getActiveStatus(), true);
-        assertEquals(mapTest4.getSquaresMatrix()[0][1].getActiveStatus(), true);
-        assertEquals(mapTest4.getSquaresMatrix()[0][2].getActiveStatus(), true);
+        assertEquals(mapTest4.getSquaresMatrix()[0][0].isActive(), true);
+        assertEquals(mapTest4.getSquaresMatrix()[0][1].isActive(), true);
+        assertEquals(mapTest4.getSquaresMatrix()[0][2].isActive(), true);
 
         assertEquals(mapTest4.getSquaresMatrix()[0][1].getColor(), Color.RED);
         assertEquals(mapTest4.getSquaresMatrix()[0][0].getColor(), Color.WHITE);

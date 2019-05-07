@@ -73,7 +73,7 @@ public class Square {
         this.activeStatus = activeStatus;
     }
 
-    public Boolean getActiveStatus() {
+    public Boolean isActive() {
         return activeStatus;
     }
 
