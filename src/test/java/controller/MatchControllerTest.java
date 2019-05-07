@@ -13,12 +13,10 @@ class MatchControllerTest {
     void setUp() {
         matchController = new MatchController(1);
     }
-    /*
+
 
     @Test
     void getMap() {
-        //matchController.getMap().getMapID();
     }
 
-    */
 }

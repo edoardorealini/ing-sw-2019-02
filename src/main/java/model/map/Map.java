@@ -131,10 +131,12 @@ public class Map {
         int j;
         for(i = 0; i < 4; i++){
             for(j = 0; j < 3; j++){
-                if(squaresMatrix[i][j].getType() == SquareType.SPAWN){
-                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
-                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
-                    squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                if(squaresMatrix[i][j].getActiveStatus()){
+                    if(squaresMatrix[i][j].getType() == SquareType.SPAWN){
+                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                    }
                 }
             }
         }
@@ -148,10 +150,12 @@ public class Map {
         int j;
         for(i = 0; i < 4; i++){
             for(j = 0; j < 3; j++){
-                if(squaresMatrix[i][j].getType() == SquareType.NOSPAWN){
-                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
-                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
-                    squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                if(squaresMatrix[i][j].getActiveStatus()){
+                    if (squaresMatrix[i][j].getType() == SquareType.NOSPAWN) {
+                        squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                        squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                        squaresMatrix[i][j].setAmmoTile(deck.pickFirstCard());
+                    }
                 }
             }
         }

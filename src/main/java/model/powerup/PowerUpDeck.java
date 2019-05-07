@@ -8,6 +8,8 @@ public class PowerUpDeck {
 
     public PowerUpDeck(){
 
+        powerUpDeck = new LinkedList<>();
+
         powerUpDeck.add(new PowerUp(Color.BLUE, "TagBack Grenade"));
         powerUpDeck.add(new PowerUp(Color.BLUE, "TagBack Grenade"));
         powerUpDeck.add(new PowerUp(Color.RED, "TagBack Grenade"));

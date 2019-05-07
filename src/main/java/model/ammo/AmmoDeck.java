@@ -5,9 +5,10 @@ import model.powerup.PowerUpDeck;
 
 public class AmmoDeck {
     private LinkedList<AmmoCard> ammoDeck;
-    private PowerUpDeck powerUpDeck;
 
     public AmmoDeck(){
+        ammoDeck = new LinkedList<>();
+
         ammoDeck.add(new AmmoCard(0,2,1,false));
         ammoDeck.add(new AmmoCard(2,0,1,false));
         ammoDeck.add(new AmmoCard(1,2,0,false));
