@@ -93,7 +93,7 @@ public class WeaponDeck {
         weaponDeck.get(5).setCostOpt1(null);
         weaponDeck.get(5).setCostOpt2(Color.BLUE);
         weaponDeck.get(5).setCostAlternate(null);
-        weaponDeck.get(5).setBasicEffect(new EffectDamage(2, 1, 0, true, 0));
+        weaponDeck.get(5).setBasicEffect(new EffectDamage(2, 1, 0, true, 0));  //can also be not visible if you move first
         weaponDeck.get(5).setOptionalEffectOne(new EffectMoveYourself(2));
         weaponDeck.get(5).setOptionalEffectTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
         weaponDeck.get(5).setAlternateEffect(null);
@@ -122,7 +122,7 @@ public class WeaponDeck {
         weaponDeck.get(7).setCostOpt2(null);
         weaponDeck.get(7).setCostAlternate(null);
         weaponDeck.get(7).setBasicEffect(new EffectMoveTarget(1, 1, 0, false, 0), new EffectDamage(2, 1, 0, true, 1));  //same target
-        weaponDeck.get(7).setOptionalEffectOne(new EffectMoveTarget(1, 2, -1, false, 0), new EffectDamage(1, 2, -1, true, 1));  //same targets, maybe divide the effects on the different player
+        weaponDeck.get(7).setOptionalEffectOne(new EffectMoveTarget(1, 1, 1, false, 0), new EffectDamage(1, 1, 1, true, 1), new EffectMoveTarget(1, 1, 2, false, 0), new EffectDamage(1, 1, 2, true, 1));  //same targets
         weaponDeck.get(7).setOptionalEffectTwo(null);
         weaponDeck.get(7).setAlternateEffect(null);
 

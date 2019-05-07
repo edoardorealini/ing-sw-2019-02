@@ -84,7 +84,7 @@ public class Effect {
 		this.needVisibleTarget = needVisibleTarget;
 	}
 
-	public boolean isNeedVisibleTarget() {
+	public boolean needVisibleTarget() {
 		return needVisibleTarget;
 	}
 
