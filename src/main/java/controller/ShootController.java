@@ -30,15 +30,15 @@ public class ShootController extends ActionController {
 		return match;
 	}
 
-	public void shoot(Weapon weapon, ShootEffect WeapEffect, List<Player> targets) throws IllegalArgumentException{
+	public void shoot(Weapon weapon, ShootEffect weapEffect, List<Player> targets) throws IllegalArgumentException{
 		/* ShootEffect is an enum used to choose which effect of the weapon the players wants to use
 		   In this method the choice is between BASIC EFFECT OR ALTERNATE EFFECT
 		*/
 
-		if (WeapEffect.equals(ShootEffect.OPTIONAL1) || WeapEffect.equals(ShootEffect.OPTIONAL2)) {
+		if (weapEffect.equals(ShootEffect.OPTIONAL1) || weapEffect.equals(ShootEffect.OPTIONAL2)) {
 			throw new IllegalArgumentException(); }
 		else {
-			switch (WeapEffect) {
+			switch (weapEffect) {
 
 				case ALTERNATE:				//check if the player wants to use the ALTERNATE effect and, if so, try to remove his ammos
 					List<Color> cost = weapon.getCostAlternate();
@@ -84,6 +84,10 @@ public class ShootController extends ActionController {
 			}		//end switch
 		} 	 	//end else
 	}		//end method
+
+	public void shoot(Weapon weapon, ShootEffect weapEffect1, ShootEffect weapEffect2, List<Player> targets) {
+
+	}
 
 	public void executeEffect(Effect effect) {
 		switch (effect.getType()) {
