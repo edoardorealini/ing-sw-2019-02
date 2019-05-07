@@ -37,7 +37,7 @@
       {
         "activeStatus":true,
         "color":"RED",
-        "allowedMoves":["LEFT"],
+        "allowedMoves":["LEFT", "DOWN"],
         "doors":["DOWN"],
         "type": "NOSPAWN",
         "weaponBox":[]

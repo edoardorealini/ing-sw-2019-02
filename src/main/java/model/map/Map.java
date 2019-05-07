@@ -269,10 +269,10 @@ public class Map {
                     if(!explored.contains(getSquare(dir, exploredSquare)))
                         toExplore.add(getSquare(dir, exploredSquare));
                 }
-
-                if(toExplore.contains(destination))
-                    return true;
             }
+
+            if(toExplore.contains(destination))
+                return true;
 
             explored.addAll(toExplore);
             toExplore.clear();
@@ -282,7 +282,7 @@ public class Map {
         return false; //uscito da while, eccesso di maxDistance
     }
 
-    //FOR TEST USE ONLY for now
+    //FOR TEST USE ONLY (for now)
     public Square getSquare(int i, int j){
         return squaresMatrix[i][j];
     }
