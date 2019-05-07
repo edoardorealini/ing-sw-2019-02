@@ -7,6 +7,7 @@ public class AmmoDeck {
     private LinkedList<AmmoCard> ammoDeck;
 
     public AmmoDeck(){
+
         ammoDeck = new LinkedList<>();
 
         ammoDeck.add(new AmmoCard(0,2,1,false));
@@ -46,7 +47,6 @@ public class AmmoDeck {
         ammoDeck.add(new AmmoCard(1,0,1,true));
         ammoDeck.add(new AmmoCard(1,1,0,true));
         ammoDeck.add(new AmmoCard(0,1,1,true));
-
 
     }
 

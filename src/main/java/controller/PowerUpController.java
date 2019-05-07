@@ -12,8 +12,12 @@ import model.Color;
 
 public class PowerUpController{
     private Match match;
+    private MoveController moveController;
 
-    public PowerUpController(Match m){
+    public PowerUpController(Match m, MoveController moveCtrl){
         this. match = m;
+        this.moveController = moveCtrl;
     }
+
+    //TODO
 }

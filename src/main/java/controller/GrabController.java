@@ -7,14 +7,15 @@ import model.player.Player;
 import model.map.Directions;
 import model.weapons.Weapon;
 
-import java.lang.reflect.Array;
 import java.util.*;
 public class GrabController extends ActionController {
 
     private Match match;
+    private MoveController moveController;
 
-    public GrabController(Match match){
+    public GrabController(Match match, MoveController moveCtrl){
         this.match = match;
+        this.moveController = moveCtrl;
     }
 
     public Player getPlayer() {
@@ -57,7 +58,7 @@ public class GrabController extends ActionController {
     public void grabWeapon(Weapon weapon){         // da passare come argomento quale arma prendere, la 0 1 o 2
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
                 // inizio controllo munizioni disponibili
-                if (match.getCurrentPlayer().getPosition().getWeaponBox().contains(weapon)){
+                if (match.getCurrentPlayer().getPosition().getAvailableWeapons().contains(weapon)){
                     List <Color> weaponCost = weapon.getCost();
                     int redTmp=0, blueTemp=0, yelloTmp=0;
                     for (int i=1; i<weaponCost.size(); i++){

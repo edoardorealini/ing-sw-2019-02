@@ -119,7 +119,7 @@ public class Map {
         return mapID;
     }
 
-    public Square[][] getSquaresMatrix() {
+    private Square[][] getSquaresMatrix() {
         return squaresMatrix;
     }
 
@@ -133,9 +133,9 @@ public class Map {
             for(j = 0; j < 3; j++){
                 if(squaresMatrix[i][j].isActive()){
                     if(squaresMatrix[i][j].getType() == SquareType.SPAWN){
-                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
-                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
-                        squaresMatrix[i][j].getWeaponBox().add(deck.pickFirstCard());
+                        squaresMatrix[i][j].addWeapon(deck.pickFirstCard());
+                        squaresMatrix[i][j].addWeapon(deck.pickFirstCard());
+                        squaresMatrix[i][j].addWeapon(deck.pickFirstCard());
                     }
                 }
             }

@@ -21,44 +21,18 @@ public class Square {
         this.doors = null;
     }
 
-    /*      COSTRUTTORI DEPRECATI
-
-        public Square(Color color, Boolean activeStatus, ArrayList<Directions> allowedMoves, ArrayList<Directions> doors){
-        this.color = color;
-        this.activeStatus = activeStatus;
-        this.allowedMoves = new ArrayList<>();
-        this.allowedMoves.addAll(allowedMoves);
-        this.doors = new ArrayList<>();
-        this.doors.addAll(doors);
-    }
-
-    */
-
-    public ArrayList<Weapon> getWeaponBox() {
+    public ArrayList<Weapon> getAvailableWeapons() {
         return weaponBox;
     }
 
-    public Boolean addWeapon(Weapon weapon){
+    public void addWeapon(Weapon weapon){
         if(weaponBox.size() < 3) {
             weaponBox.add(weapon);
-            return true;
         }
-        return false;
     }
 
-    public Boolean removeWeapon(Weapon weapon){
-        if(weaponBox.contains(weapon)) {
+    public void removeWeapon(Weapon weapon){
             weaponBox.remove(weapon);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public String listAvailableWeapons(){
-        //TODO better implemetation
-        return weaponBox.toString();
     }
 
     public AmmoCard getAmmoTile() {
@@ -67,10 +41,6 @@ public class Square {
 
     public void setAmmoTile(AmmoCard ammoTile) {
         this.ammoTile = ammoTile;
-    }
-
-    public Square(Boolean activeStatus){ //secondo costruttore per costruire square inattivi
-        this.activeStatus = activeStatus;
     }
 
     public Boolean isActive() {
