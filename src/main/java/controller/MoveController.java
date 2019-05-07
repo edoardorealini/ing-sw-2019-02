@@ -6,6 +6,9 @@ import model.map.Directions;
 import model.player.Player;
 import model.map.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MoveController {
     private Match match;
 
@@ -59,11 +62,84 @@ public class MoveController {
         this method changes the player position only if the move is allowed by the map configuration.
     */
     public void move(Player player, Square destination, int maxDistanceAllowed) throws  NotAllowedMoveException{
-        if(! match.getMap().isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))
+        if(! isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))
             throw new NotAllowedMoveException();
 
         else
             player.setPosition(destination);
+    }
+
+        /*
+        This method verifies that the minimum distance between the 2 input squares
+        is less than the maxDistance setted as parameter.
+
+        How: exploring the map.
+            - form the starting point i explore all the squares directly linked. (dist = 1)
+            - then i explore all linked squares to the squares thar were linked to the starting point (list = 2)
+     */
+
+    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance){
+        List<Square> explored = new ArrayList<>(); //contiene gli squares esplorati
+        List<Square> toExplore = new ArrayList<>(); //contiene gli square da esplorare
+        int distance = 1;
+
+        explored.add(startingPoint);
+
+        if(startingPoint.equals(destination))
+            return true;
+
+        while(distance <= maxDistance){
+
+            for(Square exploredSquare : explored){
+                for(Directions dir: exploredSquare.getAllowedMoves()){
+                    if(!explored.contains(match.getMap().getSquare(dir, exploredSquare)))
+                        toExplore.add(match.getMap().getSquare(dir, exploredSquare));
+                }
+            }
+
+            if(toExplore.contains(destination))
+                return true;
+
+            explored.addAll(toExplore);
+            toExplore.clear();
+            distance++;
+        }
+
+        return false; //uscito da while, eccesso di maxDistance
+    }
+
+    /*
+        This method returns the minimum distance between 2 given squares
+    */
+
+    public int minDistBetweenSquares(Square startingPoint, Square destination){
+        List<Square> explored = new ArrayList<>(); //contiene gli squares esplorati
+        List<Square> toExplore = new ArrayList<>(); //contiene gli square da esplorare
+        int distance = 1;
+
+        explored.add(startingPoint);
+
+        if(startingPoint.equals(destination))
+            return distance - 1;
+
+        while(distance <= 10){
+
+            for(Square exploredSquare : explored){
+                for(Directions dir: exploredSquare.getAllowedMoves()){
+                    if(!explored.contains(match.getMap().getSquare(dir, exploredSquare)))
+                        toExplore.add(match.getMap().getSquare(dir, exploredSquare));
+                }
+            }
+
+            if(toExplore.contains(destination))
+                return distance;
+
+            explored.addAll(toExplore);
+            toExplore.clear();
+            distance++;
+        }
+
+        return -1;
     }
 
 

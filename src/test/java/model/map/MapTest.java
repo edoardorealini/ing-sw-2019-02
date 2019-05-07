@@ -43,32 +43,4 @@ class MapTest {
         //TODO
     }
 
-    @Test
-    void isAllowedMove(){
-        //TODO controllare tutti i json delle mappe, ci sono errori nelle allowedMoves
-
-        Square startingPoint = mapTest.getSquareFromIndex(0,2);
-        Square destination = mapTest.getSquareFromIndex(3,0);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , false);
-
-        startingPoint = mapTest.getSquareFromIndex(0,2);
-        destination = mapTest.getSquareFromIndex(2,1);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
-
-        //System.out.println(mapTest.getSquareFromIndex(1,1).getAllowedMoves().toString());
-        startingPoint = mapTest.getSquareFromIndex(0,2);
-        destination = mapTest.getSquareFromIndex(1,0);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
-
-        startingPoint = mapTest.getSquareFromIndex(0,1);
-        destination = mapTest.getSquareFromIndex(2,0);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 3) , true);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 2) , false);
-        assertEquals(mapTest.isAllowedMove(startingPoint, destination, 1) , false);
-
-    }
 }

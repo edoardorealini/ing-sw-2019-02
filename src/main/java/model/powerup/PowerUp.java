@@ -4,19 +4,19 @@ import model.Color;
 
 public class PowerUp {
     private Color color;
-    private String name;
+    private PowerUpName name;
 
 
-    public PowerUp(Color color, String name){
-        this.color=color;
-        this.name=name;
+    public PowerUp(Color color, PowerUpName name){
+        this.color = color;     //color rappresenta il colore della carta ma anche il colore della munizione associata alla carta
+        this.name = name;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public String getName() {
+    public PowerUpName getName() {
         return name;
     }
 }
