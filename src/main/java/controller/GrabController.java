@@ -1,6 +1,6 @@
 package controller;
 
-import exception.NotEnoughAmmo;
+import exception.NotEnoughAmmoException;
 import exception.WrongPositionException;
 import model.Color;
 import model.map.SquareType;
@@ -57,7 +57,7 @@ public class GrabController extends ActionController {
         else throw new WrongPositionException("Square is not type NOSPAWN");
     }
 
-    public void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmo {
+    public void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException {
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
                 // inizio controllo munizioni disponibili
                 if (match.getCurrentPlayer().getPosition().getAvailableWeapons().contains(weapon)){
@@ -86,7 +86,7 @@ public class GrabController extends ActionController {
                         match.getCurrentPlayer().getPosition().removeWeapon(weapon); // rimuovo arma dallo square
                         match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
                     }
-                    else throw new NotEnoughAmmo("Not enough ammo to buy this weapon");
+                    else throw new NotEnoughAmmoException("Not enough ammo to buy this weapon");
 
                 }
                 else throw new IllegalArgumentException("No such a weapon in weaponBox");
