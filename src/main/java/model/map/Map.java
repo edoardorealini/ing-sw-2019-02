@@ -62,7 +62,7 @@ public class Map {
     }
 
     /*
-        getSquare returns a square reference to the square near the input square
+        getSquareFromIndex returns a square reference to the square near the input square
         in the specified direction
     */
     public Square getSquare(Directions direction, Square startingSquare){
@@ -287,7 +287,7 @@ public class Map {
     }
 
     //FOR TEST USE ONLY (for now)
-    public Square getSquare(int i, int j){
+    public Square getSquareFromIndex(int i, int j){
         return squaresMatrix[i][j];
     }
 
