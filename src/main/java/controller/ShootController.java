@@ -17,8 +17,9 @@ public class ShootController extends ActionController {
 
 	//methods
 
-	public void setMatch(Match match) {
+	public ShootController(Match match) {
 		this.match = match;
+		this.targetPlayers = new ArrayList<>();
 	}
 
 	public Player getPlayer() {
@@ -86,7 +87,9 @@ public class ShootController extends ActionController {
 	}		//end method
 
 	public void shoot(Weapon weapon, ShootEffect weapEffect1, ShootEffect weapEffect2, List<Player> targets) {
-
+		/* ShootEffect is an enum used to choose which effect of the weapon the players wants to use
+		   In this method the choice is between BASIC EFFECT AND OPTIONAL 1 OR OPTIONAL 2
+		*/
 	}
 
 	public void executeEffect(Effect effect) {
