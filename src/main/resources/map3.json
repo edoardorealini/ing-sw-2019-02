@@ -11,7 +11,7 @@
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"],
         "type": "SPAWN",
-        "ammoTile": null
+        "weaponBox":[]
       },
 
       {
@@ -20,7 +20,7 @@
         "allowedMoves":["DOWN","RIGHT"],
         "doors":["DOWN"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       }
     ],
 
@@ -31,7 +31,7 @@
         "allowedMoves":["UP","RIGHT"],
         "doors":["UP"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       },
 
       {
@@ -40,7 +40,7 @@
         "allowedMoves":["LEFT", "RIGHT", "DOWN"],
         "doors":["DOWN"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       },
 
       {
@@ -49,7 +49,7 @@
         "allowedMoves":["LEFT","RIGHT"],
         "doors":[],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       }
     ],
 
@@ -60,7 +60,7 @@
         "allowedMoves":["RIGHT","LEFT"],
         "doors":["RIGHT"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       },
 
       {
@@ -69,7 +69,7 @@
         "allowedMoves":["UP","RIGHT","LEFT"],
         "doors":["UP", "RIGHT"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       },
 
       {
@@ -78,7 +78,7 @@
         "allowedMoves":["DOWN","LEFT"],
         "doors":["DOWN"],
         "type": "SPAWN",
-        "ammoTile":null
+        "weaponBox":[]
       }
     ],
 
@@ -89,7 +89,7 @@
         "allowedMoves":["UP","LEFT"],
         "doors":["LEFT"],
         "type": "SPAWN",
-        "ammoTile": null
+        "weaponBox":[]
       },
 
       {
@@ -98,7 +98,7 @@
         "allowedMoves":["DOWN","LEFT"],
         "doors":["LEFT"],
         "type": "NOSPAWN",
-        "weaponBox":[]
+        "ammoTile": null
       },
 
       {
