@@ -23,6 +23,6 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void executeEffect() {
+	void isVisibleTarget() {
 	}
 }
