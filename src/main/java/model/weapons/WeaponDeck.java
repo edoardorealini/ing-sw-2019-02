@@ -19,10 +19,10 @@ public class WeaponDeck {
         weaponDeck.get(0).setCostOpt1(Color.RED);
         weaponDeck.get(0).setCostOpt2(null);
         weaponDeck.get(0).setCostAlternate(null);
-        weaponDeck.get(0).setBasicEffect(new EffectDamage(2, 1, 0, true, 0), new EffectMark(1, 1, 0, true, 0));  //same target
-        weaponDeck.get(0).setOptionalEffectOne(new EffectMark(1, 1, 1,true, 0));
-        weaponDeck.get(0).setOptionalEffectTwo(null);
-        weaponDeck.get(0).setAlternateEffect(null);
+        weaponDeck.get(0).setBasicMode(new EffectDamage(2, 1, 0, true, 0), new EffectMark(1, 1, 0, true, 0));  //same target
+        weaponDeck.get(0).setOptionalModeOne(new EffectMark(1, 1, 1,true, 0));
+        weaponDeck.get(0).setOptionalModeTwo(null);
+        weaponDeck.get(0).setAlternateMode(null);
 
 
         //ELECTROSCYTHE
@@ -33,10 +33,10 @@ public class WeaponDeck {
         weaponDeck.get(1).setCostOpt1(null);
         weaponDeck.get(1).setCostOpt2(null);
         weaponDeck.get(1).setCostAlternate(Color.BLUE, Color.RED);
-        weaponDeck.get(1).setBasicEffect(new EffectDamage(1, -1, -1, true, -1));
-        weaponDeck.get(1).setOptionalEffectOne(null);
-        weaponDeck.get(1).setOptionalEffectTwo(null);
-        weaponDeck.get(1).setAlternateEffect(new EffectDamage(2, -1, -1, true, -1));
+        weaponDeck.get(1).setBasicMode(new EffectDamage(1, -1, -1, true, -1));
+        weaponDeck.get(1).setOptionalModeOne(null);
+        weaponDeck.get(1).setOptionalModeTwo(null);
+        weaponDeck.get(1).setAlternateMode(new EffectDamage(2, -1, -1, true, -1));
 
 
         //MACHINE GUN
@@ -47,10 +47,10 @@ public class WeaponDeck {
         weaponDeck.get(2).setCostOpt1(Color.YELLOW);
         weaponDeck.get(2).setCostOpt2(Color.BLUE);
         weaponDeck.get(2).setCostAlternate(null);
-        weaponDeck.get(2).setBasicEffect(new EffectDamage(1, 1, 0, true, 0), new EffectDamage(1, 1, 1, true, 0));
-        weaponDeck.get(2).setOptionalEffectOne(new EffectDamage(1, 1, 0, true, 0));
-        weaponDeck.get(2).setOptionalEffectTwo(new EffectDamage(1, 1, 1, true, 0), new EffectDamage(1, 1, 2, true, 0));
-        weaponDeck.get(2).setAlternateEffect(null);
+        weaponDeck.get(2).setBasicMode(new EffectDamage(1, 1, 0, true, 0), new EffectDamage(1, 1, 1, true, 0));
+        weaponDeck.get(2).setOptionalModeOne(new EffectDamage(1, 1, 0, true, 0));
+        weaponDeck.get(2).setOptionalModeTwo(new EffectDamage(1, 1, 1, true, 0), new EffectDamage(1, 1, 2, true, 0));
+        weaponDeck.get(2).setAlternateMode(null);
         /*note: the damage of OptionalEffectOne must be the same of the first target of BasicEffect, the same for the first effect of OptionalEffectTwo;
               moreover, the second effect of OptionalEffectTwo must target a completely different player, remember this in Controller
         */
@@ -64,10 +64,10 @@ public class WeaponDeck {
         weaponDeck.get(3).setCostOpt1(null);
         weaponDeck.get(3).setCostOpt2(null);
         weaponDeck.get(3).setCostAlternate(Color.RED, Color.YELLOW);
-        weaponDeck.get(3).setBasicEffect(new EffectMoveTarget(2, 1, 0, false, 0), new EffectDamage(1, 1, 0, true, 0));  //same target,  after the movement must be visible
-        weaponDeck.get(3).setOptionalEffectOne(null);
-        weaponDeck.get(3).setOptionalEffectTwo(null);
-        weaponDeck.get(3).setAlternateEffect(new EffectMoveTarget(2, 1, 0, true, 0), new EffectDamage(3, 1, 0, true, -1));  //same target, remember to check if the moved target is in your square
+        weaponDeck.get(3).setBasicMode(new EffectMoveTarget(2, 1, 0, false, 0), new EffectDamage(1, 1, 0, true, 0));  //same target,  after the movement must be visible
+        weaponDeck.get(3).setOptionalModeOne(null);
+        weaponDeck.get(3).setOptionalModeTwo(null);
+        weaponDeck.get(3).setAlternateMode(new EffectMoveTarget(2, 1, 0, true, 0), new EffectDamage(3, 1, 0, true, -1));  //same target, remember to check if the moved target is in your square
 
 
         //T.H.O.R.
@@ -78,10 +78,10 @@ public class WeaponDeck {
         weaponDeck.get(4).setCostOpt1(Color.BLUE);
         weaponDeck.get(4).setCostOpt2(Color.BLUE);
         weaponDeck.get(4).setCostAlternate(null);
-        weaponDeck.get(4).setBasicEffect(new EffectDamage(2, 1, 0, true, 0));
-        weaponDeck.get(4).setOptionalEffectOne(new EffectDamage(1, 1, 1, true, 0));  //remember to change the striker with the defender to create the chain
-        weaponDeck.get(4).setOptionalEffectTwo(new EffectDamage(2, 1, 2, true, 0));  //visible is set true so because I assume to shift the reference to the striker
-        weaponDeck.get(4).setAlternateEffect(null);
+        weaponDeck.get(4).setBasicMode(new EffectDamage(2, 1, 0, true, 0));
+        weaponDeck.get(4).setOptionalModeOne(new EffectDamage(1, 1, 1, true, 0));  //remember to change the striker with the defender to create the chain
+        weaponDeck.get(4).setOptionalModeTwo(new EffectDamage(2, 1, 2, true, 0));  //visible is set true so because I assume to shift the reference to the striker
+        weaponDeck.get(4).setAlternateMode(null);
         //remember that Opt2 is allowed only if Opt1 has been used
 
 
@@ -93,10 +93,10 @@ public class WeaponDeck {
         weaponDeck.get(5).setCostOpt1(null);
         weaponDeck.get(5).setCostOpt2(Color.BLUE);
         weaponDeck.get(5).setCostAlternate(null);
-        weaponDeck.get(5).setBasicEffect(new EffectDamage(2, 1, 0, true, 0));  //can also be not visible if you move first
-        weaponDeck.get(5).setOptionalEffectOne(new EffectMoveYourself(2));
-        weaponDeck.get(5).setOptionalEffectTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
-        weaponDeck.get(5).setAlternateEffect(null);
+        weaponDeck.get(5).setBasicMode(new EffectDamage(2, 1, 0, true, 0));  //can also be not visible if you move first
+        weaponDeck.get(5).setOptionalModeOne(new EffectMoveYourself(2));
+        weaponDeck.get(5).setOptionalModeTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
+        weaponDeck.get(5).setAlternateMode(null);
 
 
         //WHISPER
@@ -107,10 +107,10 @@ public class WeaponDeck {
         weaponDeck.get(6).setCostOpt1(null);
         weaponDeck.get(6).setCostOpt2(null);
         weaponDeck.get(6).setCostAlternate(null);
-        weaponDeck.get(6).setBasicEffect(new EffectDamage(3, 1, 0, true, 2), new EffectMark(1, 1, 0, true, 2));  //same target
-        weaponDeck.get(6).setOptionalEffectOne(null);
-        weaponDeck.get(6).setOptionalEffectTwo(null);
-        weaponDeck.get(6).setAlternateEffect(null);
+        weaponDeck.get(6).setBasicMode(new EffectDamage(3, 1, 0, true, 2), new EffectMark(1, 1, 0, true, 2));  //same target
+        weaponDeck.get(6).setOptionalModeOne(null);
+        weaponDeck.get(6).setOptionalModeTwo(null);
+        weaponDeck.get(6).setAlternateMode(null);
 
 
         //VORTEX CANNON
@@ -121,10 +121,10 @@ public class WeaponDeck {
         weaponDeck.get(7).setCostOpt1(Color.RED);
         weaponDeck.get(7).setCostOpt2(null);
         weaponDeck.get(7).setCostAlternate(null);
-        weaponDeck.get(7).setBasicEffect(new EffectMoveTarget(1, 1, 0, false, 0), new EffectDamage(2, 1, 0, true, 1));  //same target
-        weaponDeck.get(7).setOptionalEffectOne(new EffectMoveTarget(1, 1, 1, false, 0), new EffectDamage(1, 1, 1, true, 1), new EffectMoveTarget(1, 1, 2, false, 0), new EffectDamage(1, 1, 2, true, 1));  //same targets
-        weaponDeck.get(7).setOptionalEffectTwo(null);
-        weaponDeck.get(7).setAlternateEffect(null);
+        weaponDeck.get(7).setBasicMode(new EffectMoveTarget(1, 1, 0, false, 0), new EffectDamage(2, 1, 0, true, 1));  //same target
+        weaponDeck.get(7).setOptionalModeOne(new EffectMoveTarget(1, 1, 1, false, 0), new EffectDamage(1, 1, 1, true, 1), new EffectMoveTarget(1, 1, 2, false, 0), new EffectDamage(1, 1, 2, true, 1));  //same targets
+        weaponDeck.get(7).setOptionalModeTwo(null);
+        weaponDeck.get(7).setAlternateMode(null);
 
 
         //FURNACE
@@ -135,10 +135,10 @@ public class WeaponDeck {
         weaponDeck.get(8).setCostOpt1(null);
         weaponDeck.get(8).setCostOpt2(null);
         weaponDeck.get(8).setCostAlternate(null);
-        weaponDeck.get(8).setBasicEffect(new EffectDamage(1, -1, -1, true, 1));
-        weaponDeck.get(8).setOptionalEffectOne(null);
-        weaponDeck.get(8).setOptionalEffectTwo(null);
-        weaponDeck.get(8).setAlternateEffect(new EffectDamage(1, -1, -1, true, 1), new EffectMark(1, -1, -1, true, 1));  //same targets
+        weaponDeck.get(8).setBasicMode(new EffectDamage(1, -1, -1, true, 1));  //every person in a room, not mine, check it in controller
+        weaponDeck.get(8).setOptionalModeOne(null);
+        weaponDeck.get(8).setOptionalModeTwo(null);
+        weaponDeck.get(8).setAlternateMode(new EffectDamage(1, -1, -1, true, 1), new EffectMark(1, -1, -1, true, 1));  //same targets
 
 
         //HEATSEEKER
@@ -149,10 +149,10 @@ public class WeaponDeck {
         weaponDeck.get(9).setCostOpt1(null);
         weaponDeck.get(9).setCostOpt2(null);
         weaponDeck.get(9).setCostAlternate(null);
-        weaponDeck.get(9).setBasicEffect(new EffectDamage(3, 1, 0, false, 2));  //only non visible targets
-        weaponDeck.get(9).setOptionalEffectOne(null);
-        weaponDeck.get(9).setOptionalEffectTwo(null);
-        weaponDeck.get(9).setAlternateEffect(null);
+        weaponDeck.get(9).setBasicMode(new EffectDamage(3, 1, 0, false, 2));  //only non visible targets
+        weaponDeck.get(9).setOptionalModeOne(null);
+        weaponDeck.get(9).setOptionalModeTwo(null);
+        weaponDeck.get(9).setAlternateMode(null);
 
 
         //HELLION
@@ -163,10 +163,10 @@ public class WeaponDeck {
         weaponDeck.get(10).setCostOpt1(null);
         weaponDeck.get(10).setCostOpt2(null);
         weaponDeck.get(10).setCostAlternate(Color.RED);
-        weaponDeck.get(10).setBasicEffect(new EffectDamage(1, 1, 0, true, 1), new EffectMark(1, -1, -1, true, 1)); //same square, mark every player
-        weaponDeck.get(10).setOptionalEffectOne(null);
-        weaponDeck.get(10).setOptionalEffectTwo(null);
-        weaponDeck.get(10).setAlternateEffect(new EffectDamage(1, 1, 0, true, 1), new EffectMark(2, -1, -1, true, 1)); //same square, mark every player
+        weaponDeck.get(10).setBasicMode(new EffectDamage(1, 1, 0, true, 1), new EffectMark(1, -1, -1, true, 1)); //same square, mark every player
+        weaponDeck.get(10).setOptionalModeOne(null);
+        weaponDeck.get(10).setOptionalModeTwo(null);
+        weaponDeck.get(10).setAlternateMode(new EffectDamage(1, 1, 0, true, 1), new EffectMark(2, -1, -1, true, 1)); //same square, mark every player
 
 
         //FLAMETHROWER
@@ -177,10 +177,10 @@ public class WeaponDeck {
         weaponDeck.get(11).setCostOpt1(null);
         weaponDeck.get(11).setCostOpt2(null);
         weaponDeck.get(11).setCostAlternate(Color.YELLOW, Color.YELLOW);
-        weaponDeck.get(11).setBasicEffect(new EffectDamage(1, 1, 0, true, 1), new EffectDamage(1, 1, 1, false, 2));  //same direction
-        weaponDeck.get(11).setOptionalEffectOne(null);
-        weaponDeck.get(11).setOptionalEffectTwo(null);
-        weaponDeck.get(11).setAlternateEffect(new EffectDamage(2, -1, -1, true, 1),new EffectDamage(1, -1, -1, false, 2));  //same direction
+        weaponDeck.get(11).setBasicMode(new EffectDamage(1, 1, 0, true, 1), new EffectDamage(1, 1, 1, false, 2));  //same direction
+        weaponDeck.get(11).setOptionalModeOne(null);
+        weaponDeck.get(11).setOptionalModeTwo(null);
+        weaponDeck.get(11).setAlternateMode(new EffectDamage(2, -1, -1, true, 1),new EffectDamage(1, -1, -1, false, 2));  //same direction
 
 
         //GRENADE LAUNCHER
@@ -191,10 +191,10 @@ public class WeaponDeck {
         weaponDeck.get(12).setCostOpt1(Color.RED);
         weaponDeck.get(12).setCostOpt2(null);
         weaponDeck.get(12).setCostAlternate(null);
-        weaponDeck.get(12).setBasicEffect(new EffectDamage(1, 1, 0, true, 0), new EffectMoveTarget(1, 1, 0, true, 0));  //same target
-        weaponDeck.get(12).setOptionalEffectOne(new EffectDamage(1, -1, -1, true, 0));  //can be used before or after the EffectMove of basic mode
-        weaponDeck.get(12).setOptionalEffectTwo(null);
-        weaponDeck.get(12).setAlternateEffect(null);
+        weaponDeck.get(12).setBasicMode(new EffectDamage(1, 1, 0, true, 0), new EffectMoveTarget(1, 1, 0, true, 0));  //same target
+        weaponDeck.get(12).setOptionalModeOne(new EffectDamage(1, -1, -1, true, 0));  //can be used before or after the EffectMove of basic mode
+        weaponDeck.get(12).setOptionalModeTwo(null);
+        weaponDeck.get(12).setAlternateMode(null);
 
 
         //ROCKET LAUNCHER
@@ -205,10 +205,10 @@ public class WeaponDeck {
         weaponDeck.get(13).setCostOpt1(Color.BLUE);
         weaponDeck.get(13).setCostOpt2(Color.YELLOW);
         weaponDeck.get(13).setCostAlternate(null);
-        weaponDeck.get(13).setBasicEffect(new EffectDamage(2, 1, 0, true, 1), new EffectMoveTarget(1, 1, 0, true, 1));  //same target
-        weaponDeck.get(13).setOptionalEffectOne(new EffectMoveYourself(2));
-        weaponDeck.get(13).setOptionalEffectTwo(new EffectDamage(1, -1, -1, false, 1));  //same square as EffectDamage of BasicEffect
-        weaponDeck.get(13).setAlternateEffect(null);
+        weaponDeck.get(13).setBasicMode(new EffectDamage(2, 1, 0, true, 1), new EffectMoveTarget(1, 1, 0, true, 1));  //same target
+        weaponDeck.get(13).setOptionalModeOne(new EffectMoveYourself(2));
+        weaponDeck.get(13).setOptionalModeTwo(new EffectDamage(1, -1, -1, true, 1));  //same square as EffectDamage of BasicMode, to be executed during BasicMode
+        weaponDeck.get(13).setAlternateMode(null);
 
 
         //RAILGUN
@@ -219,10 +219,10 @@ public class WeaponDeck {
         weaponDeck.get(14).setCostOpt1(null);
         weaponDeck.get(14).setCostOpt2(null);
         weaponDeck.get(14).setCostAlternate(null);
-        weaponDeck.get(14).setBasicEffect(new EffectDamage(3, 1, 0, false, 0));  //cardinal direction
-        weaponDeck.get(14).setOptionalEffectOne(null);
-        weaponDeck.get(14).setOptionalEffectTwo(null);
-        weaponDeck.get(14).setAlternateEffect(new EffectDamage(2, 1, 0, false, 0), new EffectDamage(2, 1, 1, false, 0));  //same direction, remember you can always split them into two new
+        weaponDeck.get(14).setBasicMode(new EffectDamage(3, 1, 0, false, 0));  //cardinal direction
+        weaponDeck.get(14).setOptionalModeOne(null);
+        weaponDeck.get(14).setOptionalModeTwo(null);
+        weaponDeck.get(14).setAlternateMode(new EffectDamage(2, 1, 0, false, 0), new EffectDamage(2, 1, 1, false, 0));  //same direction, remember you can always split them into two new
 
 
         //CYBERBLADE
@@ -233,10 +233,10 @@ public class WeaponDeck {
         weaponDeck.get(15).setCostOpt1(null);
         weaponDeck.get(15).setCostOpt2(Color.YELLOW);
         weaponDeck.get(15).setCostAlternate(null);
-        weaponDeck.get(15).setBasicEffect(new EffectDamage(2, 1, 0, true, -1));
-        weaponDeck.get(15).setOptionalEffectOne(new EffectMoveYourself(1));   //before or after the basic effect
-        weaponDeck.get(15).setOptionalEffectTwo(new EffectDamage(2, 1, 1, true, -1));   //different target from basic effect
-        weaponDeck.get(15).setAlternateEffect(null);
+        weaponDeck.get(15).setBasicMode(new EffectDamage(2, 1, 0, true, -1));
+        weaponDeck.get(15).setOptionalModeOne(new EffectMoveYourself(1));   //before or after the basic effect
+        weaponDeck.get(15).setOptionalModeTwo(new EffectDamage(2, 1, 1, true, -1));   //different target from basic effect
+        weaponDeck.get(15).setAlternateMode(null);
 
 
         //ZX-2
@@ -247,10 +247,10 @@ public class WeaponDeck {
         weaponDeck.get(16).setCostOpt1(null);
         weaponDeck.get(16).setCostOpt2(null);
         weaponDeck.get(16).setCostAlternate(null);
-        weaponDeck.get(16).setBasicEffect(new EffectDamage(1, 1, 0, true, 0), new EffectMark(2, 1, 0, true, 0));  //same target
-        weaponDeck.get(16).setOptionalEffectOne(null);
-        weaponDeck.get(16).setOptionalEffectTwo(null);
-        weaponDeck.get(16).setAlternateEffect(new EffectMark(1, 3, -1, true, 0));
+        weaponDeck.get(16).setBasicMode(new EffectDamage(1, 1, 0, true, 0), new EffectMark(2, 1, 0, true, 0));  //same target
+        weaponDeck.get(16).setOptionalModeOne(null);
+        weaponDeck.get(16).setOptionalModeTwo(null);
+        weaponDeck.get(16).setAlternateMode(new EffectMark(1, 1, 0, true, 0), new EffectMark(1, 1, 1, true, 0), new EffectMark(1, 1, 2, true, 0));
 
 
         //SHOTGUN
@@ -261,10 +261,10 @@ public class WeaponDeck {
         weaponDeck.get(17).setCostOpt1(null);
         weaponDeck.get(17).setCostOpt2(null);
         weaponDeck.get(17).setCostAlternate(null);
-        weaponDeck.get(17).setBasicEffect(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(1, 1, 0, true, -1));  //same target
-        weaponDeck.get(17).setOptionalEffectOne(null);
-        weaponDeck.get(17).setOptionalEffectTwo(null);
-        weaponDeck.get(17).setAlternateEffect(new EffectDamage(2, 1, 0, true, 1));   //exactly one move away
+        weaponDeck.get(17).setBasicMode(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(1, 1, 0, true, -1));  //same target
+        weaponDeck.get(17).setOptionalModeOne(null);
+        weaponDeck.get(17).setOptionalModeTwo(null);
+        weaponDeck.get(17).setAlternateMode(new EffectDamage(2, 1, 0, true, 1));   //exactly one move away
 
 
         //POWER GLOVE
@@ -275,10 +275,10 @@ public class WeaponDeck {
         weaponDeck.get(18).setCostOpt1(null);
         weaponDeck.get(18).setCostOpt2(null);
         weaponDeck.get(18).setCostAlternate(Color.BLUE);
-        weaponDeck.get(18).setBasicEffect(new EffectMoveYourself(1), new EffectDamage(1, 1, 0, true, -1), new EffectMark(2, 1, 0, true, -1));  //same target
-        weaponDeck.get(18).setOptionalEffectOne(null);
-        weaponDeck.get(18).setOptionalEffectTwo(null);
-        weaponDeck.get(18).setAlternateEffect(new EffectMoveYourself(1), new EffectDamage(2, 1, 0, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, 1, true, -1));
+        weaponDeck.get(18).setBasicMode(new EffectMoveYourself(1), new EffectDamage(1, 1, 0, true, -1), new EffectMark(2, 1, 0, true, -1));  //same target
+        weaponDeck.get(18).setOptionalModeOne(null);
+        weaponDeck.get(18).setOptionalModeTwo(null);
+        weaponDeck.get(18).setAlternateMode(new EffectMoveYourself(1), new EffectDamage(2, 1, 0, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, 1, true, -1));    //same direction
 
 
         //SHOCKWAVE
@@ -289,10 +289,10 @@ public class WeaponDeck {
         weaponDeck.get(19).setCostOpt1(null);
         weaponDeck.get(19).setCostOpt2(null);
         weaponDeck.get(19).setCostAlternate(Color.YELLOW);
-        weaponDeck.get(19).setBasicEffect(new EffectDamage(1, 1, 0, true, 1), new EffectDamage(1, 1, 1, true, 1), new EffectDamage(1, 1, 2,  true, 1));  //different targets exactly one move away
-        weaponDeck.get(19).setOptionalEffectOne(null);
-        weaponDeck.get(19).setOptionalEffectTwo(null);
-        weaponDeck.get(19).setAlternateEffect(new EffectDamage(1, -1, -1, true, 1));   //exactly one move away
+        weaponDeck.get(19).setBasicMode(new EffectDamage(1, 1, 0, true, 1), new EffectDamage(1, 1, 1, true, 1), new EffectDamage(1, 1, 2,  true, 1));  //different targets exactly one move away
+        weaponDeck.get(19).setOptionalModeOne(null);
+        weaponDeck.get(19).setOptionalModeTwo(null);
+        weaponDeck.get(19).setAlternateMode(new EffectDamage(1, -1, -1, true, 1));   //exactly one move away
 
 
         //SLEDGEHAMMER
@@ -303,10 +303,10 @@ public class WeaponDeck {
         weaponDeck.get(20).setCostOpt1(null);
         weaponDeck.get(20).setCostOpt2(null);
         weaponDeck.get(20).setCostAlternate(Color.RED);
-        weaponDeck.get(20).setBasicEffect(new EffectDamage(2, 1, 0, true, -1));
-        weaponDeck.get(20).setOptionalEffectOne(null);
-        weaponDeck.get(20).setOptionalEffectTwo(null);
-        weaponDeck.get(20).setAlternateEffect(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(2, 1, 0, true,-1)); //same target
+        weaponDeck.get(20).setBasicMode(new EffectDamage(2, 1, 0, true, -1));
+        weaponDeck.get(20).setOptionalModeOne(null);
+        weaponDeck.get(20).setOptionalModeTwo(null);
+        weaponDeck.get(20).setAlternateMode(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(2, 1, 0, true,-1)); //same target
     }
 
 

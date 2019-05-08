@@ -1,6 +1,6 @@
 package controller;
 
-public enum ShootEffect {
+public enum ShootMode {
 	BASIC,
 	OPTIONAL1,
 	OPTIONAL2,

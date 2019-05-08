@@ -1,6 +1,12 @@
 package model.weapons;
 
+
+import controller.MoveController;
 import model.Match;
+import model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Effect {
 	private int damage;
@@ -89,5 +95,5 @@ public abstract class Effect {
 		this.sameTarget = sameTarget;
 	}
 
-	public abstract void executeEffect(Match match);
+	public abstract void executeEffect(Match match, MoveController ctrl, Player targets);
 }

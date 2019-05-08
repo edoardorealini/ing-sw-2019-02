@@ -1,5 +1,9 @@
 package model.weapons;
 
+import controller.MoveController;
+import model.Match;
+import model.player.Player;
+
 public class EffectMoveTarget extends Effect{
 
 	public EffectMoveTarget (int move, int targets, int sameTarget, boolean visible, int distance) {
@@ -19,6 +23,11 @@ public class EffectMoveTarget extends Effect{
 		name.append("Move the target of: ");
 		name.append(this.getMoveTarget());
 		return name.toString();
+	}
+
+	@Override
+	public void executeEffect(Match match, MoveController ctrl, Player targets) {
+
 	}
 
 }

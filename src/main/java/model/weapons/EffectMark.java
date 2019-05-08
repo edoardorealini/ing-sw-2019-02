@@ -1,5 +1,9 @@
 package model.weapons;
 
+import controller.MoveController;
+import model.Match;
+import model.player.Player;
+
 public class EffectMark extends Effect {
 
 	public EffectMark (int mark, int targets, int sameTarget, boolean visible, int distance) {
@@ -19,5 +23,10 @@ public class EffectMark extends Effect {
 		name.append("Mark of: ");
 		name.append(this.getMark());
 		return name.toString();
+	}
+
+	@Override
+	public void executeEffect(Match match, MoveController ctrl, Player targets) {
+
 	}
 }

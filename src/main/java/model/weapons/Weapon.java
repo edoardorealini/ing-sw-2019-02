@@ -15,19 +15,19 @@ public class Weapon {
     private ArrayList<Color> costAlternate;
     private WeaponAmmoStatus ammoStatus;
 
-    private ArrayList<Effect> basicEffect;
-    private ArrayList<Effect> optionalEffectOne;
-    private ArrayList<Effect> optionalEffectTwo;
-    private ArrayList<Effect> alternateEffect;
+    private ArrayList<Effect> basicMode;
+    private ArrayList<Effect> optionalModeOne;
+    private ArrayList<Effect> optionalModeTwo;
+    private ArrayList<Effect> alternateMode;
 
 
 
     //constructor
     public Weapon() {
-        this.basicEffect = new ArrayList<>();
-        this.optionalEffectOne = new ArrayList<>();
-        this.optionalEffectTwo = new ArrayList<>();
-        this.alternateEffect = new ArrayList<>();
+        this.basicMode = new ArrayList<>();
+        this.optionalModeOne = new ArrayList<>();
+        this.optionalModeTwo = new ArrayList<>();
+        this.alternateMode = new ArrayList<>();
         this.cost = new ArrayList<>();
         this.costOpt1 = new ArrayList<>();
         this.costOpt2 = new ArrayList<>();
@@ -117,87 +117,93 @@ public class Weapon {
         this.ammoStatus = ammoStatus;
     }
 
-    //overloading setBasicEffect
+    //overloading setBasicMode
 
-    public void setBasicEffect(Effect a) {
-        this.basicEffect.add(a);
+    public void setBasicMode(Effect a) {
+        this.basicMode.add(a);
     }
 
-    public void setBasicEffect(Effect a, Effect b) {
-        this.basicEffect.add(a);
-        this.basicEffect.add(b);
+    public void setBasicMode(Effect a, Effect b) {
+        this.basicMode.add(a);
+        this.basicMode.add(b);
     }
 
-    public void setBasicEffect(Effect a, Effect b, Effect c) {
-        this.basicEffect.add(a);
-        this.basicEffect.add(b);
-        this.basicEffect.add(c);
+    public void setBasicMode(Effect a, Effect b, Effect c) {
+        this.basicMode.add(a);
+        this.basicMode.add(b);
+        this.basicMode.add(c);
     }
 
-    public void setBasicEffect(Effect a, Effect b, Effect c, Effect d) {
-        this.basicEffect.add(a);
-        this.basicEffect.add(b);
-        this.basicEffect.add(c);
-        this.basicEffect.add(d);
+    public void setBasicMode(Effect a, Effect b, Effect c, Effect d) {
+        this.basicMode.add(a);
+        this.basicMode.add(b);
+        this.basicMode.add(c);
+        this.basicMode.add(d);
     }
 
-    //overloading setOptionalEffectOne
+    //overloading setOptionalModeOne
 
-    public void setOptionalEffectOne(Effect a) {
-        this.optionalEffectOne.add(a);
+    public void setOptionalModeOne(Effect a) {
+        this.optionalModeOne.add(a);
     }
 
-    public void setOptionalEffectOne(Effect a, Effect b) {
-        this.optionalEffectOne.add(a);
-        this.optionalEffectOne.add(b);
+    public void setOptionalModeOne(Effect a, Effect b) {
+        this.optionalModeOne.add(a);
+        this.optionalModeOne.add(b);
     }
 
-    public void setOptionalEffectOne(Effect a, Effect b, Effect c) {
-        this.optionalEffectOne.add(a);
-        this.optionalEffectOne.add(b);
-        this.optionalEffectOne.add(c);
+    public void setOptionalModeOne(Effect a, Effect b, Effect c) {
+        this.optionalModeOne.add(a);
+        this.optionalModeOne.add(b);
+        this.optionalModeOne.add(c);
     }
 
-    public void setOptionalEffectOne(Effect a, Effect b, Effect c, Effect d) {
-        this.optionalEffectOne.add(a);
-        this.optionalEffectOne.add(b);
-        this.optionalEffectOne.add(c);
-        this.optionalEffectOne.add(d);
+    public void setOptionalModeOne(Effect a, Effect b, Effect c, Effect d) {
+        this.optionalModeOne.add(a);
+        this.optionalModeOne.add(b);
+        this.optionalModeOne.add(c);
+        this.optionalModeOne.add(d);
     }
 
-    //overloading setOptionalEffectTwo
+    //overloading setOptionalModeTwo
 
-    public void setOptionalEffectTwo(Effect a) {
-        this.optionalEffectTwo.add(a);
+    public void setOptionalModeTwo(Effect a) {
+        this.optionalModeTwo.add(a);
     }
 
-    public void setOptionalEffectTwo(Effect a, Effect b) {
-        this.optionalEffectTwo.add(a);
-        this.optionalEffectTwo.add(b);
+    public void setOptionalModeTwo(Effect a, Effect b) {
+        this.optionalModeTwo.add(a);
+        this.optionalModeTwo.add(b);
     }
 
-    public void setOptionalEffectTwo(Effect a, Effect b, Effect c) {
-        this.optionalEffectTwo.add(a);
-        this.optionalEffectTwo.add(b);
-        this.optionalEffectTwo.add(c);
+    public void setOptionalModeTwo(Effect a, Effect b, Effect c) {
+        this.optionalModeTwo.add(a);
+        this.optionalModeTwo.add(b);
+        this.optionalModeTwo.add(c);
     }
 
-    //overloading setAlternateEffect
+    //overloading setAlternateMode
 
-    public void setAlternateEffect(Effect a) {
-        this.alternateEffect.add(a);
+    public void setAlternateMode(Effect a) {
+        this.alternateMode.add(a);
     }
 
-    public void setAlternateEffect(Effect a, Effect b) {
-        this.alternateEffect.add(a);
-        this.alternateEffect.add(b);
+    public void setAlternateMode(Effect a, Effect b) {
+        this.alternateMode.add(a);
+        this.alternateMode.add(b);
     }
 
-    public void setAlternateEffect(Effect a, Effect b, Effect c, Effect d) {
-        this.alternateEffect.add(a);
-        this.alternateEffect.add(b);
-        this.alternateEffect.add(c);
-        this.alternateEffect.add(d);
+    public void setAlternateMode(Effect a, Effect b, Effect c) {
+        this.alternateMode.add(a);
+        this.alternateMode.add(b);
+        this.alternateMode.add(c);
+    }
+
+    public void setAlternateMode(Effect a, Effect b, Effect c, Effect d) {
+        this.alternateMode.add(a);
+        this.alternateMode.add(b);
+        this.alternateMode.add(c);
+        this.alternateMode.add(d);
     }
 
     @Override
@@ -207,20 +213,20 @@ public class Weapon {
         return nameWeap.toString();
     }
 
-	public List<Effect> getBasicEffect() {
-		return basicEffect;
+	public List<Effect> getBasicMode() {
+		return basicMode;
 	}
 
-	public List<Effect> getOptionalEffectOne() {
-		return optionalEffectOne;
+	public List<Effect> getOptionalModeOne() {
+		return optionalModeOne;
 	}
 
-	public List<Effect> getOptionalEffectTwo() {
-		return optionalEffectTwo;
+	public List<Effect> getOptionalModeTwo() {
+		return optionalModeTwo;
 	}
 
-	public List<Effect> getAlternateEffect() {
-		return alternateEffect;
+	public List<Effect> getAlternateMode() {
+		return alternateMode;
 	}
 
 }
