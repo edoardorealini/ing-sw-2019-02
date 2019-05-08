@@ -74,7 +74,6 @@ public class Player {
                // return "Weapon aggiunta";
             }
         }
-
         //return "spazio armi esaurito";
     }
 
@@ -118,7 +117,9 @@ public class Player {
     }
 
     // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
-    public void trasformPowerUpToAmmo(Color color, PowerUpName powerUpName){
+    //TODO x Edo, bella man
+    /*
+    public void trasformPowerUpToAmmo(PowerUp powerUp){
         for (int i=0; i<3; i++){
             if ((powerUps[i].getColor()==color)&&(powerUps[i].getName()==powerUpName)){
                 match.getPowerUpDeck().addPowerUps(powerUps[i]);
@@ -128,8 +129,8 @@ public class Player {
             }
         }
     }
-
-    public void removeAmmo(int redAmmo, int blueAmmo, int yellowAmmo) {
+    */
+    public void removeAmmo(int redAmmo, int blueAmmo, int yellowAmmo){
         ammo.setRedAmmo(ammo.getRedAmmo()-redAmmo);
         ammo.setBlueAmmo(ammo.getBlueAmmo()-blueAmmo);
         ammo.setYellowAmmo(ammo.getYellowAmmo()-yellowAmmo);

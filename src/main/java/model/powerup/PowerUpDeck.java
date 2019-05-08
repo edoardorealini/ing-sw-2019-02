@@ -50,8 +50,6 @@ public class PowerUpDeck {
          powerUpTemp = powerUpDeck.getFirst();
          powerUpDeck.removeFirst();
          return powerUpTemp;
-
-
     }
 
     public void addPowerUps(PowerUp powerUp){
