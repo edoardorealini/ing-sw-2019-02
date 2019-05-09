@@ -44,11 +44,10 @@ public class PowerUpController{
         }
 
     }
+
     /*
         Use of teleporter powerup
-     */
-
-
+    */
     public void useTeleporter(PowerUp teleporter, Square destination){
         if(teleporter.getName().equals(PowerUpName.TELEPORTER)) {
             for (int i = 0; i < 3; i++) {
@@ -61,6 +60,9 @@ public class PowerUpController{
         } else throw new IllegalArgumentException("Not valid Powerup");
     }
 
+    /*
+        Use of newton powerup
+    */
     public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException{
         if(newton.getName().equals(PowerUpName.NEWTON)) {
             for (int i = 0; i < 3; i++) {
@@ -78,12 +80,15 @@ public class PowerUpController{
                     }
                 }
             }
-            throw new IllegalArgumentException("Not a valid powerUp, not in your hand");
-        }else throw new IllegalArgumentException("Not valid PowerUp")
+            throw new IllegalArgumentException("Not a valid PowerUp, not in your hand");
+        }else throw new IllegalArgumentException("Not valid PowerUp");
     }
 
-    public void useTagbackGrenade(PowerUp teleporter){
-        //TODO imlementare, sisteemare signature del metodo
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
+        if(tagbackGrenade.getName().equals(PowerUpName.TAGBACK_GRENADE)){
+            //TODO
+        }
+        else throw new IllegalArgumentException("Not valid PowerUp");
     }
 
     public void useTargetingScope(PowerUp teleporter){
