@@ -1,6 +1,7 @@
 package model.player;
 
 import model.Color;
+import model.Match;
 import model.powerup.PowerUp;
 import model.powerup.PowerUpName;
 import model.weapons.Weapon;
@@ -186,6 +187,19 @@ class PlayerTest {
             assert ((p1.getPowerUps())[i]==null);
         }
 
+    }
+
+    @Test // per il test ho bisogno di costruire match e map
+    void transformPowerUpToAmmo(){
+
+        PowerUp c1 = new PowerUp(Color.YELLOW,PowerUpName.NEWTON);
+        p1.addPowerUpsCard(c1);
+        p1.trasformPowerUpToAmmo(c1);
+
+        for (int i=0; i<3;i++){
+            assert ((p1.getPowerUps())[i]==null);
+        }
+        assert (p1.getAmmo().getYellowAmmo()==1);*/
     }
 
     @Test

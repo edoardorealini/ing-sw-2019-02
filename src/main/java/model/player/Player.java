@@ -117,19 +117,19 @@ public class Player {
     }
 
     // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
-    //TODO x Edo, bella man
-    /*
+
     public void trasformPowerUpToAmmo(PowerUp powerUp){
         for (int i=0; i<3; i++){
-            if ((powerUps[i].getColor()==color)&&(powerUps[i].getName()==powerUpName)){
+            if (powerUp.equals(powerUps[i])){
                 match.getPowerUpDeck().addPowerUps(powerUps[i]);
                 powerUps[i]=null;
-                ammo.addSpecificAmmo(color, 1);
+                ammo.addSpecificAmmo(powerUp.getColor(), 1);
                 return;
             }
         }
     }
-    */
+
+
     public void removeAmmo(int redAmmo, int blueAmmo, int yellowAmmo){
         ammo.setRedAmmo(ammo.getRedAmmo()-redAmmo);
         ammo.setBlueAmmo(ammo.getBlueAmmo()-blueAmmo);
@@ -163,12 +163,14 @@ public class Player {
         //return "spazio model.powerup esaurito";
     }
 
-    public void removePowerUps(int i) {
-        if (i<3 && i>=0){
-            powerUps[i]=null;
-            //return "PowerUp tolto";
+    public void removePowerUps(PowerUp powerUp) {
+        for (int i=0; i<3;i++){
+            if (powerUp.equals(powerUps[i])){
+                match.getPowerUpDeck().addPowerUps(powerUp);
+                powerUps[i]=null;
+                return;
+            }
         }
-        //else return "impossibile togliere PowerUp";
     }
 
     public int getPoints() {
