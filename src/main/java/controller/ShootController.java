@@ -100,10 +100,33 @@ public class ShootController extends ActionController {
 
 	} //end method
 
-	public void shoot(Weapon weapon, ShootMode[] modes, List<Player> targets) throws IllegalArgumentException {
+	public void shoot(Weapon weapon, List<ShootMode> modes, List<Player> targets) throws IllegalArgumentException {
 		/* ShootMode is an enum used to choose which effect of the weapon the players wants to use
 		   In this method the choice is between BASIC EFFECT AND OPTIONAL 1 OR OPTIONAL 2
 		*/
+
+		for (ShootMode mode: modes) {
+
+			switch (mode) {
+
+				case BASIC:
+					for (Effect eff : weapon.getBasicMode()) {  	 //apply all the effects of the chosen ShootMode
+						if (eff.getInvolvedPlayers() == -1) {
+							for (int i = 0; i < targets.size(); i++) {
+								eff.executeEffect(match, moveController, targets.get(i));
+							}
+						} else {
+							eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+						}
+					}
+					break;
+				case OPTIONAL1:
+					break;
+				case OPTIONAL2:
+					break;
+			}
+
+		}
 
 	}
 

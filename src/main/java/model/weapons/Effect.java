@@ -17,6 +17,7 @@ public abstract class Effect {
 	private boolean needVisibleTarget;
 	private int minShootDistance;
 	private int sameTarget;
+	private boolean sameSquare;
 
 	//constructor
 	public Effect(){
@@ -28,6 +29,7 @@ public abstract class Effect {
 		needVisibleTarget = true;
 		minShootDistance = 0;   //-1 means the same square in which the striker is
 		sameTarget = 0;  //index of the array of players choosen as targets, -1 means all targets
+		sameSquare = false;
 	}
 
 
@@ -96,4 +98,12 @@ public abstract class Effect {
 	}
 
 	public abstract void executeEffect(Match match, MoveController ctrl, Player targets);
+
+	public boolean isSameSquare() {
+		return sameSquare;
+	}
+
+	public void setSameSquare(boolean sameSquare) {
+		this.sameSquare = sameSquare;
+	}
 }
