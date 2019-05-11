@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShootControllerTest {
 
 	@Test
-	void setMatch() {
-	}
-
-	@Test
 	void getPlayer() {
 	}
 
@@ -19,10 +15,30 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shoot() {
+	void setEffectsOrder() {
+	}
+
+	@Test
+	void getEffectsOrder() {
 	}
 
 	@Test
 	void isVisibleTarget() {
+	}
+
+	@Test
+	void payAmmo() {
+	}
+
+	@Test
+	void shootLockRifle() {
+	}
+
+	@Test
+	void shootElectroScythe() {
+	}
+
+	@Test
+	void shootMachineGun() {
 	}
 }
