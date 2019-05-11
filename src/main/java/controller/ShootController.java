@@ -13,6 +13,7 @@ public class ShootController extends ActionController {
 	//attributes
 
 	private Match match;
+	private Player currentPlayer = getMatch().getCurrentPlayer(); //local variable to increase readability
 //	private ArrayList<Player> targetPlayers;
 	private MoveController moveController;
 	private ArrayList<Effect> effectsOrder;
@@ -43,98 +44,71 @@ public class ShootController extends ActionController {
 		return effectsOrder;
 	}
 
-	public void shoot(Weapon weapon, ShootMode mode, List<Player> targets) throws NotEnoughAmmoException{
-		/* ShootMode is an enum used to choose which effect of the weapon the players wants to use
-		   In this method the choice is between BASIC EFFECT OR ALTERNATE EFFECT
-		*/
-
-		if (mode == ShootMode.ALTERNATE) {        //check if the player wants to use the ALTERNATE effect and, if so, try to remove his ammos
-			List<Color> cost = weapon.getCostAlternate();
-			int r = 0;
-			int b = 0;
-			int y = 0;
-			if (cost != null) {
-				for (Color color : cost) {
-					switch (color) {
-						case RED:
-							r++;
-							break;
-						case BLUE:
-							b++;
-							break;
-						case YELLOW:
-							y++;
-							break;
-						default:
-							break;
-					}
-				}
-			}
-			if (match.getCurrentPlayer().getAmmo().getRedAmmo() - r < 0 || match.getCurrentPlayer().getAmmo().getBlueAmmo() - b < 0 || match.getCurrentPlayer().getAmmo().getYellowAmmo() - y < 0) {
-				throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-			} else {
-				match.getCurrentPlayer().removeAmmo(r, b, y);
-			}
-			for (Effect eff : weapon.getAlternateMode()) {   //apply all the effects of the chosen ShootMode
-				if (eff.getInvolvedPlayers() == -1) {
-					for (int i = 0; i < targets.size(); i++) {
-						eff.executeEffect(match, moveController, targets.get(i));
-					}
-				} else {
-					eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
-				}
-			}
-		}
-
-		if (mode == ShootMode.BASIC) {
-			for (Effect eff : weapon.getBasicMode()) {  	 //apply all the effects of the chosen ShootMode
-				if (eff.getInvolvedPlayers() == -1) {
-					for (int i = 0; i < targets.size(); i++) {
-						eff.executeEffect(match, moveController, targets.get(i));
-					}
-				} else {
-					eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
-				}
-			}
-		}
-
-	} //end method
-
-	public void shoot(Weapon weapon, List<ShootMode> modes, List<Player> targets) throws IllegalArgumentException {
-		/* ShootMode is an enum used to choose which effect of the weapon the players wants to use
-		   In this method the choice is between BASIC EFFECT AND OPTIONAL 1 OR OPTIONAL 2
-		*/
-
-		for (ShootMode mode: modes) {
-
-			switch (mode) {
-
-				case BASIC:
-					for (Effect eff : weapon.getBasicMode()) {  	 //apply all the effects of the chosen ShootMode
-						if (eff.getInvolvedPlayers() == -1) {
-							for (int i = 0; i < targets.size(); i++) {
-								eff.executeEffect(match, moveController, targets.get(i));
-							}
-						} else {
-							eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
-						}
-					}
-					break;
-				case OPTIONAL1:
-					break;
-				case OPTIONAL2:
-					break;
-			}
-
-		}
-
-	}
-
 	public boolean isVisibleTarget (Player player1, Player player2) {
+		//this method return true if player2 can be seen by player1
+
 		if (match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor())) {
 			return true;
 		} else {
 			return false;
+		}
+
+	}
+
+	public void payAmmo(List<Color> cost) throws NotEnoughAmmoException{
+		int r = 0;
+		int b = 0;
+		int y = 0;
+		if (cost != null) {
+			for (Color color : cost) {
+				switch (color) {
+					case RED:
+						r++;
+						break;
+					case BLUE:
+						b++;
+						break;
+					case YELLOW:
+						y++;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		if (match.getCurrentPlayer().getAmmo().getRedAmmo() - r < 0 || match.getCurrentPlayer().getAmmo().getBlueAmmo() - b < 0 || match.getCurrentPlayer().getAmmo().getYellowAmmo() - y < 0) {
+			throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+		} else {
+			match.getCurrentPlayer().removeAmmo(r, b, y);
+		}
+	}
+
+	public void shootLockRifle (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException{
+		//this method is valid only for LOCK RIFLE
+
+		//BASIC MODE
+		for (Effect eff: weapon.getBasicMode()) {
+			if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
+			     && moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
+				//check if the player is visible and in an allowed square
+				eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+			} else {
+				throw new NotAllowedTarget(){};
+			}
+		}
+
+		//OPTIONAL MODE
+		if (modes.size()>1) {
+			payAmmo(weapon.getCostOpt1()); //devo fare la try catch già qui?
+			for (Effect eff: weapon.getOptionalModeOne()) {
+				if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
+						&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
+					//check if the player is visible and in an allowed square
+					eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+				} else {
+					throw new NotAllowedTarget(){};
+				}
+			}
 		}
 
 	}
