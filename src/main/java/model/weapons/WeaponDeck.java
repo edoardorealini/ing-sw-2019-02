@@ -51,9 +51,6 @@ public class WeaponDeck {
         weaponDeck.get(2).setOptionalModeOne(new EffectDamage(1, 1, 0, true, 0));
         weaponDeck.get(2).setOptionalModeTwo(new EffectDamage(1, 1, 1, true, 0), new EffectDamage(1, 1, 2, true, 0));
         weaponDeck.get(2).setAlternateMode(null);
-        /*note: the damage of OptionalEffectOne must be the same of the first target of BasicEffect, the same for the first effect of OptionalEffectTwo;
-              moreover, the second effect of OptionalEffectTwo must target a completely different player, remember this in Controller
-        */
 
 
         //TRaCTOR BEAM
