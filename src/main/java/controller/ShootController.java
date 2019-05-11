@@ -14,7 +14,6 @@ public class ShootController extends ActionController {
 
 	private Match match;
 	private Player currentPlayer = getMatch().getCurrentPlayer(); //local variable to increase readability
-//	private ArrayList<Player> targetPlayers;
 	private MoveController moveController;
 	private ArrayList<Effect> effectsOrder;
 
@@ -22,7 +21,6 @@ public class ShootController extends ActionController {
 
 	public ShootController(Match match, MoveController moveController) {
 		this.match = match;
-//		this.targetPlayers = new ArrayList<>();
 		this.moveController = moveController;
 		this.effectsOrder = new ArrayList<>();
 	}
@@ -89,7 +87,7 @@ public class ShootController extends ActionController {
 		//BASIC MODE
 		for (Effect eff: weapon.getBasicMode()) {
 			if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
-			     && moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
+					&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
 				//check if the player is visible and in an allowed square
 				eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 			} else {
@@ -99,17 +97,60 @@ public class ShootController extends ActionController {
 
 		//OPTIONAL MODE
 		if (modes.size()>1) {
-			payAmmo(weapon.getCostOpt1()); //devo fare la try catch già qui?
-			for (Effect eff: weapon.getOptionalModeOne()) {
-				if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
-						&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
-					//check if the player is visible and in an allowed square
-					eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
-				} else {
-					throw new NotAllowedTarget(){};
+			try {
+				payAmmo(weapon.getCostOpt1());
+				for (Effect eff : weapon.getOptionalModeOne()) {
+					if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
+							&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
+						//check if the player is visible and in an allowed square
+						eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+					} else {
+						throw new NotAllowedTarget() {
+						};
+					}
 				}
+			} catch (NotEnoughAmmoException e) {
+				//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
 			}
 		}
-
 	}
+
+	public void shootElectroScythe (Weapon weapon, ShootMode mode) throws NotAllowedTarget, NotEnoughAmmoException{
+		//this method is valid only for ELECTRO SCYTHE
+		Effect eff;
+
+		switch (mode) {
+			case BASIC:
+				eff = weapon.getBasicMode().get(0);
+				for (Player player: getMatch().getPlayers()) {
+					if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, player)
+							&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), player.getPosition()) == 0) {
+						//check if the player is visible and in an allowed square
+						eff.executeEffect(match, moveController, player);
+					} else {
+						throw new NotAllowedTarget(){};
+					}
+				}
+				break;
+
+			case ALTERNATE:
+				eff = weapon.getAlternateMode().get(0);
+				try {
+					payAmmo(weapon.getCostAlternate());
+					for (Player player: getMatch().getPlayers()) {
+						if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, player)
+								&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), player.getPosition()) == 0) {
+							//check if the player is visible and in an allowed square
+							eff.executeEffect(match, moveController, player);
+						} else {
+							throw new NotAllowedTarget(){};
+						}
+					}
+					break;
+				} catch (NotEnoughAmmoException e) {
+					//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+				}
+		}
+	}
+
 }
