@@ -33,19 +33,14 @@ public class EffectDamage extends Effect {
 		int transferringMarks = target.getBoard().getSpecificMarks(currentPlayer.getId());
 		int i = 0;
 
-		if ((ctrl.minDistBetweenSquares(currentPlayer.getPosition(), target.getPosition()) >= this.getMinShootDistance()) &&
-				(match.getMap().getVisibileRooms(currentPlayer.getPosition()).contains(target.getPosition().getColor()) == this.needVisibleTarget()
-						|| (match.getMap().getVisibileRooms(currentPlayer.getPosition()).contains(target.getPosition().getColor()) && !this.needVisibleTarget()))) {   //this condition check if the chosen target are allowed
-			target.getBoard().updateLife(this.getDamage(), currentPlayer.getId());                    //updating life points of the target
-			while (transferringMarks > 0 && !target.getBoard().isOverKilled()) {
-				target.getBoard().updateLife(1, currentPlayer.getId());                        //converting marks to life points
-				target.getBoard().removeMarks(1, currentPlayer.getId());           //removing the converted mark
-				transferringMarks--;
-			}
-			if (target.getBoard().isDead())                                                            //check if the target is dead
-				target.trueDead();
-		} else {
-			//TODO throw new NotAllowedTarget (stampa semplicemente a video di provare a riguardare la distanza, la visibilità o il numero di target selezionati)
+		target.getBoard().updateLife(this.getDamage(), currentPlayer.getId());                    //updating life points of the target
+		while (transferringMarks > 0 && !target.getBoard().isOverKilled()) {
+			target.getBoard().updateLife(1, currentPlayer.getId());                        //converting marks to life points
+			target.getBoard().removeMarks(1, currentPlayer.getId());           //removing the converted mark
+			transferringMarks--;
 		}
+
+		if (target.getBoard().isDead())                                                            //check if the target is dead
+			target.trueDead();
 	}
 }
