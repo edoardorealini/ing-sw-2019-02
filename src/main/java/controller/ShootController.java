@@ -155,6 +155,10 @@ public class ShootController extends ActionController {
 	public void shootMachineGun (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException{
 		//this method is valid only for MACHINE GUN
 
+		//TODO
+/*
+
+
 		for (ShootMode mode : modes) {
 			switch (mode) {
 
@@ -210,5 +214,64 @@ public class ShootController extends ActionController {
 		}
 	}
 
+	public void shootTHOR (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException {
+		//this method is valid only for T.H.O.R.
+
+		for (ShootMode mode : modes) {
+			switch (mode) {
+
+				case BASIC:
+					for (Effect eff: weapon.getBasicMode()) {
+						if (eff.getSameTarget()<targets.size()) {		//check if
+							if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+								//check if the player is visible
+								eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+							} else {
+								throw new NotAllowedTarget() {
+								};
+							}
+						}
+					}
+					break;
+
+				case OPTIONAL1:
+					try {
+						payAmmo(weapon.getCostOpt1());
+						Effect eff = weapon.getOptionalModeOne().get(0);
+						if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(0))) {
+							//check if the player is visible
+							eff.executeEffect(match, moveController, targets.get(0));
+						} else {
+							throw new NotAllowedTarget() {
+							};
+						}
+					} catch (NotEnoughAmmoException e) {
+						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+					}
+					break;
+
+				case OPTIONAL2:
+					try {
+						payAmmo(weapon.getCostOpt2());
+						for (Effect eff: weapon.getOptionalModeTwo()) {
+							if (eff.getSameTarget()<targets.size()) {		//check if
+								if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+									//check if the player is visible
+									eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
+								} else {
+									throw new NotAllowedTarget() {
+									};
+								}
+							}
+						}
+					} catch (NotEnoughAmmoException e) {
+						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+					}
+					break;
+			}
+		}
+	}
+
+*/
 
 }
