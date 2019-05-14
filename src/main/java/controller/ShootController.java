@@ -84,13 +84,12 @@ public class ShootController extends ActionController {
 
 	private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
 		if (!(eff.needVisibleTarget() == visibilityBetweenPlayers(player1, player2)))
-			throw new NotAllowedTarget() {
-			};
+			throw new NotAllowedTarget();
 	}
 
 	private void allowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
 		if (!(moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) >= eff.getMinShootDistance()))
-			throw new NotAllowedTarget(){};
+			throw new NotAllowedTarget();
 
 	}
 
@@ -106,7 +105,7 @@ public class ShootController extends ActionController {
 				//check if the player is visible and in an allowed square
 				eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 			} else {
-				throw new NotAllowedTarget(){};
+				throw new NotAllowedTarget();
 			}
 		}
 
@@ -119,8 +118,7 @@ public class ShootController extends ActionController {
 						//check if the player is visible
 						eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 					} else {
-						throw new NotAllowedTarget() {
-						};
+						throw new NotAllowedTarget();
 					}
 				}
 			} catch (NotEnoughAmmoException e) {
@@ -142,7 +140,7 @@ public class ShootController extends ActionController {
 						//check if the player is visible and in an allowed square
 						eff.executeEffect(match, moveController, player);
 					} else {
-						throw new NotAllowedTarget(){};
+						throw new NotAllowedTarget();
 					}
 				}
 				break;
@@ -157,7 +155,7 @@ public class ShootController extends ActionController {
 							//check if the player is visible and in an allowed square
 							eff.executeEffect(match, moveController, player);
 						} else {
-							throw new NotAllowedTarget(){};
+							throw new NotAllowedTarget();
 						}
 					}
 					break;
