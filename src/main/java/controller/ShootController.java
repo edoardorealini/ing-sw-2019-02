@@ -42,7 +42,7 @@ public class ShootController extends ActionController {
 		return effectsOrder;
 	}
 
-	public boolean isVisibleTarget (Player player1, Player player2) {
+	private boolean visibilityBetweenPlayers(Player player1, Player player2) {
 		//this method return true if player2 can be seen by player1
 
 		if (match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor())) {
@@ -53,7 +53,8 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void payAmmo(List<Color> cost) throws NotEnoughAmmoException{
+	private void payAmmo(List<Color> cost) throws NotEnoughAmmoException {
+		//this method make the player pay ammo for the optional effects
 		int r = 0;
 		int b = 0;
 		int y = 0;
@@ -81,12 +82,26 @@ public class ShootController extends ActionController {
 		}
 	}
 
+	private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
+		if (!(eff.needVisibleTarget() == visibilityBetweenPlayers(player1, player2)))
+			throw new NotAllowedTarget() {
+			};
+	}
+
+	private void allowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
+		if (!(moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) >= eff.getMinShootDistance()))
+			throw new NotAllowedTarget(){};
+
+	}
+
+
+
 	public void shootLockRifle (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException{
 		//this method is valid only for LOCK RIFLE
 
 		//BASIC MODE
 		for (Effect eff: weapon.getBasicMode()) {
-			if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))
+			if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))
 					&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), targets.get(eff.getSameTarget()).getPosition()) >= eff.getMinShootDistance()) {
 				//check if the player is visible and in an allowed square
 				eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
@@ -100,7 +115,7 @@ public class ShootController extends ActionController {
 			try {
 				payAmmo(weapon.getCostOpt1());
 				for (Effect eff : weapon.getOptionalModeOne()) {
-					if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+					if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))) {
 						//check if the player is visible
 						eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 					} else {
@@ -122,7 +137,7 @@ public class ShootController extends ActionController {
 			case BASIC:
 				eff = weapon.getBasicMode().get(0);
 				for (Player player: getMatch().getPlayers()) {
-					if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, player)
+					if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, player)
 							&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), player.getPosition()) == 0) {
 						//check if the player is visible and in an allowed square
 						eff.executeEffect(match, moveController, player);
@@ -137,7 +152,7 @@ public class ShootController extends ActionController {
 				try {
 					payAmmo(weapon.getCostAlternate());
 					for (Player player: getMatch().getPlayers()) {
-						if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, player)
+						if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, player)
 								&& moveController.minDistBetweenSquares(currentPlayer.getPosition(), player.getPosition()) == 0) {
 							//check if the player is visible and in an allowed square
 							eff.executeEffect(match, moveController, player);
@@ -152,7 +167,7 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	public void shootMachineGun (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException{
+	public void shootMachineGun (Weapon weapon, List<ShootMode> modes, List<Player> targets) throws NotAllowedTarget, NotEnoughAmmoException {
 		//this method is valid only for MACHINE GUN
 
 		//TODO
@@ -165,7 +180,7 @@ public class ShootController extends ActionController {
 				case BASIC:
 					for (Effect eff: weapon.getBasicMode()) {
 						if (eff.getSameTarget()<targets.size()) {		//check if
-							if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+							if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))) {
 								//check if the player is visible
 								eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 							} else {
@@ -180,7 +195,7 @@ public class ShootController extends ActionController {
 					try {
 						payAmmo(weapon.getCostOpt1());
 						Effect eff = weapon.getOptionalModeOne().get(0);
-						if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(0))) {
+						if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(0))) {
 							//check if the player is visible
 							eff.executeEffect(match, moveController, targets.get(0));
 						} else {
@@ -197,7 +212,7 @@ public class ShootController extends ActionController {
 						payAmmo(weapon.getCostOpt2());
 						for (Effect eff: weapon.getOptionalModeTwo()) {
 							if (eff.getSameTarget()<targets.size()) {		//check if
-								if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+								if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))) {
 									//check if the player is visible
 									eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 								} else {
@@ -223,7 +238,7 @@ public class ShootController extends ActionController {
 				case BASIC:
 					for (Effect eff: weapon.getBasicMode()) {
 						if (eff.getSameTarget()<targets.size()) {		//check if
-							if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+							if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))) {
 								//check if the player is visible
 								eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 							} else {
@@ -238,7 +253,7 @@ public class ShootController extends ActionController {
 					try {
 						payAmmo(weapon.getCostOpt1());
 						Effect eff = weapon.getOptionalModeOne().get(0);
-						if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(0))) {
+						if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(0))) {
 							//check if the player is visible
 							eff.executeEffect(match, moveController, targets.get(0));
 						} else {
@@ -255,7 +270,7 @@ public class ShootController extends ActionController {
 						payAmmo(weapon.getCostOpt2());
 						for (Effect eff: weapon.getOptionalModeTwo()) {
 							if (eff.getSameTarget()<targets.size()) {		//check if
-								if (eff.needVisibleTarget() == isVisibleTarget(currentPlayer, targets.get(eff.getSameTarget()))) {
+								if (eff.needVisibleTarget() == visibilityBetweenPlayers(currentPlayer, targets.get(eff.getSameTarget()))) {
 									//check if the player is visible
 									eff.executeEffect(match, moveController, targets.get(eff.getSameTarget()));
 								} else {
@@ -274,4 +289,5 @@ public class ShootController extends ActionController {
 
 */
 
+	}
 }
