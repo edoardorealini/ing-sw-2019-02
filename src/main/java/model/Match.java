@@ -21,7 +21,7 @@ public class Match {
         costruttore di match si aspetta in input id della mappa da costruire
     */
 
-    public Match(int mapID){
+    public Match(){
         this.players = new ArrayList<>();
         this.powerUpDeck = new PowerUpDeck();
         this.ammoDeck = new AmmoDeck();
@@ -29,11 +29,15 @@ public class Match {
         weaponDeck.shuffleDeck();
         ammoDeck.shuffleDeck();
 
-        try {
-            this.map = new MapBuilder().makeMap(mapID);
-        }catch(IOException e){
-            e.printStackTrace(); //non serve per ora gestire con logger
-        }
+        /*  gestire creazione mappa lato controller.
+
+            try {
+                this.map = new MapBuilder().makeMap(mapID);
+            }catch(IOException e){
+                e.printStackTrace(); //non serve per ora gestire con logger
+            }
+
+         */
 
         //TODO qui si potrebbe mettere la logica che riempie l'oggetto "map"
     }
@@ -78,5 +82,9 @@ public class Match {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 }

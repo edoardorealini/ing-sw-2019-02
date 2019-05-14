@@ -91,7 +91,7 @@ public class PowerUpController{
         else throw new IllegalArgumentException("Not valid PowerUp");
     }
 
-    public void useTargetingScope(PowerUp teleporter){
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
         //TODO imlementare, sisteemare signature del metodo
     }
 

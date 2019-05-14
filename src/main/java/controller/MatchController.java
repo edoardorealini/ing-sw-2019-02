@@ -1,7 +1,13 @@
 package controller;
 
+import exception.NotAllowedMoveException;
+import exception.NotEnoughAmmoException;
+import exception.WrongPositionException;
 import model.Match;
 import model.map.*;
+import model.player.Player;
+import model.powerup.PowerUp;
+import model.weapons.Weapon;
 
 public class MatchController{
     private Match match;
@@ -10,25 +16,25 @@ public class MatchController{
     private ShootController shootController;
     private MoveController moveController;
 
-    //TODO ci sono altri attributi da mettere qui?
+    //TODO ci sono altri attributi da mettere qui? in teoria no
+    //TODO pensare a tutta la logica di setup della partita. fornire metodi
 
     /*
-        required mapID in input in order to build the correct type of configuration.
-        the constructor builds the object match that contains all the objects useful for the game
-        it also initializes all the values, for example filling the weaponBoxes with the references to the weapons
-        that are taken directly from the WeaponDeck structure declared in the match object
+        Costruttore
     */
-    public MatchController(int mapID){
-        this.match = new Match(mapID);
+    public MatchController(){
+        this.match = new Match();
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
-
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         //this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
+        /*
+            questa parte la gestirei in un metodo di setup della partita dopo la scelta della mappa da utente
+            match.getMap().fillWeaponBox(match.getWeaponDeck());
+            match.getMap().fillAmmo(match.getAmmoDeck());
 
-        match.getMap().fillWeaponBox(match.getWeaponDeck());
-        match.getMap().fillAmmo(match.getAmmoDeck());
+         */
     }
 
     /*
@@ -41,5 +47,70 @@ public class MatchController{
     public Map getMap(){
         return match.getMap();
     }
+
+    public void buildMap(int mapID){
+        try {
+            match.setMap(new MapBuilder().makeMap(mapID));
+        }catch(Exception e){
+            e.printStackTrace(); //non serve per ora gestire con logger
+        }
+
+        match.getMap().fillWeaponBox(match.getWeaponDeck());
+        match.getMap().fillAmmo(match.getAmmoDeck());
+    }
+
+    //metodi derivanti da classe moveController
+    public void move(Player player, Square destination, int maxDistanceAllowed) throws Exception{
+        moveController.move(player,destination,maxDistanceAllowed);
+    }
+
+    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance){
+        return moveController.isAllowedMove(startingPoint,destination,maxDistance);
+    }
+
+    public void moveOneSquare(Directions direction) throws  Exception{
+        moveController.moveOneSquare(direction);
+    }
+
+    public void moveOneSquare(Directions direction, Player player) throws Exception{
+        moveController.moveOneSquare(direction, player);
+    }
+
+    public int minDistBetweenSquares(Square startingPoint, Square destination){
+        return moveController.minDistBetweenSquares(startingPoint,destination);
+    }
+
+    //metodi da grab controller
+    public void grabAmmoCard() throws Exception {
+        grabController.grabAmmoCard();
+    }
+
+    public void grabWeapon(Weapon weapon) throws Exception{
+        grabController.grabWeapon(weapon);
+    }
+
+    //metodi di powerUpController
+    public void usePowerUpAsAmmo(PowerUp powerUp) throws Exception{
+        powerUpController.usePowerUpAsAmmo(powerUp);
+    }
+
+    public void useTeleporter(PowerUp teleporter, Square destination){
+        powerUpController.useTeleporter(teleporter, destination);
+    }
+
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException{
+        powerUpController.useNewton(newton, affectedPlayer, destination);
+    }
+
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
+        powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    }
+
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
+        powerUpController.useTargetingScope(targetingScope, affectedPlayer);
+    }
+
+
+
 
 }
