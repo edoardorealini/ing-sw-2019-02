@@ -11,7 +11,7 @@ class MatchControllerTest {
 
     @BeforeEach
     void setUp() {
-        matchController = new MatchController(1);
+        matchController = new MatchController();
     }
 
 
