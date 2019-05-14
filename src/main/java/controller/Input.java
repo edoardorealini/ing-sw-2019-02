@@ -3,11 +3,13 @@ package controller;
 import model.map.Directions;
 import model.map.Square;
 import model.player.Player;
+import model.weapons.Weapon;
 
 import java.util.*;
 
 public class Input {
 	//this class is a container of fields that will be setted by the user
+	private Weapon weapon;
 	private ArrayList<ShootMode> shootModes;
 	private ArrayList<Player> targets;
 	private ArrayList<Square> squares;
@@ -18,6 +20,10 @@ public class Input {
 		this.shootModes = new ArrayList<>();
 		this.targets = new ArrayList<>();
 		this.squares = new ArrayList<>();
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
 	}
 
 	public List<Player> getTargets() {
@@ -34,6 +40,10 @@ public class Input {
 
 	public Directions getDirection() {
 		return direction;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 	public void setShootModes(ShootMode shootMode) {

@@ -3,10 +3,8 @@ package model.weapons;
 
 import controller.MoveController;
 import model.Match;
+import model.map.Square;
 import model.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Effect {
 	private int damage;
@@ -97,7 +95,7 @@ public abstract class Effect {
 		this.sameTarget = sameTarget;
 	}
 
-	public abstract void executeEffect(Match match, MoveController ctrl, Player targets);
+	public abstract void executeEffect(Match match, MoveController ctrl, Player target, Square destination);
 
 	public boolean isSameSquare() {
 		return sameSquare;
