@@ -19,6 +19,8 @@ public class MatchController{
     //TODO ci sono altri attributi da mettere qui? in teoria no
     //TODO pensare a tutta la logica di setup della partita. fornire metodi
 
+    //TODO logica di creazione della partita e management su classe a parte, nell'utilizzatore di match controller, qui posso mettere solo dei metidi che saranno invocati da un processo apposito alla gestione dei turni.
+
     /*
         Costruttore
     */
