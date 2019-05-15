@@ -64,4 +64,11 @@ public class Ammo {
     }
 
 
+    //for tests
+    @Override
+    public String toString() {
+        String information;
+        information = "Blue Ammo: " +getBlueAmmo()+ "\nRed Ammo: " +getRedAmmo()+ "\nYellow Ammo: " +getYellowAmmo();
+        return information;
+    }
 }
