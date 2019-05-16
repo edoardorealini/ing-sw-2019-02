@@ -1,17 +1,21 @@
 package server;
 
+import controller.MatchController;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AdrenalineSocketServer {
+public class AdrenalineSocketServer implements Runnable{
+    private MatchController matchController;
     private int port;
-    public AdrenalineSocketServer(int port) {
+    public AdrenalineSocketServer(MatchController controller, int port) {
+        matchController = controller;
         this.port = port;
     }
-    public void startServer() {
+    public void run() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
         try {
@@ -21,7 +25,9 @@ public class AdrenalineSocketServer {
             return;
         }
 
-        System.out.println("Server ready");
+        System.out.println("SocketServer ready");
+
+        //TODO: questo è un mock preso dalle slide per dare un po di forma, gestire bene come serve
 
         while (true) {
             try {
@@ -33,8 +39,11 @@ public class AdrenalineSocketServer {
         }
         executor.shutdown();
     }
+    /*
     public static void main(String[] args) {
         AdrenalineSocketServer echoServer = new AdrenalineSocketServer(1337);
         echoServer.startServer();
     }
+
+     */
 }
