@@ -48,7 +48,7 @@ public class MatchController{
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
-        //this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
+        this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
         /*
             questa parte la gestirei in un metodo di setup della partita dopo la scelta della mappa da utente
             match.getMap().fillWeaponBox(match.getWeaponDeck());
@@ -130,7 +130,11 @@ public class MatchController{
         powerUpController.useTargetingScope(targetingScope, affectedPlayer);
     }
 
+    public MoveController getMoveController() {
+        return moveController;
+    }
 
-
-
+    public ShootController getShootController() {
+        return shootController;
+    }
 }

@@ -10,13 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShootControllerTest {
 
-	private Match match = new Match();
+	private MatchController matchCtrl = new MatchController();
 	private Player p1 = new Player("MADSOMMA", 1);
 	private Player p2 = new Player("REALENGINEER", 2);
 	private Player p3 = new Player("JOHNNYCA$H", 3);
-	private MoveController moveCtrl = new MoveController(match);
-	private ShootController shootCtrlTest = new ShootController(match, moveCtrl);
-	private MatchController matchCtrl = new MatchController(match);
+	private ShootController shootCtrlTest = new ShootController(matchCtrl.getMatch(), matchCtrl.g;
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 
 	@Test
@@ -46,7 +44,7 @@ class ShootControllerTest {
 		System.out.println(temp.toString());
 		System.out.println(match.getCurrentPlayer().getAmmo().toString());
 		try {
-			shootCtrlTest.payAmmo(temp.getCostOpt1());		//temptative on cost optional1
+			shootCtrlTest.payAmmo(temp.getCostAlternate());
 			System.out.println("After payment");
 			System.out.println(match.getCurrentPlayer().getAmmo().toString());
 		} catch (Exception e) {
