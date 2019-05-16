@@ -16,7 +16,6 @@ public class ShootController extends ActionController {
 	//attributes
 
 	private Match match;
-	private Player currentPlayer;
 	private MoveController moveController;
 
 
@@ -24,7 +23,6 @@ public class ShootController extends ActionController {
 
 	public ShootController(Match match, MoveController moveController) {
 		this.match = match;
-		this.currentPlayer = match.getCurrentPlayer();
 		this.moveController = moveController;
 	}
 
@@ -73,10 +71,10 @@ public class ShootController extends ActionController {
 				}
 			}
 		}
-		if (currentPlayer.getAmmo().getRedAmmo() - r < 0 || currentPlayer.getAmmo().getBlueAmmo() - b < 0 || currentPlayer.getAmmo().getYellowAmmo() - y < 0) {
+		if (getCurrPlayer().getAmmo().getRedAmmo() - r < 0 || getCurrPlayer().getAmmo().getBlueAmmo() - b < 0 || getCurrPlayer().getAmmo().getYellowAmmo() - y < 0) {
 			throw new NotEnoughAmmoException("It seems you don't have enough ammo");
 		} else {
-			currentPlayer.removeAmmo(r, b, y);
+			getCurrPlayer().removeAmmo(r, b, y);
 		}
 	}
 
@@ -160,7 +158,7 @@ public class ShootController extends ActionController {
 		//BASIC MODE
 		for (Effect eff: input.getWeapon().getBasicMode()) {
 			try {
-				checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 				eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 			} catch (Exception e) {
 				//TODO
@@ -174,7 +172,7 @@ public class ShootController extends ActionController {
 				payAmmo(input.getWeapon().getCostOpt1());
 				for (Effect eff : input.getWeapon().getOptionalModeOne()) {
 					try {
-					checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 					eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 					} catch (Exception e) {
 						//TODO
@@ -195,8 +193,8 @@ public class ShootController extends ActionController {
 				eff = input.getWeapon().getBasicMode().get(0);
 				for (Player player: getMatch().getPlayers()) {
 					try {
-					checkCorrectVisibility(eff, currentPlayer, player);
-					checkExactDistance(eff, currentPlayer, player);
+					checkCorrectVisibility(eff, getCurrPlayer(), player);
+					checkExactDistance(eff, getCurrPlayer(), player);
 					eff.executeEffect(match, moveController, player, null);
 					} catch (Exception e) {
 						throw new NotAllowedTarget();
@@ -210,8 +208,8 @@ public class ShootController extends ActionController {
 					payAmmo(input.getWeapon().getCostAlternate());
 					for (Player player: getMatch().getPlayers()) {
 						try {
-							checkCorrectVisibility(eff, currentPlayer, player);
-							checkExactDistance(eff, currentPlayer, player);
+							checkCorrectVisibility(eff, getCurrPlayer(), player);
+							checkExactDistance(eff, getCurrPlayer(), player);
 							eff.executeEffect(match, moveController, player, null);
 						} catch (Exception e) {
 							throw new NotAllowedTarget();
@@ -234,7 +232,7 @@ public class ShootController extends ActionController {
 					for (Effect eff: input.getWeapon().getBasicMode()) {
 						if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
 							try {
-								checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+								checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 								eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 							} catch (Exception e) {
 								throw new NotAllowedTarget();
@@ -248,7 +246,7 @@ public class ShootController extends ActionController {
 						payAmmo(input.getWeapon().getCostOpt1());
 						Effect eff = input.getWeapon().getOptionalModeOne().get(0);
 						try {
-							checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 							eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 						} catch (Exception e) {
 							throw new NotAllowedTarget();
@@ -264,7 +262,7 @@ public class ShootController extends ActionController {
 						for (Effect eff: input.getWeapon().getOptionalModeTwo()) {
 							if (eff.getSameTarget()<input.getTargets().size()) {		//check if
 								try {
-									checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+									checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 									eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 								} catch (Exception e) {
 									throw new NotAllowedTarget();
@@ -286,7 +284,7 @@ public class ShootController extends ActionController {
 		//BASIC MODE
 		eff = input.getWeapon().getBasicMode().get(0);
 		try {
-			checkCorrectVisibility(eff, currentPlayer, input.getTargets().get(eff.getSameTarget()));
+			checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 			eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
 		} catch (Exception e) {
 			throw new NotAllowedTarget();
