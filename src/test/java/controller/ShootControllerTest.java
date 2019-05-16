@@ -16,7 +16,7 @@ class ShootControllerTest {
 	private Player p3 = new Player("JOHNNYCA$H", 3);
 	private MoveController moveCtrl = new MoveController(match);
 	private ShootController shootCtrlTest = new ShootController(match, moveCtrl);
-	private MatchController matchCtrl = new MatchController();
+	private MatchController matchCtrl = new MatchController(match);
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 
 	@Test

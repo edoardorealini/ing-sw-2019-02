@@ -22,10 +22,28 @@ public class MatchController{
     //TODO logica di creazione della partita e management su classe a parte, nell'utilizzatore di match controller, qui posso mettere solo dei metidi che saranno invocati da un processo apposito alla gestione dei turni.
 
     /*
-        Costruttore
+        Costruttore 1
     */
     public MatchController(){
         this.match = new Match();
+
+        this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
+        this.grabController = new GrabController(this.match, this.moveController);
+        this.powerUpController = new PowerUpController(this.match, this.moveController);
+        //this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
+        /*
+            questa parte la gestirei in un metodo di setup della partita dopo la scelta della mappa da utente
+            match.getMap().fillWeaponBox(match.getWeaponDeck());
+            match.getMap().fillAmmo(match.getAmmoDeck());
+
+         */
+    }
+
+    /*
+        Costruttore 2 (non builda match ma lo prende in input)
+    */
+    public MatchController(Match match){
+        this.match = match;
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
         this.grabController = new GrabController(this.match, this.moveController);
