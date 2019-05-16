@@ -12,7 +12,7 @@ class ShootControllerTest {
 
 	private MatchController matchCtrl = new MatchController();
 	private Player p1 = new Player("MADSOMMA", 1);
-	private Player p2 = new Player("REALENGINEER", 2);
+	private Player p2 = new Player("REALNGNEER", 2);
 	private Player p3 = new Player("JOHNNYCA$H", 3);
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 
@@ -37,13 +37,13 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.buildMap(1);
-	//	matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 0));        //set position of MADSOMMA
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
 		System.out.println(matchCtrl.getMatch().getWeaponDeck().toString());
 		Weapon temp = matchCtrl.getMatch().getWeaponDeck().pickFirstCard();
 		System.out.println(temp.toString());
 		System.out.println(matchCtrl.getMatch().getCurrentPlayer().getAmmo().toString());
 		try {
-			matchCtrl.getShootController().payAmmo(temp.getCostAlternate());
+			matchCtrl.getShootController().payAmmo(temp.getCostOpt1());
 			System.out.println("After payment");
 			System.out.println(matchCtrl.getMatch().getCurrentPlayer().getAmmo().toString());
 		} catch (Exception e) {
