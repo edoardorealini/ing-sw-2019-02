@@ -39,6 +39,7 @@ public class GrabController extends ActionController {
         this.match = match;
     }
 
+    /* classi già presenti in MoveController
     public boolean moveAdmitted(Directions direction){
         return((match.getMap().getAllowedMoves(match.getCurrentPlayer().getPosition())).contains(direction));
 
@@ -47,6 +48,8 @@ public class GrabController extends ActionController {
     public void moveOneSquare(Directions direction){
         match.getCurrentPlayer().setPosition(match.getMap().getSquare(direction, match.getCurrentPlayer().getPosition()));
     }
+
+    */
 
     public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
