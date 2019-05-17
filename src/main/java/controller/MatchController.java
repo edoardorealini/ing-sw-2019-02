@@ -68,15 +68,17 @@ public class MatchController{
         return match.getMap();
     }
 
-    public void buildMap(int mapID){
+    public void buildMap(int mapID) {
         try {
             match.setMap(new MapBuilder().makeMap(mapID));
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace(); //non serve per ora gestire con logger
         }
-
+        //TODO remember to uncomment the following lines after the test
+        /*
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());
+        */
     }
 
     //metodi derivanti da classe moveController
