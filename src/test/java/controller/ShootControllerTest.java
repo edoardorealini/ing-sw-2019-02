@@ -74,16 +74,22 @@ class ShootControllerTest {
 		input.setShootModes(ShootMode.OPTIONAL2);
 		input.setTargets(p2);
 		input.setTargets(p3);
+		System.out.println(input.getTargets().size());
 
 
 		//executing code
 		try{
-			System.out.println(p2.getBoard().getLifePoints());
-			System.out.println(p3.getBoard().getLifePoints());
+			System.out.println(p2.getBoard().toStringLP());
+			System.out.println(p2.getBoard().toStringMarks());
+			System.out.println(p3.getBoard().toStringLP());
+			System.out.println(p3.getBoard().toStringMarks());
 			matchCtrl.getShootController().shootLockRifle(input);
-			System.out.println(p2.getBoard().getLifePoints());
-			System.out.println(p3.getBoard().getLifePoints());
+			System.out.println(p2.getBoard().toStringLP());
+			System.out.println(p2.getBoard().toStringMarks());
+			System.out.println(p3.getBoard().toStringLP());
+			System.out.println(p3.getBoard().toStringMarks());
 
+			//TODO marks updating doesn't work, fix it
 
 		}catch (Exception e){
 			System.out.println("shit happened");

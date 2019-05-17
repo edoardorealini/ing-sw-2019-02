@@ -112,6 +112,27 @@ public class Board {
         return damages;
     }
 
+    //for test and maybe for CLI
+    public String toStringLP() {
+        StringBuilder string = new StringBuilder();
+        string.append("LifePoints: ");
+        for (int i=0; i<12; i++) {
+            string.append(lifePoints[i]);
+            if (i!=11)
+                string.append("-");
+        }
+        return string.toString();
+    }
 
-
+    //for test and mayeb for CLI
+    public String toStringMarks(){
+        StringBuilder string = new StringBuilder();
+        string.append("Marks: ");
+        for (int i=0; i<marks.size(); i++) {
+            string.append(marks.get(i));
+            if (i!=marks.size()-1)
+                string.append("-");
+        }
+        return string.toString();
+    }
 }
