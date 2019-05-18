@@ -50,4 +50,7 @@ public interface MatchControllerInterface extends Remote {
 
 	 ShootController getShootController() throws RemoteException;
 
+	 String RMICallTest(String message) throws  RemoteException;
+
+
 }
