@@ -44,7 +44,7 @@ public class MatchController extends UnicastRemoteObject implements MatchControl
     /*
         Costruttore 2 (non builda match ma lo prende in input)
     */
-    public MatchController(Match match){
+    public MatchController(Match match) throws RemoteException{
         this.match = match;
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
