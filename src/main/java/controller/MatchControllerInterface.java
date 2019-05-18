@@ -1,4 +1,6 @@
 package controller;
 
-public interface MatchControllerInterface {
+import java.rmi.Remote;
+
+public interface MatchControllerInterface extends Remote {
 }

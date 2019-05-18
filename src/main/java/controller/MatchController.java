@@ -9,7 +9,9 @@ import model.player.Player;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
 
-public class MatchController{
+import java.rmi.server.UnicastRemoteObject;
+
+public class MatchController extends UnicastRemoteObject implements MatchControllerInterface {
     private Match match;
     private GrabController grabController;
     private PowerUpController powerUpController;

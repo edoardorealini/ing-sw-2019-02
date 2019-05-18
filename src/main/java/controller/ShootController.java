@@ -323,5 +323,5 @@ public class ShootController extends ActionController {
 
 	}
 
-	
+
 }
