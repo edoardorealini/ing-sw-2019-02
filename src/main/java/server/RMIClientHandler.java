@@ -1,6 +1,6 @@
 package server;
 
-//TODO Johnny
+//TODO Johnny, capire se serve, NON credo
 
 public class RMIClientHandler implements Runnable{
 

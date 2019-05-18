@@ -25,7 +25,7 @@ public class AdrenalineSocketServer implements Runnable{
             return;
         }
 
-        System.out.println("SocketServer ready");
+        System.out.println("[SocketServer]: ready to accept connections from clients");
 
         //TODO: questo è un mock preso dalle slide per dare un po di forma, gestire bene come serve
 
