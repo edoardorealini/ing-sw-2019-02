@@ -4,18 +4,29 @@ import model.ammo.AmmoCard;
 import model.player.Player;
 import model.weapons.Weapon;
 import model.weapons.WeaponName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShootControllerTest {
 
-	private MatchController matchCtrl = new MatchController();
+	private MatchController matchCtrl;
 	private Player p1 = new Player("MADSOMMA", 1);
 	private Player p2 = new Player("REALNGNEER", 2);
 	private Player p3 = new Player("JOHNNYCA$H", 3);
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 	private ShootingParametersInput input = new ShootingParametersInput();
+
+	@BeforeEach
+	void setUp() {
+		try {
+			matchCtrl = new MatchController();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	void getPlayer() {
