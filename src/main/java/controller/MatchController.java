@@ -60,9 +60,6 @@ public class MatchController extends UnicastRemoteObject implements MatchControl
          */
     }
 
-    /*
-        implementazione del metodo astratto dalla classe abstract.
-    */
     public Match getMatch() {
         return match;
     }
