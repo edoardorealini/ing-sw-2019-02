@@ -8,7 +8,7 @@ import model.map.*;
 import model.player.Player;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
-
+import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class MatchController extends UnicastRemoteObject implements MatchControllerInterface {
@@ -26,7 +26,7 @@ public class MatchController extends UnicastRemoteObject implements MatchControl
     /*
         Costruttore 1
     */
-    public MatchController(){
+    public MatchController() throws RemoteException {
         this.match = new Match();
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
