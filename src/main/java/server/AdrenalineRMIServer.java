@@ -19,6 +19,7 @@ public class AdrenalineRMIServer implements Runnable{
         this.port = port;
     }
 
+    //prima prova mettendo come oggetto condiviso direttamente matchController
     public void run(){
         try {
             Registry registry = LocateRegistry.createRegistry(port);

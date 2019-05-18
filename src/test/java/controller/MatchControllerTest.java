@@ -11,7 +11,12 @@ class MatchControllerTest {
 
     @BeforeEach
     void setUp() {
-        matchController = new MatchController();
+        try {
+            matchController = new MatchController();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 

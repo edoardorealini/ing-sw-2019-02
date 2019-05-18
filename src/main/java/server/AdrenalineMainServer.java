@@ -20,11 +20,15 @@ public class AdrenalineMainServer {
     private ExecutorService executor;
 
     public AdrenalineMainServer(int socketPort, int rmiPort){
-        match = new Match();
-        matchController = new MatchController(match);
-        this.socketPort = socketPort;
-        this.rmiPort = rmiPort;
-        executor = Executors.newCachedThreadPool();
+        try {
+            match = new Match();
+            matchController = new MatchController(match);
+            this.socketPort = socketPort;
+            this.rmiPort = rmiPort;
+            executor = Executors.newCachedThreadPool();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void launchSocketServer(){
