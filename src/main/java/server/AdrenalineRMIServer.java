@@ -4,6 +4,10 @@ package server;
 
 import controller.MatchController;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.*;
+
 public class AdrenalineRMIServer implements Runnable{
 
     private MatchController matchController;
@@ -16,7 +20,13 @@ public class AdrenalineRMIServer implements Runnable{
     }
 
     public void run(){
-
+        try {
+            Registry registry = LocateRegistry.createRegistry(port);
+            registry.bind("matchController", matchController);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         //dopo tutta la parte di setup dell' oggetto remoto

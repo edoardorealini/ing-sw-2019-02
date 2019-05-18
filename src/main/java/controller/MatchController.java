@@ -11,7 +11,8 @@ import model.weapons.Weapon;
 
 import java.rmi.server.UnicastRemoteObject;
 
-public class MatchController extends UnicastRemoteObject implements MatchControllerInterface {
+public class MatchController extends UnicastRemoteObject implements MatchControllerInterface{
+
     private Match match;
     private GrabController grabController;
     private PowerUpController powerUpController;
