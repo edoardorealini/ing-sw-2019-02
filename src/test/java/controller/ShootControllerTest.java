@@ -71,7 +71,6 @@ class ShootControllerTest {
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE));
 		input.setShootModes(ShootMode.BASIC);
 		input.setShootModes(ShootMode.OPTIONAL1);
-		input.setShootModes(ShootMode.OPTIONAL2);
 		input.setTargets(p2);
 		input.setTargets(p3);
 		System.out.println(input.getTargets().size());
@@ -88,8 +87,6 @@ class ShootControllerTest {
 			System.out.println(p2.getBoard().toStringMarks());
 			System.out.println(p3.getBoard().toStringLP());
 			System.out.println(p3.getBoard().toStringMarks());
-
-			//TODO marks updating doesn't work, fix it
 
 		}catch (Exception e){
 			System.out.println("shit happened");

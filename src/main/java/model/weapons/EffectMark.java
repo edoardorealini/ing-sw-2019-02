@@ -28,6 +28,6 @@ public class EffectMark extends Effect {
 
 	@Override
 	public void executeEffect(Match match, MoveController ctrl, Player target, Square destination) {
-		target.getBoard().updateMarks(this.getDamage(), match.getCurrentPlayer().getId());              //updating marks of the target
+		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
 	}
 }
