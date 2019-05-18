@@ -4,7 +4,6 @@ import exception.NotAllowedMoveException;
 import model.Match;
 import model.map.Directions;
 import model.map.Map;
-import model.map.MapBuilder;
 import model.map.Square;
 import model.player.Player;
 import model.powerup.PowerUp;
