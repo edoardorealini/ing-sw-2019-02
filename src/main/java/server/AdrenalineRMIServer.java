@@ -17,6 +17,8 @@ public class AdrenalineRMIServer implements Runnable{
 
     public void run(){
 
+
+
         //dopo tutta la parte di setup dell' oggetto remoto
         System.out.println("[RMIServer]: ready to receive remote method calls");
     }
