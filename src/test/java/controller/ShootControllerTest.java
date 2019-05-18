@@ -1,6 +1,5 @@
 package controller;
 
-import model.*;
 import model.ammo.AmmoCard;
 import model.player.Player;
 import model.weapons.Weapon;
@@ -16,7 +15,7 @@ class ShootControllerTest {
 	private Player p2 = new Player("REALNGNEER", 2);
 	private Player p3 = new Player("JOHNNYCA$H", 3);
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
-	private Input input = new Input();
+	private ShootingParametersInput input = new ShootingParametersInput();
 
 	@Test
 	void getPlayer() {

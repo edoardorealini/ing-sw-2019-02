@@ -7,7 +7,7 @@ import model.weapons.Weapon;
 
 import java.util.*;
 
-public class Input {
+public class ShootingParametersInput {
 	//this class is a container of fields that will be setted by the user
 	private Weapon weapon;
 	private ArrayList<ShootMode> shootModes;
@@ -15,8 +15,8 @@ public class Input {
 	private ArrayList<Square> squares;
 	private Directions direction;
 
-	public Input(){
-		//constructor of Input Class
+	public ShootingParametersInput(){
+		//constructor of ShootingParametersInput Class
 		this.shootModes = new ArrayList<>();
 		this.targets = new ArrayList<>();
 		this.squares = new ArrayList<>();

@@ -7,7 +7,6 @@ import model.map.Directions;
 import model.map.Square;
 import model.player.Player;
 import model.weapons.Effect;
-import model.weapons.Weapon;
 
 import java.util.*;
 
@@ -152,7 +151,7 @@ public class ShootController extends ActionController {
 
 	//shoot methods
 
-	public void shootLockRifle (Input input) throws NotAllowedTarget, NotEnoughAmmoException{
+	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException{
 		//this method is valid only for LOCK RIFLE
 
 		//BASIC MODE
@@ -184,7 +183,7 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	public void shootElectroScythe (Input input) throws NotAllowedTarget, NotEnoughAmmoException{
+	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException{
 		//this method is valid only for ELECTRO SCYTHE
 		Effect eff;
 
@@ -222,7 +221,7 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	public void shootMachineGun (Input input) throws NotAllowedTarget, NotEnoughAmmoException {
+	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
 		//this method is valid only for MACHINE GUN
 
 		for (ShootMode mode : input.getShootModes()) {
@@ -277,7 +276,7 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	public void shootTHOR (Input input) throws NotAllowedTarget, NotEnoughAmmoException {
+	public void shootTHOR (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
 		//this method is valid only for T.H.O.R.
 		Effect eff;
 
