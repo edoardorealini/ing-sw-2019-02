@@ -17,6 +17,7 @@ public class AdrenalineRMIServer implements Runnable{
     public AdrenalineRMIServer(MatchController controller, int port){
         matchController = controller;
         this.port = port;
+        // metti cotruttore dell'oggetto remoto NetworkRMI che coniene tutti  i mewtodi...
     }
 
     //prima prova mettendo come oggetto condiviso direttamente matchController
