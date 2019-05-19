@@ -10,14 +10,14 @@ import java.rmi.*;
 
 public class AdrenalineRMIServer implements Runnable{
 
-    private MatchController matchController;
+    //private MatchController matchController; IL MATCHCONTROLLER NON SERVE CHE CE L'ABBIA QUESTA CLASSE
     private int port;
-    //TODO qui andrà dichiarato l'oggetto remoto vero e proprio (classe ancora da scrivere)
+    private RemoteObjectRMI remoteObjectRMI;
 
-    public AdrenalineRMIServer(MatchController controller, int port){
-        matchController = controller;
+    public AdrenalineRMIServer(MatchController controller, int port) throws RemoteException {
+       // matchController = controller;
         this.port = port;
-        // metti cotruttore dell'oggetto remoto NetworkRMI che coniene tutti  i mewtodi...
+        this.remoteObjectRMI = new RemoteObjectRMI(controller);
     }
 
     //prima prova mettendo come oggetto condiviso direttamente matchController
@@ -25,7 +25,7 @@ public class AdrenalineRMIServer implements Runnable{
     public void run(){
         try {
             Registry registry = LocateRegistry.createRegistry(port);
-            registry.bind("matchController", matchController);
+            registry.bind("remoteObjectRMI", remoteObjectRMI);
         }
         catch (Exception e){
             e.printStackTrace();

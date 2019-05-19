@@ -8,6 +8,7 @@ import model.Match;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,7 +36,7 @@ public class AdrenalineMainServer {
         executor.submit(new AdrenalineSocketServer(matchController, socketPort));
     }
 
-    public void launchRMIServer(){
+    public void launchRMIServer() throws RemoteException {
         //TODO capire ancora bene la logica
         executor.submit(new AdrenalineRMIServer(matchController, rmiPort));
     }
