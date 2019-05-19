@@ -1,6 +1,7 @@
 package model.weapons;
 
 import controller.MoveController;
+import controller.ShootingParametersInput;
 import model.Match;
 import model.map.Square;
 import model.player.Player;
@@ -27,7 +28,10 @@ public class EffectMoveYourself extends Effect{
 	}
 
 	@Override
-	public void executeEffect(Match match, MoveController ctrl, Player target, Square destination) {
+	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
+		Player target = match.getCurrentPlayer();
+		Square destination = input.getSquares().get(0);
+
 		try {
 			ctrl.move(target, destination, getMoveYourself());
 		} catch (Exception e){

@@ -1,8 +1,8 @@
 package model.weapons;
 
 import controller.MoveController;
+import controller.ShootingParametersInput;
 import model.Match;
-import model.map.Square;
 import model.player.Player;
 
 public class EffectDamage extends Effect {
@@ -27,9 +27,10 @@ public class EffectDamage extends Effect {
 	}
 
 	@Override
-	public void executeEffect(Match match, MoveController ctrl, Player target, Square destination) {
+	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
 		//local variables that increase readability
 		Player currentPlayer = match.getCurrentPlayer();
+		Player target = input.getTargets().get(getSameTarget());
 		int transferringMarks = target.getBoard().getSpecificMarks(currentPlayer.getId());
 		int i = 0;
 

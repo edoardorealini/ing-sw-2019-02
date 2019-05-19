@@ -1,6 +1,7 @@
 package model.weapons;
 
 import controller.MoveController;
+import controller.ShootingParametersInput;
 import exception.NotAllowedMoveException;
 import model.Match;
 import model.map.Square;
@@ -28,7 +29,10 @@ public class EffectMoveTarget extends Effect{
 	}
 
 	@Override
-	public void executeEffect(Match match, MoveController ctrl, Player target, Square destination) throws NotAllowedMoveException {
+	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) throws NotAllowedMoveException {
+		Player target = input.getTargets().get(getSameTarget());
+		Square destination = input.getSquares().get(0);
+
 		try {
 			ctrl.move(target, destination, getMoveTarget());
 		} catch (Exception e){

@@ -64,7 +64,7 @@ public class WeaponDeck {
         weaponDeck.get(3).setBasicMode(new EffectMoveTarget(2, 1, 0, false, 0), new EffectDamage(1, 1, 0, true, 0));  //same target,  after the movement must be visible
         weaponDeck.get(3).setOptionalModeOne(null);
         weaponDeck.get(3).setOptionalModeTwo(null);
-        weaponDeck.get(3).setAlternateMode(new EffectMoveTarget(2, 1, 0, true, 0), new EffectDamage(3, 1, 0, true, -1));  //same target, remember to check if the moved target is in your square
+        weaponDeck.get(3).setAlternateMode(new EffectMoveTarget(2, 1, 0, false, 0), new EffectDamage(3, 1, 0, true, -1));  //same target, remember to check if the moved target is in your square
 
 
         //T.H.O.R.

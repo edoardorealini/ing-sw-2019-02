@@ -2,10 +2,9 @@ package model.weapons;
 
 
 import controller.MoveController;
+import controller.ShootingParametersInput;
 import exception.NotAllowedMoveException;
 import model.Match;
-import model.map.Square;
-import model.player.Player;
 
 public abstract class Effect {
 	private int damage;
@@ -96,7 +95,7 @@ public abstract class Effect {
 		this.sameTarget = sameTarget;
 	}
 
-	public abstract void executeEffect(Match match, MoveController ctrl, Player target, Square destination) throws NotAllowedMoveException;
+	public abstract void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) throws NotAllowedMoveException;
 
 	public boolean isSameSquare() {
 		return sameSquare;
