@@ -32,12 +32,19 @@ public class InputConverter {
     public Directions stringToDirections (String movement){
         // TODO da cambiare assolutamente questi input
         switch (movement){
-            case "su": return Directions.UP; break;
-            case "giù": return Directions.DOWN; break;
-            case "destra": return Directions.RIGHT; break;
-            case "sinistra": return Directions.LEFT; break;
+            case "su":
+                return Directions.UP;
+            case "giù":
+                return Directions.DOWN;
+            case "destra":
+                return Directions.RIGHT;
+            case "sinistra":
+                return Directions.LEFT;
 
         }
+        // TODO da togliere questo return (messo solo per non dare errore)
+        //return Directions.DOWN;
+        return null;
     }
 
     // restituisce il powerUp del giocatore in posizione indexOfPowerUp
