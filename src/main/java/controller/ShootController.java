@@ -407,7 +407,7 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode {
+	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
 		//this method is valid only for Tractor Beam
 		Effect eff;
 
@@ -448,5 +448,12 @@ public class ShootController extends ActionController {
 		}
 
 	}
+
+	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+		 //this method is valid only for Cannon Vortex
+
+
+	}
+
 
 }
