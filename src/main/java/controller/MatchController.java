@@ -140,6 +140,10 @@ public class MatchController extends UnicastRemoteObject implements MatchControl
         return shootController;
     }
 
+    public GrabController getGrabController() { return grabController; }
+
+    public PowerUpController getPowerUpController() { return powerUpController; }
+
     public String RMICallTest(String message){
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;

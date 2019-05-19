@@ -1,15 +1,96 @@
 package server;
+import controller.InputConverter;
 import controller.MatchController;
+import controller.MoveController;
+import controller.ShootController;
+import exception.NotAllowedMoveException;
+import model.Match;
+import model.map.Directions;
+import model.map.Map;
+import model.map.Square;
+import model.player.Player;
+import model.powerup.PowerUp;
+import model.weapons.Weapon;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRemoteObjectRMI {
+
+    private InputConverter converter;
     private MatchController matchController;
 
     public RemoteObjectRMI(MatchController matchController) throws RemoteException{
         this.matchController = matchController;
+        this.converter = new InputConverter(matchController.getMatch());
     }
 
+    public Match getMatch(){
+        return matchController.getMatch();
+    }
+
+    public Map getMap(){
+        return matchController.getMap();
+    }
+
+    public void buildMap (int mapID){
+        matchController.buildMap(mapID);
+    }
+
+    //metodi derivanti da classe moveController
+    public void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed) throws Exception{
+        matchController.getMoveController().move(player,converter.indexToSquare(iDestination,jDestination),maxDistanceAllowed);
+    }
+
+    public boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance){
+        return matchController.getMoveController().isAllowedMove(startingPoint,converter.indexToSquare(iDestination,jDestination),maxDistance);
+    }
+
+    public void moveOneSquare(String movement) throws  Exception{
+        matchController.getMoveController().moveOneSquare(converter.stringToDirections(movement));
+    }
+
+    public void moveOneSquare(String movement, Player player) throws Exception{
+        matchController.getMoveController().moveOneSquare(converter.stringToDirections(movement), player);
+    }
+
+
+    //metodi da grab controller
+    public void grabAmmoCard() throws Exception {
+        matchController.getGrabController().grabAmmoCard();
+    }
+
+    public void grabWeapon(int indexOfWeapon) throws Exception{
+        matchController.getGrabController().grabWeapon(converter.intToWeapon(indexOfWeapon));
+    }
+
+    //metodi di powerUpController
+    public void usePowerUpAsAmmo(int indexOfPowerUp) throws Exception{
+        matchController.getPowerUpController().usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPowerUp));
+    }
+
+    // TODO c'è da fare il controllo che il giocatore ce l'abbia veramente e poio va tolto !
+    public void useTeleporter(PowerUp teleporter, Square destination){
+        matchController.getPowerUpController().useTeleporter(teleporter, destination);
+    }
+
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException{
+        matchController.getPowerUpController().useNewton(newton, affectedPlayer, destination);
+    }
+
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
+        matchController.getPowerUpController().useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    }
+
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
+        matchController.getPowerUpController().useTargetingScope(targetingScope, affectedPlayer);
+    }
+
+
+
+    public String RMICallTest(String message){
+        System.out.println("Called test method with message: " + message);
+        return "Called MatchController.RMICallTest(message) method with message: " + message;
+    }
 
 }
