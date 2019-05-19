@@ -7,7 +7,6 @@ import model.map.Directions;
 import model.map.Square;
 import model.player.Player;
 import model.weapons.Effect;
-
 import java.util.*;
 
 public class ShootController extends ActionController {
@@ -151,43 +150,57 @@ public class ShootController extends ActionController {
 
 	//shoot methods
 
-	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException{
+	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
 		//this method is valid only for LOCK RIFLE
 
-		//BASIC MODE
-		for (Effect eff: input.getWeapon().getBasicMode()) {
-			try {
-				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-				eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
-			} catch (Exception e) {
-				//TODO
-			}
+		for (ShootMode mode : input.getShootModes()) {
 
-		}
+			switch (mode) {
 
-		//OPTIONAL MODE
-		if (input.getShootModes().size()>1 && input.getTargets().size()>1) {
-			try {
-				payAmmo(input.getWeapon().getCostOpt1());
-				for (Effect eff : input.getWeapon().getOptionalModeOne()) {
-					try {
-					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-					eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
-					} catch (Exception e) {
-						//TODO
+				case BASIC:
+					for (Effect eff: input.getWeapon().getBasicMode()) {
+						try {
+							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+							eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
+						} catch (Exception e) {
+							//TODO throw not allowed target
+						}
 					}
-				}
-			} catch (NotEnoughAmmoException e) {
-				//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+					break;
+
+				case OPTIONAL1:
+					if (input.getTargets().size()>1) {
+						try {
+							payAmmo(input.getWeapon().getCostOpt1());
+							for (Effect eff : input.getWeapon().getOptionalModeOne()) {
+								try {
+									checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+									eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
+								} catch (Exception e) {
+									//TODO
+								}
+							}
+						} catch (NotEnoughAmmoException e) {
+							//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+						}
+					}
+					break;
+
+				case OPTIONAL2:
+					throw new NotAllowedShootingMode();
+
+				case ALTERNATE:
+					throw new NotAllowedShootingMode();
 			}
 		}
 	}
 
-	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException{
+	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
 		//this method is valid only for ELECTRO SCYTHE
 		Effect eff;
 
 		switch (input.getShootModes().get(0)) {
+
 			case BASIC:
 				eff = input.getWeapon().getBasicMode().get(0);
 				for (Player player: getMatch().getPlayers()) {
@@ -218,10 +231,16 @@ public class ShootController extends ActionController {
 				} catch (NotEnoughAmmoException e) {
 					//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
 				}
+
+			case OPTIONAL1:
+				throw new NotAllowedShootingMode();
+
+			case OPTIONAL2:
+				throw new NotAllowedShootingMode();
 		}
 	}
 
-	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
+	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
 		//this method is valid only for MACHINE GUN
 
 		for (ShootMode mode : input.getShootModes()) {
@@ -272,6 +291,9 @@ public class ShootController extends ActionController {
 						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
 					}
 					break;
+
+				case ALTERNATE:
+					throw new NotAllowedShootingMode();
 			}
 		}
 	}
@@ -323,5 +345,108 @@ public class ShootController extends ActionController {
 
 	}
 
+	public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+		//this method is valid only for Plasma Gun
+
+		Effect eff;
+
+		for (ShootMode mode : input.getShootModes()) {
+			switch (mode){
+
+				case BASIC:
+					eff = input.getWeapon().getBasicMode().get(0);
+					try {
+						checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+						eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
+					} catch (Exception e) {
+						throw new NotAllowedTarget();
+					}
+					break;
+
+				case OPTIONAL1:
+					eff = input.getWeapon().getOptionalModeOne().get(0);
+					try{
+						eff.executeEffect(match, moveController, getCurrPlayer(), input.getSquares().get(0));
+					} catch (Exception e) {
+						//TODO manage the NotAllowedMoveException, ask Edo
+					}
+					break;
+
+				case OPTIONAL2:
+					eff = input.getWeapon().getAlternateMode().get(0);
+					try {
+						payAmmo(input.getWeapon().getCostOpt2());
+						try {
+							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+							eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
+						} catch (Exception e) {
+							throw new NotAllowedTarget();
+						}
+					} catch (Exception e) {
+						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
+					}
+					break;
+
+				case ALTERNATE:
+					throw new NotAllowedShootingMode();
+			}
+		}
+	}
+
+	public void shootWhisper (ShootingParametersInput input) throws NotAllowedTarget{
+		//this method is valid only for Whisper
+		try {
+			for (Effect eff : input.getWeapon().getBasicMode()) {
+				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+				checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+				eff.executeEffect(match, moveController, input.getTargets().get(eff.getSameTarget()), null);
+			}
+		} catch(Exception e) {
+			throw new NotAllowedTarget();
+		}
+
+	}
+
+	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode {
+		//this method is valid only for Tractor Beam
+		Effect eff;
+
+		switch (input.getShootModes().get(0)) {
+
+			case BASIC:
+				try {
+					eff = input.getWeapon().getBasicMode().get(0);
+					eff.executeEffect(match, moveController, input.getTargets().get(0), input.getSquares().get(0));
+					eff = input.getWeapon().getBasicMode().get(1);
+					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
+					eff.executeEffect(match, moveController, input.getTargets().get(0), null);
+				} catch (Exception e) {
+					//TODO
+				}
+				break;
+
+			case ALTERNATE:
+				try {
+					payAmmo(input.getWeapon().getCostAlternate());
+					eff = input.getWeapon().getAlternateMode().get(0);
+					eff.executeEffect(match, moveController, input.getTargets().get(0), input.getSquares().get(0));
+					eff = input.getWeapon().getAlternateMode().get(1);
+					checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
+					eff.executeEffect(match, moveController, input.getTargets().get(0), null);
+				} catch (Exception e) {
+					//TODO
+				}
+				break;
+
+
+			case OPTIONAL1:
+				throw new NotAllowedShootingMode();
+
+			case OPTIONAL2:
+				throw new NotAllowedShootingMode();
+		}
+
+	}
 
 }

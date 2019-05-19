@@ -90,7 +90,7 @@ public class WeaponDeck {
         weaponDeck.get(5).setCostOpt1(null);
         weaponDeck.get(5).setCostOpt2(Color.BLUE);
         weaponDeck.get(5).setCostAlternate(null);
-        weaponDeck.get(5).setBasicMode(new EffectDamage(2, 1, 0, true, 0));  //can also be not visible if you move first
+        weaponDeck.get(5).setBasicMode(new EffectDamage(2, 1, 0, true, 0));
         weaponDeck.get(5).setOptionalModeOne(new EffectMoveYourself(2));
         weaponDeck.get(5).setOptionalModeTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
         weaponDeck.get(5).setAlternateMode(null);
