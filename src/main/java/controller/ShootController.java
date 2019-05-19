@@ -460,7 +460,7 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
 		 //this method is valid only for Cannon Vortex
 
 		for (Effect eff : input.getWeapon().getBasicMode()) {

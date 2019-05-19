@@ -116,4 +116,20 @@ class ShootControllerTest {
 	@Test
 	void shootTHOR() {
 	}
+
+	@Test
+	void shootPlasmaGun() {
+	}
+
+	@Test
+	void shootWhisper() {
+	}
+
+	@Test
+	void shootTractorBeam() {
+	}
+
+	@Test
+	void shootCannonVortex() {
+	}
 }
