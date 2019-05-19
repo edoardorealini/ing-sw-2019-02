@@ -196,4 +196,9 @@ public class Player {
     public boolean isDead() {
         return dead;
     }
+
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }

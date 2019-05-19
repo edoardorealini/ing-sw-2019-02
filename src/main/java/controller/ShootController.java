@@ -474,15 +474,19 @@ public class ShootController extends ActionController {
 			}
 		}
 
-		if (input.getShootModes().size() > 1) {
-			for (Effect eff : input.getWeapon().getAlternateMode()) {
+		if (input.getShootModes().size() > 1 && input.getTargets().size() > 1) {
+			for (Effect eff : input.getWeapon().getOptionalModeOne()) {
 				try {
-					checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+					checkMaximumDistance(eff, input.getTargets().get(eff.getSameTarget()), input.getSquares().get(0), eff.getMoveTarget());
 					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 					checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					//TODO
+					System.out.println("eccezione");
+					break;
+
+					//TODO REMEMBER TO ADD EVERYWHERE BREAK INSTRUCTION WHEN YOU CATCH AN EXCEPTION
+
 				}
 			}
 		}
