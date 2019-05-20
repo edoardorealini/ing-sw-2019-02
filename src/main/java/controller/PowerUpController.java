@@ -54,6 +54,8 @@ public class PowerUpController{
                 if (match.getCurrentPlayer().getPowerUps()[i].equals(teleporter)) {
                     if (destination.isActive()) {
                         match.getCurrentPlayer().setPosition(destination);
+                        match.getCurrentPlayer().removePowerUps(teleporter);
+                        //aggiunta gestione della rimozione del powerup quando viene utilizzato
                     } else throw new IllegalArgumentException("Not valid destination Square, not active");
                 } else throw new IllegalArgumentException("Not a valid powerUp, not in your hand");
             }
@@ -71,7 +73,8 @@ public class PowerUpController{
                         if (match.getMap().getAllowedSquaresInDirection(d, affectedPlayer.getPosition()).contains(destination)) { //controllo che lo spostamento avvenga in una sola direzione
                             try {
                                 moveController.move(affectedPlayer, destination, 2); //effettuo spostamento con max distance 2 (da regolamento)
-
+                                match.getCurrentPlayer().removePowerUps(newton);
+                                //aggiunta gestione della rimozione del powerup quando viene utilizzato
                             } catch (NotAllowedMoveException e) {
                                 e.printStackTrace();
                             }
@@ -92,7 +95,7 @@ public class PowerUpController{
     }
 
     public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
-        //TODO imlementare, sisteemare signature del metodo
+        //TODO implementare, sistemare signature del metodo
     }
 
 }

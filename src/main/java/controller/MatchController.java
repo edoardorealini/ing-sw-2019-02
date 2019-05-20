@@ -2,9 +2,11 @@ package controller;
 
 import exception.NotAllowedMoveException;
 import exception.NotEnoughAmmoException;
+import exception.NotInYourPossessException;
 import exception.WrongPositionException;
 import model.Match;
 import model.map.*;
+import model.map.MapBuilder;
 import model.player.Player;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
@@ -110,24 +112,46 @@ public class MatchController {
     }
 
     //metodi di powerUpController
-    public void usePowerUpAsAmmo(PowerUp powerUp) throws Exception{
-        powerUpController.usePowerUpAsAmmo(powerUp);
+    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException{
+        if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
+            powerUpController.usePowerUpAsAmmo(powerUp);
+        }
+        else
+            throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
 
-    public void useTeleporter(PowerUp teleporter, Square destination){
-        powerUpController.useTeleporter(teleporter, destination);
+    public void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException {
+        if(match.getCurrentPlayer().hasPowerUp(teleporter)) {
+            powerUpController.useTeleporter(teleporter, destination);
+        }
+        else
+            throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
     }
 
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException{
-        powerUpController.useNewton(newton, affectedPlayer, destination);
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException{
+        if(match.getCurrentPlayer().hasPowerUp(newton)) {
+            powerUpController.useNewton(newton, affectedPlayer, destination);
+        }
+        else
+            throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
-        powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException{
+        if(user.hasPowerUp(tagbackGrenade)) {
+            powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+        }
+        else
+            throw new NotInYourPossessException("The powerUp" + tagbackGrenade.getName() + "is not in your hand");
+
     }
 
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
-        powerUpController.useTargetingScope(targetingScope, affectedPlayer);
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException{
+        if(match.getCurrentPlayer().hasPowerUp(targetingScope)) {
+            powerUpController.useTargetingScope(targetingScope, affectedPlayer);
+        }
+        else
+            throw new NotInYourPossessException("The powerUp" + targetingScope.getName() + "is not in your hand");
+
     }
 
     public MoveController getMoveController() {

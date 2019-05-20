@@ -201,4 +201,14 @@ public class Player {
     public String toString() {
         return nickname;
     }
+
+    public boolean hasPowerUp( PowerUp card){
+        for (int i = 0; i < 3; i++){
+            if(powerUps[i].equals(card)){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
