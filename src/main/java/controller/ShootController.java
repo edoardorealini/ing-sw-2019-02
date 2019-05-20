@@ -215,14 +215,22 @@ public class ShootController extends ActionController {
 			case BASIC:
 				eff = input.getWeapon().getBasicMode().get(0);
 				for (Player player: getMatch().getPlayers()) {
-					try {
-					checkCorrectVisibility(eff, getCurrPlayer(), player);
-					checkExactDistance(eff, getCurrPlayer(), player);
-					eff.executeEffect(match, moveController, input);
-					} catch (Exception e) {
-						throw new NotAllowedTargetException();
-					}
+				    if(player.getId() != getCurrPlayer().getId()) {
+                        try {
+                            checkCorrectVisibility(eff, getCurrPlayer(), player);
+                            checkExactDistance(eff, getCurrPlayer(), player);
+                            input.getTargets().add(player);
+                        } catch (Exception e) {
+                            //throw new NotAllowedTargetException();
+                            //should I throw the new exception or shouldn't I care about which players the user wants to hit?
+                        }
+                    }
 				}
+				try {
+                    eff.executeEffect(match, moveController, input);
+                } catch (Exception e) {
+				    //TODO
+                }
 				break;
 
 			case ALTERNATE:
@@ -230,13 +238,15 @@ public class ShootController extends ActionController {
 				try {
 					payAmmo(input.getWeapon().getCostAlternate());
 					for (Player player: getMatch().getPlayers()) {
-						try {
-							checkCorrectVisibility(eff, getCurrPlayer(), player);
-							checkExactDistance(eff, getCurrPlayer(), player);
-							eff.executeEffect(match, moveController, input);
-						} catch (Exception e) {
-							throw new NotAllowedTargetException();
-						}
+                        if(player.getId() != getCurrPlayer().getId()) {
+                            try {
+                                checkCorrectVisibility(eff, getCurrPlayer(), player);
+                                checkExactDistance(eff, getCurrPlayer(), player);
+                                eff.executeEffect(match, moveController, input);
+                            } catch (Exception e) {
+                            //    throw new NotAllowedTargetException();
+                            }
+                        }
 					}
 					break;
 				} catch (NotEnoughAmmoException e) {
@@ -482,7 +492,8 @@ public class ShootController extends ActionController {
 					checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					System.out.println("eccezione");
+
+					// System.out.println("eccezione");
 					break;
 
 					//TODO REMEMBER TO ADD EVERYWHERE BREAK INSTRUCTION WHEN YOU CATCH AN EXCEPTION
