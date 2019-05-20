@@ -101,6 +101,7 @@ class ShootControllerTest {
 
 		}catch (Exception e){
 			System.out.println("shit happened");
+			e.printStackTrace();
 		}
 
 	}
@@ -175,6 +176,7 @@ class ShootControllerTest {
 
 		}catch (Exception e){
 			System.out.println("shit happened");
+			e.printStackTrace();
 		}
 	}
 }

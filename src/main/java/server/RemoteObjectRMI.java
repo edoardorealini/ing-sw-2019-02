@@ -66,7 +66,7 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
         matchController.getPowerUpController().usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPowerUp));
     }
 
-    // TODO c'è da fare il controllo che il giocatore ce l'abbia veramente e poio va tolto !
+    // TODO c'è da fare il controllo che il giocatore ce l'abbia veramente e poio va tolto ! -Edo: risolto già in match controller
     public void useTeleporter(PowerUp teleporter, Square destination){
         matchController.getPowerUpController().useTeleporter(teleporter, destination);
     }
