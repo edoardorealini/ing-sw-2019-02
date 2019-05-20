@@ -2,11 +2,11 @@ package client;
 
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
-import client.clientModel.Match;
-import client.clientModel.map.Map;
-import client.clientModel.map.Square;
-import client.clientModel.player.Player;
-import client.clientModel.powerup.PowerUp;
+import model.Match;
+import model.map.Map;
+import model.map.Square;
+import model.player.Player;
+import model.powerup.PowerUp;
 
 import java.rmi.RemoteException;
 

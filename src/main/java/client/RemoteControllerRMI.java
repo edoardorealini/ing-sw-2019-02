@@ -1,15 +1,29 @@
 package client;
 
-import client.clientModel.Match;
-import client.clientModel.*;
-import client.clientModel.map.Map;
-import client.clientModel.map.Square;
-import client.clientModel.player.Player;
-import client.clientModel.powerup.PowerUp;
+import model.Match;
+import model.*;
+import model.map.Map;
+import model.map.Square;
+import model.player.Player;
+import model.powerup.PowerUp;
+import server.InterfaceRemoteObjectRMI;
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class RemoteControllerRMI extends RemoteController{
 
     private Match match;
+    private InterfaceRemoteObjectRMI controller;
+
+    public RemoteControllerRMI(String serverIP, int port){ //TODO capire se passare la porta qui o meno
+        try {
+            Registry registry = LocateRegistry.getRegistry(serverIP,port);
+            controller = (InterfaceRemoteObjectRMI) registry.lookup("remoteController");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     Map getMap() {

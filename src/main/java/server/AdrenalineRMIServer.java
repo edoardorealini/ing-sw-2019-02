@@ -25,7 +25,7 @@ public class AdrenalineRMIServer implements Runnable{
     public void run(){
         try {
             Registry registry = LocateRegistry.createRegistry(port);
-            registry.bind("remoteObjectRMI", remoteObjectRMI);
+            registry.bind("remoteController", remoteObjectRMI);
         }
         catch (Exception e){
             e.printStackTrace();

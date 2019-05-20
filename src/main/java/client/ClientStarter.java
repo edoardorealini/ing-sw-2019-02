@@ -9,23 +9,38 @@ import java.util.Scanner;
 public class ClientStarter{
 
     public static void main(String[] args) {
+
+        ClientStarter starter = new ClientStarter();
         try {
-            Registry registry = LocateRegistry.getRegistry(1338);
-            InterfaceRemoteObjectRMI remoteObjectRMI = (InterfaceRemoteObjectRMI) registry.lookup("remoteObjectRMI");
 
-            Scanner input = new Scanner(System.in);
+            switch (args[0]) {
+                case "-rmi":
+                    starter.launchRMIClient();
+                    break;
 
-            while(true) {
-                System.out.println("\nInsert message to send to the server:");
-                String message = input.nextLine();
-                String response = remoteObjectRMI.RMICallTest(message);
-                System.out.println("Response from server: " + response);
+                case "-socket":
+                    starter.launchSocketClient();
+                    break;
+
+                default:
+                    System.err.println("[ERROR] : Not admitted value " + args[0] + " as type of connection.");
+                    return;
+
             }
-
-        }
-        catch (Exception e){
+        }catch(Exception e){
+            System.err.println("[ERROR] : Connection method not set");
             e.printStackTrace();
         }
+
+    }
+
+    private void launchRMIClient(){
+        System.out.println("[CLIENT] : RMI connection selected correctly");
+
+    }
+
+    private void launchSocketClient(){
+
     }
 
 }
