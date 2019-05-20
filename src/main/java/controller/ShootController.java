@@ -76,22 +76,22 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
+	private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
 		//this method checks if the visibility required by the weapon is respected
 		if (eff.getMoveTarget() != 0 || eff.getMoveYourself() != 0)
 			return;
 		if (eff.needVisibleTarget() != visibilityBetweenPlayers(player1, player2))
-			throw new NotAllowedTarget();
+			throw new NotAllowedTargetException();
 	}
 
-	private void checkAllowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
+	private void checkAllowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
 		//this method checks if the distance required by the weapon is respected
 		if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) < eff.getMinShootDistance())
-			throw new NotAllowedTarget();
+			throw new NotAllowedTargetException();
 
 	}
 
-	private void checkExactDistance(Effect eff, Player player1, Player player2) throws NotAllowedTarget {
+	private void checkExactDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
 		//this method checks if the distance required by the weapon is the same that separate the two players
 		int k;
 
@@ -102,7 +102,7 @@ public class ShootController extends ActionController {
 		}
 
 		if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) != k)
-			throw new NotAllowedTarget();
+			throw new NotAllowedTargetException();
 	}
 
 	private void checkMaximumDistance(Effect eff, Player player, Square square, int maxDistance) throws NotAllowedMoveException {
@@ -114,13 +114,13 @@ public class ShootController extends ActionController {
 
 	}
 
-	private void checkSameDirectionAllowed(Effect eff, Player player1, Square square, Directions direction) throws  NotAllowedTarget{
+	private void checkSameDirectionAllowed(Effect eff, Player player1, Square square, Directions direction) throws NotAllowedTargetException {
 		//this method checks if the square and the position of the player are on the same line (walls cannot be passed)
 		if(direction!=null) {
 			if (match.getMap().getAllowedSquaresInDirection(direction, player1.getPosition()).contains(square)) {
 				return;
 			} else {
-				throw new NotAllowedTarget();
+				throw new NotAllowedTargetException();
 			}
 		}
 
@@ -132,17 +132,17 @@ public class ShootController extends ActionController {
 
 		for (Directions dir: cardinalDirections) {
 			if (! match.getMap().getAllowedSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
-				throw new NotAllowedTarget();
+				throw new NotAllowedTargetException();
 		}
 	}
 
-	private void checkSameDirectionThroughWalls(Effect eff, Player player1, Square square, Directions direction) throws  NotAllowedTarget{
+	private void checkSameDirectionThroughWalls(Effect eff, Player player1, Square square, Directions direction) throws NotAllowedTargetException {
 		//this method checks if the square and the position of the player are on the same line (don't care about the walls)
 		if(direction!=null) {
 			if (match.getMap().getAllSquaresInDirection(direction, player1.getPosition()).contains(square)) {
 				return;
 			} else {
-				throw new NotAllowedTarget();
+				throw new NotAllowedTargetException();
 			}
 		}
 
@@ -154,14 +154,14 @@ public class ShootController extends ActionController {
 
 		for (Directions dir: cardinalDirections) {
 			if (! match.getMap().getAllSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
-				throw new NotAllowedTarget();
+				throw new NotAllowedTargetException();
 		}
 	}
 
 
 	//shoot methods
 
-	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for LOCK RIFLE
 
 		for (ShootMode mode : input.getShootModes()) {
@@ -198,15 +198,15 @@ public class ShootController extends ActionController {
 					break;
 
 				case OPTIONAL2:
-					throw new NotAllowedShootingMode();
+					throw new NotAllowedShootingModeException();
 
 				case ALTERNATE:
-					throw new NotAllowedShootingMode();
+					throw new NotAllowedShootingModeException();
 			}
 		}
 	}
 
-	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for ELECTRO SCYTHE
 		Effect eff;
 
@@ -220,7 +220,7 @@ public class ShootController extends ActionController {
 					checkExactDistance(eff, getCurrPlayer(), player);
 					eff.executeEffect(match, moveController, input);
 					} catch (Exception e) {
-						throw new NotAllowedTarget();
+						throw new NotAllowedTargetException();
 					}
 				}
 				break;
@@ -235,7 +235,7 @@ public class ShootController extends ActionController {
 							checkExactDistance(eff, getCurrPlayer(), player);
 							eff.executeEffect(match, moveController, input);
 						} catch (Exception e) {
-							throw new NotAllowedTarget();
+							throw new NotAllowedTargetException();
 						}
 					}
 					break;
@@ -245,14 +245,14 @@ public class ShootController extends ActionController {
 
 
 			case OPTIONAL1:
-				throw new NotAllowedShootingMode();
+				throw new NotAllowedShootingModeException();
 
 			case OPTIONAL2:
-				throw new NotAllowedShootingMode();
+				throw new NotAllowedShootingModeException();
 		}
 	}
 
-	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for MACHINE GUN
 
 		for (ShootMode mode : input.getShootModes()) {
@@ -265,7 +265,7 @@ public class ShootController extends ActionController {
 								checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 								eff.executeEffect(match, moveController, input);
 							} catch (Exception e) {
-								throw new NotAllowedTarget();
+								throw new NotAllowedTargetException();
 							}
 						}
 					}
@@ -279,7 +279,7 @@ public class ShootController extends ActionController {
 							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 							eff.executeEffect(match, moveController, input);
 						} catch (Exception e) {
-							throw new NotAllowedTarget();
+							throw new NotAllowedTargetException();
 						}
 					} catch (NotEnoughAmmoException e) {
 						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
@@ -295,7 +295,7 @@ public class ShootController extends ActionController {
 									checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 									eff.executeEffect(match, moveController, input);
 								} catch (Exception e) {
-									throw new NotAllowedTarget();
+									throw new NotAllowedTargetException();
 								}
 							}
 						}
@@ -305,12 +305,12 @@ public class ShootController extends ActionController {
 					break;
 
 				case ALTERNATE:
-					throw new NotAllowedShootingMode();
+					throw new NotAllowedShootingModeException();
 			}
 		}
 	}
 
-	public void shootTHOR (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
+	public void shootTHOR (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
 		//this method is valid only for T.H.O.R.
 		Effect eff;
 
@@ -320,7 +320,7 @@ public class ShootController extends ActionController {
 			checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 			eff.executeEffect(match, moveController, input);
 		} catch (Exception e) {
-			throw new NotAllowedTarget();
+			throw new NotAllowedTargetException();
 		}
 
 	    //OPTIONAL ONE
@@ -332,7 +332,7 @@ public class ShootController extends ActionController {
 					checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));  //change the striker with the target
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					throw new NotAllowedTarget();
+					throw new NotAllowedTargetException();
 				}
 			} catch (NotEnoughAmmoException e) {
 				//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
@@ -348,7 +348,7 @@ public class ShootController extends ActionController {
 					checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));  //change the striker with the target
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					throw new NotAllowedTarget();
+					throw new NotAllowedTargetException();
 				}
 			} catch (NotEnoughAmmoException e) {
 				//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
@@ -357,7 +357,7 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for Plasma Gun
 
 		Effect eff;
@@ -371,7 +371,7 @@ public class ShootController extends ActionController {
 						checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 						eff.executeEffect(match, moveController, input);
 					} catch (Exception e) {
-						throw new NotAllowedTarget();
+						throw new NotAllowedTargetException();
 					}
 					break;
 
@@ -392,7 +392,7 @@ public class ShootController extends ActionController {
 							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 							eff.executeEffect(match, moveController, input);
 						} catch (Exception e) {
-							throw new NotAllowedTarget();
+							throw new NotAllowedTargetException();
 						}
 					} catch (Exception e) {
 						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
@@ -400,12 +400,12 @@ public class ShootController extends ActionController {
 					break;
 
 				case ALTERNATE:
-					throw new NotAllowedShootingMode();
+					throw new NotAllowedShootingModeException();
 			}
 		}
 	}
 
-	public void shootWhisper (ShootingParametersInput input) throws NotAllowedTarget{
+	public void shootWhisper (ShootingParametersInput input) throws NotAllowedTargetException {
 		//this method is valid only for Whisper
 		try {
 			for (Effect eff : input.getWeapon().getBasicMode()) {
@@ -414,12 +414,12 @@ public class ShootController extends ActionController {
 				eff.executeEffect(match, moveController, input);
 			}
 		} catch(Exception e) {
-			throw new NotAllowedTarget();
+			throw new NotAllowedTargetException();
 		}
 
 	}
 
-	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException, NotAllowedShootingMode{
+	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for Tractor Beam
 
 		switch (input.getShootModes().get(0)) {
@@ -452,15 +452,15 @@ public class ShootController extends ActionController {
 
 
 			case OPTIONAL1:
-				throw new NotAllowedShootingMode();
+				throw new NotAllowedShootingModeException();
 
 			case OPTIONAL2:
-				throw new NotAllowedShootingMode();
+				throw new NotAllowedShootingModeException();
 		}
 
 	}
 
-	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTarget, NotEnoughAmmoException {
+	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
 		 //this method is valid only for Cannon Vortex
 
 		for (Effect eff : input.getWeapon().getBasicMode()) {

@@ -1,16 +1,13 @@
 package server;
 import controller.InputConverter;
 import controller.MatchController;
-import controller.MoveController;
-import controller.ShootController;
 import exception.NotAllowedMoveException;
+import exception.NotAllowedTargetException;
 import model.Match;
-import model.map.Directions;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
 import model.powerup.PowerUp;
-import model.weapons.Weapon;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -78,7 +75,7 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
         matchController.getPowerUpController().useNewton(newton, affectedPlayer, destination);
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotAllowedTargetException {
         matchController.getPowerUpController().useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
     }
 

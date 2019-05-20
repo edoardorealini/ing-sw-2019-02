@@ -1,14 +1,12 @@
 package controller;
 
 import exception.NotAllowedMoveException;
+import exception.NotAllowedTargetException;
 import model.Match;
-import model.Color;
 import model.powerup.PowerUp;
 import model.map.*;
 import model.player.*;
 import model.powerup.PowerUpName;
-
-import java.util.ArrayList;
 
 /*
     This Class is used to manage all the possibilities from the PowerUps
@@ -87,15 +85,35 @@ public class PowerUpController{
         }else throw new IllegalArgumentException("Not valid PowerUp");
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer){
+    /*
+        Use of tagback Grenade
+        affectedPlayer: player che infligge il danno
+        user: player che usa il powerUp
+    */
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotAllowedTargetException {
         if(tagbackGrenade.getName().equals(PowerUpName.TAGBACK_GRENADE)){
-            //TODO
+            if(visibilityBetweenPlayers(user, affectedPlayer)){
+                affectedPlayer.getBoard().updateMarks(1, user.getId());
+            }
+            else
+                throw new NotAllowedTargetException("The player you want to mark can't be seen");
         }
         else throw new IllegalArgumentException("Not valid PowerUp");
     }
 
     public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
         //TODO implementare, sistemare signature del metodo
+    }
+
+    private boolean visibilityBetweenPlayers(Player player1, Player player2) {
+        //this method returns true if player2 can be seen by player1
+
+        if (match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor())) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

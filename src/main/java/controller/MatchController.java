@@ -1,9 +1,6 @@
 package controller;
 
-import exception.NotAllowedMoveException;
-import exception.NotEnoughAmmoException;
-import exception.NotInYourPossessException;
-import exception.WrongPositionException;
+import exception.*;
 import model.Match;
 import model.map.*;
 import model.map.MapBuilder;
@@ -136,7 +133,7 @@ public class MatchController {
             throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException{
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException {
         if(user.hasPowerUp(tagbackGrenade)) {
             powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
         }
