@@ -1,14 +1,12 @@
-package client;
+package client.remoteController;
 
 import model.Match;
-import model.*;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
 import model.powerup.PowerUp;
 import server.InterfaceRemoteObjectRMI;
 
-import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -29,7 +27,13 @@ public class RemoteControllerRMI extends RemoteController {
     }
 
     @Override
-    Map getMap() {
+    public Map getMap() {
+        try {
+            return controller.getMap();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -39,7 +43,7 @@ public class RemoteControllerRMI extends RemoteController {
     }
 
     @Override
-    void buildMap(int mapID) {
+    public void buildMap(int mapID) {
 
     }
 

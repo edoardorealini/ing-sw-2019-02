@@ -71,11 +71,11 @@ public class MatchController {
         } catch (Exception e) {
             e.printStackTrace(); //non serve per ora gestire con logger
         }
-        //TODO remember to uncomment the following lines after the test
-        /*
+        //TODO add check ok mapID (value)
+
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());
-        */
+
     }
 
     //metodi derivanti da classe moveController

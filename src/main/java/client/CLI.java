@@ -1,5 +1,8 @@
 package client;
 
+import client.remoteController.RemoteController;
+import client.remoteController.RemoteControllerRMI;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -19,43 +22,80 @@ public class CLI implements Runnable{
         //idea: esporre un metodo su RMI che attende e fa return solo quando ho 3 giocatori / 5
         //questo metodo viene chiamato da ogni client in attesa sullo stesso server!!
 
-        startApplication();
+        selectMap();
+
+        startGame();
 
     }
 
-    public void selectConnectionTechnolgy(){
-        System.out.println("\nInsert the communication method you want to use:");
-        System.out.println("\t 1. RMI");
-        System.out.println("\t 2. Socket");
-        System.out.println("Value:");
+    public void selectConnectionTechnolgy() {
+        boolean okInput = false;
 
-        String input = new Scanner(System.in).nextLine();
+        while (!okInput){
 
-        switch (input){
-            case "1":
-                launchRMIConnection();
-                break;
-            case "rmi":
-                launchRMIConnection();
-                break;
-            case "RMI":
-                launchRMIConnection();
-                break;
+            System.out.println("\nInsert the communication method you want to use:");
+            System.out.println("\t 1. RMI");
+            System.out.println("\t 2. Socket");
+            System.out.println("Value:");
 
-            case "2":
-                launchSocketConnection();
-                break;
-            case "socket":
-                launchSocketConnection();
-                break;
-            case "Socket":
-                launchSocketConnection();
-                break;
+            String input = new Scanner(System.in).nextLine();
 
+            switch (input) {
+                case "1":
+                    launchRMIConnection();
+                    okInput = true;
+                    break;
+                case "rmi":
+                    launchRMIConnection();
+                    okInput = true;
+                    break;
+                case "RMI":
+                    launchRMIConnection();
+                    okInput = true;
+                    break;
+
+                case "2":
+                    launchSocketConnection();
+                    okInput = true;
+                    break;
+                case "socket":
+                    launchSocketConnection();
+                    okInput = true;
+                    break;
+                case "Socket":
+                    launchSocketConnection();
+                    okInput = true;
+                    break;
+                default:
+                    System.out.println("[ERROR]: Not a valid connection method");
+                    break;
+
+            }
         }
     }
 
-    public void startApplication(){
+    public void selectMap(){
+        boolean ok = false;
+        int mapID = 0;
+        while(!ok){
+            try {
+                System.out.println("\nInsert the ID of the map you want to use (1, 2, 3, 4):");
+                mapID = new Scanner(System.in).nextInt();
+
+                controller.buildMap(mapID);
+                System.out.println("\n[INFO]: Map " + mapID +  " correctly built");
+
+                System.out.println(controller.getMap().toString());
+
+                ok = true;
+            }catch(Exception e){
+                System.out.println("[ERROR]: input not correct");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void startGame(){
 
     }
 

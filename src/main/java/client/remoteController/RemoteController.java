@@ -1,4 +1,4 @@
-package client;
+package client.remoteController;
 
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
@@ -14,9 +14,9 @@ public abstract class RemoteController {
 
     abstract Match getMatch();
 
-    abstract Map getMap();
+    public abstract Map getMap();
 
-    abstract void buildMap(int mapID);
+    public abstract void buildMap(int mapID);
 
     //metodi derivanti da classe moveController
     abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed);
@@ -43,8 +43,8 @@ public abstract class RemoteController {
 
     abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
 
-    abstract String checkConnection(String IP);
+    public abstract String checkConnection(String IP);
 
-    abstract void addPlayer(String nickName);
+    public abstract void addPlayer(String nickName);
 
 }

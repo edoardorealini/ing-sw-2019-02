@@ -69,6 +69,8 @@ class MapBuilderTest {
         assertEquals(mapTest1.getSquaresMatrix()[0][1].getType(), SquareType.SPAWN);
         assertEquals(mapTest1.getSquaresMatrix()[0][2].getType(), SquareType.NOSPAWN);
 
+        System.out.println(mapTest1.toString());
+
 
         assertEquals(mapTest1.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.UP, Directions.RIGHT));
         assertNotEquals(mapTest1.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.LEFT, Directions.RIGHT));
