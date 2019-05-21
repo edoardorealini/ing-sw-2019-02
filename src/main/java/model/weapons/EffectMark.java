@@ -28,6 +28,12 @@ public class EffectMark extends Effect {
 
 	@Override
 	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
+		if (getSameTarget() == -1) {
+			for (Player player : input.getTargets()){
+				player.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
+			}
+		}
+
 		Player target = input.getTargets().get(getSameTarget());
 		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
 	}

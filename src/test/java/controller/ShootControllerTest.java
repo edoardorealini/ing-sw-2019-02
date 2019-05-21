@@ -117,14 +117,14 @@ class ShootControllerTest {
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of JOHNNYCA$H
-		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of JOHNNYCA$H
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of REALNGNEER
 		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of AHHHHH
 
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.ELECTROSCYTHE));
-		input.setShootModes(ShootMode.BASIC);
-		//input.setShootModes(ShootMode.ALTERNATE);
+		//input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.ALTERNATE);
 		//input.setTargets(p2);
 		//input.setTargets(p3);
 		//input.setTargets(p4);
@@ -156,11 +156,91 @@ class ShootControllerTest {
 
 	@Test
 	void shootMachineGun() {
+		//setting players and map
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p3);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().setPlayers(p4);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.buildMap(1);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of JOHNNYCA$H
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
+		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 1));        //set position of AHHHHH
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.MACHINE_GUN));
+		input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.OPTIONAL1);
+		input.setShootModes(ShootMode.OPTIONAL2);
+		input.setTargets(p2);
+		input.setTargets(p3);
+		input.setTargets(p4);
+		//input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));
+		System.out.println(input.getTargets().size());
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootMachineGun(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringLP());
+			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringMarks());
+			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringLP());
+			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringMarks());
+
+		}catch (Exception e){
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
 	}
 
 
 	@Test
 	void shootTHOR() {
+		//setting players and map
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().setPlayers(p3);
+		matchCtrl.getMatch().setPlayers(p4);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.buildMap(1);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 2));        //set position of REALNGNEER
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of JOHNNYCA$H
+		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 1));        //set position of AHHHHH
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.THOR));
+		input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.OPTIONAL1);
+		input.setShootModes(ShootMode.OPTIONAL2);
+		input.setTargets(p2);
+		input.setTargets(p3);
+		input.setTargets(p4);
+		//input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));
+		System.out.println(input.getTargets().size());
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootTHOR(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringLP());
+			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringMarks());
+			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringLP());
+			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringMarks());
+
+		}catch (Exception e){
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
 	}
 
 	@Test

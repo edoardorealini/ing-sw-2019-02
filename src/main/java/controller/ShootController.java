@@ -13,6 +13,7 @@ public class ShootController extends ActionController {
 
 	//attributes
 
+	private Match matchTemp;
 	private Match match;
 	private MoveController moveController;
 
@@ -209,6 +210,7 @@ public class ShootController extends ActionController {
 	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for ELECTRO SCYTHE
 		Effect eff;
+		input.getTargets().clear();
 
 		switch (input.getShootModes().get(0)) {
 
@@ -242,11 +244,16 @@ public class ShootController extends ActionController {
                             try {
                                 checkCorrectVisibility(eff, getCurrPlayer(), player);
                                 checkExactDistance(eff, getCurrPlayer(), player);
-                                eff.executeEffect(match, moveController, input);
+								input.getTargets().add(player);
                             } catch (Exception e) {
                             //    throw new NotAllowedTargetException();
                             }
                         }
+					}
+					try {
+						eff.executeEffect(match, moveController, input);
+					} catch (Exception e ){
+						//TODO
 					}
 					break;
 				} catch (NotEnoughAmmoException e) {
