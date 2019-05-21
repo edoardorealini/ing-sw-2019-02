@@ -2,45 +2,58 @@ package client;
 
 import server.InterfaceRemoteObjectRMI;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientStarter{
+
+    private ExecutorService executor;
+
+    public ClientStarter(){
+        executor = Executors.newCachedThreadPool();
+    }
 
     public static void main(String[] args) {
 
         ClientStarter starter = new ClientStarter();
+
         try {
 
             switch (args[0]) {
-                case "-rmi":
-                    starter.launchRMIClient();
+                case "-CLI":
+                    starter.launchCLI();
                     break;
 
-                case "-socket":
-                    starter.launchSocketClient();
+                case "-GUI":
+                    starter.launchGUI();
                     break;
 
                 default:
-                    System.err.println("[ERROR] : Not admitted value " + args[0] + " as type of connection.");
+                    System.out.println("[ERROR] : Interface type not selected, please restart the application");
                     return;
 
             }
         }catch(Exception e){
-            System.err.println("[ERROR] : Connection method not set");
             e.printStackTrace();
         }
 
     }
 
-    private void launchRMIClient(){
-        System.out.println("[CLIENT] : RMI connection selected correctly");
+
+    private void launchCLI(){
+        executor.submit(new CLI());
+        System.out.println("[INFO] : ADRENALINE CLI INTERFACE LAUNCHED");
 
     }
 
-    private void launchSocketClient(){
-
+    private void launchGUI(){
+        //TODO launchGUI
     }
 
 }

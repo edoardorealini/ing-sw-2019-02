@@ -47,4 +47,8 @@ public interface InterfaceRemoteObjectRMI extends Remote {
 
     String RMICallTest(String message) throws RemoteException;
 
+    String checkConnection(String IP) throws RemoteException;
+
+    void addPlayer(String nickName) throws RemoteException;
+
 }

@@ -192,8 +192,11 @@ public class ShootController extends ActionController {
 		}
 	}
 
+	//TODO controllare il metodo shootElectroScythe
+
 	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for ELECTRO SCYTHE
+		/*
 		Effect eff;
 		input.getTargets().clear();
 		ShootMode mode = input.getShootModes().get(0);
@@ -266,6 +269,8 @@ public class ShootController extends ActionController {
 			case OPTIONAL2:
 				throw new NotAllowedShootingModeException();
 		}
+
+		 */
 	}
 
 	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {

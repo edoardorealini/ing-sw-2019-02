@@ -168,6 +168,15 @@ public class MatchController {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
 
+    // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente
+    public void addPlayer(String nickName){
+        match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
+        //setta current player se sono il primo a connettermi
+        if(match.getPlayers().size() == 1)
+            match.setCurrentPlayer(match.getPlayers().get(0));
+    }
+
+
     public String RMICallTest(String message){
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
