@@ -126,7 +126,7 @@ public class Board {
         return string.toString();
     }
 
-    //for test and mayeb for CLI
+    //for test and maybe for CLI
     public String toStringMarks(){
         StringBuilder string = new StringBuilder();
         string.append("Marks: ");

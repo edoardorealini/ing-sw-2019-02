@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     private MatchController matchController = new MatchController();
-    private Player p1 = matchController.getMatch().getPlayers().get(0);
+    private Player p1 = new Player("JJ", 1 , null);
     private Board b1 = new Board();
 
     @Test
