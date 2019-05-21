@@ -165,44 +165,29 @@ public class ShootController extends ActionController {
 	public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for LOCK RIFLE
 
+		//the first cycle check if the effects can be applied
 		for (ShootMode mode : input.getShootModes()) {
+			for (Effect eff : input.getWeapon().getMode(mode)) {
+				try {
+					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+					if (mode.equals(ShootMode.OPTIONAL1))
+						payAmmo(input.getWeapon().getModeCost(mode));
+				} catch (NotAllowedTargetException e) {
+				throw new NotAllowedTargetException();
+				} catch (NotEnoughAmmoException e) {
+					throw new NotEnoughAmmoException("poverooo!");
+				}
+			}
+		}
 
-			switch (mode) {
-
-				case BASIC:
-					for (Effect eff: input.getWeapon().getBasicMode()) {
-						try {
-							checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-							eff.executeEffect(match, moveController, input);
-						} catch (Exception e) {
-							//TODO throw not allowed target
-						}
-					}
-					break;
-
-				case OPTIONAL1:
-					if (input.getTargets().size()>1) {
-						try {
-							payAmmo(input.getWeapon().getCostOpt1());
-							for (Effect eff : input.getWeapon().getOptionalModeOne()) {
-								try {
-									checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-									eff.executeEffect(match, moveController, input);
-								} catch (Exception e) {
-									//TODO
-								}
-							}
-						} catch (NotEnoughAmmoException e) {
-							//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
-						}
-					}
-					break;
-
-				case OPTIONAL2:
-					throw new NotAllowedShootingModeException();
-
-				case ALTERNATE:
-					throw new NotAllowedShootingModeException();
+		//execution cycle
+		for (ShootMode mode : input.getShootModes()) {
+			for (Effect eff : input.getWeapon().getMode(mode)) {
+				try {
+					eff.executeEffect(match, moveController, input);
+				} catch (Exception e) {
+					System.out.println("Not allowed movement!");
+				}
 			}
 		}
 	}

@@ -1,4 +1,5 @@
 package model.weapons;
+import controller.ShootMode;
 import  model.Color;
 
 import java.util.*;
@@ -53,6 +54,21 @@ public class Weapon {
         this.color = color;
     }
 
+
+    public List<Color> getModeCost(ShootMode mode) {
+        switch (mode) {
+            case BASIC:
+                return Collections.emptyList();
+            case OPTIONAL1:
+                return costOpt1;
+            case OPTIONAL2:
+                return costOpt2;
+            case ALTERNATE:
+                return costAlternate;
+        }
+        return Collections.emptyList();
+    }
+
     public List<Color> getCost() { return this.cost; }
 
     public List<Color> getCostOpt1() {
@@ -66,6 +82,8 @@ public class Weapon {
     public List<Color> getCostAlternate() {
         return costAlternate;
     }
+
+
 
     public void setCost(Color one){
         this.cost.add(one);
@@ -109,6 +127,8 @@ public class Weapon {
         this.costAlternate.add(two);
     }
 
+
+
     public WeaponAmmoStatus getAmmoStatus() {
         return ammoStatus;
     }
@@ -116,6 +136,7 @@ public class Weapon {
     public void setAmmoStatus(WeaponAmmoStatus ammoStatus) {
         this.ammoStatus = ammoStatus;
     }
+
 
     //overloading setBasicMode
 
@@ -141,6 +162,7 @@ public class Weapon {
         this.basicMode.add(d);
     }
 
+
     //overloading setOptionalModeOne
 
     public void setOptionalModeOne(Effect a) {
@@ -165,6 +187,7 @@ public class Weapon {
         this.optionalModeOne.add(d);
     }
 
+
     //overloading setOptionalModeTwo
 
     public void setOptionalModeTwo(Effect a) {
@@ -181,6 +204,7 @@ public class Weapon {
         this.optionalModeTwo.add(b);
         this.optionalModeTwo.add(c);
     }
+
 
     //overloading setAlternateMode
 
@@ -206,12 +230,28 @@ public class Weapon {
         this.alternateMode.add(d);
     }
 
+
     @Override
     public String toString() {
         StringBuilder nameWeap = new StringBuilder();
         nameWeap.append(this.name);
         return nameWeap.toString();
     }
+
+    public List<Effect> getMode(ShootMode mode) {
+        switch (mode) {
+            case BASIC:
+                return basicMode;
+            case OPTIONAL1:
+                return optionalModeOne;
+            case OPTIONAL2:
+                return optionalModeTwo;
+            case ALTERNATE:
+                return alternateMode;
+        }
+        return Collections.emptyList();
+    }
+
 
 	public List<Effect> getBasicMode() {
 		return basicMode;
