@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShootControllerTest {
 
 	private MatchController matchCtrl;
-	private Player p1 = new Player("MADSOMMA", 1);
-	private Player p2 = new Player("REALNGNEER", 2);
-	private Player p3 = new Player("JOHNNYCA$H", 3);
-	private Player p4 = new Player("AHHHH", 4);
+	private Player p1 = new Player("MADSOMMA", 1, null);
+	private Player p2 = new Player("REALNGNEER", 2, null);
+	private Player p3 = new Player("JOHNNYCA$H", 3, null);
+	private Player p4 = new Player("AHHHH", 4, null);
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 	private ShootingParametersInput input = new ShootingParametersInput();
 

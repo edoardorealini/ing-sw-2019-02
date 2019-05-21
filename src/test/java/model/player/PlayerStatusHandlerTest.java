@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStatusHandlerTest {
 
-    private Player p1 = new Player("Test", 8);
+    private Player p1 = new Player("Test", 8, null);
 
     @BeforeEach
     void setUp() {

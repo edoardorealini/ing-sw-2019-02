@@ -43,6 +43,8 @@ public class GrabController extends ActionController {
 
     */
 
+    /*TODO NB. sia nella grabAmmo che grabWeapon dopo aver raccolto la carta io la rimpiazzo subito, sarà da mettere un controller che impedisce di raccogliere di nuovo dallo stesso square (es di grabAmmo) */
+
     public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
             match.getCurrentPlayer().addAmmoCard(match.getCurrentPlayer().getPosition().getAmmoTile()); // aggiungo le munizioi e altro al player

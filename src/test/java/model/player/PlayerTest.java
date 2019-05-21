@@ -18,8 +18,8 @@ class PlayerTest {
     @BeforeEach
     void setUp() {
 
-        p1 = new Player("johnny", 0);
-        p2 = new Player("edoz", 1);
+        p1 = new Player("johnny", 0, null);
+        p2 = new Player("edoz", 1, null);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package model.player;
 
+import controller.MatchController;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 
-    private Player p1 = new Player("Test", 8);
+    private MatchController matchController = new MatchController();
+    private Player p1 = matchController.getMatch().getPlayers().get(0);
     private Board b1 = new Board();
 
     @Test
@@ -56,7 +58,7 @@ class BoardTest {
 
     @Test
     void removeTarget() {
-        Player p2 = new Player("solo per questo test", 2);
+        Player p2 = new Player("solo per questo test", 2, null);
         b1.updateMarks(2,p2.getId());
         b1.updateMarks(4, p1.getId());
         b1.updateMarks(2,p2.getId());
