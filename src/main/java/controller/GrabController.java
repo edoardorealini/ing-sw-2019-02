@@ -20,14 +20,6 @@ public class GrabController extends ActionController {
         this.moveController = moveCtrl;
     }
 
-    public Player getPlayer() {
-        return match.getCurrentPlayer();
-    }
-
-    public void setPlayer(Player player){
-        this.match.setCurrentPlayer(player);
-    }
-
     /*
         implementazione del metodo astratto dalla classe abstract.
     */

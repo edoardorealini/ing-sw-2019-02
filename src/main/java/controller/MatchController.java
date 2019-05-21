@@ -163,6 +163,11 @@ public class MatchController {
 
     public PowerUpController getPowerUpController() { return powerUpController; }
 
+    // metodo creazione di player
+    public void addPlayer(String nickName, int ID){
+        match.getPlayers().add(new Player(nickName, ID, getMatch()));
+    }
+
     public String RMICallTest(String message){
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;

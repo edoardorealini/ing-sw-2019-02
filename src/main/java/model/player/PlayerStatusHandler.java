@@ -6,7 +6,7 @@ public class PlayerStatusHandler {
     private AbilityStatus specialAbility;
 
 
-    public void PlayerStatusHandler(){
+    public void PlayerStatusHandler(){//TODO aggiungi costruttore in cui passi match
         turnStatus = RoundStatus.waitTurn;
         specialAbility = AbilityStatus.normal;
     }

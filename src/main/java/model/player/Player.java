@@ -24,7 +24,7 @@ public class Player {
     private boolean dead;
     private Match match;
 
-    public Player (String nickname, int id){
+    public Player (String nickname, int id, Match match){
         this.nickname=nickname;
         this.id=id;
         this.position=null;
@@ -40,6 +40,7 @@ public class Player {
         }
         this.status.setSpecialAbilityNormal();
         dead=false;
+        this.match=match;
 
     }
 
