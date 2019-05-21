@@ -72,9 +72,10 @@ public class MatchController {
             e.printStackTrace(); //non serve per ora gestire con logger
         }
         //TODO add check ok mapID (value)
-
+        /*
         match.getMap().fillWeaponBox(match.getWeaponDeck());
         match.getMap().fillAmmo(match.getAmmoDeck());
+        */
 
     }
 

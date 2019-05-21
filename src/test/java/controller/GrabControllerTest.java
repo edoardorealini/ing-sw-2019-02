@@ -28,9 +28,6 @@ class GrabControllerTest {
         matchController.getMap().fillWeaponBox(matchController.getMatch().getWeaponDeck());
         matchController.addPlayer("Johnny",1);
         matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
-
-
-
     }
 
     @Test
