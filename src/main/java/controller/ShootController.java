@@ -175,7 +175,7 @@ public class ShootController extends ActionController {
 				} catch (NotAllowedTargetException e) {
 				throw new NotAllowedTargetException();
 				} catch (NotEnoughAmmoException e) {
-					throw new NotEnoughAmmoException("poverooo!");
+					throw new NotEnoughAmmoException("poverooo!");   //TODO
 				}
 			}
 		}
@@ -186,7 +186,7 @@ public class ShootController extends ActionController {
 				try {
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					System.out.println("Not allowed movement!");
+					System.out.println("Not allowed movement!");    //TODO
 				}
 			}
 		}
@@ -196,10 +196,24 @@ public class ShootController extends ActionController {
 		//this method is valid only for ELECTRO SCYTHE
 		Effect eff;
 		input.getTargets().clear();
+		ShootMode mode = input.getShootModes().get(0);
+		eff = input.getWeapon().getMode(mode).get(0);   //take the effect
 
-		switch (input.getShootModes().get(0)) {
+		for (Player player: getMatch().getPlayers()) {
+			if(player.getId() != getCurrPlayer().getId()) {
+				try {
+					checkCorrectVisibility(eff, getCurrPlayer(), player);
+					checkExactDistance(eff, getCurrPlayer(), player);
+					input.getTargets().add(player);
+				} catch (Exception e) {
+					//throw new NotAllowedTargetException();
+					//should I throw the new exception or shouldn't I care about which players the user wants to hit?
+				}
+			}
+		}
+		  //TODO fixa tutto in treno!!!
 
-			case BASIC:
+		  		case BASIC:
 				eff = input.getWeapon().getBasicMode().get(0);
 				for (Player player: getMatch().getPlayers()) {
 				    if(player.getId() != getCurrPlayer().getId()) {
