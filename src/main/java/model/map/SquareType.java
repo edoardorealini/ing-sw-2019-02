@@ -1,6 +1,8 @@
 package model.map;
 
-public enum SquareType {
+import java.io.Serializable;
+
+public enum SquareType implements Serializable {
     SPAWN,
     NOSPAWN
 }

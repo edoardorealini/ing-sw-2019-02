@@ -21,7 +21,7 @@ class GrabControllerTest {
     private List<Color> weaponCost;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception{
         matchController = new MatchController();
         matchController.buildMap(1);
         matchController.getMap().fillAmmo(matchController.getMatch().getAmmoDeck());

@@ -24,7 +24,7 @@ public class MatchController {
     /*
         Costruttore 1
     */
-    public MatchController(){
+    public MatchController() {
         this.match = new Match();
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
@@ -42,7 +42,7 @@ public class MatchController {
     /*
         Costruttore 2 (non builda match ma lo prende in input)
     */
-    public MatchController(Match match){
+    public MatchController(Match match) {
         this.match = match;
 
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
@@ -61,43 +61,48 @@ public class MatchController {
         return match;
     }
 
-    public Map getMap(){
+    public Map getMap() {
         return match.getMap();
     }
 
-    public void buildMap(int mapID) {
-        try {
-            match.setMap(new MapBuilder().makeMap(mapID));
-        } catch (Exception e) {
-            e.printStackTrace(); //non serve per ora gestire con logger
-        }
-        //TODO add check ok mapID (value)
+    public void buildMap(int mapID) throws Exception{
+        if(mapID <= 4 && mapID >= 1) {
 
-        //match.getMap().fillWeaponBox(match.getWeaponDeck());
-        //match.getMap().fillAmmo(match.getAmmoDeck());
-        //commentati per test di RICKY
+            try {
+                match.setMap(new MapBuilder().makeMap(mapID));
+            } catch (Exception e) {
+                e.printStackTrace(); //non serve per ora gestire con logger
+            }
+            //TODO add check ok mapID (value)
+
+            //match.getMap().fillWeaponBox(match.getWeaponDeck());
+            //match.getMap().fillAmmo(match.getAmmoDeck());
+            //commentati per test di RICKY
+        }
+        else
+            throw new Exception("Not a valid mapID");
 
     }
 
     //metodi derivanti da classe moveController
-    public void move(Player player, Square destination, int maxDistanceAllowed) throws Exception{
-        moveController.move(player,destination,maxDistanceAllowed);
+    public void move(Player player, Square destination, int maxDistanceAllowed) throws Exception {
+        moveController.move(player, destination, maxDistanceAllowed);
     }
 
-    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance){
-        return moveController.isAllowedMove(startingPoint,destination,maxDistance);
+    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
+        return moveController.isAllowedMove(startingPoint, destination, maxDistance);
     }
 
-    public void moveOneSquare(Directions direction) throws  Exception{
+    public void moveOneSquare(Directions direction) throws Exception {
         moveController.moveOneSquare(direction);
     }
 
-    public void moveOneSquare(Directions direction, Player player) throws Exception{
+    public void moveOneSquare(Directions direction, Player player) throws Exception {
         moveController.moveOneSquare(direction, player);
     }
 
-    public int minDistBetweenSquares(Square startingPoint, Square destination){
-        return moveController.minDistBetweenSquares(startingPoint,destination);
+    public int minDistBetweenSquares(Square startingPoint, Square destination) {
+        return moveController.minDistBetweenSquares(startingPoint, destination);
     }
 
     //metodi da grab controller
@@ -105,49 +110,44 @@ public class MatchController {
         grabController.grabAmmoCard();
     }
 
-    public void grabWeapon(Weapon weapon) throws Exception{
+    public void grabWeapon(Weapon weapon) throws Exception {
         grabController.grabWeapon(weapon);
     }
 
     //metodi di powerUpController
-    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException{
+    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
         if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
             powerUpController.usePowerUpAsAmmo(powerUp);
-        }
-        else
+        } else
             throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
 
     public void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException {
-        if(match.getCurrentPlayer().hasPowerUp(teleporter)) {
+        if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
             powerUpController.useTeleporter(teleporter, destination);
-        }
-        else
+        } else
             throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
     }
 
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException{
-        if(match.getCurrentPlayer().hasPowerUp(newton)) {
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException {
+        if (match.getCurrentPlayer().hasPowerUp(newton)) {
             powerUpController.useNewton(newton, affectedPlayer, destination);
-        }
-        else
+        } else
             throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
     }
 
     public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException {
-        if(user.hasPowerUp(tagbackGrenade)) {
+        if (user.hasPowerUp(tagbackGrenade)) {
             powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
-        }
-        else
+        } else
             throw new NotInYourPossessException("The powerUp" + tagbackGrenade.getName() + "is not in your hand");
 
     }
 
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException{
-        if(match.getCurrentPlayer().hasPowerUp(targetingScope)) {
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException {
+        if (match.getCurrentPlayer().hasPowerUp(targetingScope)) {
             powerUpController.useTargetingScope(targetingScope, affectedPlayer);
-        }
-        else
+        } else
             throw new NotInYourPossessException("The powerUp" + targetingScope.getName() + "is not in your hand");
 
     }
@@ -160,27 +160,35 @@ public class MatchController {
         return shootController;
     }
 
-    public GrabController getGrabController() { return grabController; }
+    public GrabController getGrabController() {
+        return grabController;
+    }
 
-    public PowerUpController getPowerUpController() { return powerUpController; }
+    public PowerUpController getPowerUpController() {
+        return powerUpController;
+    }
 
     // metodo creazione di player
-    public void addPlayer(String nickName, int ID){
+    public void addPlayer(String nickName, int ID) {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
 
     // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente
-    public void addPlayer(String nickName){
+    public int addPlayer(String nickName) {
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
-        if(match.getPlayers().size() == 1)
+        if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
+
+        return match.getPlayers().size() - 1;
     }
 
+    public int connectedPlayers(){
+        return match.getPlayers().size();
+    }
 
-    public String RMICallTest(String message){
+    public String RMICallTest(String message) {
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
     }
-
 }

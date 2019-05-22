@@ -3,6 +3,8 @@ package client;
 import client.remoteController.RemoteController;
 import client.remoteController.RemoteControllerRMI;
 
+import client.clientModel.map.*;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 public class CLI implements Runnable{
 
     RemoteController controller;
+    int userID;
 
     @Override
     public void run(){
@@ -22,9 +25,26 @@ public class CLI implements Runnable{
         //idea: esporre un metodo su RMI che attende e fa return solo quando ho 3 giocatori / 5
         //questo metodo viene chiamato da ogni client in attesa sullo stesso server!!
 
-        selectMap();
+        if(userID == 0) {
+            //significa che il giocatore è il primo, deve scegliere la mappa.
+            selectMap();
+        }
+
+        System.out.println("\n[Server]: Waiting for other players to connect. \n");
+
+        while(controller.connectedPlayers() < 3){
+            try {
+                wait();
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
 
         startGame();
+
+    }
+
+    public void waitQueue(){
 
     }
 
@@ -89,23 +109,22 @@ public class CLI implements Runnable{
 
                 ok = true;
             }catch(Exception e){
-                System.out.println("[ERROR]: input not correct");
-                e.printStackTrace();
+                System.out.println("[ERROR]: input not correct: " + e.getMessage());
             }
         }
     }
 
     public void startGame(){
-
+        System.out.println("There are enough players to start a new game");
     }
 
     public void askName(){
         System.out.println("\nInsert the nickname you want to use:");
         String name = new Scanner(System.in).nextLine();
 
-        System.out.println("Hello " + name + "!");
+        System.out.println("\nHello " + name + "!");
         //TODO gestire il fatto che il nickname deve essere loggato. (password e user)
-        controller.addPlayer(name);
+        userID = controller.addPlayer(name);
         System.out.println("You have been added to the queue. We are waiting for other players");
 
 

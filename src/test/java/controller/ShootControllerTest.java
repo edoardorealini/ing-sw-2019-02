@@ -46,7 +46,7 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void payAmmo() {
+	void payAmmo() throws Exception{
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.buildMap(1);
@@ -69,7 +69,7 @@ class ShootControllerTest {
 	//WEAPON TEST
 
 	@Test
-	void shootLockRifle() {
+	void shootLockRifle() throws Exception{
 
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
@@ -107,7 +107,7 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shootElectroScythe() {
+	void shootElectroScythe() throws Exception{
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);
@@ -149,7 +149,7 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shootMachineGun() {
+	void shootMachineGun() throws Exception {
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);
@@ -193,7 +193,7 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shootTHOR() {
+	void shootTHOR() throws  Exception{
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);
@@ -303,7 +303,7 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shootCannonVortex() {
+	void shootCannonVortex() throws Exception{
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);

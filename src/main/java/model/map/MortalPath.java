@@ -1,8 +1,9 @@
 package model.map;
 
+import java.io.Serializable;
 import java.util.*;	  //NB: we have to use a List because we need to know the order of kills in case of tie
 
-public class MortalPath {
+public class MortalPath implements Serializable {
 	private List<Integer> mortalShots;
 	private int skulls;
 	private List<Integer> doubleKill;
