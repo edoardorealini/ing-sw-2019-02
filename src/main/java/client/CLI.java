@@ -115,7 +115,7 @@ public class CLI implements Runnable{
         boolean passed = false;
 
         System.out.println("-------------------------------------------------------------------------");
-        System.out.println("\nRMI CONNECTION SELCTED: Please insert the following requested parameters");
+        System.out.println("\nRMI CONNECTION SELECTED: Please insert the following requested parameters");
 
         while(!passed) {
 

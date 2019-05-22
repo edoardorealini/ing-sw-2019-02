@@ -107,7 +107,7 @@ public class RemoteControllerRMI extends RemoteController {
         try {
             return controller.checkConnection(IP);
         } catch (Exception e) {
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
         }
 
         return "[RMIServer - ERROR]: Error in checking connection";
