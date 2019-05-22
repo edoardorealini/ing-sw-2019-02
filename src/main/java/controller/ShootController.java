@@ -46,26 +46,30 @@ public class ShootController extends ActionController {
 
 	public void payAmmo(List<Color> cost) throws NotEnoughAmmoException {
 		//this method makes the player pay ammo for the optional effects
+
+		if (cost.isEmpty())
+			return;
+
 		int r = 0;
 		int b = 0;
 		int y = 0;
-		if (cost != null) {
-			for (Color color : cost) {
-				switch (color) {
-					case RED:
-						r++;
-						break;
-					case BLUE:
-						b++;
-						break;
-					case YELLOW:
-						y++;
-						break;
-					default:
-						break;
-				}
+
+		for (Color color : cost) {
+			switch (color) {
+				case RED:
+					r++;
+					break;
+				case BLUE:
+					b++;
+					break;
+				case YELLOW:
+					y++;
+					break;
+				default:
+					break;
 			}
 		}
+
 		if (getCurrPlayer().getAmmo().getRedAmmo() - r < 0 || getCurrPlayer().getAmmo().getBlueAmmo() - b < 0 || getCurrPlayer().getAmmo().getYellowAmmo() - y < 0) {
 			throw new NotEnoughAmmoException("It seems you don't have enough ammo");
 		} else {
@@ -401,24 +405,29 @@ public class ShootController extends ActionController {
 		ShootMode mode = input.getShootModes().get(0);
 		Square squareTemp = input.getTargets().get(0).getPosition();
 
+		if (mode.equals(ShootMode.ALTERNATE)) {
+			try {
+				payAmmo(input.getWeapon().getModeCost(mode));
+			} catch (NotEnoughAmmoException e) {
+				input.getTargets().get(0).setPosition(squareTemp);
+				throw new NotEnoughAmmoException("poverooo!");   //TODO
+			}
+		}
+
 		for (Effect eff : input.getWeapon().getMode(mode)) {
 			try {
 				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 				checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
 				if (mode.equals(ShootMode.ALTERNATE)) {
-					payAmmo(input.getWeapon().getModeCost(mode));
 					checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
 					checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
 				}
 				eff.executeEffect(match, moveController, input);
 			} catch (NotAllowedTargetException e) {
-				getCurrPlayer().setPosition(squareTemp);
+				input.getTargets().get(0).setPosition(squareTemp);
 				throw new NotAllowedTargetException();
-			} catch (NotEnoughAmmoException e) {
-				getCurrPlayer().setPosition(squareTemp);
-				throw new NotEnoughAmmoException("poverooo!");   //TODO
-			} catch (NotAllowedMoveException e) {
-				getCurrPlayer().setPosition(squareTemp);
+			}  catch (NotAllowedMoveException e) {
+				input.getTargets().get(0).setPosition(squareTemp);
 				throw new NotAllowedMoveException();
 			}
 		}
@@ -463,9 +472,43 @@ public class ShootController extends ActionController {
 		 */
 	}
 
-	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
 		 //this method is valid only for Cannon Vortex
 
+		for (ShootMode mode : input.getShootModes()) {
+			if (mode.equals(ShootMode.OPTIONAL1)) {
+				try {
+					payAmmo(input.getWeapon().getModeCost(mode));
+				} catch (NotEnoughAmmoException e) {
+					throw new NotEnoughAmmoException("poverooo!");   //TODO
+				}
+			}
+			for (Effect eff : input.getWeapon().getMode(mode)) {
+				if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
+					try {
+						checkMaximumDistance(eff, input.getTargets().get(eff.getSameTarget()), input.getSquares().get(0), eff.getMoveTarget());
+						checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+						checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+					} catch (NotAllowedTargetException e) {
+						throw new NotAllowedTargetException();
+					} catch (NotAllowedMoveException e) {
+						throw new NotAllowedMoveException();
+					}
+				}
+			}
+		}
+
+		for (ShootMode mode : input.getShootModes()) {
+			for (Effect eff : input.getWeapon().getMode(mode)) {
+				try {
+					eff.executeEffect(match, moveController, input);
+				} catch (Exception e){
+
+				}
+			}
+		}
+
+		/*
 		for (Effect eff : input.getWeapon().getBasicMode()) {
 			try {
 				checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
@@ -494,6 +537,7 @@ public class ShootController extends ActionController {
 				}
 			}
 		}
+		 */
 
 	}
 
