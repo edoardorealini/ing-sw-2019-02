@@ -69,7 +69,7 @@ public class Match {
     }
 
     public void setPlayers(Player player){
-        players.add(players.size(), player);
+        players.add(player);
     }
 
     public ArrayList<Player> getPlayers() {

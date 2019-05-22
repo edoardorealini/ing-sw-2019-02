@@ -73,9 +73,9 @@ public class MatchController {
         }
         //TODO add check ok mapID (value)
 
-        match.getMap().fillWeaponBox(match.getWeaponDeck());
-        match.getMap().fillAmmo(match.getAmmoDeck());
-
+        //match.getMap().fillWeaponBox(match.getWeaponDeck());
+        //match.getMap().fillAmmo(match.getAmmoDeck());
+        //commentati per test di RICKY
 
     }
 

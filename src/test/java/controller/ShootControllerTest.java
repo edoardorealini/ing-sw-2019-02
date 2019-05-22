@@ -64,6 +64,10 @@ class ShootControllerTest {
 		}
 	}
 
+
+
+	//WEAPON TEST
+
 	@Test
 	void shootLockRifle() {
 
@@ -121,20 +125,14 @@ class ShootControllerTest {
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.ELECTROSCYTHE));
 		//input.setShootModes(ShootMode.BASIC);
 		input.setShootModes(ShootMode.ALTERNATE);
-		//input.setTargets(p2);
-		//input.setTargets(p3);
-		//input.setTargets(p4);
-		System.out.println(input.getTargets().size());
+		input.setTargets(p2);
+		input.setTargets(p3);
+		input.setTargets(p4);
+		//System.out.println(input.getTargets().size());
 
 
 		//executing code
 		try{
-			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
-			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
-			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringLP());
-			System.out.println(p3.getNickname()+ "'s " + p3.getBoard().toStringMarks());
-			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringLP());
-			System.out.println(p4.getNickname()+ "'s " + p4.getBoard().toStringMarks());
 			matchCtrl.getShootController().shootElectroScythe(input);
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());

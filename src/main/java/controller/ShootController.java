@@ -192,85 +192,33 @@ public class ShootController extends ActionController {
 		}
 	}
 
-	//TODO controllare il metodo shootElectroScythe
 
 	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for ELECTRO SCYTHE
-		/*
+
 		Effect eff;
 		input.getTargets().clear();
 		ShootMode mode = input.getShootModes().get(0);
 		eff = input.getWeapon().getMode(mode).get(0);   //take the effect
 
-		for (Player player: getMatch().getPlayers()) {
+		for (Player player: match.getPlayers()) {
 			if(player.getId() != getCurrPlayer().getId()) {
 				try {
 					checkCorrectVisibility(eff, getCurrPlayer(), player);
 					checkExactDistance(eff, getCurrPlayer(), player);
 					input.getTargets().add(player);
 				} catch (Exception e) {
-					//throw new NotAllowedTargetException();
-					//should I throw the new exception or shouldn't I care about which players the user wants to hit?
+					//do nothing
 				}
 			}
 		}
-		  //TODO fixa tutto in treno!!!
 
-		  		case BASIC:
-				eff = input.getWeapon().getBasicMode().get(0);
-				for (Player player: getMatch().getPlayers()) {
-				    if(player.getId() != getCurrPlayer().getId()) {
-                        try {
-                            checkCorrectVisibility(eff, getCurrPlayer(), player);
-                            checkExactDistance(eff, getCurrPlayer(), player);
-                            input.getTargets().add(player);
-                        } catch (Exception e) {
-                            //throw new NotAllowedTargetException();
-                            //should I throw the new exception or shouldn't I care about which players the user wants to hit?
-                        }
-                    }
-				}
-				try {
-                    eff.executeEffect(match, moveController, input);
-                } catch (Exception e) {
-				    //TODO
-                }
-				break;
-
-			case ALTERNATE:
-				eff = input.getWeapon().getAlternateMode().get(0);
-				try {
-					payAmmo(input.getWeapon().getCostAlternate());
-					for (Player player: getMatch().getPlayers()) {
-                        if(player.getId() != getCurrPlayer().getId()) {
-                            try {
-                                checkCorrectVisibility(eff, getCurrPlayer(), player);
-                                checkExactDistance(eff, getCurrPlayer(), player);
-								input.getTargets().add(player);
-                            } catch (Exception e) {
-                            //    throw new NotAllowedTargetException();
-                            }
-                        }
-					}
-					try {
-						eff.executeEffect(match, moveController, input);
-					} catch (Exception e ){
-						//TODO
-					}
-					break;
-				} catch (NotEnoughAmmoException e) {
-					//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
-				}
-
-
-			case OPTIONAL1:
-				throw new NotAllowedShootingModeException();
-
-			case OPTIONAL2:
-				throw new NotAllowedShootingModeException();
+		try {
+			eff.executeEffect(match, moveController, input);
+		} catch (Exception e){
+			throw new NotAllowedTargetException();
 		}
 
-		 */
 	}
 
 	public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
