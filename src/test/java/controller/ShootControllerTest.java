@@ -299,6 +299,35 @@ class ShootControllerTest {
 
 	@Test
 	void shootTractorBeam() {
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of REALNGNEER
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.TRACTOR_BEAM));
+		input.setShootModes(ShootMode.BASIC);
+		//input.setShootModes(ShootMode.ALTERNATE);
+		input.setTargets(p2);
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootTractorBeam(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+			System.out.println(p2.printPosition());
+			//assertNotEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0), p1.getPosition());
+			//assertEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1), p1.getPosition());
+		}catch (Exception e){
+			System.out.println(p2.printPosition());
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
 	}
 
 	@Test

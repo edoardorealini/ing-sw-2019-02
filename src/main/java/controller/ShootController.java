@@ -89,17 +89,21 @@ public class ShootController extends ActionController {
 	}
 
 	private void checkExactDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
-		//this method checks if the distance required by the weapon is the same that separate the two players
+		//this method checks if the distance required by the weapon is the same that separate the two players, ONLY FOR DAMAGE EFFECT
 		int k;
 
-		if (eff.getMinShootDistance() == -1){
-			k = 0;
-		} else {
-			k = eff.getMinShootDistance();
-		}
+		if (eff.getDamage() != 0) {
 
-		if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) != k)
-			throw new NotAllowedTargetException();
+			if (eff.getMinShootDistance() == -1) {
+				k = 0;
+			} else {
+				k = eff.getMinShootDistance();
+			}
+
+			if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) != k)
+				throw new NotAllowedTargetException();
+
+		}
 	}
 
 	private void checkMaximumDistance(Effect eff, Player player, Square square, int maxDistance) throws NotAllowedMoveException {
@@ -392,9 +396,34 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+	public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException{
 		//this method is valid only for Tractor Beam
+		ShootMode mode = input.getShootModes().get(0);
+		Square squareTemp = input.getTargets().get(0).getPosition();
 
+		for (Effect eff : input.getWeapon().getMode(mode)) {
+			try {
+				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+				checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+				if (mode.equals(ShootMode.ALTERNATE)) {
+					payAmmo(input.getWeapon().getModeCost(mode));
+					checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+					checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+				}
+				eff.executeEffect(match, moveController, input);
+			} catch (NotAllowedTargetException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotAllowedTargetException();
+			} catch (NotEnoughAmmoException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotEnoughAmmoException("poverooo!");   //TODO
+			} catch (NotAllowedMoveException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotAllowedMoveException();
+			}
+		}
+
+		/*
 		switch (input.getShootModes().get(0)) {
 
 			case BASIC:
@@ -431,6 +460,7 @@ public class ShootController extends ActionController {
 				throw new NotAllowedShootingModeException();
 		}
 
+		 */
 	}
 
 	public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
