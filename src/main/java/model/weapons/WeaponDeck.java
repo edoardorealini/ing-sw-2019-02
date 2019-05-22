@@ -75,9 +75,9 @@ public class WeaponDeck {
         weaponDeck.get(4).setCostOpt1(Color.BLUE);
         weaponDeck.get(4).setCostOpt2(Color.BLUE);
         weaponDeck.get(4).setCostAlternate(null);
-        weaponDeck.get(4).setBasicMode(new EffectDamage(2, 1, 0, true, 0));
-        weaponDeck.get(4).setOptionalModeOne(new EffectDamage(1, 1, 1, true, 0));  //remember to change the striker with the defender to create the chain
-        weaponDeck.get(4).setOptionalModeTwo(new EffectDamage(2, 1, 2, true, 0));  //visible is set true so because I assume to shift the reference to the striker
+        weaponDeck.get(4).setBasicMode(new EffectDamage(2, 1, 1, true, 0));
+        weaponDeck.get(4).setOptionalModeOne(new EffectDamage(1, 1, 2, true, 0));  //remember to change the striker with the defender to create the chain
+        weaponDeck.get(4).setOptionalModeTwo(new EffectDamage(2, 1, 3, true, 0));  //visible is set true so because I assume to shift the reference to the striker
         weaponDeck.get(4).setAlternateMode(null);
         //remember that Opt2 is allowed only if Opt1 has been used
 
