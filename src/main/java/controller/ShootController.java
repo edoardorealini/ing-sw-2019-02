@@ -267,10 +267,10 @@ public class ShootController extends ActionController {
 		if (input.getShootModes().size()==3 && !input.getShootModes().get(2).equals(ShootMode.OPTIONAL2))
 			throw new NotAllowedShootingModeException();
 
-			for (ShootMode mode : input.getShootModes()) {
+		for (ShootMode mode : input.getShootModes()) {
 			eff = input.getWeapon().getMode(mode).get(0);
 			try {
-				checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()) );
+				checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));
 				if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
 					payAmmo(input.getWeapon().getModeCost(mode));
 			} catch (NotAllowedTargetException e) {
@@ -292,11 +292,46 @@ public class ShootController extends ActionController {
 
 	}
 
-	public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+	public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
 		//this method is valid only for Plasma Gun
-
 		Effect eff;
+		Square squareTemp = getCurrPlayer().getPosition();
 
+		if (input.getShootModes().get(0) == ShootMode.OPTIONAL1) {
+			eff = input.getWeapon().getOptionalModeOne().get(0);
+			checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
+			eff.executeEffect(match, moveController, input);
+		}
+
+		for (ShootMode mode : input.getShootModes()) {
+			eff = input.getWeapon().getMode(mode).get(0);
+			try {
+				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+				checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
+				if (mode.equals(ShootMode.OPTIONAL2))
+					payAmmo(input.getWeapon().getModeCost(mode));
+			} catch (NotAllowedTargetException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotAllowedTargetException();
+			} catch (NotEnoughAmmoException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotEnoughAmmoException("poverooo!");   //TODO
+			} catch (NotAllowedMoveException e) {
+				getCurrPlayer().setPosition(squareTemp);
+				throw new NotAllowedMoveException();
+			}
+		}
+
+		for (ShootMode mode : input.getShootModes()) {
+			eff = input.getWeapon().getMode(mode).get(0);
+			try {
+				eff.executeEffect(match, moveController, input);
+			} catch (Exception e) {
+
+			}
+		}
+
+		/*
 		for (ShootMode mode : input.getShootModes()) {
 			switch (mode){
 
@@ -316,11 +351,12 @@ public class ShootController extends ActionController {
 						eff.executeEffect(match, moveController, input);
 					} catch (Exception e) {
 						//TODO manage the NotAllowedMoveException, ask Edo
+						System.out.println("not ok!");
 					}
 					break;
 
 				case OPTIONAL2:
-					eff = input.getWeapon().getAlternateMode().get(0);
+					eff = input.getWeapon().getOptionalModeTwo().get(0);
 					try {
 						payAmmo(input.getWeapon().getCostOpt2());
 						try {
@@ -338,6 +374,8 @@ public class ShootController extends ActionController {
 					throw new NotAllowedShootingModeException();
 			}
 		}
+		 */
+
 	}
 
 	public void shootWhisper (ShootingParametersInput input) throws NotAllowedTargetException {

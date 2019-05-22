@@ -237,11 +237,65 @@ class ShootControllerTest {
 	}
 
 	@Test
-	void shootPlasmaGun() {
+	void shootPlasmaGun() {	//setting players and map
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.buildMap(1);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of REALNGNEER
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.PLASMA_GUN));
+		input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.OPTIONAL1);
+		input.setShootModes(ShootMode.OPTIONAL2);
+		input.setTargets(p2);
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1));
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootPlasmaGun(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+			assertNotEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0), p1.getPosition());
+			assertEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1), p1.getPosition());
+		}catch (Exception e){
+			System.out.println();
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	void shootWhisper() {
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.buildMap(1);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 3));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.PLASMA_GUN));
+		input.setShootModes(ShootMode.BASIC);
+		input.setTargets(p2);
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootPlasmaGun(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+		}catch (Exception e){
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
 	}
 
 	@Test
