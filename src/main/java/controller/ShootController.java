@@ -163,6 +163,11 @@ public class ShootController extends ActionController {
 		}
 	}
 
+	private void checkDifferentRoom(Square s1, Square s2) throws NotAllowedTargetException {
+		if (s1.getColor() == s2.getColor())
+			throw new NotAllowedTargetException();
+	}
+
 
 	//shoot methods
 
@@ -232,16 +237,18 @@ public class ShootController extends ActionController {
 		//this method is valid only for MACHINE GUN
 
 		for (ShootMode mode : input.getShootModes()) {
+			try {
+				if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
+					payAmmo(input.getWeapon().getModeCost(mode));
+			} catch (NotEnoughAmmoException e) {
+				throw new NotEnoughAmmoException("poverooo!");   //TODO
+			}
 			for (Effect eff : input.getWeapon().getMode(mode)) {
 				if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
 					try {
 						checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-						if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-							payAmmo(input.getWeapon().getModeCost(mode));
 					} catch (NotAllowedTargetException e) {
 						throw new NotAllowedTargetException();
-					} catch (NotEnoughAmmoException e) {
-						throw new NotEnoughAmmoException("poverooo!");   //TODO
 					}
 				}
 			}
@@ -539,6 +546,71 @@ public class ShootController extends ActionController {
 		}
 		 */
 
+	}
+
+	public void shootFurnace (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException {
+		//this method is valid only for Furnace
+
+		ShootMode mode = input.getShootModes().get(0);
+		Effect eff;
+		input.getTargets().clear();
+
+
+
+		switch (mode) {
+
+			case BASIC:
+				for (Player player : match.getPlayers()) { 				//here the correct targets are set
+					if (player.getId() != getCurrPlayer().getId() && player.getPosition().getColor() == input.getSquares().get(0).getColor()) {
+						input.getTargets().add(player);
+					}
+				}
+
+				try {
+					checkDifferentRoom(getCurrPlayer().getPosition(), input.getSquares().get(0));
+				} catch (NotAllowedTargetException e) {
+					throw new NotAllowedTargetException();
+				}
+
+				eff = input.getWeapon().getMode(mode).get(0);
+
+				for (Player player : input.getTargets()) {
+					checkCorrectVisibility(eff, getCurrPlayer(), player);
+				}
+
+				eff.executeEffect(match, moveController, input);
+
+				break;
+
+			case ALTERNATE:
+				for (Player player : match.getPlayers()) { 				//here the correct targets are set
+					if (player.getId() != getCurrPlayer().getId() && player.getPosition() == input.getSquares().get(0)) {
+						input.getTargets().add(player);
+					}
+				}
+
+				for (Player player : input.getTargets()) {
+					for (Effect effect: input.getWeapon().getMode(mode)) {
+						try {
+							checkExactDistance(effect, getCurrPlayer(), player);
+							checkCorrectVisibility(effect, getCurrPlayer(), player);
+						} catch (NotAllowedTargetException e){
+							throw new NotAllowedTargetException();
+						}
+					}
+				}
+
+				for (Effect effect : input.getWeapon().getMode(mode)) {
+					try {
+						effect.executeEffect(match, moveController, input);
+					} catch (Exception e) {
+
+					}
+				}
+
+				break;
+
+		}
 	}
 
 

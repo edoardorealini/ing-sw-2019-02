@@ -32,9 +32,9 @@ public class EffectMark extends Effect {
 			for (Player player : input.getTargets()){
 				player.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
 			}
-		}
-
+		} else {
 		Player target = input.getTargets().get(getSameTarget());
 		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
+		}
 	}
 }
