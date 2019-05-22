@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShootControllerTest {
 
 	private MatchController matchCtrl;
-	private Player p1 = new Player("MADSOMMA", 1, null);
-	private Player p2 = new Player("REALNGNEER", 2, null);
-	private Player p3 = new Player("JOHNNYCA$H", 3, null);
-	private Player p4 = new Player("AHHHH", 4, null);
+	private Player p1;
+	private Player p2;
+	private Player p3;
+	private Player p4;
 	private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
 	private ShootingParametersInput input = new ShootingParametersInput();
 
@@ -23,6 +23,11 @@ class ShootControllerTest {
 	void setUp() {
 		try {
 			matchCtrl = new MatchController();
+			matchCtrl.buildMap(1);
+			p1 = new Player("MADSOMMA", 1, matchCtrl.getMatch());
+			p2 = new Player("REALNGNEER", 2, matchCtrl.getMatch());
+			p3 = new Player("JOHNNYCA$H", 3, matchCtrl.getMatch());
+			p4 = new Player("AHHHH", 4, matchCtrl.getMatch());
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -49,7 +54,6 @@ class ShootControllerTest {
 	void payAmmo() throws Exception{
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
 		System.out.println(matchCtrl.getMatch().getWeaponDeck().toString());
 		Weapon temp = matchCtrl.getMatch().getWeaponDeck().pickFirstCard();
@@ -77,7 +81,6 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p3);
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
 		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of JOHNNTYCA$H
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of JOHNNTYCA$H
@@ -115,7 +118,6 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
 		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of JOHNNYCA$H
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of REALNGNEER
@@ -157,7 +159,6 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
 		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of JOHNNYCA$H
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
@@ -201,7 +202,6 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p3);
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
 		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of REALNGNEER
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 2));        //set position of JOHNNYCA$H
@@ -242,14 +242,13 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p1);
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of MADSOMMA
 		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of REALNGNEER
 
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.PLASMA_GUN));
-		input.setShootModes(ShootMode.BASIC);
 		input.setShootModes(ShootMode.OPTIONAL1);
+		input.setShootModes(ShootMode.BASIC);
 		input.setShootModes(ShootMode.OPTIONAL2);
 		input.setTargets(p2);
 		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1));
@@ -261,34 +260,34 @@ class ShootControllerTest {
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+			System.out.println(p1.printPosition());
 			assertNotEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0), p1.getPosition());
 			assertEquals(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1), p1.getPosition());
 		}catch (Exception e){
-			System.out.println();
+			System.out.println(p1.printPosition());
 			System.out.println("shit happened");
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	void shootWhisper() {
+	void shootWhisper(){
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.buildMap(1);
-		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 3));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of REALNGNEER
 
 		//setting the input
-		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.PLASMA_GUN));
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.WHISPER));
 		input.setShootModes(ShootMode.BASIC);
 		input.setTargets(p2);
 
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootPlasmaGun(input);
+			matchCtrl.getShootController().shootWhisper(input);
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());

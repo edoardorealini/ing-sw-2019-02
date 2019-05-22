@@ -10,6 +10,7 @@ import model.map.Square;
 import model.ammo.Ammo;
 import model.powerup.PowerUp;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Player {
@@ -211,7 +212,8 @@ public class Player {
         string.append(nickname);
         string.append(" is in position ");
         List<Integer> coordinates = match.getMap().getIndex(position);
-        string.append(coordinates.toString());
+        String temp = "[" + coordinates.get(0) + "," + coordinates.get(1) +"]";
+        string.append(temp);
         return string.toString();
     }
 
