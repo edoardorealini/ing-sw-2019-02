@@ -40,11 +40,7 @@ public class ShootController extends ActionController {
 	private boolean visibilityBetweenPlayers(Player player1, Player player2) {
 		//this method returns true if player2 can be seen by player1
 
-		if (match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor())) {
-			return true;
-		} else {
-			return false;
-		}
+		return match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor());
 
 	}
 
@@ -191,7 +187,6 @@ public class ShootController extends ActionController {
 			}
 		}
 	}
-
 
 	public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
 		//this method is valid only for ELECTRO SCYTHE

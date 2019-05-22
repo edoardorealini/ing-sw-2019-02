@@ -192,7 +192,6 @@ class ShootControllerTest {
 		}
 	}
 
-
 	@Test
 	void shootTHOR() {
 		//setting players and map
