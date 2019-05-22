@@ -30,7 +30,7 @@ public class RemoteControllerRMI extends RemoteController {
     public Map getMap() {
         try {
             return controller.getMap();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -43,8 +43,12 @@ public class RemoteControllerRMI extends RemoteController {
     }
 
     @Override
-    public void buildMap(int mapID) {
-
+    public void buildMap(int mapID) throws Exception {
+        try {
+            controller.buildMap(mapID);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     @Override
@@ -115,11 +119,24 @@ public class RemoteControllerRMI extends RemoteController {
     }
 
     @Override
-    public void addPlayer(String nickName) {
+    public int addPlayer(String nickName) {
         try {
-            controller.addPlayer(nickName);
-        }catch(Exception e){
+            return controller.addPlayer(nickName);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return -1;
+    }
+
+    @Override
+    public int connectedPlayers() {
+        try {
+            return controller.connectedPlayers();
+        }catch(RemoteException e){
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }

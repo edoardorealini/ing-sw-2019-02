@@ -1,10 +1,12 @@
 package model.map;
 import model.ammo.*;
 import model.weapons.Weapon;
+
+import java.io.Serializable;
 import java.util.*;
 import  model.Color;
 
-public class Square {
+public class Square implements Serializable {
 
     private Boolean activeStatus;               //in una mappa possono esserci degli square non attivi.
     private Color color;                        //indica il colore della stanza.

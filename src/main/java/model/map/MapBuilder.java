@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.*;
 
-public class MapBuilder {
+public class MapBuilder implements Serializable{
     //Classe che serve per costruire le mappe.
 
     private Map map;

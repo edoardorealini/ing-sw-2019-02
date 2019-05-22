@@ -1,6 +1,8 @@
 package model.map;
 
-public enum Directions {
+import java.io.Serializable;
+
+public enum Directions implements Serializable {
     UP,
     DOWN,
     RIGHT,

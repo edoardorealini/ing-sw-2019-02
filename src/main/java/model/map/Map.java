@@ -1,10 +1,11 @@
 package model.map;
+import java.io.Serializable;
 import java.util.*;
 import  model.Color;
 import model.ammo.AmmoDeck;
 import model.weapons.WeaponDeck;
 
-public class Map {
+public class Map implements Serializable {
 
     private Square[][] squaresMatrix;
     private int mapID;

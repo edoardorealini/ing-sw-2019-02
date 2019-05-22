@@ -16,7 +16,7 @@ public interface InterfaceRemoteObjectRMI extends Remote {
 
     Map getMap() throws RemoteException;
 
-    void buildMap(int mapID) throws RemoteException;
+    void buildMap(int mapID) throws RemoteException, Exception;
 
     //metodi derivanti da classe moveController
     void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed) throws Exception, RemoteException;
@@ -49,6 +49,9 @@ public interface InterfaceRemoteObjectRMI extends Remote {
 
     String checkConnection(String IP) throws RemoteException;
 
-    void addPlayer(String nickName) throws RemoteException;
+    int addPlayer(String nickName) throws RemoteException;
+
+    int connectedPlayers() throws RemoteException;
+
 
 }

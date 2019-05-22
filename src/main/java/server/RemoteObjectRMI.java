@@ -30,8 +30,13 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
         return matchController.getMap();
     }
 
-    public void buildMap(int mapID) {
-        matchController.buildMap(mapID);
+    public void buildMap(int mapID) throws  Exception{
+        try {
+            System.out.println("[RMIServer]: Building Map with mapID = " + mapID);
+            matchController.buildMap(mapID);
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
 
     //metodi derivanti da classe moveController
@@ -93,7 +98,13 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
         return "[RMIServer]: Connection status OK";
     }
 
-    public void addPlayer(String nickName) {
-        matchController.addPlayer(nickName);
+    public int addPlayer(String nickName) {
+        return matchController.addPlayer(nickName);
     }
+
+    public int connectedPlayers(){
+        return matchController.connectedPlayers();
+    }
+
+
 }

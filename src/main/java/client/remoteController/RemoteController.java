@@ -16,7 +16,7 @@ public abstract class RemoteController {
 
     public abstract Map getMap();
 
-    public abstract void buildMap(int mapID);
+    public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
     abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed);
@@ -45,6 +45,8 @@ public abstract class RemoteController {
 
     public abstract String checkConnection(String IP);
 
-    public abstract void addPlayer(String nickName);
+    public abstract int addPlayer(String nickName);
 
-}
+    public abstract int connectedPlayers();
+
+    }
