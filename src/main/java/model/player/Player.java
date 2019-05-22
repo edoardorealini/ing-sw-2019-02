@@ -10,6 +10,8 @@ import model.map.Square;
 import model.ammo.Ammo;
 import model.powerup.PowerUp;
 
+import java.util.List;
+
 public class Player {
 
     private String nickname;
@@ -201,6 +203,16 @@ public class Player {
     @Override
     public String toString() {
         return nickname;
+    }
+
+    public String printPosition() {
+        StringBuilder string = new StringBuilder();
+        string.append("Player ");
+        string.append(nickname);
+        string.append(" is in position ");
+        List<Integer> coordinates = match.getMap().getIndex(position);
+        string.append(coordinates.toString());
+        return string.toString();
     }
 
     public boolean hasPowerUp( PowerUp card){

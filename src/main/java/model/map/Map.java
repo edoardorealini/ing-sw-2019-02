@@ -98,7 +98,7 @@ public class Map implements Serializable {
         private method used to get the indexes of a square in the matrix.
         the indexes are returned as a list of integers.
     */
-    private List<Integer> getIndex(Square square){
+    public List<Integer> getIndex(Square square){           //TODO make it private?
         int i;
         int j;
 
