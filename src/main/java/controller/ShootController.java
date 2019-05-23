@@ -640,7 +640,7 @@ public class ShootController extends ActionController {
 		}
 
 		for (Player player : match.getPlayers()) {  		//add the players in the same square to target list
-			if (input.getTargets().get(0).getPosition() == player.getPosition() && (player.getId() != getCurrPlayer().getId() || player.getId() != input.getTargets().get(0).getId()))
+			if (input.getTargets().get(0).getPosition() == player.getPosition() && player.getId() != getCurrPlayer().getId() && player.getId() != input.getTargets().get(0).getId())
 				input.getTargets().add(player);
 		}
 
@@ -663,6 +663,44 @@ public class ShootController extends ActionController {
 			}
 		}
 
+	}
+
+	public void shootFlameThrower (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+		//this method is valid only for FlameThrowerù
+
+		ShootMode mode = input.getShootModes().get(0);
+		input.getSquares().clear();
+
+		//with the next two if I set the squares in which the user want to make damages
+		if (! match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).isEmpty()) {
+			Square sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(0);
+			input.setSquares(sq1);
+		}
+		if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>1) {
+			Square sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
+			input.setSquares(sq2);
+		}
+
+
+		if (mode == ShootMode.BASIC) {
+			//TODO capiscila bene
+		} else {	//ALTERNATE MODE
+			try {
+				payAmmo(input.getWeapon().getModeCost(mode));
+			} catch (NotEnoughAmmoException e) {
+				throw new NotEnoughAmmoException("poverooo");  //TODO
+			}
+			input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list
+			for (Player player : match.getPlayers()) {
+				if (input.getSquares().contains(player.getPosition()))
+					input.setTargets(player);
+			}
+		}
+
+
+		for (Effect eff : input.getWeapon().getMode(mode)) {
+			//TODO fixa controlli su persone
+		}
 	}
 
 }
