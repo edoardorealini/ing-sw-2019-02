@@ -395,6 +395,7 @@ public class ShootController extends ActionController {
 
 	public void shootWhisper (ShootingParametersInput input) throws NotAllowedTargetException {
 		//this method is valid only for Whisper
+
 		try {
 			for (Effect eff : input.getWeapon().getBasicMode()) {
 				checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
@@ -613,5 +614,55 @@ public class ShootController extends ActionController {
 		}
 	}
 
+	public void shootHeatseeker (ShootingParametersInput input) throws NotAllowedTargetException {
+		//this method is valid only for Heatseeker
+
+		try {
+			Effect eff = input.getWeapon().getBasicMode().get(0);
+			checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+			eff.executeEffect(match, moveController, input);
+		} catch(Exception e) {
+			throw new NotAllowedTargetException();
+		}
+
+	}
+
+	public void shootHellion (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+		//this method in valid only for Hellion
+		ShootMode mode = input.getShootModes().get(0);
+
+		if (mode.equals(ShootMode.OPTIONAL1)) {
+			try {
+				payAmmo(input.getWeapon().getModeCost(mode));
+			} catch (NotEnoughAmmoException e) {
+				throw new NotEnoughAmmoException("poverooo!");   //TODO
+			}
+		}
+
+		for (Player player : match.getPlayers()) {  		//add the players in the same square to target list
+			if (input.getTargets().get(0).getPosition() == player.getPosition() && (player.getId() != getCurrPlayer().getId() || player.getId() != input.getTargets().get(0).getId()))
+				input.getTargets().add(player);
+		}
+
+		for (Effect eff : input.getWeapon().getMode(mode)) {
+			for (Player player : input.getTargets()) {
+				try {
+					checkCorrectVisibility(eff, getCurrPlayer(), player);
+					checkAllowedDistance(eff, getCurrPlayer(), player);
+				} catch (NotAllowedTargetException e) {
+					throw new NotAllowedTargetException();
+				}
+			}
+		}
+
+		for (Effect eff : input.getWeapon().getMode(mode)) {
+			try {
+				eff.executeEffect(match, moveController, input);
+			} catch (NotAllowedMoveException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 }

@@ -417,4 +417,36 @@ class ShootControllerTest {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	void shootHeatseeker() {
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 1));        //set position of REALNGNEER
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.HEATSEEKER));
+		input.setShootModes(ShootMode.BASIC);
+		input.setTargets(p2);
+
+
+		//executing code
+		try{
+			matchCtrl.getShootController().shootHeatseeker(input);
+			System.out.println("\n");
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
+			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
+		}catch (Exception e){
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void shootHellion() {
+
+	}
 }
