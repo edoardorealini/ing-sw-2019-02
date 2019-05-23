@@ -1,10 +1,11 @@
 package model.weapons;
 
+import java.io.Serializable;
 import java.util.*;
 import  model.Color;
 
 
-public class WeaponDeck {
+public class WeaponDeck implements Serializable {
     private LinkedList<Weapon> weaponDeck;
 
     //constructor

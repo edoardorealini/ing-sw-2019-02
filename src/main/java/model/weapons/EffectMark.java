@@ -5,7 +5,9 @@ import controller.ShootingParametersInput;
 import model.Match;
 import model.player.Player;
 
-public class EffectMark extends Effect {
+import java.io.Serializable;
+
+public class EffectMark extends Effect implements Serializable {
 
 	public EffectMark (int mark, int targets, int sameTarget, boolean visible, int distance) {
 		this.setDamage(0);
