@@ -1,0 +1,73 @@
+LOGICA DI FUNZIONAMENTO DEL CLIENT:
+
+Posso lanciarlo e chiedere da dentro la shell in esecuzione di selezionare il tipo di connessione e in base alla scelta lanciare il processo giusto.
+
+TODO:
+
+	inizio con l'implementzione della parte di RMI che abbiamo già lato server
+
+	capire cosa fare con gli observer (e come farli andare in modo condiviso sulla rete)
+
+Mettere giu uno use case dell'inizio della partita pensando alla gestione dei turni e alla gestione della sala di attesa.
+
+
+
+23 MAGGIO 2019:
+
+Gestione della coda di attesa in ingresso (pre partita):
+
+	//TODO:
+	Una volta che 3 giocatori si sono connessi: dovrebbe partire un timer di N secondi che aspetta altri eventuali giocatori (fino ad un max di 5)
+	Scaduto il timer oppure raggiunti i 5 giocatori connessi la partita deve iniziare.
+	Controllo sulla username, se si è gia connesso e disconnesso devo essere ingrado di ricollegare il client al giocatore corretto
+
+	//GIA IMPLEMENTATO, FUNIZONANTE:
+	un giocatore quando si connette al server e inserisce la username viene aggiunto ai players sul server
+	se è il primo giocatore a connettersi gli viene chiesto che mappa vuole generare
+	in seguito il client va in attesa che si connettano abbastanza giocatori andando a controllare il numero di giocatori connessi lato server
+
+Gestione dell'uscita di un player dalla partita (hard quit, chiusura della app)
+
+	class ExitThread extends Thread {
+
+	         public void run() {
+	             // code to perform on exit goes here
+	         }
+	     }
+
+	//in main or wherever, beginning of execution
+	ExitThread t = new ExitThread();
+	//don't call t.start(), the hook will do it on exit
+	addShutdownHook(t);
+	Haven't tested it, but that should get you going. Also, you don't have to use the default constructor if you want to pass some params to that thread.
+
+
+Gestione inizio della partita:
+
+	//TODO
+
+	//GIA IMPLEMENTATO
+
+Primo turno:
+
+	//TODO
+
+	//GIA IMPLEMENTATO
+
+Restanti turni:
+
+	//TODO
+
+	//GIA IMPLEMENTATO
+
+Calcolo dei punti:
+
+	//TODO
+
+	//GIA IMPLEMENTATO
+
+Termine della partita: (mortalPath)
+
+	//TODO
+
+	//GIA IMPLEMENTATO
