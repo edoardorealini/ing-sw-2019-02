@@ -1,7 +1,5 @@
 package server;
 
-//TODO Johnny
-
 import controller.MatchController;
 
 import java.rmi.registry.LocateRegistry;

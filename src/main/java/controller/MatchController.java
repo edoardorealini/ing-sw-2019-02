@@ -73,11 +73,11 @@ public class MatchController {
             } catch (Exception e) {
                 e.printStackTrace(); //non serve per ora gestire con logger
             }
-            //TODO add check ok mapID (value)
 
             //match.getMap().fillWeaponBox(match.getWeaponDeck());
             //match.getMap().fillAmmo(match.getAmmoDeck());
             //commentati per test di RICKY
+            //TODO ricordarsi di togliere i commenti qui @Ricky
         }
         else
             throw new Exception("Not a valid mapID");

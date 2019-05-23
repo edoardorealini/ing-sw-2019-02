@@ -27,7 +27,7 @@ public class MortalPath implements Serializable {
 
 	public void setSkulls(int skulls) {
 		this.skulls = skulls;
-		//TODO aggiornare valore al primo turno
+		//TODO tutta la classe +  aggiornare valore al primo turno
 	}
 
 	public void setMortalShots(int shots, int idPlayer){		//shots can be 1 or 2, depending on the rage damage

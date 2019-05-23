@@ -34,7 +34,6 @@ public class Board {
         }
     }
 
-    //TODO mettete un po di commenti se no non si capisce un cazzo di cosa fanno i metodi
 
     public void updateMarks(int damageMarks, int idPlayerAttaccante){
         int countMarks=0;

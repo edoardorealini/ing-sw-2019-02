@@ -16,7 +16,7 @@ public class RemoteControllerRMI extends RemoteController {
     private Match match;
     private InterfaceRemoteObjectRMI controller;
 
-    public RemoteControllerRMI(String serverIP, int port) throws RemoteException { //TODO capire se passare la porta qui o meno
+    public RemoteControllerRMI(String serverIP, int port) throws RemoteException {
         try {
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
             controller = (InterfaceRemoteObjectRMI) registry.lookup("remoteController");

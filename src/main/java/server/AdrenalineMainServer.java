@@ -1,7 +1,5 @@
 package server;
 
-//TODO Edo, questa è la classe con il MAIN, sì, hai letto bene, il MAIN
-
 import controller.MatchController;
 import model.Match;
 
@@ -37,7 +35,6 @@ public class AdrenalineMainServer {
     }
 
     public void launchRMIServer() throws RemoteException {
-        //TODO capire ancora bene la logica
         executor.submit(new AdrenalineRMIServer(matchController, rmiPort));
     }
 
