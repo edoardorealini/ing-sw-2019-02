@@ -278,22 +278,43 @@ public class Map implements Serializable {
     @Override
     public String toString(){
 
-        String map;
+        String map = null;
 
-        map =   "----------------------------------\n" +
-                "|" + ANSI_BLUE_BACKGROUND + "       :       :       "+ ANSI_RESET +"||" + ANSI_GREEN_BACKGROUND +"       " + ANSI_RESET +"|\n" +
-                "|" + ANSI_BLUE_BACKGROUND + "       :       :       "+ ANSI_RESET +"  " + ANSI_GREEN_BACKGROUND +"       " + ANSI_RESET +"|\n" +
-                "|" + ANSI_BLUE_BACKGROUND + "       :       :       "+ ANSI_RESET +"||" + ANSI_GREEN_BACKGROUND +"       " + ANSI_RESET +"|\n" +
-                "---  ---------------  -------  ---\n" +
-                "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "-----------   -----------:-------|\n" +
-                "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
-                "        --------------------------\n";
+        switch(this.mapID) {
 
+            case 1:
+                map = "----------------------------------\n" +
+                        "|" + ANSI_BLUE_BACKGROUND + "       :       :       " + ANSI_RESET + "||" + ANSI_GREEN_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_BLUE_BACKGROUND + "       :       :       " + ANSI_RESET + "  " + ANSI_GREEN_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_BLUE_BACKGROUND + "       :       :       " + ANSI_RESET + "||" + ANSI_GREEN_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "---  ---------------  -------  ---\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "-----------   ----"+ ANSI_YELLOW_BACKGROUND + "-------:-------" + ANSI_RESET + "|\n" +
+                        "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "        |" + ANSI_WHITE_BACKGROUND + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       :       " + ANSI_RESET + "|\n" +
+                        "        --------------------------\n";
+                break;
+
+            case 2:
+                map = "--------------------------\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       " + ANSI_RESET + "||"+ANSI_BLUE_BACKGROUND+"       :       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       " + ANSI_RESET + "  "+ANSI_BLUE_BACKGROUND+"       :       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       " + ANSI_RESET + "||"+ANSI_BLUE_BACKGROUND+"       :       " + ANSI_RESET + "|\n" +
+                        "-" + ANSI_RED_BACKGROUND +" - - - " + ANSI_RESET + "-----  ------  ------------\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       "+ ANSI_RESET + "||" + ANSI_PURPLE_BACKGROUND + "       " + ":" + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND +"       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       "+ ANSI_RESET + "||" + ANSI_PURPLE_BACKGROUND + "       " + ":" + "       " + ANSI_RESET + "  " + ANSI_YELLOW_BACKGROUND +"       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_RED_BACKGROUND + "       "+ ANSI_RESET + "||" + ANSI_PURPLE_BACKGROUND + "       " + ":" + "       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND +"       " + ANSI_RESET + "|\n" +
+                        "---  --------  ------------" + ANSI_YELLOW_BACKGROUND + " - - - " + ANSI_RESET + "-\n" +
+                        "|" + ANSI_WHITE_BACKGROUND + "       " + ": " + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_WHITE_BACKGROUND + "       " + ": " + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "|" + ANSI_WHITE_BACKGROUND + "       " + ": " + "       :       " + ANSI_RESET + "||" + ANSI_YELLOW_BACKGROUND + "       " + ANSI_RESET + "|\n" +
+                        "-----------------------------------\n";
+
+                break;
+        }
         return map;
     }
 

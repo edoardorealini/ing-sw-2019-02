@@ -94,6 +94,7 @@ class MapBuilderTest {
         assertEquals(mapTest2.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.UP, Directions.DOWN));
         assertNotEquals(mapTest2.getSquaresMatrix()[0][1].getAllowedMoves(),Arrays.asList(Directions.LEFT, Directions.RIGHT));
 
+        System.out.println(mapTest2.toString());
         System.out.println("map2 tested OK");
 
         assertEquals(mapTest3.getMapID(), 3);
