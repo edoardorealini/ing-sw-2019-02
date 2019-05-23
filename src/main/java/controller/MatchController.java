@@ -66,7 +66,7 @@ public class MatchController {
         return match.getMap();
     }
 
-    public  synchronized void buildMap(int mapID) throws Exception{
+    public synchronized void buildMap(int mapID) throws Exception{
         if(mapID <= 4 && mapID >= 1) {
 
             try {
@@ -75,10 +75,24 @@ public class MatchController {
                 e.printStackTrace(); //non serve per ora gestire con logger
             }
 
-            //match.getMap().fillWeaponBox(match.getWeaponDeck());
-            //match.getMap().fillAmmo(match.getAmmoDeck());
-            //commentati per test di RICKY
-            //TODO ricordarsi di togliere i commenti qui @Ricky
+           match.getMap().fillWeaponBox(match.getWeaponDeck());
+           match.getMap().fillAmmo(match.getAmmoDeck());
+
+        }
+        else
+            throw new Exception("Not a valid mapID");
+
+    }
+
+    //ONLY for tests, do not expose it
+    public synchronized void buildMapForTest(int mapID) throws Exception{
+        if(mapID <= 4 && mapID >= 1) {
+
+            try {
+                match.setMap(new MapBuilder().makeMap(mapID));
+            } catch (Exception e) {
+                e.printStackTrace(); //non serve per ora gestire con logger
+            }
         }
         else
             throw new Exception("Not a valid mapID");

@@ -23,7 +23,7 @@ class ShootControllerTest {
 	void setUp() {
 		try {
 			matchCtrl = new MatchController();
-			matchCtrl.buildMap(1);
+			matchCtrl.buildMapForTest(1);
 			p1 = new Player("MADSOMMA", 1, matchCtrl.getMatch());
 			p2 = new Player("REALNGNEER", 2, matchCtrl.getMatch());
 			p3 = new Player("JOHNNYCA$H", 3, matchCtrl.getMatch());
