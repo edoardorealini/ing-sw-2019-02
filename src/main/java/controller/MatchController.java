@@ -57,15 +57,15 @@ public class MatchController {
          */
     }
 
-    public Match getMatch() {
+    public synchronized Match getMatch() {
         return match;
     }
 
-    public Map getMap() {
+    public synchronized Map getMap() {
         return match.getMap();
     }
 
-    public void buildMap(int mapID) throws Exception{
+    public  synchronized void buildMap(int mapID) throws Exception{
         if(mapID <= 4 && mapID >= 1) {
 
             try {
@@ -85,58 +85,58 @@ public class MatchController {
     }
 
     //metodi derivanti da classe moveController
-    public void move(Player player, Square destination, int maxDistanceAllowed) throws Exception {
+    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws Exception {
         moveController.move(player, destination, maxDistanceAllowed);
     }
 
-    public boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
+    public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
         return moveController.isAllowedMove(startingPoint, destination, maxDistance);
     }
 
-    public void moveOneSquare(Directions direction) throws Exception {
+    public synchronized  void moveOneSquare(Directions direction) throws Exception {
         moveController.moveOneSquare(direction);
     }
 
-    public void moveOneSquare(Directions direction, Player player) throws Exception {
+    public  synchronized void moveOneSquare(Directions direction, Player player) throws Exception {
         moveController.moveOneSquare(direction, player);
     }
 
-    public int minDistBetweenSquares(Square startingPoint, Square destination) {
+    public  synchronized int minDistBetweenSquares(Square startingPoint, Square destination) {
         return moveController.minDistBetweenSquares(startingPoint, destination);
     }
 
     //metodi da grab controller
-    public void grabAmmoCard() throws Exception {
+    public synchronized  void grabAmmoCard() throws Exception {
         grabController.grabAmmoCard();
     }
 
-    public void grabWeapon(Weapon weapon) throws Exception {
+    public  synchronized void grabWeapon(Weapon weapon) throws Exception {
         grabController.grabWeapon(weapon);
     }
 
     //metodi di powerUpController
-    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
+    public  synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
         if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
             powerUpController.usePowerUpAsAmmo(powerUp);
         } else
             throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
 
-    public void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException {
+    public  synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException {
         if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
             powerUpController.useTeleporter(teleporter, destination);
         } else
             throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
     }
 
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException {
+    public  synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException {
         if (match.getCurrentPlayer().hasPowerUp(newton)) {
             powerUpController.useNewton(newton, affectedPlayer, destination);
         } else
             throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException {
+    public  synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException {
         if (user.hasPowerUp(tagbackGrenade)) {
             powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
         } else
@@ -144,7 +144,7 @@ public class MatchController {
 
     }
 
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException {
+    public synchronized  void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException {
         if (match.getCurrentPlayer().hasPowerUp(targetingScope)) {
             powerUpController.useTargetingScope(targetingScope, affectedPlayer);
         } else
@@ -152,29 +152,29 @@ public class MatchController {
 
     }
 
-    public MoveController getMoveController() {
+    public synchronized  MoveController getMoveController() {
         return moveController;
     }
 
-    public ShootController getShootController() {
+    public  synchronized ShootController getShootController() {
         return shootController;
     }
 
-    public GrabController getGrabController() {
+    public  synchronized GrabController getGrabController() {
         return grabController;
     }
 
-    public PowerUpController getPowerUpController() {
+    public  synchronized PowerUpController getPowerUpController() {
         return powerUpController;
     }
 
     // metodo creazione di player
-    public void addPlayer(String nickName, int ID) {
+    public  synchronized void addPlayer(String nickName, int ID) {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
 
     // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente
-    public int addPlayer(String nickName) {
+    public synchronized  int addPlayer(String nickName) {
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
         if (match.getPlayers().size() == 1)
@@ -183,11 +183,11 @@ public class MatchController {
         return match.getPlayers().size() - 1;
     }
 
-    public int connectedPlayers(){
+    public synchronized  int connectedPlayers(){
         return match.getPlayers().size();
     }
 
-    public String RMICallTest(String message) {
+    public  synchronized String RMICallTest(String message) {
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
     }
