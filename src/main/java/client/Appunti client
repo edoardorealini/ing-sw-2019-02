@@ -11,6 +11,25 @@ TODO:
 Mettere giu uno use case dell'inizio della partita pensando alla gestione dei turni e alla gestione della sala di attesa.
 
 
+-----------------------------------------------------------------------------------------------------------------------------------
+
+GIRO DA FARE QUANDO SI AGGIUNGE UN METODO DI MATCH CONTROLLER (CE NE SONO ANCORA UN PO DA AGGIUNGERE PER LA GESTIONE DELLA PARTITA)
+
+    RMI
+
+1. Aggiungere metodo a classe MatchController (SERVER)
+2. Aggiungere il metodo a RemoteObjectRMI (SERVER)
+3. Aggiungere il metodo a InterfaceRemoteObjectRMI (SERVER)
+
+4. Aggiungere il metodo a RemoteController (abstract class in CLIENT)
+5. Aggiungere il metodo a RemoteControllerRMI (CLIENT)
+
+    SOCKET
+
+GIRO DA SEGUIRE: TBD (TO BE DETERMINED)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
 
 23 MAGGIO 2019:
 
