@@ -114,6 +114,7 @@ public class CLI implements Runnable{
         }
     }
 
+    //StartGame:  metodo centrale, gestisce le fasi della partita, o meglio: chiama i metodi lato Server che modificano lo stato dei giocatori e permettono di effettuare mosse.
     public void startGame(){
         System.out.println("There are enough players to start a new game");
     }

@@ -5,6 +5,7 @@ import model.Match;
 import model.map.*;
 import model.map.MapBuilder;
 import model.player.Player;
+import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
 
@@ -191,4 +192,13 @@ public class MatchController {
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
     }
+
+    public PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
+        if(idPlayer >= 0 && idPlayer < match.getPlayers().size())
+            return match.getPlayers().get(idPlayer).getStatus();
+
+        else
+            throw new WrongValueException("Not valid playerID, retry");
+    }
+
 }
