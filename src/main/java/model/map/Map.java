@@ -210,7 +210,6 @@ public class Map implements Serializable {
     public List<Square> getAllowedSquaresInDirection(Directions direction, Square square){
 
         List<Square> result = new ArrayList<>();
-        result = Collections.emptyList();
 
         int x = getIndex(square).get(0);
         int y = getIndex(square).get(1);
