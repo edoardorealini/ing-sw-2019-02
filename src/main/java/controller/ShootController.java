@@ -682,25 +682,68 @@ public class ShootController extends ActionController {
 		}
 
 
-		if (mode == ShootMode.BASIC) {
-			//TODO capiscila bene
-		} else {	//ALTERNATE MODE
-			try {
-				payAmmo(input.getWeapon().getModeCost(mode));
-			} catch (NotEnoughAmmoException e) {
-				throw new NotEnoughAmmoException("poverooo");  //TODO
-			}
-			input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list
-			for (Player player : match.getPlayers()) {
-				if (input.getSquares().contains(player.getPosition()))
-					input.setTargets(player);
-			}
+		switch (mode) {
+
+			case BASIC:
+				for (Effect eff : input.getWeapon().getMode(mode)) {
+					checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+					if (!input.getSquares().contains(input.getTargets().get(eff.getSameTarget()).getPosition()))
+						throw new NotAllowedTargetException();
+				}
+				for (Effect eff : input.getWeapon().getMode(mode)) {
+					try {
+						eff.executeEffect(match, moveController, input);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				break;
+
+			case ALTERNATE:
+				try {
+					payAmmo(input.getWeapon().getModeCost(mode));
+				} catch (NotEnoughAmmoException e) {
+					throw new NotEnoughAmmoException("poverooo");  //TODO
+				}
+
+				//checks
+				input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in first square)
+				for (Player player : match.getPlayers()) {
+					if (input.getSquares().get(0).equals(player.getPosition()))
+						input.setTargets(player);
+				}
+				input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in second square)
+				for (Player player : match.getPlayers()) {
+					if (input.getSquares().get(1).equals(player.getPosition()))
+						input.setTargets(player);
+				}
+
+				//execution code
+				input.getTargets().clear();
+				for (Player player : match.getPlayers()) {
+					if (input.getSquares().get(0).equals(player.getPosition()))
+						input.setTargets(player);
+				}
+				try {
+					input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				input.getTargets().clear();
+				for (Player player : match.getPlayers()) {
+					if (input.getSquares().get(1).equals(player.getPosition()))
+						input.setTargets(player);
+				}
+				try {
+					input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				break;
 		}
 
-
-		for (Effect eff : input.getWeapon().getMode(mode)) {
-			//TODO fixa controlli su persone
-		}
 	}
 
 }
