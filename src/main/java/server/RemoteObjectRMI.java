@@ -3,10 +3,12 @@ import controller.InputConverter;
 import controller.MatchController;
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
+import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
+import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
 import java.rmi.RemoteException;
@@ -105,6 +107,11 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
     public int connectedPlayers(){
         return matchController.connectedPlayers();
     }
+
+    public PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
+        return matchController.getPlayerStatus(idPlayer);
+    }
+
 
 
 }

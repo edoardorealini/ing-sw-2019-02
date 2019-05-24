@@ -7,9 +7,10 @@ import model.powerup.PowerUpDeck;
 import model.weapons.WeaponDeck;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Match {
+public class Match  implements Serializable {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private PowerUpDeck powerUpDeck;
@@ -28,18 +29,6 @@ public class Match {
         this.weaponDeck = new WeaponDeck();
         weaponDeck.shuffleDeck();
         ammoDeck.shuffleDeck();
-
-        /*  gestire creazione mappa lato controller.
-
-            try {
-                this.map = new MapBuilder().makeMap(mapID);
-            }catch(IOException e){
-                e.printStackTrace(); //non serve per ora gestire con logger
-            }
-
-         */
-
-        //TODO qui si potrebbe mettere la logica che riempie l'oggetto "map"
     }
 
     public void setAmmoDeck(AmmoDeck ammoDeck) {

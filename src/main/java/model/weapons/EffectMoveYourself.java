@@ -6,7 +6,9 @@ import model.Match;
 import model.map.Square;
 import model.player.Player;
 
-public class EffectMoveYourself extends Effect{
+import java.io.Serializable;
+
+public class EffectMoveYourself extends Effect  implements Serializable {
 
 	public EffectMoveYourself (int move) {
 		this.setDamage(0);

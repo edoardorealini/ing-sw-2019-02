@@ -1,14 +1,16 @@
 package model.player;
 
-public class PlayerStatusHandler {
+import java.io.Serializable;
+
+public class PlayerStatusHandler  implements Serializable {
 
     private RoundStatus turnStatus;
     private AbilityStatus specialAbility;
 
 
     public void PlayerStatusHandler(){
-        turnStatus = RoundStatus.waitTurn;
-        specialAbility = AbilityStatus.normal;
+        turnStatus = RoundStatus.WAIT_TURN;
+        specialAbility = AbilityStatus.NORMAL;
     }
 
 // metodi set per SpecialAbility
@@ -18,19 +20,19 @@ public class PlayerStatusHandler {
     }
 
     public void setSpecialAbilityNormal() {
-        this.specialAbility = AbilityStatus.normal;
+        this.specialAbility = AbilityStatus.NORMAL;
     }
 
     public void setSpecialAbilityAdrenalinePick() {
-        this.specialAbility = AbilityStatus.adrenalinePick;
+        this.specialAbility = AbilityStatus.ADRENALINE_PICK;
     }
 
     public void setSpecialAbilityFrenzy() {
-        this.specialAbility = AbilityStatus.frenzy;
+        this.specialAbility = AbilityStatus.FRENZY;
     }
 
     public void setSpecialAbilityAdrenalineShoot() {
-        this.specialAbility = AbilityStatus.adrenalinePick;
+        this.specialAbility = AbilityStatus.ADRENALINE_PICK;
     }
 
 // metodi set per TurnStatus
@@ -40,27 +42,27 @@ public class PlayerStatusHandler {
     }
 
     public void setTurnStatusMaster(){
-        this.turnStatus = RoundStatus.Master;
+        this.turnStatus = RoundStatus.MASTER;
     }
 
     public void setTurnStatusWaitTurn() {
 
-        this.turnStatus = RoundStatus.waitTurn;
+        this.turnStatus = RoundStatus.WAIT_TURN;
     }
 
     public void setTurnStatusFirstAction() {
-        this.turnStatus = RoundStatus.firstAction;
+        this.turnStatus = RoundStatus.FIRST_ACTION;
     }
 
     public void setTurnStatusSecondAction() {
-        this.turnStatus = RoundStatus.secondAction;
+        this.turnStatus = RoundStatus.SECOND_ACTION;
     }
 
     public void setTurnStatusReloading() {
-        this.turnStatus = RoundStatus.reloading;
+        this.turnStatus = RoundStatus.RELOADING;
     }
 
     public void setTurnStatusEndTurn() {
-        this.turnStatus = RoundStatus.endTurn;
+        this.turnStatus = RoundStatus.END_TURN;
     }
 }

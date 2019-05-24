@@ -1,8 +1,10 @@
 package model.player;
 
-public enum AbilityStatus {
-    normal,
-    adrenalinePick,
-    frenzy,
-    adrenalineShoot,
+import java.io.Serializable;
+
+public enum AbilityStatus  implements Serializable {
+    NORMAL,
+    ADRENALINE_PICK,
+    FRENZY,
+    ADRENALINE_SHOOT,
 }

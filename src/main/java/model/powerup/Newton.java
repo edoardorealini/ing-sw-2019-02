@@ -2,7 +2,9 @@ package model.powerup;
 
 import model.Color;
 
-public class Newton extends PowerUp{
+import java.io.Serializable;
+
+public class Newton extends PowerUp  implements Serializable {
 
     public Newton(Color color){
         super(color, PowerUpName.NEWTON);

@@ -1,9 +1,10 @@
 package model.ammo;
 
+import java.io.Serializable;
 import java.util.*;
 import model.powerup.PowerUpDeck;
 
-public class AmmoDeck {
+public class AmmoDeck  implements Serializable {
     private LinkedList<AmmoCard> ammoDeck;
 
     public AmmoDeck(){

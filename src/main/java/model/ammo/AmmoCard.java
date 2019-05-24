@@ -1,6 +1,8 @@
 package model.ammo;
 
-public class AmmoCard {
+import java.io.Serializable;
+
+public class AmmoCard  implements Serializable {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;

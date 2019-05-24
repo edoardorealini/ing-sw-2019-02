@@ -1,9 +1,11 @@
 package model.powerup;
 
 import model.Color;
+
+import java.io.Serializable;
 import java.util.*;
 
-public class PowerUpDeck {
+public class PowerUpDeck  implements Serializable {
     private LinkedList<PowerUp> powerUpDeck;
 
     public PowerUpDeck(){

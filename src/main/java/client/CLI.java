@@ -4,6 +4,7 @@ import client.remoteController.RemoteController;
 import client.remoteController.RemoteControllerRMI;
 
 import client.clientModel.map.*;
+import model.player.RoundStatus;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -30,6 +31,38 @@ public class CLI implements Runnable{
             selectMap();
         }
 
+        waitQueue();
+
+        startGame();
+    }
+
+    public void startGame(){
+        // while game is active
+            //wait turn
+
+            //fuori da wait turn c'è la routine di gioco del turno.
+    }
+
+    public void playTurn(){
+        //routine di gioco del turno
+    }
+
+    //StartGame:  metodo centrale, gestisce le fasi della partita, o meglio: chiama i metodi lato Server che modificano lo stato dei giocatori e permettono di effettuare mosse.
+    public void waitTurn(){
+        System.out.println("There are enough players to start a new game");
+        try {
+
+            while (controller.getPlayerStatus(userID).equals(RoundStatus.WAIT_TURN)) {
+                wait();
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void waitQueue(){
         System.out.println("\n[Server]: Waiting for other players to connect. \n");
 
         while(controller.connectedPlayers() < 3){
@@ -39,12 +72,6 @@ public class CLI implements Runnable{
                 e.printStackTrace();
             }
         }
-
-        startGame();
-
-    }
-
-    public void waitQueue(){
 
     }
 
@@ -112,11 +139,6 @@ public class CLI implements Runnable{
                 System.out.println("[ERROR]: input not correct: " + e.getMessage());
             }
         }
-    }
-
-    //StartGame:  metodo centrale, gestisce le fasi della partita, o meglio: chiama i metodi lato Server che modificano lo stato dei giocatori e permettono di effettuare mosse.
-    public void startGame(){
-        System.out.println("There are enough players to start a new game");
     }
 
     public void askName(){

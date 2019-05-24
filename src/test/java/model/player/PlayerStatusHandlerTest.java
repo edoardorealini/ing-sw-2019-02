@@ -15,8 +15,8 @@ class PlayerStatusHandlerTest {
 
     @Test
     void PlayerStatusHandler(){
-        assertEquals(RoundStatus.waitTurn, p1.getStatus().getTurnStatus());
-        assertEquals(AbilityStatus.normal, p1.getStatus().getSpecialAbility());
+        assertEquals(RoundStatus.WAIT_TURN, p1.getStatus().getTurnStatus());
+        assertEquals(AbilityStatus.NORMAL, p1.getStatus().getSpecialAbility());
     }
     @Test
     void getTurnStatus() {
@@ -33,7 +33,7 @@ class PlayerStatusHandlerTest {
     @Test
     void setSpecialAbilityAdrenalinePick() {
         p1.getStatus().setSpecialAbilityAdrenalinePick();
-        assertEquals(AbilityStatus.adrenalinePick,p1.getStatus().getSpecialAbility());
+        assertEquals(AbilityStatus.ADRENALINE_PICK,p1.getStatus().getSpecialAbility());
     }
 
     @Test

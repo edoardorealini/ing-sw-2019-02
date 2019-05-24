@@ -5,7 +5,9 @@ import controller.ShootingParametersInput;
 import model.Match;
 import model.player.Player;
 
-public class EffectDamage extends Effect {
+import java.io.Serializable;
+
+public class EffectDamage extends Effect  implements Serializable {
 
 	public EffectDamage (int damage, int targets, int sameTarget, boolean visible, int distance) {
 		this.setDamage(damage);

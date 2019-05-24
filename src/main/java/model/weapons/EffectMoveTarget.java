@@ -7,7 +7,9 @@ import model.Match;
 import model.map.Square;
 import model.player.Player;
 
-public class EffectMoveTarget extends Effect{
+import java.io.Serializable;
+
+public class EffectMoveTarget extends Effect  implements Serializable {
 
 	public EffectMoveTarget (int move, int targets, int sameTarget, boolean visible, int distance) {
 		this.setDamage(0);

@@ -10,10 +10,11 @@ import model.map.Square;
 import model.ammo.Ammo;
 import model.powerup.PowerUp;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Player {
+public class Player  implements Serializable {
 
     private String nickname;
     private int id;                  // NB. id = 9 non si può usare, vedi inizializzazione board
@@ -44,6 +45,10 @@ public class Player {
         this.status.setSpecialAbilityNormal();
         dead=false;
         this.match=match;
+
+        //metto nella mano del player gia due power up per inizio della partita.
+        powerUps[0] = match.getPowerUpDeck().pickFirstCard();
+        powerUps[1] = match.getPowerUpDeck().pickFirstCard();
 
     }
 

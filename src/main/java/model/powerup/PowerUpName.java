@@ -1,6 +1,8 @@
 package model.powerup;
 
-public enum PowerUpName {
+import java.io.Serializable;
+
+public enum PowerUpName  implements Serializable {
     TAGBACK_GRENADE,
     TARGETING_SCOPE,
     NEWTON,

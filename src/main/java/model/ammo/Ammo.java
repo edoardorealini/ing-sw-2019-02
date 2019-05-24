@@ -2,7 +2,9 @@ package model.ammo;
 
 import model.Color;
 
-public class Ammo {
+import java.io.Serializable;
+
+public class Ammo implements Serializable {
     private int redAmmo;
     private int blueAmmo;
     private int yellowAmmo;

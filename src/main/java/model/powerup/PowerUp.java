@@ -2,7 +2,9 @@ package model.powerup;
 
 import model.Color;
 
-public class PowerUp {
+import java.io.Serializable;
+
+public class PowerUp  implements Serializable {
     private Color color;
     private PowerUpName name;
 

@@ -1,10 +1,12 @@
 package server;
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
+import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
+import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
 import java.rmi.Remote;
@@ -53,5 +55,5 @@ public interface InterfaceRemoteObjectRMI extends Remote {
 
     int connectedPlayers() throws RemoteException;
 
-
+    PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException, RemoteException;
 }

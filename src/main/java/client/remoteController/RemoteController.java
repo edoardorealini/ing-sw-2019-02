@@ -2,10 +2,12 @@ package client.remoteController;
 
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
+import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
+import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
 import java.rmi.RemoteException;
@@ -49,4 +51,7 @@ public abstract class RemoteController {
 
     public abstract int connectedPlayers();
 
-    }
+    public abstract PlayerStatusHandler getPlayerStatus(int idPlayer);
+
+
+}

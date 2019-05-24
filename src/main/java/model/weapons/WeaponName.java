@@ -1,6 +1,8 @@
 package model.weapons;
 
-public enum WeaponName {
+import java.io.Serializable;
+
+public enum WeaponName  implements Serializable {
 	LOCK_RIFLE,
 	ELECTROSCYTHE,
 	TRACTOR_BEAM,

@@ -1,6 +1,8 @@
 package model.weapons;
 
-public enum EffectType {
+import java.io.Serializable;
+
+public enum EffectType  implements Serializable {
 	DAMAGE,
 	MOVETARGET,
 	MOVEYOURSELF,

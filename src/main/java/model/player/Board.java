@@ -1,9 +1,10 @@
 package model.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;     // NB. id = 9 non si può usare per i giocatori
 import java.util.List;
 
-public class Board {
+public class Board  implements Serializable {
     private int[] lifePoints;
     private ArrayList<Integer> marks;
 

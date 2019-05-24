@@ -6,7 +6,9 @@ import controller.ShootingParametersInput;
 import exception.NotAllowedMoveException;
 import model.Match;
 
-public abstract class Effect {
+import java.io.Serializable;
+
+public abstract class Effect  implements Serializable {
 	private int damage;
 	private int mark;
 	private int moveYourself;

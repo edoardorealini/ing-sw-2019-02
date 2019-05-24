@@ -1,6 +1,8 @@
 package model.weapons;
 
-public enum WeaponAmmoStatus {
+import java.io.Serializable;
+
+public enum WeaponAmmoStatus  implements Serializable {
     LOADED,
     PARTIALLYLOADED,
     UNLOADED;

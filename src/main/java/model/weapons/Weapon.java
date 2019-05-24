@@ -2,10 +2,11 @@ package model.weapons;
 import controller.ShootMode;
 import  model.Color;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Weapon {
+public class Weapon  implements Serializable {
 
     //attributes
     private WeaponName name;

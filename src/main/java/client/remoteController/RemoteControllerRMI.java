@@ -1,9 +1,11 @@
 package client.remoteController;
 
+import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
 import model.player.Player;
+import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import server.InterfaceRemoteObjectRMI;
 
@@ -139,4 +141,15 @@ public class RemoteControllerRMI extends RemoteController {
 
         return 0;
     }
+
+    @Override
+    public PlayerStatusHandler getPlayerStatus(int idPlayer){
+        try {
+            return controller.getPlayerStatus(idPlayer);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
