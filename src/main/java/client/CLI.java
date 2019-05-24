@@ -12,6 +12,7 @@ import model.weapons.*;
 import model.*;
 import model.ammo.*;
 
+import java.io.Console;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
