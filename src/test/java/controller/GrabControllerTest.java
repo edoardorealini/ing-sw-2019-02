@@ -53,8 +53,8 @@ class GrabControllerTest {
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),0);
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(), 0);
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),0);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[0],null);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[1],null);
+        assertNotEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[0],null);
+        assertNotEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[1],null);
         assertEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[2],null);
 
         blueAmmo = matchController.getMatch().getCurrentPlayer().getPosition().getAmmoTile().getBlueAmmo();
@@ -74,7 +74,7 @@ class GrabControllerTest {
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(),redAmmo);
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),yellowAmmo);
         if (isTherePowerUp){
-            assertNotNull(matchController.getMatch().getCurrentPlayer().getPowerUps()[0]);
+            assertNotNull(matchController.getMatch().getCurrentPlayer().getPowerUps()[2]);
         }
 
         }
