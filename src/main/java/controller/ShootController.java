@@ -672,12 +672,12 @@ public class ShootController extends ActionController {
 		input.getSquares().clear();
 
 		//with the next two if I set the squares in which the user want to make damages
-		if (! match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).isEmpty()) {
-			Square sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(0);
+		if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>1) {
+			Square sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
 			input.setSquares(sq1);
 		}
-		if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>1) {
-			Square sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
+		if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>2) {
+			Square sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(2);
 			input.setSquares(sq2);
 		}
 
@@ -736,7 +736,7 @@ public class ShootController extends ActionController {
 						input.setTargets(player);
 				}
 				try {
-					input.getWeapon().getMode(mode).get(1).executeEffect(match, moveController, input);
+					input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
