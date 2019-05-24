@@ -215,30 +215,30 @@ public class Map implements Serializable {
 
         switch(direction){
             case UP:
+                for(int k = y; k < 3 && square.getAllowedMoves().contains(direction); k++){
+                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[x][k + 1]);
+                }
+                break;
+
+            case DOWN:
+                for(int k = y; k >= 0 && square.getAllowedMoves().contains(direction); k--){
+                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
+                        result.add(squaresMatrix[x][k]);
+                }
+                break;
+
+            case RIGHT:
                 for(int k = x; k < 4 && square.getAllowedMoves().contains(direction); k++){
                     if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
                         result.add(squaresMatrix[k][y]);
                 }
                 break;
 
-            case DOWN:
+            case LEFT:
                 for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
                     if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
                         result.add(squaresMatrix[k][y]);
-                }
-                break;
-
-            case RIGHT:
-                for(int k = y; k < 3 && square.getAllowedMoves().contains(direction); k++){
-                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
-                        result.add(squaresMatrix[x][k]);
-                }
-                break;
-
-            case LEFT:
-                for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
-                    if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
-                        result.add(squaresMatrix[x][k]);
                 }
                 break;
         }
