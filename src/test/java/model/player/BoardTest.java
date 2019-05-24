@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     private MatchController matchController = new MatchController();
-    private Player p1 = new Player("JJ", 1 , null);
+    private Player currPlayer = new Player("JJ", 1 , null);
+    private Player targetPlayer = new Player("MAD", 2, null);
     private Board b1 = new Board();
 
     @Test
@@ -28,10 +29,10 @@ class BoardTest {
 
     @Test
     void updateLife() {
-        b1.updateLife(7,p1.getId());
+        b1.updateLife(7,currPlayer.getId(), targetPlayer.getId());
 
         // creo array contenente la vita che mi aspetto, cosi da far la equal
-        int[] life = {p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),p1.getId(),9,9,9,9};
+        int[] life = {currPlayer.getId(),currPlayer.getId(),currPlayer.getId(),currPlayer.getId(),currPlayer.getId(),currPlayer.getId(),currPlayer.getId(),9,9,9,9};
         System.out.println(Arrays.toString(life));
         System.out.println(Arrays.toString(b1.getLifePoints()));
 
@@ -41,17 +42,17 @@ class BoardTest {
     @Test
     void updateTarget() {
         System.out.println(b1.getMarks());
-        b1.updateMarks(4, p1.getId());
+        b1.updateMarks(4, currPlayer.getId(), targetPlayer.getId());
         System.out.println(b1.getMarks());
         // è giusto che ne aggiunga solo 3 perchè è il massimo
         // creo arrayList in cui il target è ciò che mi aspetto
         ArrayList<Integer> target = new ArrayList<>();
-        target.add(0,p1.getId());
-        target.add(1,p1.getId());
-        target.add(2,p1.getId());
+        target.add(0,currPlayer.getId());
+        target.add(1,currPlayer.getId());
+        target.add(2,currPlayer.getId());
         assertEquals(target, b1.getMarks());
         // cerco di fregarlo
-        b1.updateMarks(1, p1.getId());
+        b1.updateMarks(1, currPlayer.getId(), targetPlayer.getId());
         assertEquals(b1.getMarks(), target);
 
     }
@@ -59,10 +60,10 @@ class BoardTest {
     @Test
     void removeTarget() {
         Player p2 = new Player("solo per questo test", 2, null);
-        b1.updateMarks(2,p2.getId());
-        b1.updateMarks(4, p1.getId());
-        b1.updateMarks(2,p2.getId());
-        b1.removeMarks(2, p1.getId());
+        b1.updateMarks(2,p2.getId(), targetPlayer.getId());
+        b1.updateMarks(4, currPlayer.getId(), targetPlayer.getId());
+        b1.updateMarks(2,p2.getId(), targetPlayer.getId());
+        b1.removeMarks(2, currPlayer.getId());
         b1.removeMarks(3, p2.getId());
         System.out.println(b1.getMarks());
     }
@@ -78,7 +79,7 @@ class BoardTest {
     @Test
     void isFullLife() {
         System.out.println(Arrays.toString(b1.getLifePoints()));
-        b1.updateLife(12,p1.getId());
+        b1.updateLife(12,currPlayer.getId(), targetPlayer.getId());
         System.out.println(Arrays.toString(b1.getLifePoints()));
         assertTrue(b1.isDead());
     }

@@ -93,7 +93,7 @@ public class PowerUpController{
     public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotAllowedTargetException {
         if(tagbackGrenade.getName().equals(PowerUpName.TAGBACK_GRENADE)){
             if(visibilityBetweenPlayers(user, affectedPlayer)){
-                affectedPlayer.getBoard().updateMarks(1, user.getId());
+                affectedPlayer.getBoard().updateMarks(1, user.getId(), affectedPlayer.getId());
             }
             else
                 throw new NotAllowedTargetException("The player you want to mark can't be seen");

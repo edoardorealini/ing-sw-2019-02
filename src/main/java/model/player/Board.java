@@ -24,37 +24,41 @@ public class Board  implements Serializable {
         }
     }
 
-    public void updateLife(int damage, int idPlayerAttaccante){
-        for (int i=0; i<12; i++){
-            if (lifePoints[i]==9){
-                for (int k=0; (k<damage) && ((i+k) <12) ; k++){
-                    lifePoints[i+k] = idPlayerAttaccante;
+    public void updateLife(int damage, int idCurrentPlayer, int idTarget){
+        if (idCurrentPlayer != idTarget) {
+            for (int i = 0; i < 12; i++) {
+                if (lifePoints[i] == 9) {
+                    for (int k = 0; (k < damage) && ((i + k) < 12); k++) {
+                        lifePoints[i + k] = idCurrentPlayer;
+                    }
+                    return;
                 }
-                return;
             }
         }
     }
 
 
-    public void updateMarks(int damageMarks, int idPlayerAttaccante){
-        int countMarks=0;
-        for (int i=0; i<marks.size(); i++){
-            if (marks.get(i) ==idPlayerAttaccante) countMarks++;
-        }
-        if (countMarks<3){
-            // allora posso aggiungere dei taget
-            if (countMarks+damageMarks>3){
-                // aggiungo la differenza tra il massimo(3) e quelli che già ho
-                for (int i=0; i<(3-countMarks); i++){
-                    marks.add(marks.size(), idPlayerAttaccante);
-                }
+    public void updateMarks(int damageMarks, int idCurrPlayer, int idTarget){
+        if (idCurrPlayer != idTarget) {
+            int countMarks=0;
+            for (int i=0; i<marks.size(); i++){
+                if (marks.get(i) == idCurrPlayer) countMarks++;
             }
-            else {
-                // aggiungo numero di marks pari al damageMarks
-                for (int i=0; i<damageMarks; i++){
-                    marks.add(marks.size(), idPlayerAttaccante);
+            if (countMarks<3){
+                // allora posso aggiungere dei taget
+                if (countMarks+damageMarks>3){
+                    // aggiungo la differenza tra il massimo(3) e quelli che già ho
+                    for (int i=0; i<(3-countMarks); i++){
+                        marks.add(marks.size(), idCurrPlayer);
+                    }
                 }
+                else {
+                    // aggiungo numero di marks pari al damageMarks
+                    for (int i=0; i<damageMarks; i++){
+                        marks.add(marks.size(), idCurrPlayer);
+                    }
 
+                }
             }
         }
     }
