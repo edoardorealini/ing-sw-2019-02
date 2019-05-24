@@ -3,9 +3,16 @@ package client;
 import client.remoteController.RemoteController;
 import client.remoteController.RemoteControllerRMI;
 
-import client.clientModel.map.*;
-import model.player.RoundStatus;
+import exception.*;
+import model.map.*;
+import model.player.*;
+import model.Match;
+import model.powerup.*;
+import model.weapons.*;
+import model.*;
+import model.ammo.*;
 
+import java.io.Console;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
@@ -15,11 +22,13 @@ public class CLI implements Runnable{
 
     RemoteController controller;
     int userID;
+    boolean isFirstTurn = true;
 
     @Override
     public void run(){
 
         selectConnectionTechnolgy();
+
         askName();
 
         // qui aggiungere la logica che aspetta i giocatori e attende conferma dal server.
@@ -37,29 +46,46 @@ public class CLI implements Runnable{
     }
 
     public void startGame(){
-        System.out.println("\nYour turn started:");
-        // while game is active
-            //wait turn
+        while(controller.getMatchStatus()) {
 
+            waitTurn();
+
+            System.out.println("\nYour turn started:");
+
+            playTurn();
             //fuori da wait turn c'è la routine di gioco del turno.
 
-        //TODO, mteodo centrale di gestione della routine di gioco
+            //TODO, mteodo centrale di gestione della routine di gioco
+        }
     }
 
     public void playTurn(){
-        //routine di gioco del turno
+        choosePosition(); //executed only if is first turn
+        askAction();
+    }
+
+    public void askAction(){
+        //richiesta dell'azione da svolgere
+    }
+
+    public void choosePosition(){
+        if(isFirstTurn){
+            //TODO chiedere su quale square si vuole posizionare. (scegliere colore da powerup che ha in mano), fare controllo su Server
+        }
+        isFirstTurn = false;
     }
 
     //StartGame:  metodo centrale, gestisce le fasi della partita, o meglio: chiama i metodi lato Server che modificano lo stato dei giocatori e permettono di effettuare mosse.
-    public void waitTurn(){
-        System.out.println("There are enough players to start a new game");
+    public synchronized void waitTurn(){
         try {
 
-            while (controller.getPlayerStatus(userID).equals(RoundStatus.WAIT_TURN)) {
-                wait();
+            System.out.println("Status of player "+ userID + ": " + controller.getPlayerStatus(userID).getTurnStatus());
+
+            while (controller.getPlayerStatus(userID).getTurnStatus().equals(RoundStatus.WAIT_TURN)) {
+                Thread.sleep(1000, 0);
             }
 
-            if (controller.getPlayerStatus(userID).equals(RoundStatus.MASTER)){
+            if (controller.getPlayerStatus(userID).getTurnStatus().equals(RoundStatus.MASTER)){
                 System.out.println("\nWelcome player, you are the first player in the queue!");
             }
 
@@ -69,17 +95,17 @@ public class CLI implements Runnable{
     }
 
 
-    public void waitQueue(){
+    public synchronized void waitQueue(){
         System.out.println("\n[Server]: Waiting for other players to connect. \n");
 
         while(controller.connectedPlayers() < 3){
             try {
-                wait();
+                Thread.sleep(1000, 0);
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
         }
-
+        System.out.println("There are enough players to start a new game");
     }
 
     public void selectConnectionTechnolgy() {
@@ -153,7 +179,9 @@ public class CLI implements Runnable{
         String name = new Scanner(System.in).nextLine();
 
         System.out.println("\nHello " + name + "!");
+
         //TODO gestire il fatto che il nickname deve essere loggato. (password e user)
+
         userID = controller.addPlayer(name);
         System.out.println("You have been added to the queue. We are waiting for other players");
 

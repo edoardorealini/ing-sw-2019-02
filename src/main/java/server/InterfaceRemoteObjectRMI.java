@@ -56,4 +56,7 @@ public interface InterfaceRemoteObjectRMI extends Remote {
     int connectedPlayers() throws RemoteException;
 
     PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException, RemoteException;
+
+    boolean getMatchStatus() throws RemoteException;
+
 }

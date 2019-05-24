@@ -217,4 +217,8 @@ public class MatchController {
             throw new WrongValueException("Not valid playerID, retry");
     }
 
+    public boolean getMatchStatus(){
+        return match.getActiveStatusMatch();
+    }
+
 }
