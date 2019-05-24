@@ -37,6 +37,7 @@ public class CLI implements Runnable{
     }
 
     public void startGame(){
+        System.out.println("\nYour turn started:");
         // while game is active
             //wait turn
 
@@ -54,6 +55,10 @@ public class CLI implements Runnable{
 
             while (controller.getPlayerStatus(userID).equals(RoundStatus.WAIT_TURN)) {
                 wait();
+            }
+
+            if (controller.getPlayerStatus(userID).equals(RoundStatus.MASTER)){
+                System.out.println("\nWelcome player, you are the first player in the queue!");
             }
 
         }catch(Exception e){
@@ -164,11 +169,8 @@ public class CLI implements Runnable{
             try {
                 System.out.println("\nInsert the IP of the server you want to be connected to:");
                 String IP = new Scanner(System.in).nextLine();
-                System.out.println("Insert the PORT to which you want to be connected to:");
-                int port = new Scanner(System.in).nextInt();
-
                 //here happens the connection try
-                controller = new RemoteControllerRMI(IP, port);
+                controller = new RemoteControllerRMI(IP, 1338);
 
                 passed = true;
 

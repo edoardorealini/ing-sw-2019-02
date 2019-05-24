@@ -195,6 +195,8 @@ public class MatchController {
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
 
+        notifyAll();
+
         return match.getPlayers().size() - 1;
     }
 

@@ -23,7 +23,7 @@ class GrabControllerTest {
     @BeforeEach
     void setUp() throws Exception{
         matchController = new MatchController();
-        matchController.buildMap(1);
+        matchController.buildMapForTest(1);
         matchController.getMap().fillAmmo(matchController.getMatch().getAmmoDeck());
         matchController.getMap().fillWeaponBox(matchController.getMatch().getWeaponDeck());
         matchController.addPlayer("Johnny",1);
