@@ -501,8 +501,8 @@ class ShootControllerTest {
 
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.FLAMETHROWER));
-		input.setShootModes(ShootMode.BASIC);
-		//input.setShootModes(ShootMode.ALTERNATE);
+		//input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.ALTERNATE);
 		input.setTargets(p2);
 		input.setTargets(p3);
 		input.setDirection(Directions.LEFT);
