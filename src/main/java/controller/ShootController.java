@@ -748,6 +748,44 @@ public class ShootController extends ActionController {
 
 	public void shootGrenadeLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
 		//this method is valid only for Grenade Launcher
+		Player mainTarget = input.getTargets().get(0);
+		Square moveHerePlayer = input.getSquares().get(0);
+		Square bombHere = input.getSquares().get(1);
+
+		for (ShootMode mode : input.getShootModes()) {
+			for (Effect eff : input.getWeapon().getMode(mode)) {
+				try {
+					checkMaximumDistance(eff, mainTarget, moveHerePlayer, eff.getMoveTarget());
+					checkCorrectVisibility(eff, getCurrPlayer(), mainTarget);
+					if (mode == ShootMode.OPTIONAL1)
+						payAmmo(input.getWeapon().getModeCost(mode));
+				} catch (NotAllowedMoveException e) {
+					throw new  NotAllowedMoveException();
+				} catch (NotEnoughAmmoException e) {
+					throw new NotEnoughAmmoException("sei povero"); //TODO
+				} catch (NotAllowedTargetException e) {
+					throw new NotAllowedTargetException();
+				}
+			}
+		}
+
+
+
+		if (input.getMakeDamageBeforeMove()) {
+			input.getWeapon().getBasicMode().get(0).executeEffect(match, moveController, input);
+			input.getTargets().clear();
+			for (Player player : match.getPlayers()) {
+				if (player.getPosition() == bombHere && player.getId() != getCurrPlayer().getId())
+					input.setTargets(player);
+			}
+			input.getWeapon().getOptionalModeOne().get(0).executeEffect(match, moveController, input);
+			input.getTargets().clear();
+			input.setTargets(mainTarget);
+			input.getWeapon().getBasicMode().get(1).executeEffect(match, moveController, input);
+		} else {
+			//TODO OOOOO
+		}
+
 
 	}
 

@@ -14,12 +14,14 @@ public class ShootingParametersInput {
 	private ArrayList<Player> targets;
 	private ArrayList<Square> squares;
 	private Directions direction;
+	private boolean makeDamageBeforeMove;
 
 	public ShootingParametersInput(){
 		//constructor of ShootingParametersInput Class
 		this.shootModes = new ArrayList<>();
 		this.targets = new ArrayList<>();
 		this.squares = new ArrayList<>();
+		this.makeDamageBeforeMove = false;
 	}
 
 	public Weapon getWeapon() {
@@ -42,6 +44,10 @@ public class ShootingParametersInput {
 		return direction;
 	}
 
+	public boolean getMakeDamageBeforeMove() {
+		return makeDamageBeforeMove;
+	}
+
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
 	}
@@ -60,5 +66,9 @@ public class ShootingParametersInput {
 
 	public void setSquares(Square square) {
 		this.squares.add(square);
+	}
+
+	public void setMakeDamageBeforeMove(boolean makeDamageBeforeMove) {
+		this.makeDamageBeforeMove = makeDamageBeforeMove;
 	}
 }
