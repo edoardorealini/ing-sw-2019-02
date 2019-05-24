@@ -32,11 +32,11 @@ public class EffectMark extends Effect implements Serializable {
 	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
 		if (getSameTarget() == -1) {
 			for (Player player : input.getTargets()){
-				player.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
+				player.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId(), player.getId());              //updating marks of the target
 			}
 		} else {
 		Player target = input.getTargets().get(getSameTarget());
-		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId());              //updating marks of the target
+		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId(), target.getId());              //updating marks of the target
 		}
 	}
 }

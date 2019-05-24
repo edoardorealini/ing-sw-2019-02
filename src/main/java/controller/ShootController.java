@@ -736,13 +736,18 @@ public class ShootController extends ActionController {
 						input.setTargets(player);
 				}
 				try {
-					input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
+					input.getWeapon().getMode(mode).get(1).executeEffect(match, moveController, input);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
 				break;
 		}
+
+	}
+
+	public void shootGrenadeLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+		//this method is valid only for Grenade Launcher
 
 	}
 
