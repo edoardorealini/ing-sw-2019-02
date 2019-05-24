@@ -175,26 +175,26 @@ public class Map implements Serializable {
 
         switch(direction){
             case UP:
-                for(int k = x; k < 4; k++){
-                    result.add(squaresMatrix[k][y]);
-                }
-                break;
-
-            case DOWN:
-                for(int k = x; k >= 0; k--){
-                    result.add(squaresMatrix[k][y]);
-                }
-                break;
-
-            case RIGHT:
                 for(int k = y; k < 3; k++){
                     result.add(squaresMatrix[x][k]);
                 }
                 break;
 
+            case DOWN:
+                for(int k = y; k >= 0; k--){
+                    result.add(squaresMatrix[x][k]);
+                }
+                break;
+
+            case RIGHT:
+                for(int k = x; k < 4; k++){
+                    result.add(squaresMatrix[k][y]);
+                }
+                break;
+
             case LEFT:
                 for(int k = x; k >= 0; k--){
-                    result.add(squaresMatrix[x][k]);
+                    result.add(squaresMatrix[k][y]);
                 }
                 break;
         }

@@ -42,6 +42,8 @@ public class CLI implements Runnable{
             //wait turn
 
             //fuori da wait turn c'è la routine di gioco del turno.
+
+        //TODO, mteodo centrale di gestione della routine di gioco
     }
 
     public void playTurn(){
