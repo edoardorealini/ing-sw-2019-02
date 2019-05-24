@@ -213,6 +213,8 @@ public class Map implements Serializable {
         int x = getIndex(square).get(0);
         int y = getIndex(square).get(1);
 
+        result.add(squaresMatrix[x][y]);
+
         switch(direction){
             case UP:
                 for(int k = y; k < 3 && square.getAllowedMoves().contains(direction); k++){
@@ -224,21 +226,21 @@ public class Map implements Serializable {
             case DOWN:
                 for(int k = y; k >= 0 && square.getAllowedMoves().contains(direction); k--){
                     if(squaresMatrix[x][k].getAllowedMoves().contains(direction))
-                        result.add(squaresMatrix[x][k]);
+                        result.add(squaresMatrix[x][k - 1]);
                 }
                 break;
 
             case RIGHT:
                 for(int k = x; k < 4 && square.getAllowedMoves().contains(direction); k++){
                     if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
-                        result.add(squaresMatrix[k][y]);
+                        result.add(squaresMatrix[k + 1][y]);
                 }
                 break;
 
             case LEFT:
                 for(int k = x; k >= 0 && square.getAllowedMoves().contains(direction); k--){
                     if(squaresMatrix[k][y].getAllowedMoves().contains(direction))
-                        result.add(squaresMatrix[k][y]);
+                        result.add(squaresMatrix[k - 1][y]);
                 }
                 break;
         }
