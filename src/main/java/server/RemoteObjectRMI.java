@@ -112,6 +112,9 @@ public class RemoteObjectRMI extends UnicastRemoteObject implements InterfaceRem
         return matchController.getPlayerStatus(idPlayer);
     }
 
+    public boolean getMatchStatus() throws RemoteException{
+        return matchController.getMatchStatus();
+    }
 
 
 }

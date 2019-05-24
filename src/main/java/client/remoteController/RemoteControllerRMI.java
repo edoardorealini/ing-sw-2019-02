@@ -1,12 +1,15 @@
 package client.remoteController;
 
-import exception.WrongValueException;
+import exception.*;
+import model.map.*;
+import model.player.*;
 import model.Match;
-import model.map.Map;
-import model.map.Square;
-import model.player.Player;
-import model.player.PlayerStatusHandler;
-import model.powerup.PowerUp;
+import model.powerup.*;
+import model.weapons.*;
+import model.*;
+import model.ammo.*;
+
+//TODO vedere server http
 import server.InterfaceRemoteObjectRMI;
 
 import java.rmi.RemoteException;
@@ -151,5 +154,16 @@ public class RemoteControllerRMI extends RemoteController {
             return null;
         }
     }
+
+    @Override
+    public boolean getMatchStatus(){
+        try {
+            return controller.getMatchStatus();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }
