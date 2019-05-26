@@ -17,7 +17,6 @@ public class ShootController extends ActionController {
     private Match match;
     private MoveController moveController;
 
-
     //getter methods
 
     public ShootController(Match match, MoveController moveController) {
@@ -666,7 +665,7 @@ public class ShootController extends ActionController {
     }
 
     public void shootFlameThrower (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
-        //this method is valid only for FlameThrowerù
+        //this method is valid only for FlameThrower
 
         ShootMode mode = input.getShootModes().get(0);
         input.getSquares().clear();
@@ -801,10 +800,95 @@ public class ShootController extends ActionController {
 
     }
 
-public void shootRocketLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+    public void shootRocketLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Rocket Launcher
+        //REMEMBER, in input.squares(0) there is the position of the target player after the basic effect,
+        // while in input.square(1) there is the final position of the curr player
+         Effect eff;
+         Square moveTargetHere = input.getSquares().get(0);
+         Square moveYourselfHere = input.getSquares().get(1);
+         Square squareTemp = getCurrPlayer().getPosition();
 
+         if (input.getShootModes().get(0) == ShootMode.OPTIONAL1) {
+             eff = input.getWeapon().getOptionalModeOne().get(0);
+             checkMaximumDistance(eff, getCurrPlayer(), moveYourselfHere, eff.getMoveYourself());
+             input.getSquares().clear();
+             input.setSquares(moveYourselfHere);
+             eff.executeEffect(match, moveController, input);
+         }
 
-}
+         for (ShootMode mode : input.getShootModes()) {
+             for (Effect effect : input.getWeapon().getMode(mode)) {
+                 try {
+                     checkCorrectVisibility(effect, getCurrPlayer(), input.getTargets().get(0));
+                     checkAllowedDistance(effect, getCurrPlayer(), input.getTargets().get(0));
+                     if (mode.equals(ShootMode.BASIC))
+                        checkMaximumDistance(effect, input.getTargets().get(0), moveTargetHere, effect.getMoveTarget());
+                     if (mode.equals(ShootMode.OPTIONAL1))
+                        checkMaximumDistance(effect, getCurrPlayer(), moveYourselfHere, effect.getMoveYourself());
+                     if (mode.equals(ShootMode.OPTIONAL2) || mode.equals(ShootMode.OPTIONAL1))
+                         payAmmo(input.getWeapon().getModeCost(mode));
+                 } catch (NotAllowedTargetException e) {
+                     getCurrPlayer().setPosition(squareTemp);
+                     throw new NotAllowedTargetException();
+                 } catch (NotEnoughAmmoException e) {
+                     getCurrPlayer().setPosition(squareTemp);
+                     throw new NotEnoughAmmoException("poverooo!");   //TODO
+                 } catch (NotAllowedMoveException e) {
+                     getCurrPlayer().setPosition(squareTemp);
+                     throw new NotAllowedMoveException();
+                 }
+             }
+
+         }
+
+         if (input.getShootModes().contains(ShootMode.OPTIONAL2)) {   //Adding the players that have to be damaged by optional 2 effect
+             for (Player player : match.getPlayers()) {
+                 if (player.getId() != getCurrPlayer().getId() && player.getId() != input.getTargets().get(0).getId() && player.getPosition() == input.getTargets().get(0).getPosition())
+                     input.setTargets(player);
+             }
+         }
+
+         for (ShootMode mode : input.getShootModes()) {
+             for (Effect effect : input.getWeapon().getMode(mode)) {
+                 try {
+                     if (mode.equals(ShootMode.OPTIONAL1)) {
+                         input.getSquares().clear();
+                         input.setSquares(moveYourselfHere);
+                     }
+                     if (mode.equals(ShootMode.BASIC)) {
+                         input.getSquares().clear();
+                         input.setSquares(moveTargetHere);
+                     }
+                     effect.executeEffect(match, moveController, input);
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+             }
+         }
+    }
+
+    public void shootRailGun (ShootingParametersInput input) throws NotAllowedTargetException {
+        //this method is valid only for Rail Gun
+
+        ShootMode mode = input.getShootModes().get(0);
+        input.getSquares().clear();
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                checkSameDirectionThroughWalls(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            }
+        }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                eff.executeEffect(match, moveController, input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
