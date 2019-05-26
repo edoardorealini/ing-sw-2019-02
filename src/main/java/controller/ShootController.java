@@ -801,4 +801,10 @@ public class ShootController extends ActionController {
 
     }
 
+public void shootRocketLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+        //this method is valid only for Rocket Launcher
+
+
+}
+
 }
