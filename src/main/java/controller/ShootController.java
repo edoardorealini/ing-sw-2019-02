@@ -932,4 +932,26 @@ public class ShootController extends ActionController {
         }
     }
 
+    public void shootZX2 (ShootingParametersInput input) throws NotAllowedTargetException {
+        //this method is valid only for ZX2
+        ShootMode mode = input.getShootModes().get(0);
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            }
+        }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+              eff.executeEffect(match, moveController, input);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace(); //TODO maybe use a logger
+            }
+        }
+
+    }
+
 }
