@@ -891,4 +891,45 @@ public class ShootController extends ActionController {
         }
     }
 
+    public void shootCyberblade (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
+        //this method is valid only for Cyberblade
+        Effect eff;
+        Square squareTemp = getCurrPlayer().getPosition();
+
+
+        for (ShootMode mode : input.getShootModes()) {
+            eff = input.getWeapon().getMode(mode).get(0);
+            try {
+                if (mode == ShootMode.OPTIONAL1) {
+                    checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
+                    eff.executeEffect(match, moveController, input);
+                }
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                if (mode == ShootMode.OPTIONAL2)
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotAllowedTargetException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotAllowedTargetException();
+            } catch (NotEnoughAmmoException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            } catch (NotAllowedMoveException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotAllowedMoveException();
+            }
+        }
+
+        getCurrPlayer().setPosition(squareTemp);      //reset the player to his initial posisition
+
+        for (ShootMode mode : input.getShootModes()) {
+            eff = input.getWeapon().getMode(mode).get(0);
+            try {
+                eff.executeEffect(match, moveController, input);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

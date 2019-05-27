@@ -643,4 +643,43 @@ class ShootControllerTest {
 		}
 	}
 
+	@Test
+	void shootCyberbladde() {
+		//setting players
+		matchCtrl.getMatch().setCurrentPlayer(p1);
+		matchCtrl.getMatch().setPlayers(p1);
+		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().setPlayers(p3);
+		matchCtrl.getMatch().setPlayers(p4);
+		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1));        //set position of REALNGNERR
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));        //set position of JOHNNYCA$H
+		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of AHHHHH
+
+
+		//setting the input
+		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.CYBERBLADE));
+		input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.OPTIONAL1);
+		input.setShootModes(ShootMode.OPTIONAL2);
+		input.setTargets(p3);
+		input.setTargets(p4);
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));
+
+
+		//executing code
+		try {
+			matchCtrl.getShootController().shootCyberblade(input);
+			System.out.println("\n");
+			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
+			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
+			System.out.println(p3.getNickname() + "'s " + p3.getBoard().toStringLP());
+			System.out.println(p4.getNickname() + "'s " + p4.getBoard().toStringLP());
+		} catch (Exception e) {
+			System.out.println("shit happened");
+			e.printStackTrace();
+		}
+	}
+
 }
