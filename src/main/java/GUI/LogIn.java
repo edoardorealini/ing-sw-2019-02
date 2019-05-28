@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
+import java.io.*;
+
 public class LogIn extends Application {
 
     public static void main(String[] args) {
@@ -27,7 +29,7 @@ public class LogIn extends Application {
         Label nameLabel = new Label("Username: ");
         GridPane.setConstraints(nameLabel, 0,0);
 
-        TextField inputName = new TextField("Mario");
+        TextField inputName = new TextField("Cippa Lippa");
         GridPane.setConstraints(inputName, 1,0);
 
         Label passLabel = new Label("Password: ");
@@ -45,7 +47,8 @@ public class LogIn extends Application {
         grid.getChildren().addAll(nameLabel,inputName,passLabel,inputPass,logButton);
 
         Scene scene = new Scene(grid,300,200);
-        scene.getStylesheets().add("GridPanelLayout.css");
+        scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "GridPanelLayout.css")).toURI().toString());
         stage.setScene(scene);
         stage.show();
 
