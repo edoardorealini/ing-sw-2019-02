@@ -954,4 +954,34 @@ public class ShootController extends ActionController {
 
     }
 
+    public void shootShotgun (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException {
+        //this method is valid only for Shotgun
+
+        ShootMode mode = input.getShootModes().get(0);
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
+                checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+                if (mode == ShootMode.ALTERNATE)
+                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            } catch (NotAllowedMoveException e) {
+                throw new NotAllowedMoveException();
+            }
+        }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                eff.executeEffect(match, moveController, input);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace(); //TODO
+            }
+        }
+
+    }
+
+    
+
 }
