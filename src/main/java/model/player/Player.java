@@ -36,13 +36,11 @@ public class Player  implements Serializable {
         ammo = new Ammo();
         points=0;
         status = new PlayerStatusHandler();
-        if (id==0){
-            this.status.setTurnStatusMaster();
+
+        if(id == 0){
+            status.setTurnStatusLobbyMaster();
         }
-        else {
-            this.status.setTurnStatusWaitTurn();
-        }
-        this.status.setSpecialAbilityNormal();
+
         dead=false;
         this.match=match;
 
@@ -50,6 +48,13 @@ public class Player  implements Serializable {
         powerUps[0] = match.getPowerUpDeck().pickFirstCard();
         powerUps[1] = match.getPowerUpDeck().pickFirstCard();
 
+    }
+
+    public boolean isConnected(){
+        if(status.getTurnStatus().equals(RoundStatus.DISCONNECTED))
+            return false;
+
+        return true;
     }
 
     public String getNickname() {

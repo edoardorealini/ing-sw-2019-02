@@ -9,7 +9,7 @@ public class PlayerStatusHandler  implements Serializable {
 
 
     public void PlayerStatusHandler(){
-        turnStatus = RoundStatus.WAIT_TURN;
+        turnStatus = RoundStatus.LOBBY;
         specialAbility = AbilityStatus.NORMAL;
     }
 
@@ -37,17 +37,25 @@ public class PlayerStatusHandler  implements Serializable {
 
 // metodi set per TurnStatus
 
-    public RoundStatus getTurnStatus(){
+    public RoundStatus getTurnStatus() {
         return turnStatus;
     }
 
     public void setTurnStatusMaster(){
         this.turnStatus = RoundStatus.MASTER;
     }
+    public void setTurnStatusDisconnected(){
+        this.turnStatus = RoundStatus.DISCONNECTED;
+    }
 
     public void setTurnStatusWaitTurn() {
 
         this.turnStatus = RoundStatus.WAIT_TURN;
+    }
+
+    public void setTurnStatusLobbyMaster() {
+
+        this.turnStatus = RoundStatus.LOBBY_MASTER;
     }
 
     public void setTurnStatusFirstAction() {

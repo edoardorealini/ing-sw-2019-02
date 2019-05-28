@@ -37,6 +37,15 @@ public class Match  implements Serializable {
         return matchIsActive;
     }
 
+    public Player getPlayer(String nickname){
+        for(Player p: players){
+            if(p.getNickname().equals(nickname))
+                return p;
+        }
+
+        return null;
+    }
+
     public void setMatchIsActive(boolean status){
         this.matchIsActive = status;
     }

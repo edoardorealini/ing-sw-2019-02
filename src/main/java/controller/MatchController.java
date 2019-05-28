@@ -9,6 +9,11 @@ import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class MatchController {
 
     private Match match;
@@ -195,8 +200,6 @@ public class MatchController {
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
 
-        notifyAll();
-
         return match.getPlayers().size() - 1;
     }
 
@@ -204,7 +207,7 @@ public class MatchController {
         return match.getPlayers().size();
     }
 
-    public  synchronized String RMICallTest(String message) {
+    public  synchronized String RMICallTest(String message){
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
     }
@@ -220,5 +223,38 @@ public class MatchController {
     public boolean getMatchStatus(){
         return match.getActiveStatusMatch();
     }
+
+    private boolean checkPlayerPresence(String playerNickname){
+        for(Player p: match.getPlayers()){
+            if(p.getNickname().equals(playerNickname) && !p.isConnected()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //TODO metodi nuovi che devono essere aggiunti a tutto il giro per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
+
+    public void loginPlayer(String nickname) {
+        if(checkPlayerPresence(nickname)) {
+            //Il player è già registrato ma non era più in gioco (è in stato disconnected)
+            //TODO implementare la gestione dello stato DISCONNECTED quando un utente si disconnette
+            match.getPlayer(nickname).getStatus().setTurnStatusWaitTurn();
+            //metto il giocatore da disconnected a waitTurn !
+        }
+        else{
+            addPlayer(nickname);
+        }
+    }
+
+    //metodo da chiamare con trucchetto quando un player si disconnette (vedi appunti per capire trucchetto)
+    public void disconnectPlayer(String nickname){
+        if(checkPlayerPresence(nickname)){
+            match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
+        }
+    }
+
+
 
 }
