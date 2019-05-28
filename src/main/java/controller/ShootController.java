@@ -982,22 +982,31 @@ public class ShootController extends ActionController {
 
     }
 
-    public void ShootPowerGlove (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
+    public void shootPowerGlove (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
         //this method is valid only for Power Glove
+
         Directions dir = input.getDirection();
         ShootMode mode = input.getShootModes().get(0);
         Square squareTemp = getCurrPlayer().getPosition();
         input.getSquares().clear();
+        int i = 0;
 
-        if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>1) {
+        switch (mode) {
+            case BASIC:
+
+
+        }
+
+
+
+        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>1) {
             Square sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
             input.setSquares(sq1);
         }
-        if (match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).size()>2 && mode == ShootMode.ALTERNATE) {
+        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>2 && mode == ShootMode.ALTERNATE) {
             Square sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(2);
             input.setSquares(sq2);
         }
-
 
         try {       //execute the first move of the current player
             input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
@@ -1009,8 +1018,16 @@ public class ShootController extends ActionController {
             try {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-            } catch (NotAllowedTargetException e)
+                if (i == 3) {
+                    eff.executeEffect(match, moveController, input);
+                }
+                i++;
+            } catch (NotAllowedTargetException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotAllowedTargetException();
+            }
         }
+
 
     }
 
