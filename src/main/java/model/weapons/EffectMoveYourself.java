@@ -2,6 +2,7 @@ package model.weapons;
 
 import controller.MoveController;
 import controller.ShootingParametersInput;
+import exception.NotAllowedMoveException;
 import model.Match;
 import model.map.Square;
 import model.player.Player;
@@ -30,14 +31,14 @@ public class EffectMoveYourself extends Effect  implements Serializable {
 	}
 
 	@Override
-	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
+	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) throws NotAllowedMoveException {
 		Player target = match.getCurrentPlayer();
 		Square destination = input.getSquares().get(0);
 
 		try {
 			ctrl.move(target, destination, getMoveYourself());
 		} catch (Exception e){
-			//TODO fill this field if you catch NotAllowedMoveException
+			throw new NotAllowedMoveException();
 		}
 	}
 }

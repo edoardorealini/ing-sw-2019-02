@@ -963,8 +963,7 @@ public class ShootController extends ActionController {
             try {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
                 checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
-                if (mode == ShootMode.ALTERNATE)
-                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
             } catch (NotAllowedTargetException e) {
                 throw new NotAllowedTargetException();
             } catch (NotAllowedMoveException e) {
@@ -988,47 +987,66 @@ public class ShootController extends ActionController {
         Directions dir = input.getDirection();
         ShootMode mode = input.getShootModes().get(0);
         Square squareTemp = getCurrPlayer().getPosition();
-        input.getSquares().clear();
+        Square sq2;
+        Square sq1;
         int i = 0;
+        input.getSquares().clear();
 
-        switch (mode) {
-            case BASIC:
-
-
-        }
-
-
+        if (! getCurrPlayer().getPosition().getAllowedMoves().contains(dir))
+            throw new NotAllowedMoveException();
 
         if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>1) {
-            Square sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
+            sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
             input.setSquares(sq1);
         }
         if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>2 && mode == ShootMode.ALTERNATE) {
-            Square sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(2);
+            sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(2);
             input.setSquares(sq2);
         }
 
-        try {       //execute the first move of the current player
-            input.getWeapon().getMode(mode).get(0).executeEffect(match, moveController, input);
-        } catch (NotAllowedMoveException e) {
-            throw new NotAllowedMoveException();
+        if (mode == ShootMode.ALTERNATE) {
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo");   //TODO
+            }
         }
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
+                if (i == 3 && input.getTargets().size()<2)
+                    break;
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                if (i == 3) {
+                if (eff.getMoveYourself() != 0) {
+                    if (i == 2 && input.getSquares().size()>1)
+                        input.getSquares().remove(0);
                     eff.executeEffect(match, moveController, input);
+                   // input.getSquares().remove(0);   TODO where should i put this one?
                 }
                 i++;
             } catch (NotAllowedTargetException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException();
+            } catch (NotAllowedMoveException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotAllowedMoveException();
             }
         }
 
+        i = 0;
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                if ((input.getSquares().isEmpty() || input.getTargets().size()<2) && (i == 2 || i == 3))
+                    return;
+                if (eff.getMoveYourself() == 0)
+                    eff.executeEffect(match, moveController, input);
+                i++;
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
-
 }
