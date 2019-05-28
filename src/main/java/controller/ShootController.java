@@ -118,7 +118,7 @@ public class ShootController extends ActionController {
 
     }
 
-    private void checkSameDirectionAllowed(Effect eff, Player player1, Square square, Directions direction) throws NotAllowedTargetException {
+    private void checkSameDirectionAllowed(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
         //this method checks if the square and the position of the player are on the same line (walls cannot be passed)
         if(direction!=null) {
             if (match.getMap().getAllowedSquaresInDirection(direction, player1.getPosition()).contains(square)) {
@@ -140,7 +140,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    private void checkSameDirectionThroughWalls(Effect eff, Player player1, Square square, Directions direction) throws NotAllowedTargetException {
+    private void checkSameDirectionThroughWalls(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
         //this method checks if the square and the position of the player are on the same line (don't care about the walls)
         if(direction!=null) {
             if (match.getMap().getAllSquaresInDirection(direction, player1.getPosition()).contains(square)) {
@@ -876,7 +876,7 @@ public class ShootController extends ActionController {
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                checkSameDirectionThroughWalls(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
+                checkSameDirectionThroughWalls(getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
             } catch (NotAllowedTargetException e) {
                 throw new NotAllowedTargetException();
             }
@@ -1004,6 +1004,8 @@ public class ShootController extends ActionController {
             input.setSquares(sq2);
         }
 
+        int k = input.getSquares().size();
+
         if (mode == ShootMode.ALTERNATE) {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
@@ -1019,10 +1021,10 @@ public class ShootController extends ActionController {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 if (eff.getMoveYourself() != 0) {
-                    if (i == 2 && input.getSquares().size()>1)
-                        input.getSquares().remove(0);
+                   if (i == 2 && input.getSquares().size()>1)
+                       input.getSquares().remove(0);
                     eff.executeEffect(match, moveController, input);
-                   // input.getSquares().remove(0);   TODO where should i put this one?
+
                 }
                 i++;
             } catch (NotAllowedTargetException e) {
@@ -1038,7 +1040,7 @@ public class ShootController extends ActionController {
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                if ((input.getSquares().isEmpty() || input.getTargets().size()<2) && (i == 2 || i == 3))
+                if ((k == 1 || input.getTargets().size()<2) && i == 3)
                     return;
                 if (eff.getMoveYourself() == 0)
                     eff.executeEffect(match, moveController, input);
@@ -1049,4 +1051,92 @@ public class ShootController extends ActionController {
         }
 
     }
+
+    public void shootSchockWave (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+        //this method is valid only for Shockwave
+        ShootMode mode = input.getShootModes().get(0);
+
+        if (mode == ShootMode.ALTERNATE) {
+            try {
+                input.getTargets().clear();
+                payAmmo(input.getWeapon().getModeCost(mode));
+                for (Player player : match.getPlayers()) {
+                    if (moveController.minDistBetweenSquares(getCurrPlayer().getPosition(), player.getPosition()) == 1)
+                        input.setTargets(player);
+                }
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poveroo");  //TODO
+            }
+        }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            if (input.getTargets().size() > eff.getSameTarget() && mode != ShootMode.ALTERNATE) {
+                try {
+                    checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                } catch (NotAllowedTargetException e) {
+                    throw new NotAllowedTargetException();
+                }
+            }
+        }
+
+        if (mode == ShootMode.BASIC) {
+            for (int i = 0; i < input.getTargets().size() - 1; i++) {
+                if (input.getTargets().get(i).getPosition() == input.getTargets().get(i + 1).getPosition())
+                    throw new NotAllowedTargetException();
+            }
+            if (input.getTargets().size() == 3 && input.getTargets().get(0).getPosition() == input.getTargets().get(2).getPosition())
+                throw new NotAllowedTargetException();
+        }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+           try {
+               eff.executeEffect(match, moveController, input);
+           } catch (NotAllowedMoveException e) {
+               e.printStackTrace();   //TODO
+           }
+        }
+
+    }
+
+    public void shootSledgehammer (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+        //this method is valid only for Sledgehammer
+        ShootMode mode = input.getShootModes().get(0);
+
+        if (mode == ShootMode.ALTERNATE)
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("povero");   //TODO
+            }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
+                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+                checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveTarget());
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            } catch (NotAllowedMoveException e) {
+                throw new NotAllowedMoveException();
+            }
+        }
+
+        if (mode == ShootMode.ALTERNATE)
+            try {
+                checkSameDirectionAllowed(getCurrPlayer(), input.getSquares().get(0), null);
+            } catch (Exception e) {
+                throw new NotAllowedMoveException();
+            }
+
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                eff.executeEffect(match, moveController, input);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace(); //TODO
+            }
+        }
+
+    }
+
 }
