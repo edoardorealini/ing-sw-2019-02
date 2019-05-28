@@ -40,11 +40,15 @@ public class LogIn extends Application {
         GridPane.setConstraints(inputPass,1,1);
 
         Button logButton = new Button("Log in");
+        logButton.getStyleClass().add("button-tomato");
         GridPane.setConstraints(logButton,1,2);
-        // Validazione Credenziali
         logButton.setOnAction(e -> checkInput(inputName,inputPass));
 
-        grid.getChildren().addAll(nameLabel,inputName,passLabel,inputPass,logButton);
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.getStyleClass().add("button-blue");
+        GridPane.setConstraints(signUpButton,1,3);
+
+        grid.getChildren().addAll(nameLabel,inputName,passLabel,inputPass,logButton,signUpButton);
 
         Scene scene = new Scene(grid,300,200);
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
