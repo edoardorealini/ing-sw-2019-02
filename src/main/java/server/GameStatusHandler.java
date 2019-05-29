@@ -1,6 +1,7 @@
 package server;
 
 import controller.MatchController;
+import java.util.Timer;
 
 public class GameStatusHandler implements Runnable{
 
@@ -20,12 +21,13 @@ public class GameStatusHandler implements Runnable{
         //quando diventano 3 parte timer
         //quando diventano 5 starta la partita (capire ancora cosa vuol dire startare la partita)
 
-        waitFirstThreePlayers();
-        waitMoreplayers();
 
+        //TODO, implementazione brutta, cambiare con observer o cose simili!! (evitare wait eccessive nei while che osservano)!
 
-
-
+        while(controller.getMatchStatus()) {
+            waitFirstThreePlayers();
+            waitMoreplayers();
+        }
     }
 
     public void waitFirstThreePlayers(){
@@ -41,6 +43,9 @@ public class GameStatusHandler implements Runnable{
     }
 
     public void waitMoreplayers(){
+
+        //qui devo far partire countdown
+
         try {
             while (controller.connectedPlayers() < 5) {
                 wait(3000);

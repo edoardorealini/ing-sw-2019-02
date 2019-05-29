@@ -6,11 +6,10 @@ import model.player.Player;
 import model.powerup.PowerUpDeck;
 import model.weapons.WeaponDeck;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Match  implements Serializable {
+public class Match implements Serializable {
     private ArrayList<Player> players;
     private Player currentPlayer;
     private PowerUpDeck powerUpDeck;
