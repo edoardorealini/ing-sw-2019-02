@@ -7,12 +7,10 @@ import model.map.MapBuilder;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
-import model.weapons.Weapon;
+import model.weapons.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+
 
 public class MatchController{
 
@@ -21,6 +19,7 @@ public class MatchController{
     private PowerUpController powerUpController;
     private ShootController shootController;
     private MoveController moveController;
+    private HashMap<WeaponName, Runnable> weaponHashMap;
 
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
@@ -36,13 +35,9 @@ public class MatchController{
         this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
-        this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
-        /*
-            questa parte la gestirei in un metodo di setup della partita dopo la scelta della mappa da utente
-            match.getMap().fillWeaponBox(match.getWeaponDeck());
-            match.getMap().fillAmmo(match.getAmmoDeck());
-
-         */
+        this.shootController = new ShootController(this.match, this.moveController);
+        this.weaponHashMap = new HashMap<>(32);
+        //setWeaponMap();
     }
 
     /*
@@ -341,9 +336,17 @@ public class MatchController{
         }
     }
 
+
+    private void setWeaponMap(ShootingParametersInput input) {
+        //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
+
+        //this.weaponHashMap.put(WeaponName.LOCK_RIFLE, ()-> shootController.shootLockRifle(input));
+
+    }
+
     public void shoot(ShootingParametersInput input) throws WrongStatusException{
         if(canDoAction()){
-            //TODO ricky, qui devi implementare la shoot con lo switch a mappa
+
 
             match.getCurrentPlayer().goToNextStatus(); //non toccare
         }
