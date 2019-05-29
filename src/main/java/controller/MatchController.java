@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MatchController {
+public class MatchController{
 
     private Match match;
     private GrabController grabController;
@@ -22,10 +22,10 @@ public class MatchController {
     private ShootController shootController;
     private MoveController moveController;
 
-    //TODO ci sono altri attributi da mettere qui? in teoria no
-    //TODO pensare a tutta la logica di setup della partita. fornire metodi
+    // ci sono altri attributi da mettere qui? in teoria no
+    // pensare a tutta la logica di setup della partita. fornire metodi
 
-    //TODO logica di creazione della partita e management su classe a parte, nell'utilizzatore di match controller, qui posso mettere solo dei metidi che saranno invocati da un processo apposito alla gestione dei turni.
+    // logica di creazione della partita e management su classe a parte, nell'utilizzatore di match controller, qui posso mettere solo dei metidi che saranno invocati da un processo apposito alla gestione dei turni.
 
     /*
         Costruttore 1
@@ -86,6 +86,8 @@ public class MatchController {
 
             } else
                 throw new WrongValueException("Not a valid mapID");
+
+            match.getCurrentPlayer().goToNextStatus(); //from master to Spawn (first player and first turn)
         }
 
         else
@@ -109,7 +111,7 @@ public class MatchController {
     }
 
     //metodi derivanti da classe moveController
-    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws Exception {
+    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws Exception{
         moveController.move(player, destination, maxDistanceAllowed);
     }
 
@@ -117,10 +119,12 @@ public class MatchController {
         return moveController.isAllowedMove(startingPoint, destination, maxDistance);
     }
 
+    @Deprecated
     public synchronized  void moveOneSquare(Directions direction) throws Exception {
         moveController.moveOneSquare(direction);
     }
 
+    @Deprecated
     public  synchronized void moveOneSquare(Directions direction, Player player) throws Exception {
         moveController.moveOneSquare(direction, player);
     }
@@ -130,34 +134,70 @@ public class MatchController {
     }
 
     //metodi da grab controller
-    public synchronized  void grabAmmoCard() throws Exception {
-        grabController.grabAmmoCard();
+    public synchronized  void grabAmmoCard() throws WrongStatusException, WrongPositionException {
+        if(canDoAction()) {
+            try {
+                grabController.grabAmmoCard();
+            }catch(WrongPositionException e){
+                throw new WrongPositionException(e.getMessage());
+            }
+
+            match.getCurrentPlayer().goToNextStatus();
+
+        }
+        else
+            throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
     public  synchronized void grabWeapon(Weapon weapon) throws Exception {
-        grabController.grabWeapon(weapon);
+        if(canDoAction()) {
+            try {
+                grabController.grabWeapon(weapon);
+            } catch (WrongPositionException e) {
+                throw new WrongPositionException(e.getMessage());
+            } catch (NotEnoughAmmoException e2) {
+                throw new NotEnoughAmmoException(e2.getMessage());
+            }
+
+            match.getCurrentPlayer().goToNextStatus();
+
+        }
+        else
+            throw new WrongStatusException("You cannot grab any weapons now!");
     }
 
     //metodi di powerUpController
-    public  synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
-        if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
-            powerUpController.usePowerUpAsAmmo(powerUp);
-        } else
-            throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
+    public  synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException, WrongStatusException {
+        if(canUsePowerUp()) {
+            if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
+                powerUpController.usePowerUpAsAmmo(powerUp);
+            } else
+                throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
+        }
+        else
+            throw new WrongStatusException("You cannot use a PowerUp now");
     }
 
-    public  synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException {
-        if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
-            powerUpController.useTeleporter(teleporter, destination);
-        } else
-            throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
+    public  synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException {
+        if(canUsePowerUp()) {
+            if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
+                powerUpController.useTeleporter(teleporter, destination);
+            } else
+                throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
+        }
+        else
+            throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
-    public  synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException {
-        if (match.getCurrentPlayer().hasPowerUp(newton)) {
-            powerUpController.useNewton(newton, affectedPlayer, destination);
-        } else
-            throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
+    public  synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException {
+        if(canUsePowerUp()) {
+            if (match.getCurrentPlayer().hasPowerUp(newton)) {
+                powerUpController.useNewton(newton, affectedPlayer, destination);
+            } else
+                throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
+        }
+        else
+            throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
     public  synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException, WrongStatusException {
@@ -168,16 +208,19 @@ public class MatchController {
                 throw new NotInYourPossessException("The powerUp" + tagbackGrenade.getName() + "is not in your hand");
         }
         else
-            throw new WrongStatusException("You are not allowed to use a TagBack Grenade now, you must be waiting your turn");
+            throw new WrongStatusException("You are not allowed to use a TagBack Grenade now!");
 
     }
 
-    public synchronized  void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException {
-        if (match.getCurrentPlayer().hasPowerUp(targetingScope)) {
-            powerUpController.useTargetingScope(targetingScope, affectedPlayer);
-        } else
-            throw new NotInYourPossessException("The powerUp" + targetingScope.getName() + "is not in your hand");
-
+    public synchronized  void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException, WrongStatusException {
+        if(canUsePowerUp()) {
+            if (match.getCurrentPlayer().hasPowerUp(targetingScope)) {
+                powerUpController.useTargetingScope(targetingScope, affectedPlayer);
+            } else
+                throw new NotInYourPossessException("The powerUp" + targetingScope.getName() + "is not in your hand");
+        }
+        else
+            throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
     public synchronized  MoveController getMoveController() {
@@ -201,7 +244,8 @@ public class MatchController {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
 
-    // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente
+    // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente basandosi sulla dimensione dell'array di player in gioco
+    //usare questo!!
     public synchronized  int addPlayer(String nickName) {
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
@@ -211,10 +255,12 @@ public class MatchController {
         return match.getPlayers().size() - 1;
     }
 
+    //returns the number of connected players
     public synchronized  int connectedPlayers(){
         return match.getPlayers().size();
     }
 
+    //FOR TEST PURPOSE ONLY
     public  synchronized String RMICallTest(String message){
         System.out.println("Called test method with message: " + message);
         return "Called MatchController.RMICallTest(message) method with message: " + message;
@@ -238,7 +284,6 @@ public class MatchController {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -246,10 +291,17 @@ public class MatchController {
     //insieme di metodi privati che servono per fare i controlli prima di fale le azioni nei metodi di matchController
     // NB quando fai il controllo nel metodo del controller lanciare l'eccezione WrongStatusException dicendo perchè c'è errore.
 
-    private boolean AbleToDoAction(){
+    private boolean canDoAction(){
         if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction()){
             return true;
         }
+
+        return false;
+    }
+
+    private boolean canUsePowerUp(){
+        if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction())
+            return true;
 
         return false;
     }
@@ -261,19 +313,18 @@ public class MatchController {
         return false;
     }
 
-    private boolean canUseTagbackGrenade(Player p){
+    private boolean canUseTagbackGrenade(Player p){ //TODO aggiungere la gestione del fatto che devo aver subito danno !
         if(p.isInStatusWaitTurn())
             return true;
 
         return false;
     }
 
-    //TODO metodi nuovi che devono essere aggiunti a tutto il giro per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
+    //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     public void loginPlayer(String nickname) {
         if(checkPlayerPresence(nickname)) {
             //Il player è già registrato ma non era più in gioco (è in stato disconnected)
-            //TODO implementare la gestione dello stato DISCONNECTED quando un utente si disconnette
             match.getPlayer(nickname).getStatus().setTurnStatusWaitTurn();
             //metto il giocatore da disconnected a waitTurn !
         }
@@ -283,12 +334,21 @@ public class MatchController {
     }
 
     //metodo da chiamare con trucchetto quando un player si disconnette (vedi appunti per capire trucchetto)
+    //TODO implementare la gestione dello stato DISCONNECTED quando un utente si disconnette, LATO CLIENT chiamare il metodo per la disconnessione
     public void disconnectPlayer(String nickname){
         if(checkPlayerPresence(nickname)){
             match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
         }
     }
 
+    public void shoot(ShootingParametersInput input) throws WrongStatusException{
+        if(canDoAction()){
+            //TODO ricky, qui devi implementare la shoot con lo switch a mappa
 
+            match.getCurrentPlayer().goToNextStatus(); //non toccare
+        }
+        else
+            throw new WrongStatusException("You are not allowed to shoot now!");
+    }
 
 }
