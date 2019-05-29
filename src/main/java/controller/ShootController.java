@@ -135,9 +135,11 @@ public class ShootController extends ActionController {
         cardinalDirections.add(Directions.RIGHT);
 
         for (Directions dir: cardinalDirections) {
-            if (! match.getMap().getAllowedSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
-                throw new NotAllowedTargetException();
+            if (match.getMap().getAllowedSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
+                return;
         }
+
+        throw new NotAllowedTargetException();
     }
 
     private void checkSameDirectionThroughWalls(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
@@ -1091,7 +1093,10 @@ public class ShootController extends ActionController {
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
            try {
-               eff.executeEffect(match, moveController, input);
+               if (input.getTargets().size() > eff.getSameTarget() && mode != ShootMode.ALTERNATE)
+                   eff.executeEffect(match, moveController, input);
+               if (mode == ShootMode.ALTERNATE)
+                   eff.executeEffect(match, moveController, input);
            } catch (NotAllowedMoveException e) {
                e.printStackTrace();   //TODO
            }
