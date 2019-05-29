@@ -13,15 +13,16 @@ public class ShootController extends ActionController {
 
     //attributes
 
-    private Match matchTemp;
     private Match match;
     private MoveController moveController;
+    private ShootingParametersInput input;
 
     //getter methods
 
     public ShootController(Match match, MoveController moveController) {
         this.match = match;
         this.moveController = moveController;
+        this.input = new ShootingParametersInput();
     }
 
     public Player getCurrPlayer() {
@@ -159,9 +160,11 @@ public class ShootController extends ActionController {
         cardinalDirections.add(Directions.RIGHT);
 
         for (Directions dir: cardinalDirections) {
-            if (! match.getMap().getAllSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
-                throw new NotAllowedTargetException();
+            if (match.getMap().getAllSquaresInDirection(dir, player1.getPosition()).contains(square))  //condition verified if the two squares are not on the same line
+                return;
         }
+
+        throw new NotAllowedTargetException();
     }
 
     private void checkDifferentRoom(Square s1, Square s2) throws NotAllowedTargetException {
@@ -169,10 +172,32 @@ public class ShootController extends ActionController {
             throw new NotAllowedTargetException();
     }
 
+    public void setInput (ShootingParametersInput input1) {
+        //this method allows me to copy the input parameters received from the client
+        input.setWeapon(input1.getWeapon());
+        input.setDirection(input1.getDirection());
+        input.setMakeDamageBeforeMove(input1.getMakeDamageBeforeMove());
+        input.getTargets().clear();
+        input.getSquares().clear();
+        input.getShootModes().clear();
+        for (Player player : input1.getTargets()) {
+            input.setTargets(player);
+        }
+        for (Square square : input1.getSquares()) {
+            input.setSquares(square);
+        }
+        for (ShootMode mode : input1.getShootModes()) {
+            input.setShootModes(mode);
+        }
+
+
+
+    }
+
 
     //shoot methods
 
-    public void shootLockRifle (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for LOCK RIFLE
 
         //the first cycle check if the effects can be applied
@@ -202,7 +227,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootElectroScythe (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootElectroScythe () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for ELECTRO SCYTHE
 
         Effect eff;
@@ -210,19 +235,16 @@ public class ShootController extends ActionController {
         ShootMode mode = input.getShootModes().get(0);
         eff = input.getWeapon().getMode(mode).get(0);   //take the effect
 
+        if (mode.equals(ShootMode.ALTERNATE))
+            try {
+            payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            }
+
         for (Player player: match.getPlayers()) {
-            if(player.getId() != getCurrPlayer().getId()) {
-                try {
-                    if (mode.equals(ShootMode.ALTERNATE))
-                        payAmmo(input.getWeapon().getModeCost(mode));
-                    checkCorrectVisibility(eff, getCurrPlayer(), player);
-                    checkExactDistance(eff, getCurrPlayer(), player);
-                    input.getTargets().add(player);
-                } catch (NotAllowedTargetException e) {
-                    throw new NotAllowedTargetException();
-                } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("poverooo!");   //TODO
-                }
+            if(player.getId() != getCurrPlayer().getId() && player.getPosition() == getCurrPlayer().getPosition()) {
+                input.getTargets().add(player);
             }
         }
 
@@ -234,7 +256,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootMachineGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for MACHINE GUN
 
         for (ShootMode mode : input.getShootModes()) {
@@ -269,7 +291,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootTHOR (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootTHOR () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for T.H.O.R.
         Effect eff;
         input.getTargets().add(0, getCurrPlayer());
@@ -308,7 +330,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootPlasmaGun (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
+    public void shootPlasmaGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
         //this method is valid only for Plasma Gun
         Effect eff;
         Square squareTemp = getCurrPlayer().getPosition();
@@ -394,7 +416,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootWhisper (ShootingParametersInput input) throws NotAllowedTargetException {
+    public void shootWhisper () throws NotAllowedTargetException {
         //this method is valid only for Whisper
 
         try {
@@ -409,7 +431,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootTractorBeam (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException{
+    public void shootTractorBeam () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException{
         //this method is valid only for Tractor Beam
         ShootMode mode = input.getShootModes().get(0);
         Square squareTemp = input.getTargets().get(0).getPosition();
@@ -481,7 +503,7 @@ public class ShootController extends ActionController {
 		 */
     }
 
-    public void shootCannonVortex (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+    public void shootCannonVortex () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Cannon Vortex
 
         for (ShootMode mode : input.getShootModes()) {
@@ -550,7 +572,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootFurnace (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException {
+    public void shootFurnace () throws NotAllowedTargetException, NotAllowedMoveException {
         //this method is valid only for Furnace
 
         ShootMode mode = input.getShootModes().get(0);
@@ -615,7 +637,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootHeatseeker (ShootingParametersInput input) throws NotAllowedTargetException {
+    public void shootHeatseeker () throws NotAllowedTargetException {
         //this method is valid only for Heatseeker
 
         try {
@@ -628,7 +650,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootHellion (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootHellion () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method in valid only for Hellion
         ShootMode mode = input.getShootModes().get(0);
 
@@ -666,7 +688,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootFlameThrower (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootFlameThrower () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for FlameThrower
 
         ShootMode mode = input.getShootModes().get(0);
@@ -747,7 +769,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootGrenadeLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+    public void shootGrenadeLauncher () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Grenade Launcher
         Player mainTarget = input.getTargets().get(0);
         Square moveHerePlayer = input.getSquares().get(0);
@@ -802,7 +824,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootRocketLauncher (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+    public void shootRocketLauncher () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Rocket Launcher
         //REMEMBER, in input.squares(0) there is the position of the target player after the basic effect,
         // while in input.square(1) there is the final position of the curr player
@@ -870,7 +892,7 @@ public class ShootController extends ActionController {
          }
     }
 
-    public void shootRailGun (ShootingParametersInput input) throws NotAllowedTargetException {
+    public void shootRailGun () throws NotAllowedTargetException {
         //this method is valid only for Rail Gun
 
         ShootMode mode = input.getShootModes().get(0);
@@ -893,7 +915,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootCyberblade (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
+    public void shootCyberblade () throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
         //this method is valid only for Cyberblade
         Effect eff;
         Square squareTemp = getCurrPlayer().getPosition();
@@ -934,7 +956,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootZX2 (ShootingParametersInput input) throws NotAllowedTargetException {
+    public void shootZX2 () throws NotAllowedTargetException {
         //this method is valid only for ZX2
         ShootMode mode = input.getShootModes().get(0);
 
@@ -956,7 +978,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootShotgun (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException {
+    public void shootShotgun () throws NotAllowedTargetException, NotAllowedMoveException {
         //this method is valid only for Shotgun
 
         ShootMode mode = input.getShootModes().get(0);
@@ -983,7 +1005,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootPowerGlove (ShootingParametersInput input) throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
+    public void shootPowerGlove () throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
         //this method is valid only for Power Glove
 
         Directions dir = input.getDirection();
@@ -1054,7 +1076,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootSchockWave (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootSchockWave () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for Shockwave
         ShootMode mode = input.getShootModes().get(0);
 
@@ -1104,7 +1126,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootSledgehammer (ShootingParametersInput input) throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
+    public void shootSledgehammer () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Sledgehammer
         ShootMode mode = input.getShootModes().get(0);
 

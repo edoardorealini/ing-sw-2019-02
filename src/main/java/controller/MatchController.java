@@ -337,21 +337,21 @@ public class MatchController{
     }
 
 
-    private void setWeaponMap(ShootingParametersInput input) {
+    private void setWeaponMap() {
         //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
 
-        //this.weaponHashMap.put(WeaponName.LOCK_RIFLE, ()-> shootController.shootLockRifle(input));
+       // this.weaponHashMap.put(WeaponName.LOCK_RIFLE, ()-> shootController.shootLockRifle());
 
     }
 
-    public void shoot(ShootingParametersInput input) throws WrongStatusException{
+    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException{
         if(canDoAction()){
 
+            this.weaponHashMap.clear();
 
             match.getCurrentPlayer().goToNextStatus(); //non toccare
         }
         else
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
-
 }

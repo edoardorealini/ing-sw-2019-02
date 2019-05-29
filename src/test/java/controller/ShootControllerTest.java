@@ -46,10 +46,7 @@ class ShootControllerTest {
 			System.out.println(p.getNickname());
 		}
 	}
-
-	@Test
-	void getMatch() {
-	}
+	
 
 	@Test
 	void payAmmo() throws Exception{
@@ -92,12 +89,12 @@ class ShootControllerTest {
 		input.setShootModes(ShootMode.OPTIONAL1);
 		input.setTargets(p2);
 		input.setTargets(p3);
-		System.out.println(input.getTargets().size());
 
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootLockRifle(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootLockRifle();
 			System.out.println(p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
 			System.out.println(p3.getBoard().toStringLP());
@@ -109,6 +106,8 @@ class ShootControllerTest {
 		}
 
 	}
+
+
 
 	@Test
 	void shootElectroScythe() {
@@ -136,7 +135,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootElectroScythe(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootElectroScythe();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -179,7 +179,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootMachineGun(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootMachineGun();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -222,7 +223,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootTHOR(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootTHOR();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -257,7 +259,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootPlasmaGun(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootPlasmaGun();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -288,7 +291,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootWhisper(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootWhisper();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -317,7 +321,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootTractorBeam(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootTractorBeam();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -357,7 +362,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootCannonVortex(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootCannonVortex();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -404,7 +410,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootFurnace(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootFurnace();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -436,7 +443,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootHeatseeker(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootHeatseeker();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -470,7 +478,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootHellion(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootHellion();
 			System.out.println("\n");
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringMarks());
@@ -510,7 +519,8 @@ class ShootControllerTest {
 
 		//executing code
 		try{
-			matchCtrl.getShootController().shootFlameThrower(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootFlameThrower();
 			System.out.println("\n");
 			System.out.println(p1.getNickname()+ "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname()+ "'s " + p2.getBoard().toStringLP());
@@ -549,7 +559,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootGrenadeLauncher(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootGrenadeLauncher();
 			System.out.println("\n");
 			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
@@ -590,7 +601,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootRocketLauncher(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootRocketLauncher();
 			System.out.println("\n");
 			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
@@ -626,12 +638,13 @@ class ShootControllerTest {
 		input.setShootModes(ShootMode.ALTERNATE);
 		input.setTargets(p4);
 		input.setTargets(p3);
-		input.setDirection(Directions.UP);
+		input.setDirection(Directions.LEFT);
 
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootRailGun(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootRailGun();
 			System.out.println("\n");
 			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
@@ -670,7 +683,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootCyberblade(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootCyberblade();
 			System.out.println("\n");
 			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
@@ -708,7 +722,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootZX2(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootZX2();
 			System.out.println("\n");
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
@@ -732,7 +747,7 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of REALNGNERR
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));        //set position of REALNGNERR
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of JOHNNYCA$H
 		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of AHHHHH
 
@@ -747,7 +762,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootShotgun(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootShotgun();
 			System.out.println("\n");
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
@@ -784,7 +800,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootPowerGlove(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootPowerGlove();
 			System.out.println("\n");
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
@@ -829,7 +846,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootSchockWave(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootSchockWave();
 			System.out.println("\n");
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
@@ -869,7 +887,8 @@ class ShootControllerTest {
 
 		//executing code
 		try {
-			matchCtrl.getShootController().shootSledgehammer(input);
+			matchCtrl.getShootController().setInput(input);
+			matchCtrl.getShootController().shootSledgehammer();
 			System.out.println("\n");
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());
 			System.out.println(p2.getBoard().toStringMarks());
