@@ -25,7 +25,7 @@ public class Player  implements Serializable {
     private PowerUp[] powerUps = {null, null, null};
     private int points;
     private PlayerStatusHandler status;
-    private boolean dead;
+    private boolean dead; //valore da aggiornare quando si uccide il giocatore!! //TODO chiedere a ricky se lo fa con ShootController
     private Match match;
 
     public Player (String nickname, int id, Match match){
@@ -236,4 +236,115 @@ public class Player  implements Serializable {
 
         return false;
     }
+
+    public boolean isInStatusWaitTurn(){
+        if(status.getTurnStatus().equals(RoundStatus.WAIT_TURN))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusMaster(){
+        if(status.getTurnStatus().equals(RoundStatus.MASTER))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusLobbyMaster(){
+        if(status.getTurnStatus().equals(RoundStatus.LOBBY_MASTER))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusLobby(){
+        if(status.getTurnStatus().equals(RoundStatus.LOBBY))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusFirstAction(){
+        if(status.getTurnStatus().equals(RoundStatus.FIRST_ACTION))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusSecondAction(){
+        if(status.getTurnStatus().equals(RoundStatus.SECOND_ACTION))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusSpawn(){
+        if(status.getTurnStatus().equals(RoundStatus.SPAWN))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusReloading(){
+        if(status.getTurnStatus().equals(RoundStatus.RELOADING))
+            return true;
+
+        return false;
+    }
+
+    public boolean isInStatusEndTurn(){
+        if(status.getTurnStatus().equals(RoundStatus.END_TURN))
+            return true;
+
+        return false;
+    }
+
+    public void goToNextStatus(){
+        switch(status.getTurnStatus()){
+            case LOBBY_MASTER:
+                status.setTurnStatusMaster();
+                break;
+
+            case LOBBY:
+                status.setTurnStatusWaitFirstTurn();
+                break;
+
+            case WAIT_FIRST_TURN:
+                status.setTurnStatusSpawn();
+                break;
+
+            case MASTER:
+                status.setTurnStatusSpawn();
+                break;
+
+            case SPAWN:
+                status.setTurnStatusFirstAction();
+                break;
+
+            case FIRST_ACTION:
+                status.setTurnStatusSecondAction();
+                break;
+
+            case SECOND_ACTION:
+                status.setTurnStatusReloading();
+                break;
+
+            case RELOADING:
+                status.setTurnStatusEndTurn();
+                break;
+
+            case END_TURN:
+                status.setTurnStatusWaitTurn();
+                break;
+
+            case WAIT_TURN:
+                if(!dead)
+                    status.setTurnStatusFirstAction();
+                else
+                    status.setTurnStatusSpawn();
+                break;
+        }
+    }
+
 }

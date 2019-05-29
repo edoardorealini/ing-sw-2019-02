@@ -117,6 +117,10 @@ Idea: 	un client può sempre mandare richieste ma se non è il suo turno non pu�
 		- implementare metodi per cambio del turno dopo ogni azione (azione fondamentale, leggere regole)
 		- gestione dei punteggi ?
 
+	- gestione della modifica del current player!! (IMPORTANTISSIMA)!!
+
+	- per saltare azione dare la possibilità di fare skip action! (implementare metodo che cambia lo stato no matter what)
+
 	NICE TO HAVE: 	lato GUI ogni volta che cambia lo stato del giocatore mostrarlo aggiornato in un riquadretto
 					in particolare quando diventa il mio turno facciamo illuminare qualcosa!
 

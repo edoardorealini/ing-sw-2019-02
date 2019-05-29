@@ -71,21 +71,25 @@ public class MatchController {
         return match.getMap();
     }
 
-    public synchronized void buildMap(int mapID) throws Exception{
-        if(mapID <= 4 && mapID >= 1) {
+    public synchronized void buildMap(int mapID) throws WrongValueException, WrongStatusException{
+        if(canChooseMap()) {
+            if (mapID <= 4 && mapID >= 1) {
 
-            try {
-                match.setMap(new MapBuilder().makeMap(mapID));
-            } catch (Exception e) {
-                e.printStackTrace(); //non serve per ora gestire con logger
-            }
+                try {
+                    match.setMap(new MapBuilder().makeMap(mapID));
+                } catch (Exception e) {
+                    e.printStackTrace(); //non serve per ora gestire con logger
+                }
 
-           match.getMap().fillWeaponBox(match.getWeaponDeck());
-           match.getMap().fillAmmo(match.getAmmoDeck());
+                match.getMap().fillWeaponBox(match.getWeaponDeck());
+                match.getMap().fillAmmo(match.getAmmoDeck());
 
+            } else
+                throw new WrongValueException("Not a valid mapID");
         }
+
         else
-            throw new Exception("Not a valid mapID");
+            throw new WrongStatusException("To select the map you must be in status MASTER!");
 
     }
 
@@ -156,11 +160,15 @@ public class MatchController {
             throw new NotInYourPossessException("The powerUp" + newton.getName() + "is not in your hand");
     }
 
-    public  synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException {
-        if (user.hasPowerUp(tagbackGrenade)) {
-            powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
-        } else
-            throw new NotInYourPossessException("The powerUp" + tagbackGrenade.getName() + "is not in your hand");
+    public  synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException, WrongStatusException {
+        if(canUseTagbackGrenade(user)) {
+            if (user.hasPowerUp(tagbackGrenade)) {
+                powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+            } else
+                throw new NotInYourPossessException("The powerUp" + tagbackGrenade.getName() + "is not in your hand");
+        }
+        else
+            throw new WrongStatusException("You are not allowed to use a TagBack Grenade now, you must be waiting your turn");
 
     }
 
@@ -230,6 +238,32 @@ public class MatchController {
                 return true;
             }
         }
+
+        return false;
+    }
+
+    //per action si intende solo MOVE, GRAB e SHOOT
+    //insieme di metodi privati che servono per fare i controlli prima di fale le azioni nei metodi di matchController
+    // NB quando fai il controllo nel metodo del controller lanciare l'eccezione WrongStatusException dicendo perchè c'è errore.
+
+    private boolean AbleToDoAction(){
+        if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction()){
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean canChooseMap(){
+        if(match.getCurrentPlayer().isInStatusMaster())
+            return true;
+
+        return false;
+    }
+
+    private boolean canUseTagbackGrenade(Player p){
+        if(p.isInStatusWaitTurn())
+            return true;
 
         return false;
     }

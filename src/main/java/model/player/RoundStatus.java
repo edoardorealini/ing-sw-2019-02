@@ -9,6 +9,7 @@ public enum RoundStatus implements Serializable{
                     // in tutta la partita ci sarà solo un giocatore con questo stato una volta sola in tutto il match!
     SPAWN,          // in questo stato il giocatore sceglie dove spawnare, in seguito esegue turno normale (NB viene eseguito solo al primo turno oppure dopo le morti)
     WAIT_TURN,		// attesa del proprio turno, in questo stato i permessi sono limitatissimi (solo uso della tagback grenade)
+    WAIT_FIRST_TURN, //ATTESA DEL PRIMO TURNO!
     FIRST_ACTION,	// il giocatore deve eseguire la prima azione
     SECOND_ACTION, 	// il giocatore deve eseguire la seconda azione
     RELOADING,		// il giocatore ha terminato la sua seconda azione e deve ricaricare le armi (se può); //TODO chiedere a riccky di implementare ill metodo per 					il reload delle armi da esporre sul matchController.
