@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
@@ -35,11 +38,20 @@ public class ImageViewer extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
         Image image = new Image(file.toURI().toString());
 
+        Circle circle = new Circle();
+        circle.setCenterX(300.0f);
+        circle.setCenterY(150.0f);
+        circle.setRadius(50.0f);
+        circle.setFill(Color.YELLOW);
+
         GridPane grid = new GridPane();
-        grid.getChildren().add(new ImageView(image));
+        grid.getChildren().addAll(new ImageView(image),circle);
+
 
         Scene scene = new Scene(grid,996,698);
         primaryStage.setScene(scene);
+        primaryStage.setMaxWidth(996);
+        primaryStage.setMaxHeight(698);
         primaryStage.show();
     }
 }
