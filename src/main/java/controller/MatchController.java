@@ -9,6 +9,7 @@ import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 
@@ -37,7 +38,7 @@ public class MatchController{
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController);
         this.weaponHashMap = new HashMap<>(32);
-        //setWeaponMap();
+        setWeaponMap();
     }
 
     /*
@@ -340,14 +341,20 @@ public class MatchController{
     private void setWeaponMap() {
         //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
 
-       // this.weaponHashMap.put(WeaponName.LOCK_RIFLE, ()-> shootController.shootLockRifle());
+     //   this.weaponHashMap.put(WeaponName.LOCK_RIFLE, () -> { try { shootController.shootLockRifle()
+        //                                                           } catch (Exception e) { e.printStackTrace();} } );
 
+       // this.weaponHashMap.put(WeaponName.LOCK_RIFLE, shootController.shootLockRifle());  //TODO why doesn't it work?
     }
 
-    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException{
+    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException {
         if(canDoAction()){
 
-            this.weaponHashMap.clear();
+            // try {
+                this.weaponHashMap.get(WeaponName.LOCK_RIFLE).run();
+            // } catch (NotAllowedTargetException e) {      //TODO why doesn't it work?
+            //     throw new NotAllowedTargetException();
+            // }
 
             match.getCurrentPlayer().goToNextStatus(); //non toccare
         }
