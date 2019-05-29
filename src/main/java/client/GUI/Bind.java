@@ -25,7 +25,7 @@ public class Bind extends Application {
         TextField userInput = new TextField();
         userInput.setMaxWidth(200);
 
-        Label firstLabel = new Label("Welcome to the site");
+        Label firstLabel = new Label("Welcome to the site ");
         Label secondtLabel = new Label();
 
         HBox bottonText = new HBox(firstLabel,secondtLabel);

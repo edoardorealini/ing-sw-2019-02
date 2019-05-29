@@ -90,3 +90,53 @@ Termine della partita: (mortalPath)
 	//TODO
 
 	//GIA IMPLEMENTATO
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+        29 maggio 2019:
+
+TODO DI OGGI: in ordine di importanza
+
+1.  GESTIONE DEI TURNI:
+
+Idea: 	un client può sempre mandare richiese ma se non è il suo turno non può fare nulla
+		CASO PARTICOLARE:  	primo turno, il primo giocatore che si connette (ID = 0)  deve scegliere la mappa su cui giocare
+							tutti i giocatori a primo turno devono scegliere dovre spawnare.
+							NB : questa azione dello spawn viene ripetuta ogni volta che un giocatore muore.
+
+	- gestione della fase iniziale della partita in stato: LOBBY / LOBBY_MASTER
+		Thread lato server che gira e controlla il numero di giocatori connessi:
+		finche sono < 3 tutto ok
+		quando arrivo a 3 faccio scattare timer (da impostare parametrico su file di properties)
+		quando scade timer oppure raggiungo 5 giocatori connessi inizio la partita:
+			INIZIO DELLA PARTITA cosa significa:
+			- modificare lo stato dei giocatori nel modo corretto e dare il potere al primo di scegliere le sue cose.
+
+	- gestione del turno normale
+		- impementare controlli sul turno prima di ogni azione e lanciare eccezioni
+		- implementare metodi per cambio del turno dopo ogni azione (azione fondamentale, leggere regole)
+		- gestione dei punteggi ?
+
+	NICE TO HAVE: 	lato GUI ogni volta che cambia lo stato del giocatore mostrarlo aggiornato in un riquadretto
+					in particolare quando diventa il mio turno facciamo illuminare qualcosa!
+
+2.  comunicazione server-client con handshake RMI (vedi appunti AppuntiClient sul progetto)
+
+3.  capire funzionamento degli observer over network (per aggiornare il modello lato client ogni volta che viene modificato lato server)
+
+4.  sincronizzazione dei metodi per accesso concorrente efficace
+
+
+STATO ATTUALE INSIEME DEGLI STATI POSSIBILI PER UN GIOCATORE:
+
+public enum RoundStatus implements Serializable{
+    LOBBY,			//il gicoatore si trova nella lobby in attesa che si connettano altri giocatori
+    LOBBY_MASTER,	//il giocatore è nella lobby in attesa, è il PRIMO che si è connesso
+    MASTER,			// master è il giocatore che sceglie la mappa della partita, è per forza il lobby master
+    WAIT_TURN,		// attesa del proprio turno, in questo stato i permessi sono limitatissimi (solo uso della tagback grenade)
+    FIRST_ACTION,	// il giocatore deve eseguire la prima azione
+    SECOND_ACTION, 	// il giocatore deve eseguire la seconda azione
+    RELOADING,		// il giocatore ha terminato la sua seconda azione e deve ricaricare le armi (se può); //TODO chiedere a riccky di implementare ill metodo per 					il reload delle armi da esporre sul matchController.
+    END_TURN,		// serve per sapere che il giocatore ha finito il turno, centra con quello che diceva ricky sulla gestione dei punti e dei morti !!
+    DISCONNECTED	// stato in cui il giocatore si è disconnesso dal server, significa che ha iniziato la partita ma ha staccato, può riconnettersi con lo stesso 						Nickname ed essere messo in waitTurn
+}

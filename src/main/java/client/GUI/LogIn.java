@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
@@ -48,11 +50,13 @@ public class LogIn extends Application {
         signUpButton.getStyleClass().add("button-blue");
         GridPane.setConstraints(signUpButton,1,3);
 
-        grid.getChildren().addAll(nameLabel,inputName,passLabel,inputPass,logButton,signUpButton);
+        Scene scene = new Scene(grid,200,300);
 
-        Scene scene = new Scene(grid,300,200);
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "GridPanelLayout.css")).toURI().toString());
+
+        grid.getChildren().addAll(nameLabel,inputName,passLabel,inputPass,logButton,signUpButton);
+
         stage.setScene(scene);
         stage.show();
 
