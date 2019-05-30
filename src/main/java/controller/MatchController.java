@@ -1,5 +1,6 @@
 package controller;
 
+import controller.observer.Observer;
 import exception.*;
 import model.Match;
 import model.map.*;
@@ -10,7 +11,9 @@ import model.powerup.PowerUp;
 import model.weapons.*;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class MatchController{
@@ -21,6 +24,7 @@ public class MatchController{
     private ShootController shootController;
     private MoveController moveController;
     private HashMap<WeaponName, Runnable> weaponHashMap;
+    private List<Observer> observers;
 
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
@@ -39,6 +43,7 @@ public class MatchController{
         this.shootController = new ShootController(this.match, this.moveController);
         this.weaponHashMap = new HashMap<>(32);
         setWeaponMap();
+        observers = new ArrayList<>(); //TODO riepmpire la struttura dati passando al costruttore nel momento della creazione dell'oggetto
     }
 
     /*
@@ -57,6 +62,16 @@ public class MatchController{
             match.getMap().fillAmmo(match.getAmmoDeck());
 
          */
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for(Observer o: observers){
+            o.update();
+        }
     }
 
     public synchronized Match getMatch() {
@@ -236,6 +251,7 @@ public class MatchController{
     }
 
     // metodo creazione di player
+    @Deprecated
     public  synchronized void addPlayer(String nickName, int ID) {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
