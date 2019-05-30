@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 
-public class ImageViewer extends Application {
+public class FirstPage extends Application {
 
     public static void main(String[] args) {
         launch(args);
