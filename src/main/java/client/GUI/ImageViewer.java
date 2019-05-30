@@ -1,9 +1,12 @@
 package client.GUI;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -34,21 +37,34 @@ public class ImageViewer extends Application {
         //qui sotto ti metto il modo che devi usare per prendere l'immagine da file
         //per prima cosa devi aprire il file con new File, poi renderlo leggibile (.toURI().toString())
         //vedi qui:  https://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx#8088561
+        GridPane grid = new GridPane();
+        grid.setVgap(10); // sapzio verticale tra boxes
+        grid.setHgap(8); // spazio orizzontale tra boxes
+
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
         Image image = new Image(file.toURI().toString());
 
-        Circle circle = new Circle();
-        circle.setCenterX(300.0f);
-        circle.setCenterY(150.0f);
-        circle.setRadius(50.0f);
-        circle.setFill(Color.YELLOW);
+        BackgroundImage myBI= new BackgroundImage(new Image(file.toURI().toString()),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+//then you set to your node
+        grid.setBackground(new Background(myBI));
 
-        GridPane grid = new GridPane();
-        grid.getChildren().addAll(new ImageView(image),circle);
+        Label nameLabel = new Label("Username: ");
+        nameLabel.setTextFill(Color.WHITE);
+        nameLabel.setStyle("-fx-font-weight: bold");
+        GridPane.setConstraints(nameLabel, 50,20);
+
+        TextField inputName = new TextField();
+        inputName.setPromptText("Name");
+        GridPane.setConstraints(inputName, 50,21);
+
 
 
         Scene scene = new Scene(grid,996,698);
+
+        grid.getChildren().addAll(nameLabel,inputName);
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
         primaryStage.setMaxHeight(698);
