@@ -338,11 +338,15 @@ public class MatchController{
     }
 
 
+
+
+
+
     private void setWeaponMap() {
         //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
 
-     //   this.weaponHashMap.put(WeaponName.LOCK_RIFLE, () -> { try { shootController.shootLockRifle()
-        //                                                           } catch (Exception e) { e.printStackTrace();} } );
+        this.weaponHashMap.put(WeaponName.LOCK_RIFLE, () -> { try { shootController.shootLockRifle();
+                                                                  } catch (Exception e) { e.printStackTrace();} } );
 
        // this.weaponHashMap.put(WeaponName.LOCK_RIFLE, shootController.shootLockRifle());  //TODO why doesn't it work?
     }
@@ -351,7 +355,7 @@ public class MatchController{
         if(canDoAction()){
 
             // try {
-                this.weaponHashMap.get(WeaponName.LOCK_RIFLE).run();
+                this.weaponHashMap.get(input.getWeapon().getName()).run();
             // } catch (NotAllowedTargetException e) {      //TODO why doesn't it work?
             //     throw new NotAllowedTargetException();
             // }

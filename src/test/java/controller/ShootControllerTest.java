@@ -49,7 +49,7 @@ class ShootControllerTest {
 	
 
 	@Test
-	void payAmmo() throws Exception{
+	void payAmmo() {
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
@@ -106,8 +106,6 @@ class ShootControllerTest {
 		}
 
 	}
-
-
 
 	@Test
 	void shootElectroScythe() {
