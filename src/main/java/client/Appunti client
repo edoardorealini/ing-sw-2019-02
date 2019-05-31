@@ -124,11 +124,20 @@ Idea: 	un client può sempre mandare richieste ma se non è il suo turno non pu�
 	NICE TO HAVE: 	lato GUI ogni volta che cambia lo stato del giocatore mostrarlo aggiornato in un riquadretto
 					in particolare quando diventa il mio turno facciamo illuminare qualcosa!
 
-2.  comunicazione server-client con handshake RMI (vedi appunti AppuntiClient sul progetto)
+Aggiunte il 31/05
+:::::::::::::::::::::::::::::::::::::::::::::::::::::
+	- CORREZIONE SU STATI: in END TURN il server deve controllare ogni volta se ci sono giocatori morti, assegnare i punti
+	                           e farli respawnare prima di far iniziare il turno alla persona successiva
+	                           NB: ogni volta che qualcuno inizia a fare delle azioni ci devono sempre essere tutte le persone in game!
 
-3.  capire funzionamento degli observer over network (per aggiornare il modello lato client ogni volta che viene modificato lato server)
+2.  gestione dell'autorizzazione alle chiamate sul server, aggiungere modo con cui identificarsi
+    EG: quando un client chiama un metodo del controller manda anche nella signature il suo nick così il server capisce se puù fare l'azione o meno !
+:::::::::::::::::::::::::::::::::::::::::::::::::::::
+3.  comunicazione server-client con handshake RMI (vedi appunti AppuntiClient sul progetto)
 
-4.  sincronizzazione dei metodi per accesso concorrente efficace
+4.  capire funzionamento degli observer over network (per aggiornare il modello lato client ogni volta che viene modificato lato server)
+
+5.  sincronizzazione dei metodi per accesso concorrente efficace
 
 
 STATO ATTUALE INSIEME DEGLI STATI POSSIBILI PER UN GIOCATORE:

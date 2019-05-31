@@ -24,7 +24,7 @@ public class MatchController{
     private ShootController shootController;
     private MoveController moveController;
     private HashMap<WeaponName, Runnable> weaponHashMap;
-    private List<Observer> observers;
+    private List<Observer> observers;  //TODO observers
 
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi

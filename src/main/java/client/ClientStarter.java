@@ -1,13 +1,7 @@
 package client;
 
-import server.InterfaceRemoteObjectRMI;
+import client.CLI.CLI;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
