@@ -351,7 +351,17 @@ public class MatchController{
 
             shootController.setInput(input);
 
+            if (input.getWeapon().getAmmoStatus() != WeaponAmmoStatus.LOADED)
+                throw new NotEnoughAmmoException("poveroo");  //TODO
+
+            if (!(input.getShootModes().contains(ShootMode.BASIC) || input.getShootModes().contains(ShootMode.ALTERNATE)))
+                throw new NotAllowedShootingModeException();
+
+            if (input.getShootModes().contains(ShootMode.BASIC) && input.getShootModes().contains(ShootMode.ALTERNATE))
+                throw new NotAllowedShootingModeException();
+
             try {       //switch that choose the right method for the right weapon
+
                 switch (input.getWeapon().getName()) {
                     case ZX_2: shootController.shootZX2(); break;
                     case THOR: shootController.shootTHOR(); break;
