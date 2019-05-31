@@ -1,21 +1,9 @@
 package client.remoteController;
 
-import exception.*;
 import model.map.*;
 import model.player.*;
 import model.Match;
 import model.powerup.*;
-import model.weapons.*;
-import model.*;
-import model.ammo.*;
-
-import server.InterfaceRemoteObjectRMI;
-
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import java.rmi.RemoteException;
 
 public abstract class RemoteController {
 

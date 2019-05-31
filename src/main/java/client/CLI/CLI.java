@@ -15,6 +15,7 @@ import model.ammo.*;
 import java.io.Console;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -115,7 +116,7 @@ public class CLI implements Runnable{
 
             System.out.println("\nInsert the communication method you want to use:");
             System.out.println("\t 1. RMI");
-            System.out.println("\t 2. Socket");
+            System.out.println("\t 2. socketHandler");
             System.out.println("Value:");
 
             String input = new Scanner(System.in).nextLine();
@@ -142,7 +143,7 @@ public class CLI implements Runnable{
                     launchSocketConnection();
                     okInput = true;
                     break;
-                case "Socket":
+                case "socketHandler":
                     launchSocketConnection();
                     okInput = true;
                     break;
@@ -208,10 +209,13 @@ public class CLI implements Runnable{
 
             }
             catch (UnknownHostException e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
             catch(RemoteException e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+            catch(NotBoundException e) {
+                e.printStackTrace();
             }
 
         }

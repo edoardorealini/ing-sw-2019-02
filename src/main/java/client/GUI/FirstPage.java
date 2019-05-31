@@ -15,10 +15,10 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 
-public class FirstPage extends Application {
+public class FirstPage extends Application implements Runnable{
 
-    public static void main(String[] args) {
-        launch(args);
+    public void run() {
+        launch();
     }
 
     @Override
@@ -37,6 +37,8 @@ public class FirstPage extends Application {
         //per prima cosa devi aprire il file con new File, poi renderlo leggibile (.toURI().toString())
         //vedi qui:  https://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx#8088561
 
+
+        //TODO per johnny, aggiungere sotto al tipo di connessione anche un campo per l'inserimento dell' IP !
 
         GridPane grid = new GridPane();
         grid.setVgap(10); // sapzio verticale tra boxes
@@ -65,7 +67,7 @@ public class FirstPage extends Application {
 
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         choiceBox.getItems().add("RMI");
-        choiceBox.getItems().add("Socket");
+        choiceBox.getItems().add("socketHandler");
         choiceBox.setValue("RMI");
         GridPane.setConstraints(choiceBox,50,21);
 

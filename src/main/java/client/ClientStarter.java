@@ -1,7 +1,11 @@
 package client;
 
 import client.CLI.CLI;
+import client.GUI.FirstPage;
+import client.clientController.ClientController;
+import client.clientController.ClientControllerRMI;
 
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -47,7 +51,21 @@ public class ClientStarter{
     }
 
     private void launchGUI(){
-        //TODO launchGUI
+        executor.submit(new client.GUI.FirstPage());
     }
+
+
+    //in teoria questo metodo va chiamato dopo che l'utente ha deciso che tipo di connessione utilizzare, quindi si lancia il controller corretto.
+    //TODO spostare lato RemoteControllerRMI
+    /*
+    private void launchClientController(){
+        try {
+            executor.submit(new ClientControllerRMI());
+        }catch(RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
+     */
 
 }

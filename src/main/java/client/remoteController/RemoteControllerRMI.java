@@ -1,40 +1,53 @@
 package client.remoteController;
 
-import exception.*;
+import client.clientController.ClientControllerRMI;
+import commons.InterfaceClientControllerRMI;
 import model.map.*;
 import model.player.*;
 import model.Match;
 import model.powerup.*;
-import model.weapons.*;
-import model.*;
-import model.ammo.*;
 
 //TODO vedere server http
-import server.InterfaceRemoteObjectRMI;
+import commons.InterfaceServerControllerRMI;
 
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class RemoteControllerRMI extends RemoteController {
 
     private Match match;
-    private InterfaceRemoteObjectRMI controller;
+    private InterfaceServerControllerRMI serverController;
+    private InterfaceClientControllerRMI clientController;
 
-    public RemoteControllerRMI(String serverIP, int port) throws RemoteException {
+    public RemoteControllerRMI(String serverIP, int port) throws RemoteException, NotBoundException {
         try {
+
+            clientController = new ClientControllerRMI();
+            UnicastRemoteObject.exportObject(clientController);
+
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
-            controller = (InterfaceRemoteObjectRMI) registry.lookup("remoteController");
-        } catch (Exception e) {
-            System.out.println("\n[ERROR]: Remote object not found or bound correctly");
+            serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
+
+            serverController.register(clientController);
+
+        } catch (RemoteException e) {
+            System.out.println("\n[ERROR]: Remote object not found");
             throw new RemoteException("[ERROR]: Wrong IP or port, please retry");
+        }
+        catch (NotBoundException e) {
+            System.out.println("\n[ERROR]: Remote object not bound correctly");
+            throw new NotBoundException("[ERROR]: Wrong IP or port, please retry");
         }
     }
 
     @Override
     public Map getMap() {
         try {
-            return controller.getMap();
+            return serverController.getMap();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +63,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public void buildMap(int mapID) throws Exception {
         try {
-            controller.buildMap(mapID);
+            serverController.buildMap(mapID);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -114,7 +127,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public String checkConnection(String IP) {
         try {
-            return controller.checkConnection(IP);
+            return serverController.checkConnection(IP);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +139,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public int addPlayer(String nickName) {
         try {
-            return controller.addPlayer(nickName);
+            return serverController.addPlayer(nickName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,7 +150,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public int connectedPlayers() {
         try {
-            return controller.connectedPlayers();
+            return serverController.connectedPlayers();
         }catch(RemoteException e){
             e.printStackTrace();
         }
@@ -148,7 +161,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public PlayerStatusHandler getPlayerStatus(int idPlayer){
         try {
-            return controller.getPlayerStatus(idPlayer);
+            return serverController.getPlayerStatus(idPlayer);
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -158,7 +171,7 @@ public class RemoteControllerRMI extends RemoteController {
     @Override
     public boolean getMatchStatus(){
         try {
-            return controller.getMatchStatus();
+            return serverController.getMatchStatus();
         }catch (Exception e){
             e.printStackTrace();
             return false;
