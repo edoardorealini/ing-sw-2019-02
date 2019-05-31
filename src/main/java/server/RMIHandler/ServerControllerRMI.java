@@ -16,21 +16,25 @@ import model.powerup.PowerUp;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+//ex remoteObjectRMI
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
 
     private InputConverter converter;
     private MatchController matchController;
-    private InterfaceClientControllerRMI ClientController;
+    private HashMap<String, InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
 
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
         this.converter = new InputConverter(matchController.getMatch());
+        this.clientControllers = new HashMap<>(5);
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
-    public void register(InterfaceClientControllerRMI ClientController){
-        this.ClientController = ClientController;
+    public void register(InterfaceClientControllerRMI clientController){
+        //clientControllers.put(clientController.getNickname(), clientController);
     }
 
     public Match getMatch() {

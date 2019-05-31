@@ -4,14 +4,17 @@ package client.clientController;
 //info such as Model updates, turn status or other stuff.
 
 import commons.InterfaceClientControllerRMI;
+import model.Match;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ClientController{
 
-    public ClientControllerRMI() throws RemoteException{
-        //TODO
+    private Match match;
+
+    public ClientControllerRMI(Match match) throws RemoteException{
+        this.match = match;
     }
 
     //here are implemented all the methods that the server can call remotely to the client
@@ -20,8 +23,9 @@ public class ClientControllerRMI extends UnicastRemoteObject implements Interfac
         return;
     }
 
-    public void run(){
-
+    public String getNickname(){
+        //TODO
+        return null;
     }
 
 }
