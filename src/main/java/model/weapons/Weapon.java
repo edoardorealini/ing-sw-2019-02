@@ -130,11 +130,11 @@ public class Weapon  implements Serializable {
 
 
 
-    public WeaponAmmoStatus getAmmoStatus() {
+    public WeaponAmmoStatus getWeaponStatus() {
         return ammoStatus;
     }
 
-    public void setAmmoStatus(WeaponAmmoStatus ammoStatus) {
+    public void setWeaponStatus(WeaponAmmoStatus ammoStatus) {
         this.ammoStatus = ammoStatus;
     }
 

@@ -200,7 +200,7 @@ class PlayerTest {
 
         PowerUp c1 = new PowerUp(Color.YELLOW,PowerUpName.NEWTON);
         p1.addPowerUpsCard(c1);
-        p1.trasformPowerUpToAmmo(c1);
+        p1.transformPowerUpToAmmo(c1);
 
         for (int i=0; i<3;i++){
             assert ((p1.getPowerUps())[i]==null);

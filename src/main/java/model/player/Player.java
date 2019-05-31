@@ -132,7 +132,7 @@ public class Player  implements Serializable {
 
     // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
 
-    public void trasformPowerUpToAmmo(PowerUp powerUp){
+    public void transformPowerUpToAmmo(PowerUp powerUp){
         for (int i=0; i<3; i++){
             if (powerUp.equals(powerUps[i])){
                 match.getPowerUpDeck().addPowerUps(powerUps[i]);
@@ -142,7 +142,6 @@ public class Player  implements Serializable {
             }
         }
     }
-
 
     public void removeAmmo(int redAmmo, int blueAmmo, int yellowAmmo){
         ammo.setRedAmmo(ammo.getRedAmmo()-redAmmo);

@@ -2,6 +2,7 @@ package controller;
 
 import controller.observer.Observer;
 import exception.*;
+import model.Color;
 import model.Match;
 import model.map.*;
 import model.map.MapBuilder;
@@ -9,10 +10,8 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -351,7 +350,7 @@ public class MatchController{
 
             shootController.setInput(input);
 
-            if (input.getWeapon().getAmmoStatus() != WeaponAmmoStatus.LOADED)
+            if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
                 throw new NotEnoughAmmoException("poveroo");  //TODO
 
             if (!(input.getShootModes().contains(ShootMode.BASIC) || input.getShootModes().contains(ShootMode.ALTERNATE)))
@@ -395,6 +394,8 @@ public class MatchController{
                 throw new NotAllowedShootingModeException();
             }
 
+            input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
+
 
             match.getCurrentPlayer().goToNextStatus(); //don't touch
         }
@@ -402,13 +403,92 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
 
-}
+    public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException {
 
+        if (weapon.getWeaponStatus() == WeaponAmmoStatus.LOADED)
+            return;
 
+        Color firstColor = weapon.getCost().get(0);
 
+        int r = 0;
+        int b = 0;
+        int y = 0;
+        int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
+        int actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
+        int actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+        for (Color color : weapon.getCost()) {
+            switch (color) {
+                case RED:
+                    r++;
+                    break;
+                case BLUE:
+                    b++;
+                    break;
+                case YELLOW:
+                    y++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (weapon.getWeaponStatus() == WeaponAmmoStatus.PARTIALLYLOADED)
+            switch (firstColor) {
+                case RED:
+                    r--;
+                    break;
+                case BLUE:
+                    b--;
+                    break;
+                case YELLOW:
+                    y--;
+                    break;
+                default:
+                    break;
+            }
+
+        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
+                //TODO insert ask if the user wants to use a power up as an ammo
+            } else {
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            }
+        } else {
+            match.getCurrentPlayer().removeAmmo(r, b, y);
+            weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+        }
+    }
+
+    private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
+        //this method return true if the current player can pay with power ups, so that maybe we can ask him if he wants to or not
+
+        int r = 0;
+        int b = 0;
+        int y = 0;
+
+        for (PowerUp pow : match.getCurrentPlayer().getPowerUps()) {
+            if (pow != null) {
+                switch (pow.getColor()) {
+                    case RED:
+                        r++;
+                        break;
+                    case BLUE:
+                        b++;
+                        break;
+                    case YELLOW:
+                        y++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
+    }
 
 //here there is the code of the hashmap, it doesn't work well
-
 /*
     private void setWeaponMap() {
         //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
@@ -451,3 +531,5 @@ public class MatchController{
         }
     }
 */
+
+}

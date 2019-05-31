@@ -37,7 +37,7 @@ public class PowerUpController{
         //TODO bisogna gestire il fatto che si puo usare solo per pagare un costo
         for(int i = 0; i < 3; i++){
             if(match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
-                match.getCurrentPlayer().trasformPowerUpToAmmo(powerUp);
+                match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
             else throw new IllegalArgumentException("Not a valid powerUp to be converted to ammo");
         }
 
