@@ -9,7 +9,7 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
-
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class MatchController{
     private PowerUpController powerUpController;
     private ShootController shootController;
     private MoveController moveController;
-    private HashMap<WeaponName, Runnable> weaponHashMap;
+    // private HashMap<WeaponName, String> weaponHashMap;
     private List<Observer> observers;  //TODO observers
 
     // ci sono altri attributi da mettere qui? in teoria no
@@ -41,8 +41,6 @@ public class MatchController{
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController);
-        this.weaponHashMap = new HashMap<>(32);
-        setWeaponMap();
         observers = new ArrayList<>(); //TODO riepmpire la struttura dati passando al costruttore nel momento della creazione dell'oggetto
     }
 
@@ -56,12 +54,7 @@ public class MatchController{
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
-        /*
-            questa parte la gestirei in un metodo di setup della partita dopo la scelta della mappa da utente
-            match.getMap().fillWeaponBox(match.getWeaponDeck());
-            match.getMap().fillAmmo(match.getAmmoDeck());
 
-         */
     }
 
     public void attach(Observer observer){
@@ -353,32 +346,98 @@ public class MatchController{
         }
     }
 
+    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+        if(canDoAction()) {
+
+            shootController.setInput(input);
+
+            try {       //switch that choose the right method for the right weapon
+                switch (input.getWeapon().getName()) {
+                    case ZX_2: shootController.shootZX2(); break;
+                    case THOR: shootController.shootTHOR(); break;
+                    case FURNACE: shootController.shootFurnace(); break;
+                    case HELLION: shootController.shootHellion(); break;
+                    case RAILGUN: shootController.shootRailGun(); break;
+                    case SHOTGUN: shootController.shootShotgun(); break;
+                    case WHISPER: shootController.shootWhisper(); break;
+                    case PLASMA_GUN: shootController.shootPlasmaGun(); break;
+                    case LOCK_RIFLE: shootController.shootLockRifle(); break;
+                    case CYBERBLADE: shootController.shootCyberblade(); break;
+                    case HEATSEEKER: shootController.shootHeatseeker(); break;
+                    case SCHOCKWAVE: shootController.shootSchockWave(); break;
+                    case POWER_GLOVE: shootController.shootPowerGlove(); break;
+                    case MACHINE_GUN: shootController.shootMachineGun(); break;
+                    case TRACTOR_BEAM: shootController.shootTractorBeam(); break;
+                    case FLAMETHROWER: shootController.shootFlameThrower(); break;
+                    case SLEDGEHAMMER: shootController.shootSledgehammer(); break;
+                    case VORTEX_CANNON: shootController.shootCannonVortex(); break;
+                    case ELECTROSCYTHE: shootController.shootElectroScythe(); break;
+                    case ROCKET_LAUNCHER: shootController.shootRocketLauncher(); break;
+                    case GRENADE_LAUNCHER: shootController.shootGrenadeLauncher(); break;
+                }
+            }  catch (NotAllowedMoveException e) {
+                throw new  NotAllowedMoveException();
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("sei povero"); //TODO
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            } catch (NotAllowedShootingModeException e) {
+                throw new NotAllowedShootingModeException();
+            }
+
+
+            match.getCurrentPlayer().goToNextStatus(); //don't touch
+        }
+        else
+            throw new WrongStatusException("You are not allowed to shoot now!");
+    }
+
+}
 
 
 
 
+//here there is the code of the hashmap, it doesn't work well
 
+/*
     private void setWeaponMap() {
         //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
 
-        this.weaponHashMap.put(WeaponName.LOCK_RIFLE, () -> { try { shootController.shootLockRifle();
-                                                                  } catch (Exception e) { e.printStackTrace();} } );
+        this.weaponHashMap.put(WeaponName.LOCK_RIFLE, "shootLockRifle");
 
-       // this.weaponHashMap.put(WeaponName.LOCK_RIFLE, shootController.shootLockRifle());  //TODO why doesn't it work?
     }
 
     public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException {
         if(canDoAction()){
 
-            // try {
-                this.weaponHashMap.get(input.getWeapon().getName()).run();
-            // } catch (NotAllowedTargetException e) {      //TODO why doesn't it work?
-            //     throw new NotAllowedTargetException();
-            // }
+            try {
+                executeShoot(input.getWeapon().getName());
+            } catch (NotAllowedTargetException e) {
+                throw new NotAllowedTargetException();
+            }
 
             match.getCurrentPlayer().goToNextStatus(); //non toccare
         }
         else
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
-}
+
+    private void executeShoot(WeaponName name) throws NotAllowedMoveException, NotEnoughAmmoException, NotAllowedTargetException {
+        try {
+            Method method = shootController.getClass().getDeclaredMethod(this.weaponHashMap.get(name));
+            method.invoke(this);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }  catch (NotAllowedTargetException e) {
+            throw new NotAllowedTargetException();
+        } catch (NotAllowedMoveException e) {
+            throw new NotAllowedMoveException();
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("Not enough ammo");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+*/

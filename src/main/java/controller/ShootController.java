@@ -197,7 +197,7 @@ public class ShootController extends ActionController {
 
     //shoot methods
 
-    public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for LOCK RIFLE
 
         //the first cycle check if the effects can be applied
@@ -205,14 +205,19 @@ public class ShootController extends ActionController {
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 try {
                     checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                    if (mode.equals(ShootMode.OPTIONAL1))
-                        payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotAllowedTargetException e) {
                     throw new NotAllowedTargetException();
+                }
+            }
+        }
+
+        for (ShootMode mode : input.getShootModes()) {
+            if (mode.equals(ShootMode.OPTIONAL1))
+                try {
+                    payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
                     throw new NotEnoughAmmoException("poverooo!");   //TODO
                 }
-            }
         }
 
         //execution cycle
@@ -227,7 +232,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootElectroScythe () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootElectroScythe () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for ELECTRO SCYTHE
 
         Effect eff;
@@ -235,18 +240,19 @@ public class ShootController extends ActionController {
         ShootMode mode = input.getShootModes().get(0);
         eff = input.getWeapon().getMode(mode).get(0);   //take the effect
 
-        if (mode.equals(ShootMode.ALTERNATE))
-            try {
-            payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
-            }
 
         for (Player player: match.getPlayers()) {
             if(player.getId() != getCurrPlayer().getId() && player.getPosition() == getCurrPlayer().getPosition()) {
                 input.getTargets().add(player);
             }
         }
+
+        if (mode.equals(ShootMode.ALTERNATE))
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            }
 
         try {
             eff.executeEffect(match, moveController, input);
@@ -256,16 +262,10 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for MACHINE GUN
 
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
-            }
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
                     try {
@@ -274,6 +274,15 @@ public class ShootController extends ActionController {
                         throw new NotAllowedTargetException();
                     }
                 }
+            }
+        }
+
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
             }
         }
 
@@ -309,10 +318,15 @@ public class ShootController extends ActionController {
             eff = input.getWeapon().getMode(mode).get(0);
             try {
                 checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));
-                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotAllowedTargetException e) {
                 throw new NotAllowedTargetException();
+            }
+        }
+
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
+                    payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException("poverooo!");   //TODO
             }
@@ -346,17 +360,22 @@ public class ShootController extends ActionController {
             try {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
-                if (mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotAllowedTargetException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException();
-            } catch (NotEnoughAmmoException e) {
-                getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException();
+            }
+        }
+
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                if (mode.equals(ShootMode.OPTIONAL2))
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
             }
         }
 
@@ -436,6 +455,25 @@ public class ShootController extends ActionController {
         ShootMode mode = input.getShootModes().get(0);
         Square squareTemp = input.getTargets().get(0).getPosition();
 
+        for (Effect eff : input.getWeapon().getMode(mode)) {
+            try {
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+                if (mode.equals(ShootMode.ALTERNATE)) {
+                    checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
+                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
+                }
+                if (eff.getDamage() == 0)
+                    eff.executeEffect(match, moveController, input);
+            } catch (NotAllowedTargetException e) {
+                input.getTargets().get(0).setPosition(squareTemp);
+                throw new NotAllowedTargetException();
+            }  catch (NotAllowedMoveException e) {
+                input.getTargets().get(0).setPosition(squareTemp);
+                throw new NotAllowedMoveException();
+            }
+        }
+
         if (mode.equals(ShootMode.ALTERNATE)) {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
@@ -447,17 +485,8 @@ public class ShootController extends ActionController {
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
-                if (mode.equals(ShootMode.ALTERNATE)) {
-                    checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
-                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
-                }
                 eff.executeEffect(match, moveController, input);
-            } catch (NotAllowedTargetException e) {
-                input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotAllowedTargetException();
-            }  catch (NotAllowedMoveException e) {
+            } catch (NotAllowedMoveException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
                 throw new NotAllowedMoveException();
             }
@@ -507,13 +536,6 @@ public class ShootController extends ActionController {
         //this method is valid only for Cannon Vortex
 
         for (ShootMode mode : input.getShootModes()) {
-            if (mode.equals(ShootMode.OPTIONAL1)) {
-                try {
-                    payAmmo(input.getWeapon().getModeCost(mode));
-                } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("poverooo!");   //TODO
-                }
-            }
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
                     try {
@@ -530,11 +552,21 @@ public class ShootController extends ActionController {
         }
 
         for (ShootMode mode : input.getShootModes()) {
+            if (mode.equals(ShootMode.OPTIONAL1)) {
+                try {
+                    payAmmo(input.getWeapon().getModeCost(mode));
+                } catch (NotEnoughAmmoException e) {
+                    throw new NotEnoughAmmoException("poverooo!");   //TODO
+                }
+            }
+        }
+
+        for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 try {
                     eff.executeEffect(match, moveController, input);
                 } catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -654,14 +686,6 @@ public class ShootController extends ActionController {
         //this method in valid only for Hellion
         ShootMode mode = input.getShootModes().get(0);
 
-        if (mode.equals(ShootMode.OPTIONAL1)) {
-            try {
-                payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
-            }
-        }
-
         for (Player player : match.getPlayers()) {  		//add the players in the same square to target list
             if (input.getTargets().get(0).getPosition() == player.getPosition() && player.getId() != getCurrPlayer().getId() && player.getId() != input.getTargets().get(0).getId())
                 input.getTargets().add(player);
@@ -678,6 +702,15 @@ public class ShootController extends ActionController {
             }
         }
 
+
+        if (mode.equals(ShootMode.ALTERNATE)) {
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            }
+        }
+
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
                 eff.executeEffect(match, moveController, input);
@@ -688,7 +721,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootFlameThrower () throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootFlameThrower () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for FlameThrower
 
         ShootMode mode = input.getShootModes().get(0);
@@ -763,8 +796,13 @@ public class ShootController extends ActionController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
+
+            case OPTIONAL1:
+                throw new NotAllowedShootingModeException();
+
+            case OPTIONAL2:
+                throw new NotAllowedShootingModeException();
         }
 
     }
@@ -780,21 +818,27 @@ public class ShootController extends ActionController {
                 try {
                     checkMaximumDistance(eff, mainTarget, moveHerePlayer, eff.getMoveTarget());
                     checkCorrectVisibility(eff, getCurrPlayer(), mainTarget);
-                    if (mode == ShootMode.OPTIONAL1)
-                        payAmmo(input.getWeapon().getModeCost(mode));
+
                 } catch (NotAllowedMoveException e) {
                     throw new  NotAllowedMoveException();
-                } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("sei povero"); //TODO
                 } catch (NotAllowedTargetException e) {
                     throw new NotAllowedTargetException();
                 }
             }
         }
 
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                 if (mode == ShootMode.OPTIONAL1)
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("sei povero"); //TODO
+            }
+        }
 
 
-        if (input.getMakeDamageBeforeMove()) {  //if the player wants to hti every player in the square before moving the target
+
+        if (input.getMakeDamageBeforeMove()) {  //if the player wants to hit every player in the square before moving the target
             input.getWeapon().getBasicMode().get(0).executeEffect(match, moveController, input);
             input.getTargets().clear();
             for (Player player : match.getPlayers()) {
@@ -850,14 +894,9 @@ public class ShootController extends ActionController {
                         checkMaximumDistance(effect, input.getTargets().get(0), moveTargetHere, effect.getMoveTarget());
                      if (mode.equals(ShootMode.OPTIONAL1))
                         checkMaximumDistance(effect, getCurrPlayer(), moveYourselfHere, effect.getMoveYourself());
-                     if (mode.equals(ShootMode.OPTIONAL2) || mode.equals(ShootMode.OPTIONAL1))
-                         payAmmo(input.getWeapon().getModeCost(mode));
                  } catch (NotAllowedTargetException e) {
                      getCurrPlayer().setPosition(squareTemp);
                      throw new NotAllowedTargetException();
-                 } catch (NotEnoughAmmoException e) {
-                     getCurrPlayer().setPosition(squareTemp);
-                     throw new NotEnoughAmmoException("poverooo!");   //TODO
                  } catch (NotAllowedMoveException e) {
                      getCurrPlayer().setPosition(squareTemp);
                      throw new NotAllowedMoveException();
@@ -865,6 +904,16 @@ public class ShootController extends ActionController {
              }
 
          }
+
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            }
+        }
 
          if (input.getShootModes().contains(ShootMode.OPTIONAL2)) {   //Adding the players that have to be damaged by optional 2 effect
              for (Player player : match.getPlayers()) {
@@ -930,19 +979,25 @@ public class ShootController extends ActionController {
                 }
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                if (mode == ShootMode.OPTIONAL2)
-                    payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotAllowedTargetException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException();
-            } catch (NotEnoughAmmoException e) {
-                getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException();
             }
         }
+
+        for (ShootMode mode : input.getShootModes()) {
+            try {
+                if (mode.equals(ShootMode.OPTIONAL2))
+                    payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotEnoughAmmoException("poverooo!");   //TODO
+            }
+        }
+
 
         getCurrPlayer().setPosition(squareTemp);      //reset the player to his initial posisition
 
@@ -1030,14 +1085,6 @@ public class ShootController extends ActionController {
 
         int k = input.getSquares().size();
 
-        if (mode == ShootMode.ALTERNATE) {
-            try {
-                payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo");   //TODO
-            }
-        }
-
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
                 if (i == 3 && input.getTargets().size()<2)
@@ -1057,6 +1104,15 @@ public class ShootController extends ActionController {
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException();
+            }
+        }
+
+        if (mode == ShootMode.ALTERNATE) {
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                getCurrPlayer().setPosition(squareTemp);
+                throw new NotEnoughAmmoException("poverooo");   //TODO
             }
         }
 
@@ -1081,15 +1137,10 @@ public class ShootController extends ActionController {
         ShootMode mode = input.getShootModes().get(0);
 
         if (mode == ShootMode.ALTERNATE) {
-            try {
-                input.getTargets().clear();
-                payAmmo(input.getWeapon().getModeCost(mode));
-                for (Player player : match.getPlayers()) {
-                    if (moveController.minDistBetweenSquares(getCurrPlayer().getPosition(), player.getPosition()) == 1)
-                        input.setTargets(player);
-                }
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poveroo");  //TODO
+            input.getTargets().clear();
+            for (Player player : match.getPlayers()) {
+                if (moveController.minDistBetweenSquares(getCurrPlayer().getPosition(), player.getPosition()) == 1)
+                    input.setTargets(player);
             }
         }
 
@@ -1101,6 +1152,14 @@ public class ShootController extends ActionController {
                 } catch (NotAllowedTargetException e) {
                     throw new NotAllowedTargetException();
                 }
+            }
+        }
+
+        if (mode == ShootMode.ALTERNATE) {
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo");   //TODO
             }
         }
 
@@ -1130,13 +1189,6 @@ public class ShootController extends ActionController {
         //this method is valid only for Sledgehammer
         ShootMode mode = input.getShootModes().get(0);
 
-        if (mode == ShootMode.ALTERNATE)
-            try {
-                payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("povero");   //TODO
-            }
-
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
@@ -1155,6 +1207,14 @@ public class ShootController extends ActionController {
             } catch (Exception e) {
                 throw new NotAllowedMoveException();
             }
+
+        if (mode == ShootMode.ALTERNATE) {
+            try {
+                payAmmo(input.getWeapon().getModeCost(mode));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException("poverooo");   //TODO
+            }
+        }
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {

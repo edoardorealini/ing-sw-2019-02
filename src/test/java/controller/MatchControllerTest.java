@@ -60,15 +60,14 @@ class MatchControllerTest {
 
 
         //executing code
-        try{
-            matchController.getShootController().setInput(input);
+        try {
             matchController.shoot(input);
             System.out.println(p2.getBoard().toStringLP());
             System.out.println(p2.getBoard().toStringMarks());
             System.out.println(p3.getBoard().toStringLP());
             System.out.println(p3.getBoard().toStringMarks());
 
-        }catch (Exception e){
+        } catch (Exception e){
             System.out.println("shit happened");
             e.printStackTrace();
         }

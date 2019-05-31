@@ -307,14 +307,14 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p2);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of REALNGNEER
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of REALNGNEER
 
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.TRACTOR_BEAM));
-		input.setShootModes(ShootMode.BASIC);
-		//input.setShootModes(ShootMode.ALTERNATE);
+		//input.setShootModes(ShootMode.BASIC);
+		input.setShootModes(ShootMode.ALTERNATE);
 		input.setTargets(p2);
-		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));
 
 
 		//executing code
