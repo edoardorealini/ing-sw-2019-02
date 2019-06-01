@@ -6,6 +6,7 @@ import exception.*;
 import model.map.Directions;
 import model.map.Square;
 import model.player.Player;
+import model.powerup.PowerUp;
 import model.weapons.Effect;
 import java.util.*;
 
@@ -53,6 +54,9 @@ public class ShootController extends ActionController {
         int r = 0;
         int b = 0;
         int y = 0;
+        int actualRedAmmo = getCurrPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
+        int actualBlueAmmo = getCurrPlayer().getAmmo().getBlueAmmo();
+        int actualYellowAmmo = getCurrPlayer().getAmmo().getYellowAmmo();
 
         for (Color color : cost) {
             switch (color) {
@@ -70,11 +74,43 @@ public class ShootController extends ActionController {
             }
         }
 
-        if (getCurrPlayer().getAmmo().getRedAmmo() - r < 0 || getCurrPlayer().getAmmo().getBlueAmmo() - b < 0 || getCurrPlayer().getAmmo().getYellowAmmo() - y < 0) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
+                //TODO ask GUI
+            } else {
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            }
         } else {
             getCurrPlayer().removeAmmo(r, b, y);
         }
+    }
+
+    private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
+        //this method return true if the current player can pay with power ups, so that maybe we can ask him if he wants to or not
+
+        int r = 0;
+        int b = 0;
+        int y = 0;
+
+        for (PowerUp pow : match.getCurrentPlayer().getPowerUps()) {
+            if (pow != null) {
+                switch (pow.getColor()) {
+                    case RED:
+                        r++;
+                        break;
+                    case BLUE:
+                        b++;
+                        break;
+                    case YELLOW:
+                        y++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
     }
 
     private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
