@@ -346,4 +346,17 @@ public class Player  implements Serializable {
         }
     }
 
+    public String printPowerUps() {
+        StringBuilder string = new StringBuilder();
+        for(int i=0; i<3; i++) {
+            if (powerUps[i] != null) {
+                string.append(i);
+                string.append("-");
+                string.append(powerUps[i]);
+                string.append("\t");
+            }
+        }
+        return string.toString();
+    }
+
 }

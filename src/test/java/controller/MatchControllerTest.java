@@ -1,7 +1,13 @@
 package controller;
 
+import exception.NotEnoughAmmoException;
+import model.Color;
 import model.ammo.AmmoCard;
 import model.player.Player;
+import model.powerup.PowerUp;
+import model.powerup.PowerUpName;
+import model.weapons.Weapon;
+import model.weapons.WeaponAmmoStatus;
 import model.weapons.WeaponName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +21,7 @@ class MatchControllerTest {
     private Player p2;
     private Player p3;
     private Player p4;
-    private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
+    private AmmoCard ammo = new AmmoCard(3, 1, 3, false);
     private ShootingParametersInput input = new ShootingParametersInput();
 
     @BeforeEach
@@ -72,5 +78,25 @@ class MatchControllerTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    void reloadWeapon() {
+        matchController.getMatch().setCurrentPlayer(p1);
+        //p1.getStatus().setTurnStatusFirstAction();
+        matchController.getMatch().setPlayers(p1);
+        matchController.getMatch().getCurrentPlayer().addAmmoCard(ammo);
+        PowerUp pow1 = new PowerUp(Color.RED, PowerUpName.TELEPORTER);
+        PowerUp pow2 = new PowerUp(Color.YELLOW, PowerUpName.TAGBACK_GRENADE);
+        PowerUp pow3 = new PowerUp(Color.BLUE, PowerUpName.TAGBACK_GRENADE);
+
+        try {
+            Weapon weap = matchController.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE);
+            weap.setWeaponStatus(WeaponAmmoStatus.UNLOADED);
+            matchController.reloadWeapon(weap);
+        } catch (NotEnoughAmmoException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

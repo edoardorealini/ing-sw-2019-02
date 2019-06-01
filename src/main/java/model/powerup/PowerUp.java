@@ -17,7 +17,17 @@ public class PowerUp  implements Serializable {
     public  Color getColor(){
         return color;
     }
+
     public  PowerUpName getName(){
         return name;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder name = new StringBuilder();
+        name.append(this.name);
+        name.append(this.color);
+        name.append("PowerUp");
+        return name.toString();
     }
 }
