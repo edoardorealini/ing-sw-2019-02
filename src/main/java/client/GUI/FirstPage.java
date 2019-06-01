@@ -75,7 +75,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(IPlabel, 50,22);
 
         TextField IP = new TextField();
-        inputName.setPromptText("IP");
+        IP.setPromptText("IP");
         GridPane.setConstraints(IP, 50,23);
 
 
