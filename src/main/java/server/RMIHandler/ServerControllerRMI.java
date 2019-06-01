@@ -24,17 +24,24 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     private InputConverter converter;
     private MatchController matchController;
-    private HashMap<String, InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
+    private ArrayList<InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
 
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
         this.converter = new InputConverter(matchController.getMatch());
-        this.clientControllers = new HashMap<>(5);
+        this.clientControllers = new ArrayList<>(5);
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
     public void register(InterfaceClientControllerRMI clientController){
-        //clientControllers.put(clientController.getNickname(), clientController);
+        System.out.println("Test connection to client");
+        try {
+            clientControllers.add(clientController);
+            clientController.ping();
+            System.out.println("Client pinged");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public Match getMatch() {

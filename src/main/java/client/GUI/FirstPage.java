@@ -197,6 +197,7 @@ public class FirstPage extends Application implements Runnable{
             }
             catch (Exception e){
                 System.out.println("ERRORRRRR");
+                e.printStackTrace();
                 PopUpSceneMethod.display("Network error", e.getMessage());
             }
         }

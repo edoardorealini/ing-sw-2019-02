@@ -214,7 +214,7 @@ public class CLI implements Runnable{
             catch(RemoteException e) {
                 e.printStackTrace();
             }
-            catch(NotBoundException e) {
+            catch(Exception e) {
                 e.printStackTrace();
             }
 

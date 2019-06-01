@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ClientController{
 
     private Match match;
+    private String nickname;
 
     public ClientControllerRMI(Match match) throws RemoteException{
         this.match = match;
@@ -19,7 +20,7 @@ public class ClientControllerRMI extends UnicastRemoteObject implements Interfac
 
     //here are implemented all the methods that the server can call remotely to the client
 
-    public void ping() throws RemoteException {
+    public void ping() throws RemoteException{
         return;
     }
 

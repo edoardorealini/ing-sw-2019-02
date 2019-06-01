@@ -23,6 +23,11 @@ public class ClientStarter{
 
         try {
 
+            if (args == null){
+                System.out.println("[ERROR] : Interface type not selected, please restart the application");
+                return;
+            }
+
             switch (args[0]) {
                 case "-CLI":
                     starter.launchCLI();
@@ -33,7 +38,7 @@ public class ClientStarter{
                     break;
 
                 default:
-                    System.out.println("[ERROR] : Interface type not selected, please restart the application");
+                    System.out.println("[ERROR] : Wrong Interface type, please restart the application");
                     return;
 
             }
