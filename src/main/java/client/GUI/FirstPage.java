@@ -13,7 +13,9 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.concurrent.*;
+
+import java.lang.reflect.Array;
+import java.util.*;
 
 import javafx.scene.image.Image;
 
@@ -185,18 +187,15 @@ public class FirstPage extends Application implements Runnable{
 
             try {
                 if (choiceBox.getValue().equals("RMI")){
-                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(),1338);
+                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), String inputName);
                     settRemoteController(remoteController);
-                    System.out.println("STo per cambaire");
                     primaryStage.setScene(sceneLobby);
-                    System.out.println("Cambiat0");
                 }
                 else{
-                    //RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
+                    //TODO RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
                 }
             }
             catch (Exception e){
-                System.out.println("ERRORRRRR");
                 e.printStackTrace();
                 PopUpSceneMethod.display("Network error", e.getMessage());
             }
@@ -214,6 +213,18 @@ public class FirstPage extends Application implements Runnable{
 
     public void settRemoteController(RemoteController remoteController){
         this.remoteController=remoteController;
+    }
+
+    public void createSceneLobby(ArrayList<String> players){
+        VBox vbox = new VBox(20);
+
+        Label description = new Label();
+        description.setText("Player connected to the match:");
+
+        vbox.getChildren().add(description);
+
+        Scene sceneLobby = new Scene(vbox,250,250);
+        settSceneLobby(sceneLobby);
     }
 
 
