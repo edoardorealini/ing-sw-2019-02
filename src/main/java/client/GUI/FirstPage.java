@@ -13,12 +13,18 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.util.concurrent.*;
 
 import javafx.scene.image.Image;
 
 import java.io.File;
 
 public class FirstPage extends Application implements Runnable{
+
+    Stage primaryStage;
+    RemoteController remoteController;
+    Scene sceneLobby;
+    Scene scene;
 
     public void run() {
         launch();
@@ -40,8 +46,6 @@ public class FirstPage extends Application implements Runnable{
         //per prima cosa devi aprire il file con new File, poi renderlo leggibile (.toURI().toString())
         //vedi qui:  https://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx#8088561
 
-
-        //TODO per johnny, aggiungere sotto al tipo di connessione anche un campo per l'inserimento dell' IP !
 
         GridPane grid = new GridPane();
         grid.setVgap(10); // sapzio verticale tra boxes
@@ -77,7 +81,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(ipLabel, 50,22);
 
         TextField inputIp = new TextField();
-        inputIp.setPromptText("IP");
+        inputIp.setText("192.168.5.6");
         GridPane.setConstraints(inputIp, 50,23);
 
 
@@ -85,7 +89,7 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp));
+        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp,primaryStage));
 
         // ++++++++++++++++++++++++++++++++++
         // codice per cambaire font
@@ -143,17 +147,36 @@ public class FirstPage extends Application implements Runnable{
         // +++++++++++++++++++++++++++++++++++++++
 
         Scene scene = new Scene(grid,996,698);
+        settScene(scene);
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
 
         grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,ipLabel, inputIp, playButton);
+
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
         primaryStage.setMaxHeight(698);
         primaryStage.show();
+
+        // **************************
+        // LAYOUT SCENE
+
+        VBox vbox = new VBox(20);
+
+        Label description = new Label();
+        description.setText("Player connected to the match:");
+
+        vbox.getChildren().add(description);
+
+        Scene sceneLobby = new Scene(vbox,250,250);
+        settSceneLobby(sceneLobby);
+
+        // **************************
+
+
     }
 
-    private void checkInput(TextField inputName, ChoiceBox<String> choiceBox, TextField inputIp){
+    private void checkInput(TextField inputName, ChoiceBox<String> choiceBox, TextField inputIp, Stage primaryStage){
         if ((inputName.getText().isEmpty())){
             PopUpSceneMethod.display("Username Error", "Please insert a valid username");
 
@@ -163,15 +186,33 @@ public class FirstPage extends Application implements Runnable{
             try {
                 if (choiceBox.getValue().equals("RMI")){
                     RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(),1338);
+                    settRemoteController(remoteController);
+                    System.out.println("STo per cambaire");
+                    primaryStage.setScene(sceneLobby);
+                    System.out.println("Cambiat0");
                 }
                 else{
                     //RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
                 }
             }
             catch (Exception e){
+                System.out.println("ERRORRRRR");
                 PopUpSceneMethod.display("Network error", e.getMessage());
             }
         }
+    }
+
+
+    public void settScene(Scene scene){
+        this.scene= scene;
+    }
+
+    public void settSceneLobby(Scene scene){
+        this.sceneLobby= scene;
+    }
+
+    public void settRemoteController(RemoteController remoteController){
+        this.remoteController=remoteController;
     }
 
 
