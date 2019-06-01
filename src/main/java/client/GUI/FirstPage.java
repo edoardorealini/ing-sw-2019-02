@@ -187,7 +187,7 @@ public class FirstPage extends Application implements Runnable{
 
             try {
                 if (choiceBox.getValue().equals("RMI")){
-                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), String inputName);
+                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText());
                     settRemoteController(remoteController);
                     primaryStage.setScene(sceneLobby);
                 }

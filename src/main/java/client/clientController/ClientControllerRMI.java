@@ -14,8 +14,9 @@ public class ClientControllerRMI extends UnicastRemoteObject implements Interfac
     private Match match;
     private String nickname;
 
-    public ClientControllerRMI(Match match) throws RemoteException{
+    public ClientControllerRMI(Match match, String nickname) throws RemoteException{
         this.match = match;
+        this.nickname = nickname;
     }
 
     //here are implemented all the methods that the server can call remotely to the client

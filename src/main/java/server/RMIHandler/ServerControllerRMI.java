@@ -33,9 +33,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
-    public void register(InterfaceClientControllerRMI clientController){
+    public void register(InterfaceClientControllerRMI clientController, String nickname){
         System.out.println("Test connection to client");
         try {
+            addPlayer(nickname);
             clientControllers.add(clientController);
             clientController.ping();
             System.out.println("Client pinged");

@@ -24,13 +24,13 @@ public class RemoteControllerRMI extends RemoteController {
     private InterfaceServerControllerRMI serverController;
     private InterfaceClientControllerRMI clientController;
 
-    public RemoteControllerRMI(String serverIP, int port) throws RemoteException, NotBoundException{
+    public RemoteControllerRMI(String serverIP, String nickname) throws RemoteException, NotBoundException{
         try {
-            clientController = new ClientControllerRMI(match);
-            Registry registry = LocateRegistry.getRegistry(serverIP, port);
+            clientController = new ClientControllerRMI(match, nickname);
+            Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
             //UnicastRemoteObject.exportObject(clientController, 0);
-            serverController.register(clientController); //the server now has a controller to call methods on the client
+            serverController.register(clientController, nickname); //the server now has a controller to call methods on the client
         } catch (RemoteException e) {
             System.out.println("\n[ERROR]: Remote object not found");
             e.printStackTrace();

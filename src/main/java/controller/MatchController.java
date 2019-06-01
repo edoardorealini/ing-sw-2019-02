@@ -249,6 +249,9 @@ public class MatchController{
     // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente basandosi sulla dimensione dell'array di player in gioco
     //usare questo!!
     public synchronized  int addPlayer(String nickName) {
+
+        //TODO verifica che non ci sia uno con lo stesso nome già connesso
+
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
         if (match.getPlayers().size() == 1)
