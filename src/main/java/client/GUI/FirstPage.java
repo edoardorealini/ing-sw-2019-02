@@ -71,10 +71,18 @@ public class FirstPage extends Application implements Runnable{
         choiceBox.setValue("RMI");
         GridPane.setConstraints(choiceBox,50,21);
 
+        Label IPlabel = new Label("IP: ");
+        GridPane.setConstraints(IPlabel, 50,22);
+
+        TextField IP = new TextField();
+        inputName.setPromptText("IP");
+        GridPane.setConstraints(IP, 50,23);
+
+
         Button playButton = new Button();
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
-        GridPane.setConstraints(playButton,50,23);
+        GridPane.setConstraints(playButton,50,26);
         playButton.setOnAction(e -> checkInput(inputName,choiceBox));
 
         // ++++++++++++++++++++++++++++++++++
@@ -133,7 +141,7 @@ public class FirstPage extends Application implements Runnable{
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
 
-        grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,playButton);
+        grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,IPlabel, IP, playButton);
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
         primaryStage.setMaxHeight(698);
