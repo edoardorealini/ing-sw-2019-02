@@ -5,9 +5,11 @@ package client.clientController;
 
 import commons.InterfaceClientControllerRMI;
 import model.Match;
+import model.player.Player;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class ClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ClientController{
 
@@ -25,9 +27,8 @@ public class ClientControllerRMI extends UnicastRemoteObject implements Interfac
         return;
     }
 
-    public String getNickname(){
-        //TODO
-        return null;
+    public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException{
+        match.setPlayers(connectedPlayers);
     }
 
 }

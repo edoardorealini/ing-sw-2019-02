@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import javafx.scene.image.Image;
+import model.Match;
 
 import java.io.File;
 
@@ -27,6 +28,12 @@ public class FirstPage extends Application implements Runnable{
     RemoteController remoteController;
     Scene sceneLobby;
     Scene scene;
+
+    Match match;
+
+    public FirstPage(Match match){
+        this.match = match;
+    }
 
     public void run() {
         launch();
@@ -187,7 +194,7 @@ public class FirstPage extends Application implements Runnable{
 
             try {
                 if (choiceBox.getValue().equals("RMI")){
-                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText());
+                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText(), match);
                     settRemoteController(remoteController);
                     primaryStage.setScene(sceneLobby);
                 }

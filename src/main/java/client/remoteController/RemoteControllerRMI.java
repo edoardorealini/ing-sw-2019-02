@@ -24,8 +24,9 @@ public class RemoteControllerRMI extends RemoteController {
     private InterfaceServerControllerRMI serverController;
     private InterfaceClientControllerRMI clientController;
 
-    public RemoteControllerRMI(String serverIP, String nickname) throws RemoteException, NotBoundException{
+    public RemoteControllerRMI(String serverIP, String nickname, Match match) throws RemoteException, NotBoundException{
         try {
+            this.match = match;
             clientController = new ClientControllerRMI(match, nickname);
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");

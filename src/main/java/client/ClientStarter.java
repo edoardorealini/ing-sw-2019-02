@@ -4,6 +4,7 @@ import client.CLI.CLI;
 import client.GUI.FirstPage;
 import client.clientController.ClientController;
 import client.clientController.ClientControllerRMI;
+import model.Match;
 
 import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
@@ -12,9 +13,11 @@ import java.util.concurrent.Executors;
 public class ClientStarter{
 
     private ExecutorService executor;
+    private Match match;
 
     public ClientStarter(){
         executor = Executors.newCachedThreadPool();
+        match = new Match();
     }
 
     public static void main(String[] args) {
@@ -56,7 +59,7 @@ public class ClientStarter{
     }
 
     private void launchGUI(){
-        executor.submit(new client.GUI.FirstPage());
+        executor.submit(new client.GUI.FirstPage(match));
     }
 
 

@@ -1,5 +1,6 @@
 package server.RMIHandler;
 
+import client.clientController.ClientController;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
@@ -36,8 +37,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public void register(InterfaceClientControllerRMI clientController, String nickname){
         System.out.println("Test connection to client");
         try {
-            addPlayer(nickname);
             clientControllers.add(clientController);
+            addPlayer(nickname);
             clientController.ping();
             System.out.println("Client pinged");
         }catch(Exception e){
@@ -122,7 +123,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     public int addPlayer(String nickName) {
-        return matchController.addPlayer(nickName);
+        int tmp = matchController.addPlayer(nickName);
+        notifyNewPlayers();
+        return tmp;
     }
 
     public int connectedPlayers(){
@@ -135,6 +138,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     public boolean getMatchStatus() throws RemoteException{
         return matchController.getMatchStatus();
+    }
+
+    private void notifyNewPlayers(){
+        try {
+            for (InterfaceClientControllerRMI c : clientControllers) {
+                c.updateConnectedPlayers(getMatch().getPlayers());
+            }
+        }catch(RemoteException e){
+            e.printStackTrace();
+        }
     }
 
 
