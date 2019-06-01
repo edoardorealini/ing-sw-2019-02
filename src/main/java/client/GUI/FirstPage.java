@@ -1,5 +1,8 @@
 package client.GUI;
 
+import client.remoteController.RemoteController;
+import client.remoteController.RemoteControllerRMI;
+import client.remoteController.RemoteControllerSocket;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -47,7 +50,6 @@ public class FirstPage extends Application implements Runnable{
         // Imposto immagine background
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
-        Image image = new Image(file.toURI().toString());
 
         BackgroundImage myBI= new BackgroundImage(new Image(file.toURI().toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -67,33 +69,35 @@ public class FirstPage extends Application implements Runnable{
 
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         choiceBox.getItems().add("RMI");
-        choiceBox.getItems().add("socketHandler");
+        choiceBox.getItems().add("Socket");
         choiceBox.setValue("RMI");
         GridPane.setConstraints(choiceBox,50,21);
 
-        Label IPlabel = new Label("IP: ");
-        GridPane.setConstraints(IPlabel, 50,22);
+        Label ipLabel = new Label("IP: ");
+        GridPane.setConstraints(ipLabel, 50,22);
 
-        TextField IP = new TextField();
-        IP.setPromptText("IP");
-        GridPane.setConstraints(IP, 50,23);
+        TextField inputIp = new TextField();
+        inputIp.setPromptText("IP");
+        GridPane.setConstraints(inputIp, 50,23);
 
 
         Button playButton = new Button();
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
-        GridPane.setConstraints(playButton,50,26);
-        playButton.setOnAction(e -> checkInput(inputName,choiceBox));
+        GridPane.setConstraints(playButton,50,24);
+        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp));
 
         // ++++++++++++++++++++++++++++++++++
         // codice per cambaire font
         nameLabel.setTextFill(Color.YELLOWGREEN);
         nameLabel.setStyle("-fx-font-weight: bold");
+        typeOfConnection.setTextFill(Color.YELLOWGREEN);
+        typeOfConnection.setStyle("-fx-font-weight: bold");
+        ipLabel.setTextFill(Color.YELLOWGREEN);
+        ipLabel.setStyle("-fx-font-weight: bold");
 
         Blend blend = new Blend();
         blend.setMode(BlendMode.MULTIPLY);
-        typeOfConnection.setTextFill(Color.YELLOWGREEN);
-        typeOfConnection.setStyle("-fx-font-weight: bold");
 
         DropShadow ds = new DropShadow();
         ds.setColor(Color.rgb(254, 235, 66, 0.3));
@@ -134,6 +138,7 @@ public class FirstPage extends Application implements Runnable{
         nameLabel.setEffect(blend);
         typeOfConnection.setEffect(blend);
         playButton.setEffect(blend);
+        ipLabel.setEffect(blend);
 
         // +++++++++++++++++++++++++++++++++++++++
 
@@ -141,20 +146,31 @@ public class FirstPage extends Application implements Runnable{
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
 
-        grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,IPlabel, IP, playButton);
+        grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,ipLabel, inputIp, playButton);
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
         primaryStage.setMaxHeight(698);
         primaryStage.show();
     }
 
-    private void checkInput(TextField inputName, ChoiceBox<String> choiceBox){
+    private void checkInput(TextField inputName, ChoiceBox<String> choiceBox, TextField inputIp){
         if ((inputName.getText().isEmpty())){
             PopUpSceneMethod.display("Username Error", "Please insert a valid username");
 
         }
         else {
 
+            try {
+                if (choiceBox.getValue().equals("RMI")){
+                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(),1338);
+                }
+                else{
+                    //RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
+                }
+            }
+            catch (Exception e){
+                PopUpSceneMethod.display("Network error", e.getMessage());
+            }
         }
     }
 

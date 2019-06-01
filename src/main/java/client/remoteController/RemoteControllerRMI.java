@@ -27,7 +27,7 @@ public class RemoteControllerRMI extends RemoteController {
         try {
 
             clientController = new ClientControllerRMI(match);
-            UnicastRemoteObject.exportObject(clientController);
+            //UnicastRemoteObject.exportObject(clientController);
 
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
