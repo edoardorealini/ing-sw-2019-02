@@ -23,7 +23,7 @@ public class FirstPage extends Application implements Runnable{
     Scene sceneLobby;
     Scene scene;
     Match match;
-    String[] playersBind = {"a","b","","","","","",""};
+    String[] playersBind = {"-","-","-","-","-","","",""};
 
     //lista di Label che sono da passare nel metodo
     Label player1;
@@ -91,7 +91,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(ipLabel, 50,22);
 
         TextField inputIp = new TextField();
-        inputIp.setText("172.20.10.2");
+        inputIp.setText("192.168.1.8");
         GridPane.setConstraints(inputIp, 50,23);
 
 
@@ -275,6 +275,7 @@ public class FirstPage extends Application implements Runnable{
             playersBind[i] = match.getPlayers().get(i).getNickname();
         }
         player1.setText(playersBind[0]);
+        System.out.println(playersBind[1]);
         player2.setText(playersBind[1]);
         player3.setText(playersBind[2]);
         player4.setText(playersBind[3]);

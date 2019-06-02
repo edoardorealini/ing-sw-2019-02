@@ -5,6 +5,7 @@ package client.clientController;
 
 import client.GUI.FirstPage;
 import commons.InterfaceClientControllerRMI;
+import javafx.application.Platform;
 import model.Color;
 import model.Match;
 import model.player.Player;
@@ -35,7 +36,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException{
         match.setPlayers(connectedPlayers);
-        firstPage.refreshPlayersInLobby();
+        Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Threa
     }
 
     public PowerUp askForPowerUpAsAmmo() {
