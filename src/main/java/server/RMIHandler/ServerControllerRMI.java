@@ -144,6 +144,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             for (InterfaceClientControllerRMI c : clientControllers) {
                 c.updateConnectedPlayers(getMatch().getPlayers());
             }
+
         }catch(RemoteException e){
             e.printStackTrace();
         }
