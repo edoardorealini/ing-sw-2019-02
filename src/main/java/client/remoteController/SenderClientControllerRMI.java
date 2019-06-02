@@ -24,6 +24,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private InterfaceServerControllerRMI serverController;
     private InterfaceClientControllerRMI clientController;
     private FirstPage firstPage;
+    private String nickname;
 
     public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException{
         try {
