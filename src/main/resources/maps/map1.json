@@ -1,0 +1,115 @@
+{
+  "squaresMatrix":[
+    [
+      {
+        "activeStatus":false
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["UP","RIGHT"],
+        "doors":["UP"],
+        "type": "SPAWN",
+        "weaponBox":[]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["DOWN","RIGHT"],
+        "doors":["DOWN"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"WHITE",
+        "allowedMoves":["UP","RIGHT"],
+        "doors":["UP", "RIGHT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["LEFT", "DOWN"],
+        "doors":["DOWN"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["LEFT","RIGHT"],
+        "doors":[],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","LEFT"],
+        "doors":["LEFT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","DOWN"],
+        "doors":["UP"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["DOWN","RIGHT","LEFT"],
+        "doors":["DOWN", "RIGHT"],
+        "type": "SPAWN",
+        "weaponBox":[]
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT"],
+        "doors":[],
+        "type": "SPAWN",
+        "weaponBox":[]
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT","DOWN"],
+        "doors":["UP"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"GREEN",
+        "allowedMoves":["DOWN","LEFT"],
+        "doors":["DOWN","LEFT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ]
+  ],
+  "mapID": 1
+}

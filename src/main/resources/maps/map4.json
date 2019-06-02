@@ -1,0 +1,120 @@
+{
+  "squaresMatrix":[
+    [
+      {
+        "activeStatus":true,
+        "color":"WHITE",
+        "allowedMoves":["UP","RIGHT"],
+        "doors":["UP"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["UP","DOWN"],
+        "doors":["DOWN"],
+        "type": "SPAWN",
+        "weaponBox": []
+      },
+
+      {
+        "activeStatus":true,
+        "color":"RED",
+        "allowedMoves":["DOWN","RIGHT"],
+        "doors":["RIGHT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"WHITE",
+        "allowedMoves":["UP","RIGHT", "LEFT"],
+        "doors":["UP", "RIGHT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"PURPLE",
+        "allowedMoves":["UP", "DOWN"],
+        "doors":["UP","DOWN"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["LEFT","RIGHT", "DOWN"],
+        "doors":["LEFT", "DOWN"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","LEFT"],
+        "doors":["LEFT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","RIGHT","DOWN"],
+        "doors":["UP"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"BLUE",
+        "allowedMoves":["DOWN","RIGHT","LEFT"],
+        "doors":["DOWN", "RIGHT"],
+        "type": "SPAWN",
+        "weaponBox": []
+      }
+    ],
+
+    [
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT"],
+        "doors":[],
+        "type": "SPAWN",
+        "weaponBox": []
+      },
+
+      {
+        "activeStatus":true,
+        "color":"YELLOW",
+        "allowedMoves":["UP","LEFT","DOWN"],
+        "doors":["UP"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      },
+
+      {
+        "activeStatus":true,
+        "color":"GREEN",
+        "allowedMoves":["DOWN","LEFT"],
+        "doors":["DOWN","LEFT"],
+        "type": "NOSPAWN",
+        "ammoTile": null
+      }
+    ]
+  ],
+  "mapID": 4
+}
