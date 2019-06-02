@@ -3,19 +3,11 @@ package client.CLI;
 import client.remoteController.RemoteController;
 import client.remoteController.RemoteControllerRMI;
 
-import exception.*;
-import model.map.*;
 import model.player.*;
 import model.Match;
-import model.powerup.*;
-import model.weapons.*;
-import model.*;
-import model.ammo.*;
 
-import java.io.Console;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -80,13 +72,13 @@ public class CLI implements Runnable{
     public synchronized void waitTurn(){
         try {
 
-            System.out.println("Status of player "+ userID + ": " + controller.getPlayerStatus(userID).getTurnStatus());
+            System.out.println("Status of player "+ userID + ": " + controller.getPlayerStatus(userID, ).getTurnStatus());
 
-            while (controller.getPlayerStatus(userID).getTurnStatus().equals(RoundStatus.WAIT_TURN)) {
+            while (controller.getPlayerStatus(userID, ).getTurnStatus().equals(RoundStatus.WAIT_TURN)) {
                 Thread.sleep(1000, 0);
             }
 
-            if (controller.getPlayerStatus(userID).getTurnStatus().equals(RoundStatus.MASTER)){
+            if (controller.getPlayerStatus(userID, ).getTurnStatus().equals(RoundStatus.MASTER)){
                 System.out.println("\nWelcome player, you are the first player in the queue!");
             }
 
@@ -163,10 +155,10 @@ public class CLI implements Runnable{
                 System.out.println("\nInsert the ID of the map you want to use (1, 2, 3, 4):");
                 mapID = new Scanner(System.in).nextInt();
 
-                controller.buildMap(mapID);
+                //controller.buildMap(mapID, );
                 System.out.println("\n[INFO]: Map " + mapID +  " correctly built");
 
-                System.out.println(controller.getMap().toString());
+                //System.out.println(controller.getMap().toString());
 
                 ok = true;
             }catch(Exception e){
@@ -207,7 +199,7 @@ public class CLI implements Runnable{
 
                 passed = true;
 
-                System.out.println(controller.checkConnection(InetAddress.getLocalHost().getHostAddress()));
+                System.out.println(controller.checkConnection(InetAddress.getLocalHost().getHostAddress(), ));
 
             }
             catch (UnknownHostException e){
