@@ -91,7 +91,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(ipLabel, 50,22);
 
         TextField inputIp = new TextField();
-        inputIp.setText("172.20.10.2");
+        inputIp.setText("192.168.1.8");
         GridPane.setConstraints(inputIp, 50,23);
 
 
