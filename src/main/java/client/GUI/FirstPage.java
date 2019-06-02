@@ -3,6 +3,7 @@ package client.GUI;
 import client.remoteController.SenderClientRemoteController;
 import client.remoteController.SenderClientControllerRMI;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Blend;
@@ -23,7 +24,7 @@ public class FirstPage extends Application implements Runnable{
     Scene sceneLobby;
     Scene scene;
     Match match;
-    String[] playersBind = {"-","-","-","-","-","","",""};
+    String[] playersBind = {"-","-","-","-","-"};
 
     //lista di Label che sono da passare nel metodo
     Label player1;
@@ -31,9 +32,7 @@ public class FirstPage extends Application implements Runnable{
     Label player3;
     Label player4;
     Label player5;
-    Label player6;
-    Label player7;
-    Label player8;
+
 
     public void run() {
         launch();
@@ -43,7 +42,8 @@ public class FirstPage extends Application implements Runnable{
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Adrenaline");
-
+        setPrimaryStage(primaryStage);
+        primaryStage.setOnCloseRequest(e -> closePage());
         this.match= new Match();
 
         /*
@@ -172,6 +172,7 @@ public class FirstPage extends Application implements Runnable{
         // LAYOUT SCENE
 
         VBox vbox = new VBox(8);
+        vbox.setPadding(new Insets(10, 50, 50, 50));
 
         Label description = new Label();
         description.setText("Player connected to the match:");
@@ -199,17 +200,9 @@ public class FirstPage extends Application implements Runnable{
         player5.setText(playersBind[4]);
         vbox.getChildren().add(player5);
 
-        this.player6 = new Label();
-        player6.setText(playersBind[5]);
-        vbox.getChildren().add(player6);
-
-        this.player7 = new Label();
-        player7.setText(playersBind[6]);
-        vbox.getChildren().add(player7);
-
-        this.player8 = new Label();
-        player8.setText(playersBind[7]);
-        vbox.getChildren().add(player8);
+        Button backButton = new Button(" Back ");
+        backButton.setOnAction(e -> primaryStage.setScene(scene));
+        vbox.getChildren().add(backButton);
 
         Scene sceneLobby = new Scene(vbox,300,350);
         settSceneLobby(sceneLobby);
@@ -256,34 +249,35 @@ public class FirstPage extends Application implements Runnable{
         this.remoteController=remoteController;
     }
 
-    /*public void createSceneLobby(Match match){
-
-        VBox vbox = new VBox(20);
-
-        Label description = new Label();
-        description.setText("Player connected to the match:");
-
-        vbox.getChildren().add(description);
-
-        Scene sceneLobby = new Scene(vbox,250,250);
-        settSceneLobby(sceneLobby);
-        primaryStage.setScene(sceneLobby);
-    }*/
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     public void refreshPlayersInLobby(){
-        for (int i=0; i<match.getPlayers().size() || i > 7;i++){
+        for (int i=0; (i<match.getPlayers().size()) && (i < 5);i++){
             playersBind[i] = match.getPlayers().get(i).getNickname();
         }
+        for (int i=0; i<5;i++){
+            System.out.println(playersBind[i]);
+        }
         player1.setText(playersBind[0]);
-        System.out.println(playersBind[1]);
         player2.setText(playersBind[1]);
         player3.setText(playersBind[2]);
         player4.setText(playersBind[3]);
         player5.setText(playersBind[4]);
-        player6.setText(playersBind[5]);
-        player7.setText(playersBind[6]);
-        player8.setText(playersBind[7]);
     }
 
+    public void closePage(){
+        if (remoteController!=null ){
+            //TODO remove players from match.players
+            //TODO disconnessione
+            primaryStage.close();
+        }
+        else primaryStage.close();
 
+    }
+
+    public void startCountdown(){
+        
+    }
 }
