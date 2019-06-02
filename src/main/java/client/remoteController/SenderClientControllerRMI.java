@@ -32,8 +32,11 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             this.firstPage = fp;
             clientController = new ReceiverClientControllerRMI(match, nickname, fp);
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
+            System.out.println("REGISTRY LOCATED CORRECTLY");
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
+            System.out.println("LOOKUP AND BINDING GONE CORRECTLY");
             //UnicastRemoteObject.exportObject(clientController, 0);
+            System.out.println(serverController.RMICallTest("TESTA DI MERDA"));
             serverController.register(clientController, nickname); //the server now has a controller to call methods on the client
         } catch (RemoteException e) {
             System.out.println("\n[ERROR]: Remote object not found");
