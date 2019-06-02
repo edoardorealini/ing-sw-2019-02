@@ -26,10 +26,17 @@ public class FirstPage extends Application implements Runnable{
     Scene sceneLobby;
     Scene scene;
     Match match;
+    String[] playersBind = {"","","","","","","",""};
 
-    //public FirstPage(Match match){
-     //   this.match = match;
-    //}
+    //lista di Label che sono da passare nel metodo
+    Label player1;
+    Label player2;
+    Label player3;
+    Label player4;
+    Label player5;
+    Label player6;
+    Label player7;
+    Label player8;
 
     public void run() {
         launch();
@@ -40,6 +47,7 @@ public class FirstPage extends Application implements Runnable{
 
         primaryStage.setTitle("Adrenaline");
 
+        this.match= new Match();
 
         /*
         Bella johnny, qui ti metto esempio con URL da internet, funziona
@@ -86,7 +94,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(ipLabel, 50,22);
 
         TextField inputIp = new TextField();
-        inputIp.setText("192.168.5.6");
+        inputIp.setText("172.20.10.2");
         GridPane.setConstraints(inputIp, 50,23);
 
 
@@ -166,15 +174,48 @@ public class FirstPage extends Application implements Runnable{
         // **************************
         // LAYOUT SCENE
 
-        /*VBox vbox = new VBox(20);
+        VBox vbox = new VBox(8);
 
         Label description = new Label();
         description.setText("Player connected to the match:");
-
         vbox.getChildren().add(description);
 
-        Scene sceneLobby = new Scene(vbox,250,250);
-        settSceneLobby(sceneLobby);*/
+        // ***************************
+        // lista dei players (inizialmente stringhe vuote)
+        this.player1 = new Label();
+        player1.setText(playersBind[0]);
+        vbox.getChildren().add(player1);
+
+        this.player2 = new Label();
+        player2.setText(playersBind[1]);
+        vbox.getChildren().add(player2);
+
+        this.player3 = new Label();
+        player3.setText(playersBind[2]);
+        vbox.getChildren().add(player3);
+
+        this.player4 = new Label();
+        player4.setText(playersBind[3]);
+        vbox.getChildren().add(player4);
+
+        this.player5 = new Label();
+        player5.setText(playersBind[4]);
+        vbox.getChildren().add(player5);
+
+        this.player6 = new Label();
+        player6.setText(playersBind[5]);
+        vbox.getChildren().add(player6);
+
+        this.player7 = new Label();
+        player7.setText(playersBind[6]);
+        vbox.getChildren().add(player7);
+
+        this.player8 = new Label();
+        player8.setText(playersBind[7]);
+        vbox.getChildren().add(player8);
+
+        Scene sceneLobby = new Scene(vbox,300,350);
+        settSceneLobby(sceneLobby);
 
         // **************************
 
@@ -192,7 +233,7 @@ public class FirstPage extends Application implements Runnable{
                 if (choiceBox.getValue().equals("RMI")){
                     RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText(), match);
                     settRemoteController(remoteController);
-                    createSceneLobby(match);
+                    primaryStage.setScene(sceneLobby);
                 }
                 else{
                     //TODO RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
@@ -218,7 +259,7 @@ public class FirstPage extends Application implements Runnable{
         this.remoteController=remoteController;
     }
 
-    public void createSceneLobby(Match match){
+    /*public void createSceneLobby(Match match){
 
         VBox vbox = new VBox(20);
 
@@ -230,6 +271,12 @@ public class FirstPage extends Application implements Runnable{
         Scene sceneLobby = new Scene(vbox,250,250);
         settSceneLobby(sceneLobby);
         primaryStage.setScene(sceneLobby);
+    }*/
+
+    public void refreshPlayersInLobby(){
+        for (int i=0; i<match.getPlayers().size() || i > 7;i++){
+            playersBind[i] = String.valueOf(match.getPlayers().get(i));
+        }
     }
 
 
