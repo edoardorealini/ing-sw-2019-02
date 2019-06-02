@@ -1,6 +1,5 @@
 package server.RMIHandler;
 
-import client.clientController.ClientController;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
@@ -18,7 +17,6 @@ import model.powerup.PowerUp;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 //ex remoteObjectRMI
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {

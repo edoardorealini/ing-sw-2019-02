@@ -1,8 +1,7 @@
 package client.GUI;
 
-import client.remoteController.RemoteController;
-import client.remoteController.RemoteControllerRMI;
-import client.remoteController.RemoteControllerSocket;
+import client.remoteController.SenderClientRemoteController;
+import client.remoteController.SenderClientControllerRMI;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,8 +12,6 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.lang.reflect.Array;
-import java.util.*;
 import javafx.scene.image.Image;
 import model.Match;
 import java.io.File;
@@ -22,7 +19,7 @@ import java.io.File;
 public class FirstPage extends Application implements Runnable{
 
     Stage primaryStage;
-    RemoteController remoteController;
+    SenderClientRemoteController remoteController;
     Scene sceneLobby;
     Scene scene;
     Match match;
@@ -231,13 +228,13 @@ public class FirstPage extends Application implements Runnable{
 
             try {
                 if (choiceBox.getValue().equals("RMI")){
-                    RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText(), match);
+                    SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), inputName.getText(), match);
                     settRemoteController(remoteController);
                     remoteController.setFirstPage(this);
                     primaryStage.setScene(sceneLobby);
                 }
                 else{
-                    //TODO RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
+                    //TODO SenderClientRemoteController remoteController = new SenderClientControllerSocket(inputIp.toString(),1338);
                 }
             }
             catch (Exception e){
@@ -256,7 +253,7 @@ public class FirstPage extends Application implements Runnable{
         this.sceneLobby= scene;
     }
 
-    public void settRemoteController(RemoteController remoteController){
+    public void settRemoteController(SenderClientRemoteController remoteController){
         this.remoteController=remoteController;
     }
 

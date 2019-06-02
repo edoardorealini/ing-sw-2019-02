@@ -1,7 +1,7 @@
 package client.CLI;
 /*
-import client.remoteController.RemoteController;
-import client.remoteController.RemoteControllerRMI;
+import client.remoteController.SenderClientRemoteController;
+import client.remoteController.SenderClientControllerRMI;
 
 import model.player.*;
 import model.Match;
@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class CLI implements Runnable{
 
-    RemoteController controller;
+    SenderClientRemoteController controller;
     int userID;
     boolean isFirstTurn = true;
 
@@ -194,8 +194,8 @@ public class CLI implements Runnable{
                 String IP = new Scanner(System.in).nextLine();
                 //here happens the connection try
                 //TODO cambaito perchè non compilava
-                // vecchio: controller = new RemoteControllerRMI(IP, 1338);
-                controller = new RemoteControllerRMI(IP, "dhbcj", new Match());
+                // vecchio: controller = new SenderClientControllerRMI(IP, 1338);
+                controller = new SenderClientControllerRMI(IP, "dhbcj", new Match());
 
                 passed = true;
 

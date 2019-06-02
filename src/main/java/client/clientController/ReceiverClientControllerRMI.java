@@ -14,12 +14,12 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class ClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ClientController{
+public class ReceiverClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ReceiverClientController {
 
     private Match match;
     private String nickname;
 
-    public ClientControllerRMI(Match match, String nickname) throws RemoteException{
+    public ReceiverClientControllerRMI(Match match, String nickname) throws RemoteException{
         this.match = match;
         this.nickname = nickname;
     }
