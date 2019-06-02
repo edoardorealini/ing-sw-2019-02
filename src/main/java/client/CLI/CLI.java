@@ -1,5 +1,5 @@
 package client.CLI;
-
+/*
 import client.remoteController.RemoteController;
 import client.remoteController.RemoteControllerRMI;
 
@@ -222,3 +222,4 @@ public class CLI implements Runnable{
 
     }
 }
+*/

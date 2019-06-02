@@ -1,6 +1,6 @@
 package client;
 
-import client.CLI.CLI;
+//TODOimport client.CLI.CLI;
 import client.GUI.FirstPage;
 import client.clientController.ClientController;
 import client.clientController.ClientControllerRMI;
@@ -33,11 +33,11 @@ public class ClientStarter{
 
             switch (args[0]) {
                 case "-CLI":
-                    starter.launchCLI();
+                    //TODO starter.launchCLI();
                     break;
 
                 case "-GUI":
-                    starter.launchGUI();
+                    //TODO starter.launchGUI();
                     break;
 
                 default:
@@ -52,7 +52,7 @@ public class ClientStarter{
     }
 
 
-    private void launchCLI(){
+  /* TODO private void launchCLI(){
         executor.submit(new CLI());
         System.out.println("[INFO] : ADRENALINE CLI INTERFACE LAUNCHED");
 
@@ -61,7 +61,7 @@ public class ClientStarter{
     private void launchGUI(){
         executor.submit(new client.GUI.FirstPage());
     }
-
+*/
 
     //in teoria questo metodo va chiamato dopo che l'utente ha deciso che tipo di connessione utilizzare, quindi si lancia il controller corretto.
     //TODO spostare lato RemoteControllerRMI
