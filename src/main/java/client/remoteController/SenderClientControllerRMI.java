@@ -3,6 +3,7 @@ package client.remoteController;
 import client.GUI.FirstPage;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
+import jdk.jshell.execution.RemoteExecutionControl;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -11,6 +12,7 @@ import model.powerup.*;
 //TODO vedere server http
 import commons.InterfaceServerControllerRMI;
 
+import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,7 +25,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private InterfaceClientControllerRMI clientController;
     private FirstPage firstPage;
 
-    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException{
+    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException{
         try {
             this.match = match;
             this.firstPage = fp;
@@ -41,6 +43,10 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         catch (NotBoundException e) {
             System.out.println("\n[ERROR]: Remote object not bound correctly");
             throw new NotBoundException("[ERROR]: Wrong IP or port, please retry");
+        }
+        catch (FailedLoginException e){
+            System.out.println(e.getMessage());
+            throw new FailedLoginException(e.getMessage());
         }
     }
 
@@ -137,11 +143,14 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void addPlayer(String nickName) {
+    public void addPlayer(String nickName) throws FailedLoginException {
         try {
             serverController.addPlayer(nickName);
             firstPage.refreshPlayersInLobby();
-        } catch (Exception e) {
+        } catch (FailedLoginException e) {
+            throw new FailedLoginException(e.getMessage());
+        }
+        catch (RemoteException e){
             e.printStackTrace();
         }
 

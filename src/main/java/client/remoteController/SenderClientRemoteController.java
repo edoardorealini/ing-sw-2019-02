@@ -6,6 +6,8 @@ import model.player.*;
 import model.Match;
 import model.powerup.*;
 
+import javax.security.auth.login.FailedLoginException;
+
 public abstract class SenderClientRemoteController {
 
     abstract Match getMatch(String nicknamePlayer);
@@ -41,7 +43,7 @@ public abstract class SenderClientRemoteController {
 
     public abstract String checkConnection(String IP, String nicknamePlayer);
 
-    public abstract void addPlayer(String nickName);
+    public abstract void addPlayer(String nickName) throws FailedLoginException;
 
     public abstract int connectedPlayers();
 

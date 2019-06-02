@@ -11,10 +11,9 @@ import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
 
-import java.io.Console;
+import javax.security.auth.login.FailedLoginException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class MatchController{
@@ -248,16 +247,20 @@ public class MatchController{
 
     // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente basandosi sulla dimensione dell'array di player in gioco
     //usare questo!!
-    public synchronized  int addPlayer(String nickName) {
+    public synchronized void addPlayer(String nickName) throws  FailedLoginException{
 
-        //TODO verifica che non ci sia uno con lo stesso nome già connesso
+       if(checkPlayerPresence(nickName))
+           throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
-        if (match.getPlayers().size() == 1)
+        if (match.getPlayers().size() == 1) {
             match.setCurrentPlayer(match.getPlayers().get(0));
+            match.getPlayer(nickName).getStatus().setTurnStatusMaster();
+        }
+        else
+            match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
 
-        return match.getPlayers().size() - 1;
     }
 
     //returns the number of connected players
@@ -285,7 +288,7 @@ public class MatchController{
 
     private boolean checkPlayerPresence(String playerNickname){
         for(Player p: match.getPlayers()){
-            if(p.getNickname().equals(playerNickname) && !p.isConnected()){
+            if(p.getNickname().equals(playerNickname) && p.isConnected()){
                 return true;
             }
         }
@@ -326,7 +329,7 @@ public class MatchController{
     }
 
     //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
-
+    /*
     public void loginPlayer(String nickname) {
         if(checkPlayerPresence(nickname)) {
             //Il player è già registrato ma non era più in gioco (è in stato disconnected)
@@ -337,6 +340,8 @@ public class MatchController{
             addPlayer(nickname);
         }
     }
+
+     */
 
     //metodo da chiamare con trucchetto quando un player si disconnette (vedi appunti per capire trucchetto)
     //TODO implementare la gestione dello stato DISCONNECTED quando un utente si disconnette, LATO CLIENT chiamare il metodo per la disconnessione

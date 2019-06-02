@@ -10,12 +10,13 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
+import javax.security.auth.login.FailedLoginException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface InterfaceServerControllerRMI extends Remote {
 
-    void register(InterfaceClientControllerRMI ClientController, String nickname) throws RemoteException;
+    void register(InterfaceClientControllerRMI ClientController, String nickname) throws RemoteException, FailedLoginException;
 
     Match getMatch() throws RemoteException;
 
@@ -54,7 +55,7 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     String checkConnection(String IP) throws RemoteException;
 
-    void addPlayer(String nickName) throws RemoteException;
+    void addPlayer(String nickName) throws RemoteException, FailedLoginException;
 
     int connectedPlayers() throws RemoteException;
 

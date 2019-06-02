@@ -14,6 +14,7 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
+import javax.security.auth.login.FailedLoginException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -32,14 +33,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
-    public void register(InterfaceClientControllerRMI clientController, String nickname){
+    public void register(InterfaceClientControllerRMI clientController, String nickname) throws FailedLoginException{
         System.out.println("Test connection to client");
         try {
             clientControllers.add(clientController);
             addPlayer(nickname);
             clientController.ping();
-            System.out.println("Client pinged");
-        }catch(Exception e){
+            System.out.println("[INFO]: Client " + nickname + " pinged");
+        }catch(FailedLoginException e){
+            System.out.println(e.getMessage());
+            throw new FailedLoginException(e.getMessage());
+        }
+        catch(RemoteException e){
             e.printStackTrace();
         }
     }
@@ -120,9 +125,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return "[RMIServer]: Connection status OK";
     }
 
-    public void addPlayer(String nickName) {
-        int tmp = matchController.addPlayer(nickName);
-        notifyNewPlayers();
+    public void addPlayer(String nickName) throws  FailedLoginException{
+        try {
+            matchController.addPlayer(nickName);
+            System.out.println("[INFO]: Player " + nickName + " connected succesfully");
+            notifyNewPlayers();
+        }catch(Exception e){
+            throw new FailedLoginException(e.getMessage());
+        }
     }
 
     public int connectedPlayers(){
@@ -142,6 +152,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             for (InterfaceClientControllerRMI c : clientControllers) {
                 c.updateConnectedPlayers(getMatch().getPlayers());
             }
+            System.out.println("[INFO]: Client notified with new player list");
 
         }catch(RemoteException e){
             e.printStackTrace();
