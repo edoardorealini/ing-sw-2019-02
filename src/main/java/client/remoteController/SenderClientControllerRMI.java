@@ -3,7 +3,6 @@ package client.remoteController;
 import client.GUI.FirstPage;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
-import jdk.jshell.execution.RemoteExecutionControl;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -55,7 +54,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public Map getMap(String nicknamePlayer) {
+    public Map getMap() {
         try {
             return serverController.getMap();
         } catch (Exception e) {
@@ -66,12 +65,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    Match getMatch(String nicknamePlayer) {
+    Match getMatch() {
         return null;
     }
 
     @Override
-    public void buildMap(int mapID, String nicknamePlayer) throws Exception {
+    public void buildMap(int mapID) throws Exception {
         try {
             serverController.buildMap(mapID);
         } catch (Exception e) {
@@ -80,62 +79,61 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, String nicknamePlayer) {
+    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed) {
 
     }
 
     @Override
-    boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, String nicknamePlayer) {
+    boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance) {
         return false;
     }
 
     @Override
-    void moveOneSquare(String movement, String nicknamePlayer) {
+    void moveOneSquare(String movement) {
 
     }
 
     @Override
-    void moveOneSquare(String movement, Player player, String nicknamePlayer) {
+    void moveOneSquare(String movement, Player player) {
 
     }
 
     @Override
-    void grabAmmoCard(String nicknamePlayer) {
+    void grabAmmoCard() {
 
     }
 
     @Override
-    void grabWeapon(int indexOfWeapon, String nicknamePlayer) {
+    void grabWeapon(int indexOfWeapon) {
 
     }
 
     @Override
-    void usePowerUpAsAmmo(int indexOfPowerUp, String nicknamePlayer) {
+    void usePowerUpAsAmmo(int indexOfPowerUp) {
 
     }
 
     @Override
-    void useTeleporter(PowerUp teleporter, Square destination, String nicknamePlayer) {
+    void useTeleporter(PowerUp teleporter, Square destination) {
 
     }
 
     @Override
-    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, String nicknamePlayer) {
+    void useNewton(PowerUp newton, Player affectedPlayer, Square destination) {
+    }
+
+    @Override
+    void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) {
 
     }
 
     @Override
-    void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, String nicknamePlayer) {
+    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) {
 
     }
 
     @Override
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, String nicknamePlayer) {
-
-    }
-
-    @Override
-    public String checkConnection(String IP, String nicknamePlayer) {
+    public String checkConnection(String IP) {
         try {
             return serverController.checkConnection(IP);
         } catch (Exception e) {
@@ -171,7 +169,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public PlayerStatusHandler getPlayerStatus(int idPlayer, String nicknamePlayer){
+    public PlayerStatusHandler getPlayerStatus(int idPlayer){
         try {
             return serverController.getPlayerStatus(idPlayer);
         }catch(Exception e){

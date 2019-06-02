@@ -10,44 +10,44 @@ import javax.security.auth.login.FailedLoginException;
 
 public abstract class SenderClientRemoteController {
 
-    abstract Match getMatch(String nicknamePlayer);
+    abstract Match getMatch();
 
-    public abstract Map getMap(String nicknamePlayer);
+    public abstract Map getMap();
 
-    public abstract void buildMap(int mapID, String nicknamePlayer) throws Exception;
+    public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
-    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, String nicknamePlayer);
+    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed);
 
-    abstract boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, String nicknamePlayer);
+    abstract boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance);
 
-    abstract void moveOneSquare(String movement, String nicknamePlayer);
+    abstract void moveOneSquare(String movement);
 
-    abstract void moveOneSquare(String movement, Player player, String nicknamePlayer);
+    abstract void moveOneSquare(String movement, Player player);
 
     //metodi da grab controller
-    abstract void grabAmmoCard(String nicknamePlayer);
+    abstract void grabAmmoCard();
 
-    abstract void grabWeapon(int indexOfWeapon, String nicknamePlayer);
+    abstract void grabWeapon(int indexOfWeapon);
 
     //metodi di powerUpController
-    abstract void usePowerUpAsAmmo(int indexOfPowerUp, String nicknamePlayer);
+    abstract void usePowerUpAsAmmo(int indexOfPowerUp);
 
-    abstract void useTeleporter(PowerUp teleporter, Square destination, String nicknamePlayer);
+    abstract void useTeleporter(PowerUp teleporter, Square destination);
 
-    abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination, String nicknamePlayer);
+    abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination);
 
-    abstract void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, String nicknamePlayer);
+    abstract void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer);
 
-    abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, String nicknamePlayer);
+    abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
 
-    public abstract String checkConnection(String IP, String nicknamePlayer);
+    public abstract String checkConnection(String IP);
 
     public abstract void addPlayer(String nickName) throws FailedLoginException;
 
     public abstract int connectedPlayers();
 
-    public abstract PlayerStatusHandler getPlayerStatus(int idPlayer, String nicknamePlayer);
+    public abstract PlayerStatusHandler getPlayerStatus(int idPlayer);
 
     public abstract boolean getMatchStatus();
 
