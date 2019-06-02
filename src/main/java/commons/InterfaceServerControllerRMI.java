@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
 
 public interface InterfaceServerControllerRMI extends Remote {
 
-    void register(InterfaceClientControllerRMI ClientController, String nickname) throws RemoteException, FailedLoginException;
+    void register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
     Match getMatch() throws RemoteException;
 
