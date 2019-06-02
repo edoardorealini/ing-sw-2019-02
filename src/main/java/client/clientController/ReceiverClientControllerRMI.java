@@ -3,6 +3,7 @@ package client.clientController;
 //this is the remote object that the client shares with the server in order to help the server push information whenever needed
 //info such as Model updates, turn status or other stuff.
 
+import client.GUI.FirstPage;
 import commons.InterfaceClientControllerRMI;
 import model.Color;
 import model.Match;
@@ -18,10 +19,12 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     private Match match;
     private String nickname;
+    private FirstPage firstPage;
 
-    public ReceiverClientControllerRMI(Match match, String nickname) throws RemoteException{
+    public ReceiverClientControllerRMI(Match match, String nickname, FirstPage fp) throws RemoteException{
         this.match = match;
         this.nickname = nickname;
+        this.firstPage = fp;
     }
 
     //here are implemented all the methods that the server can call remotely to the client
@@ -32,6 +35,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException{
         match.setPlayers(connectedPlayers);
+        firstPage.refreshPlayersInLobby();
     }
 
     public PowerUp askForPowerUpAsAmmo() {

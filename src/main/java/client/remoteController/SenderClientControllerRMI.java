@@ -23,10 +23,11 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private InterfaceClientControllerRMI clientController;
     private FirstPage firstPage;
 
-    public SenderClientControllerRMI(String serverIP, String nickname, Match match) throws RemoteException, NotBoundException{
+    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException{
         try {
             this.match = match;
-            clientController = new ReceiverClientControllerRMI(match, nickname);
+            this.firstPage = fp;
+            clientController = new ReceiverClientControllerRMI(match, nickname, fp);
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
             //UnicastRemoteObject.exportObject(clientController, 0);
