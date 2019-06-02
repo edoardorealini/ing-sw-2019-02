@@ -276,7 +276,7 @@ public class FirstPage extends Application implements Runnable{
 
     public void refreshPlayersInLobby(){
         for (int i=0; i<match.getPlayers().size() || i > 7;i++){
-            playersBind[i] = String.valueOf(match.getPlayers().get(i));
+            playersBind[i] = match.getPlayers().get(i).getNickname();
         }
     }
 

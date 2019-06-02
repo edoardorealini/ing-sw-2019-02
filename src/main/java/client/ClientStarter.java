@@ -37,7 +37,7 @@ public class ClientStarter{
                     break;
 
                 case "-GUI":
-                    //TODO starter.launchGUI();
+                    starter.launchGUI();
                     break;
 
                 default:
@@ -57,11 +57,11 @@ public class ClientStarter{
         System.out.println("[INFO] : ADRENALINE CLI INTERFACE LAUNCHED");
 
     }
-
+*/
     private void launchGUI(){
         executor.submit(new client.GUI.FirstPage());
     }
-*/
+
 
     //in teoria questo metodo va chiamato dopo che l'utente ha deciso che tipo di connessione utilizzare, quindi si lancia il controller corretto.
     //TODO spostare lato RemoteControllerRMI
