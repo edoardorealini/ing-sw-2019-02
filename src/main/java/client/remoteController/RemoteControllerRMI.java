@@ -1,5 +1,6 @@
 package client.remoteController;
 
+import client.GUI.FirstPage;
 import client.clientController.ClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
 import model.map.*;
@@ -23,6 +24,7 @@ public class RemoteControllerRMI extends RemoteController {
     private Match match;
     private InterfaceServerControllerRMI serverController;
     private InterfaceClientControllerRMI clientController;
+    private FirstPage firstPage;
 
     public RemoteControllerRMI(String serverIP, String nickname, Match match) throws RemoteException, NotBoundException{
         try {
@@ -140,13 +142,13 @@ public class RemoteControllerRMI extends RemoteController {
     public int addPlayer(String nickName) {
         try {
             return serverController.addPlayer(nickName);
+            // TODO togliere la return sopra e mettere sotto: firstPage.refreshPlayersInLobby();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return -1;
     }
-
     @Override
     public int connectedPlayers() {
         try {
@@ -176,6 +178,10 @@ public class RemoteControllerRMI extends RemoteController {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void setFirstPage(FirstPage firstPage){
+        this.firstPage = firstPage;
     }
 
 

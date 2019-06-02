@@ -1,5 +1,6 @@
 package client.remoteController;
 
+import client.GUI.FirstPage;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -47,5 +48,7 @@ public abstract class RemoteController {
     public abstract PlayerStatusHandler getPlayerStatus(int idPlayer);
 
     public abstract boolean getMatchStatus();
+
+    public abstract void setFirstPage(FirstPage firstPage);
 
 }
