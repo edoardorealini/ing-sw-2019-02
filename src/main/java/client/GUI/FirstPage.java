@@ -23,7 +23,7 @@ public class FirstPage extends Application implements Runnable{
     Scene sceneLobby;
     Scene scene;
     Match match;
-    String[] playersBind = {"","","","","","","",""};
+    String[] playersBind = {"a","b","","","","","",""};
 
     //lista di Label che sono da passare nel metodo
     Label player1;
@@ -274,6 +274,14 @@ public class FirstPage extends Application implements Runnable{
         for (int i=0; i<match.getPlayers().size() || i > 7;i++){
             playersBind[i] = match.getPlayers().get(i).getNickname();
         }
+        player1.setText(playersBind[0]);
+        player2.setText(playersBind[1]);
+        player3.setText(playersBind[2]);
+        player4.setText(playersBind[3]);
+        player5.setText(playersBind[4]);
+        player6.setText(playersBind[5]);
+        player7.setText(playersBind[6]);
+        player8.setText(playersBind[7]);
     }
 
 
