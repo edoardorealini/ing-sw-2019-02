@@ -278,6 +278,8 @@ public class FirstPage extends Application implements Runnable{
     }
 
     public void startCountdown(){
-        
+        Timer timer = new Timer(this);
     }
+
+
 }
