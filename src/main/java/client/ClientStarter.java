@@ -59,7 +59,7 @@ public class ClientStarter{
     }
 
     private void launchGUI(){
-        executor.submit(new client.GUI.FirstPage(match));
+        executor.submit(new client.GUI.FirstPage());
     }
 
 

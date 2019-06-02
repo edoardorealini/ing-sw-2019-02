@@ -201,7 +201,9 @@ public class CLI implements Runnable{
                 System.out.println("\nInsert the IP of the server you want to be connected to:");
                 String IP = new Scanner(System.in).nextLine();
                 //here happens the connection try
-                controller = new RemoteControllerRMI(IP, 1338);
+                //TODO cambaito perchè non compilava
+                // vecchio: controller = new RemoteControllerRMI(IP, 1338);
+                controller = new RemoteControllerRMI(IP, "dhbcj", new Match());
 
                 passed = true;
 

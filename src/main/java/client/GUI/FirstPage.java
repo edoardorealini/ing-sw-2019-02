@@ -13,13 +13,10 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.lang.reflect.Array;
 import java.util.*;
-
 import javafx.scene.image.Image;
 import model.Match;
-
 import java.io.File;
 
 public class FirstPage extends Application implements Runnable{
@@ -28,12 +25,11 @@ public class FirstPage extends Application implements Runnable{
     RemoteController remoteController;
     Scene sceneLobby;
     Scene scene;
-
     Match match;
 
-    public FirstPage(Match match){
-        this.match = match;
-    }
+    //public FirstPage(Match match){
+     //   this.match = match;
+    //}
 
     public void run() {
         launch();
@@ -170,7 +166,7 @@ public class FirstPage extends Application implements Runnable{
         // **************************
         // LAYOUT SCENE
 
-        VBox vbox = new VBox(20);
+        /*VBox vbox = new VBox(20);
 
         Label description = new Label();
         description.setText("Player connected to the match:");
@@ -178,7 +174,7 @@ public class FirstPage extends Application implements Runnable{
         vbox.getChildren().add(description);
 
         Scene sceneLobby = new Scene(vbox,250,250);
-        settSceneLobby(sceneLobby);
+        settSceneLobby(sceneLobby);*/
 
         // **************************
 
@@ -196,7 +192,7 @@ public class FirstPage extends Application implements Runnable{
                 if (choiceBox.getValue().equals("RMI")){
                     RemoteController remoteController = new RemoteControllerRMI(inputIp.getText(), inputName.getText(), match);
                     settRemoteController(remoteController);
-                    primaryStage.setScene(sceneLobby);
+                    createSceneLobby(match);
                 }
                 else{
                     //TODO RemoteController remoteController = new RemoteControllerSocket(inputIp.toString(),1338);
@@ -222,7 +218,8 @@ public class FirstPage extends Application implements Runnable{
         this.remoteController=remoteController;
     }
 
-    public void createSceneLobby(ArrayList<String> players){
+    public void createSceneLobby(Match match){
+
         VBox vbox = new VBox(20);
 
         Label description = new Label();
@@ -232,6 +229,7 @@ public class FirstPage extends Application implements Runnable{
 
         Scene sceneLobby = new Scene(vbox,250,250);
         settSceneLobby(sceneLobby);
+        primaryStage.setScene(sceneLobby);
     }
 
 
