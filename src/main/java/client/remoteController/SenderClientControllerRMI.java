@@ -24,7 +24,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private InterfaceClientControllerRMI clientController;
     private FirstPage firstPage;
     private String nickname;
-    private String hashNickname;
+    private int hashedNickname;
 
     public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException{
         try {
@@ -32,12 +32,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             this.firstPage = fp;
             clientController = new ReceiverClientControllerRMI(match, nickname, fp);
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
-            System.out.println("REGISTRY LOCATED CORRECTLY");
+            System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
-            System.out.println("LOOKUP AND BINDING GONE CORRECTLY");
+            System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
             //UnicastRemoteObject.exportObject(clientController, 0);
-            System.out.println(serverController.RMICallTest("TESTA DI MERDA"));
-            serverController.register(clientController, nickname); //the server now has a controller to call methods on the client
+            this.hashedNickname = serverController.register(clientController, nickname); //the server now has a controller to call methods on the client and return to the client his hashed nickname
+            this.nickname = nickname;
         } catch (RemoteException e) {
             System.out.println("\n[ERROR]: Remote object not found");
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     @Override
     public Map getMap() {
         try {
-            return serverController.getMap();
+            return serverController.getMap(this.hashedNickname);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     @Override
     public void buildMap(int mapID) throws Exception {
         try {
-            serverController.buildMap(mapID);
+            serverController.buildMap(mapID, this.hashedNickname);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -136,7 +136,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     @Override
     public String checkConnection(String IP) {
         try {
-            return serverController.checkConnection(IP);
+            return serverController.checkConnection(IP, this.hashedNickname);
         } catch (Exception e) {
             e.printStackTrace();
         }
