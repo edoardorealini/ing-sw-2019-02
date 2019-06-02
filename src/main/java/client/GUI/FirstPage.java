@@ -228,9 +228,8 @@ public class FirstPage extends Application implements Runnable{
 
             try {
                 if (choiceBox.getValue().equals("RMI")){
-                    SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), inputName.getText(), match);
+                    SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), inputName.getText(), match, this);
                     settRemoteController(remoteController);
-                    remoteController.setFirstPage(this);
                     primaryStage.setScene(sceneLobby);
                 }
                 else{
