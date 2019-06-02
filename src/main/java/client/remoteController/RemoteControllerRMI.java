@@ -139,15 +139,14 @@ public class RemoteControllerRMI extends RemoteController {
     }
 
     @Override
-    public int addPlayer(String nickName) {
+    public void addPlayer(String nickName) {
         try {
-            return serverController.addPlayer(nickName);
-            // TODO togliere la return sopra e mettere sotto: firstPage.refreshPlayersInLobby();
+            serverController.addPlayer(nickName);
+            firstPage.refreshPlayersInLobby();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return -1;
     }
     @Override
     public int connectedPlayers() {

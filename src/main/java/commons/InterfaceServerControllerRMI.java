@@ -54,7 +54,7 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     String checkConnection(String IP) throws RemoteException;
 
-    int addPlayer(String nickName) throws RemoteException;
+    void addPlayer(String nickName) throws RemoteException;
 
     int connectedPlayers() throws RemoteException;
 

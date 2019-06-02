@@ -183,7 +183,7 @@ public class CLI implements Runnable{
 
         //TODO gestire il fatto che il nickname deve essere loggato. (password e user)
 
-        userID = controller.addPlayer(name);
+        //TODO ho tolto il return int userID = controller.addPlayer(name);
         System.out.println("You have been added to the queue. We are waiting for other players");
 
 

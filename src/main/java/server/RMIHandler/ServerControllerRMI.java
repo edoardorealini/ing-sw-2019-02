@@ -122,10 +122,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return "[RMIServer]: Connection status OK";
     }
 
-    public int addPlayer(String nickName) {
+    public void addPlayer(String nickName) {
         int tmp = matchController.addPlayer(nickName);
         notifyNewPlayers();
-        return tmp;
     }
 
     public int connectedPlayers(){

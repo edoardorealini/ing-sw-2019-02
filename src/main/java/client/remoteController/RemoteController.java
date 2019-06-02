@@ -41,7 +41,7 @@ public abstract class RemoteController {
 
     public abstract String checkConnection(String IP);
 
-    public abstract int addPlayer(String nickName);
+    public abstract void addPlayer(String nickName);
 
     public abstract int connectedPlayers();
 
