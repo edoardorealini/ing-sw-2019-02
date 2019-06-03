@@ -295,7 +295,7 @@ public class MatchController{
 
     private boolean checkPlayerPresence(String playerNickname){
         for(Player p: match.getPlayers()){
-            if(p.getNickname().equals(playerNickname) && p.isConnected()){
+            if(p.getNickname().equals(playerNickname)){
                 return true;
             }
         }

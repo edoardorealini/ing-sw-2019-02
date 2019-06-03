@@ -15,6 +15,7 @@ import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
 import javax.security.auth.login.FailedLoginException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
@@ -157,15 +158,28 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return matchController.getMatchStatus();
     }
 
-    public void disconnectPlayer(int clientHashedID) {
+    public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
         matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
         try {
+            /*
         for (InterfaceClientControllerRMI c : clientControllers)
             if (hashNicknameID.get(clientHashedID).equals(c.getNickname()))
                 clientControllers.remove(c);
-        System.out.println("[INFO]: The client" + hashNicknameID.get(clientHashedID) + "has correctly been disconnected");
-        } catch(RemoteException e){
-            e.printStackTrace();
+
+             */
+            clientControllers.removeIf(c -> {
+                try {
+                    return hashNicknameID.get(clientHashedID).equals(c.getNickname());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            });
+
+            System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + "has correctly been disconnected");
+        }
+        catch(Exception e1){
+            e1.printStackTrace();
         }
     }
 
