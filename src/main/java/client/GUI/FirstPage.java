@@ -275,12 +275,12 @@ public class FirstPage extends Application implements Runnable{
 
     public void backButtonMethod(){
         // disconnette ma non chiude first page
-        //TODO disconnessione (cancellare tutti gli oggetti
+        remoteController.disconnectPlayer();
     }
 
     public void closePage(){
         if (remoteController!=null ){
-            //TODO disconnessione (cancellare tutti gli oggetti
+            remoteController.disconnectPlayer();
             primaryStage.close();
         }
         else primaryStage.close();
