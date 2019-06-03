@@ -196,7 +196,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     @Override
     public void disconnectPlayer() {
         try{
-            serverController.disconnectPlayer(hashedNickname);
+            serverController.disconnectPlayer(this.hashedNickname);
         }
         catch (RemoteException e) {
             e.printStackTrace();

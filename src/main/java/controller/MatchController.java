@@ -252,8 +252,11 @@ public class MatchController{
        if(checkPlayerPresence(nickName)) {
            if(match.getPlayer(nickName).isConnected())
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
-           if(!match.getPlayer(nickName).isConnected())
+           if(!match.getPlayer(nickName).isConnected()) {
                match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+               System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
+               return;
+           }
        }
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
