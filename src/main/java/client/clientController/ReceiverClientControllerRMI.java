@@ -47,6 +47,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         return new PowerUp(Color.RED, PowerUpName.TELEPORTER);
     }
 
+    public String getNickname() throws RemoteException{
+        return this.nickname;
+    }
+
 
 
 }

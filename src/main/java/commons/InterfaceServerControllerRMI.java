@@ -63,4 +63,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     boolean getMatchStatus() throws RemoteException;
 
+    void disconnectPlayer (int clientHashedID);
+
 }

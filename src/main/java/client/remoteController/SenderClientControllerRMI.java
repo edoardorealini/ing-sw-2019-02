@@ -193,5 +193,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         this.firstPage = firstPage;
     }
 
-
+    @Override
+    public void disconnectPlayer() {
+        serverController.disconnetPlayer(hashedNickname);
+    }
 }

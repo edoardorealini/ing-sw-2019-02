@@ -28,7 +28,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private InputConverter converter;
     private MatchController matchController;
     private ArrayList<InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
-    private HashMap<String, Integer>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
+    private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
 
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
@@ -49,7 +49,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
-            this.hashNicknameID.put(nickname, hashedTemp.hashCode());
+            this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
             throw new FailedLoginException(e.getMessage());
@@ -157,16 +157,32 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return matchController.getMatchStatus();
     }
 
+    public void disconnectPlayer(int clientHashedID) {
+        matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
+        try {
+        for (InterfaceClientControllerRMI c : clientControllers)
+            if (hashNicknameID.get(clientHashedID).equals(c.getNickname()))
+                clientControllers.remove(c);
+        System.out.println("[INFO]: The client" + hashNicknameID.get(clientHashedID) + "has correctly been disconnected");
+        } catch(RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
     private void notifyNewPlayers(){
         try {
             for (InterfaceClientControllerRMI c : clientControllers) {
                 c.updateConnectedPlayers(matchController.getMatch().getPlayers());
             }
             System.out.println("[INFO]: Client notified with new player list");
-
-        }catch(RemoteException e){
+        } catch(RemoteException e){
             e.printStackTrace();
         }
+    }
+
+
+    private boolean checkHashedIDAsCurrentPlayer(int hashedID) {
+        return hashNicknameID.get(hashedID).equals(matchController.getMatch().getCurrentPlayer().getNickname());
     }
 
 

@@ -53,4 +53,6 @@ public abstract class SenderClientRemoteController {
 
     public abstract void setFirstPage(FirstPage firstPage);
 
+    public  abstract void disconnectPlayer();
+
 }

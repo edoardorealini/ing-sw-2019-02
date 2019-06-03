@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface InterfaceClientControllerRMI extends Remote {
 
-    public void ping() throws RemoteException;
-    public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException;
-
+    void ping() throws RemoteException;
+    void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException;
+    String getNickname() throws RemoteException;
 }
