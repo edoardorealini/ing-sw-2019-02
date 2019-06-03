@@ -6,6 +6,7 @@ import model.Color;
 import model.Match;
 import model.map.*;
 import model.map.MapBuilder;
+import model.player.Board;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -525,6 +526,31 @@ public class MatchController{
 
         return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
     }
+
+    public void endOfTurn() {
+        for (Player p : match.getPlayers()) {
+            if (p.isDead()) {
+                Board board = p.getBoard();
+                addPoints(board);
+                //update number of deaths
+            }
+        }
+    }
+
+    public void addPoints(Board board) {
+        ArrayList<Integer> numberOfDamages = new ArrayList<>();
+        for (Player p : match.getPlayers()) {
+            int hits = board.howManyHits(p.getId());
+            numberOfDamages.add(hits);
+        }
+        int max = 0;
+        for (int i : numberOfDamages) {
+            if (i > max)
+                max = i;
+        }
+        //TODO non so come fare, uso un hashmap? boh, devo capire come contare le occorrenze e vedere se c'è qualche altro massimo
+    }
+
 
 //here there is the code of the hashmap, it doesn't work well
 /*
