@@ -249,8 +249,12 @@ public class MatchController{
     //usare questo!!
     public synchronized void addPlayer(String nickName) throws  FailedLoginException{
 
-       if(checkPlayerPresence(nickName))
-           throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
+       if(checkPlayerPresence(nickName)) {
+           if(match.getPlayer(nickName).isConnected())
+               throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
+           if(!match.getPlayer(nickName).isConnected())
+               match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+       }
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
