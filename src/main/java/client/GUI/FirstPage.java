@@ -202,8 +202,8 @@ public class FirstPage extends Application implements Runnable{
 
         Button backButton = new Button(" Back ");
         backButton.setOnAction(e -> {
-            primaryStage.setScene(scene);
             backButtonMethod();
+            primaryStage.setScene(scene);
         });
         vbox.getChildren().add(backButton);
 
@@ -263,9 +263,7 @@ public class FirstPage extends Application implements Runnable{
         for (int i=0; (i<match.getPlayers().size()) && (i < 5);i++){
             playersBind[i] = match.getPlayers().get(i).getNickname();
         }
-        for (int i=0; i<5;i++){
-            System.out.println(playersBind[i]);
-        }
+
         player1.setText(playersBind[0]);
         player2.setText(playersBind[1]);
         player3.setText(playersBind[2]);
