@@ -201,7 +201,10 @@ public class FirstPage extends Application implements Runnable{
         vbox.getChildren().add(player5);
 
         Button backButton = new Button(" Back ");
-        backButton.setOnAction(e -> primaryStage.setScene(scene));
+        backButton.setOnAction(e -> {
+            primaryStage.setScene(scene);
+            backButtonMethod();
+        });
         vbox.getChildren().add(backButton);
 
         Scene sceneLobby = new Scene(vbox,300,350);
@@ -254,6 +257,9 @@ public class FirstPage extends Application implements Runnable{
     }
 
     public void refreshPlayersInLobby(){
+        for (int i=0;(i < 5);i++){
+            playersBind[i] = "-";
+        }
         for (int i=0; (i<match.getPlayers().size()) && (i < 5);i++){
             playersBind[i] = match.getPlayers().get(i).getNickname();
         }
@@ -267,18 +273,18 @@ public class FirstPage extends Application implements Runnable{
         player5.setText(playersBind[4]);
     }
 
+    public void backButtonMethod(){
+        // disconnette ma non chiude first page
+        //TODO disconnessione (cancellare tutti gli oggetti
+    }
+
     public void closePage(){
         if (remoteController!=null ){
-            //TODO remove players from match.players
-            //TODO disconnessione
+            //TODO disconnessione (cancellare tutti gli oggetti
             primaryStage.close();
         }
         else primaryStage.close();
 
-    }
-
-    public void startCountdown(){
-        Timer timer = new Timer(this);
     }
 
 
