@@ -27,7 +27,6 @@ public class Player implements Serializable{
     private PlayerStatusHandler status;
     private boolean dead;
     private Match match;
-    private int numberOfDeaths; //to be updated
 
     public Player (String nickname, int id, Match match){
         this.nickname=nickname;
@@ -37,7 +36,6 @@ public class Player implements Serializable{
         ammo = new Ammo();
         points=0;
         status = new PlayerStatusHandler();
-        numberOfDeaths = 0;
 
         if(id == 0){
             status.setTurnStatusLobbyMaster();
@@ -53,7 +51,7 @@ public class Player implements Serializable{
     }
 
     public boolean isConnected() {
-        return status.getTurnStatus().equals(RoundStatus.DISCONNECTED);
+        return !status.getTurnStatus().equals(RoundStatus.DISCONNECTED);
     }
 
     public String getNickname() {
@@ -74,14 +72,6 @@ public class Player implements Serializable{
 
     public Board getBoard(){
         return this.board;
-    }
-
-    public int getNumberOfDeaths() {
-        return numberOfDeaths;
-    }
-
-    public void setNumberOfDeaths(int numberOfDeaths) {
-        this.numberOfDeaths = numberOfDeaths;
     }
 
     public Weapon[] getWeapons() {

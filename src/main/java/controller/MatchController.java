@@ -14,6 +14,7 @@ import model.weapons.*;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -543,6 +544,7 @@ public class MatchController{
             int hits = board.howManyHits(p.getId());
             numberOfDamages.add(hits);
         }
+        Collections.sort(numberOfDamages, (x,y) -> x.compareTo(y));  //TODO
         int max = 0;
         for (int i : numberOfDamages) {
             if (i > max)

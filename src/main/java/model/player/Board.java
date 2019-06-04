@@ -7,15 +7,28 @@ import java.util.List;
 public class Board  implements Serializable {
     private int[] lifePoints;
     private ArrayList<Integer> marks;
+    private int[] points;   //points to be assigned after death
+    private int numberOfDeaths; //to be updated
 
 
 
     public Board(){
         lifePoints = new int[12];
-        marks = new ArrayList<>();
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
+
+        marks = new ArrayList<>();
+
+        numberOfDeaths = 0;
+
+        points = new int[6];
+        points[0] = 8;
+        points[1] = 6;
+        points[2] = 4;
+        points[3] = 2;
+        points[4] = 1;
+        points[5] = 1;
     }
 
     public void initializeBoard(){   // serve anche per quando muore un giocatore
@@ -122,6 +135,14 @@ public class Board  implements Serializable {
                 damages++;
         }
         return damages;
+    }
+
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public void setNumberOfDeaths(int numberOfDeaths) {
+        this.numberOfDeaths = numberOfDeaths;
     }
 
     //for test and maybe for CLI
