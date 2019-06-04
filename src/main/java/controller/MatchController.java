@@ -15,6 +15,7 @@ import model.weapons.*;
 import javax.security.auth.login.FailedLoginException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -544,13 +545,10 @@ public class MatchController{
             int hits = board.howManyHits(p.getId());
             numberOfDamages.add(hits);
         }
-        Collections.sort(numberOfDamages, (x,y) -> x.compareTo(y));  //TODO
-        int max = 0;
-        for (int i : numberOfDamages) {
-            if (i > max)
-                max = i;
-        }
-        //TODO non so come fare, uso un hashmap? boh, devo capire come contare le occorrenze e vedere se c'è qualche altro massimo
+        numberOfDamages.sort(Comparator.naturalOrder());
+        Collections.reverse(numberOfDamages);
+
+        //TODO mappa 1 a 1 chi ha fatto i danni e assegna i punti
     }
 
 
