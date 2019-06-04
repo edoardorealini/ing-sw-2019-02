@@ -25,6 +25,8 @@ public class Player implements Serializable{
     private PowerUp[] powerUps = {null, null, null};
     private int points;
     private PlayerStatusHandler status;
+    private RoundStatus roundStatus;
+    private AbilityStatus abilityStatus;
     private boolean dead;
     private Match match;
 
