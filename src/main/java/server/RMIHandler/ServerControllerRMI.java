@@ -51,6 +51,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
+            System.out.println("[INFO]: The player "+ nickname + " is now in status: " + matchController.getMatch().getPlayer(nickname).getStatus().getTurnStatus());
+
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
             throw new FailedLoginException(e.getMessage());
@@ -176,7 +178,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 }
             });
 
-            System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + "has correctly been disconnected");
+            System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
+            System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());
         }
         catch(Exception e1){
             e1.printStackTrace();

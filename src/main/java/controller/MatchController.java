@@ -268,6 +268,7 @@ public class MatchController{
         else
             match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
 
+
     }
 
     //returns the number of connected players
