@@ -260,6 +260,9 @@ public class MatchController{
                     match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
                if(!match.getActiveStatusMatch())
                    match.getPlayer(nickName).getStatus().setTurnStatusLobby();
+               if(!checkThereIsLobbyMaster())
+                   match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+
                System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
                return;
            }
@@ -269,12 +272,7 @@ public class MatchController{
         //setta current player se sono il primo a connettermi
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
-
-        if(!checkThereIsLobbyMaster()){
-            match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
-        }
-
-    }
+}
 
     private boolean checkThereIsMaster(){
         for(Player p: match.getPlayers()){
@@ -417,15 +415,21 @@ public class MatchController{
 
     public void disconnectPlayer(String nickname){
         if(checkPlayerPresence(nickname)){
+
             if(match.getPlayer(nickname).isInStatusLobbyMaster() && match.getPlayers().size() > 1){
+                match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
                 for(Player p: match.getPlayers()){
-                    int count = 0;
-                    if(p.getNickname().equals(nickname)){
-                        match.getPlayers().get(count + 1).getStatus().setTurnStatusLobbyMaster();
+                    if(p.isConnected()){
+                        p.getStatus().setTurnStatusLobbyMaster();
+                        break;
                     }
-                    count ++;
                 }
             }
+
+            else
+                match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
+
+            /*
             if(match.getPlayer(nickname).isInStatusMaster() && match.getPlayers().size() > 1){
                 for(Player p: match.getPlayers()){
                     int count = 0;
@@ -436,7 +440,7 @@ public class MatchController{
                 }
             }
 
-            match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
+             */
 
             //qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
         }
