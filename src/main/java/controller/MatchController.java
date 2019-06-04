@@ -12,9 +12,13 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
+import model.player.PlayerStatusHandler;
+import model.player.RoundStatus;
+import model.player.AbilityStatus;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.*;
+import java.util.stream.*;
 
 
 public class MatchController{
@@ -91,8 +95,8 @@ public class MatchController{
 
             } else
                 throw new WrongValueException("Not a valid mapID");
-
-            match.getCurrentPlayer().goToNextStatus(); //from master to Spawn (first player and first turn)
+            // OLD:  match.getCurrentPlayer().goToNextStatus(); //from master to Spawn (first player and first turn)
+            goToNextStatus(match.getCurrentPlayer());
         }
 
         else
@@ -146,9 +150,8 @@ public class MatchController{
             }catch(WrongPositionException e){
                 throw new WrongPositionException(e.getMessage());
             }
-
-            match.getCurrentPlayer().goToNextStatus();
-
+            // OLD : match.getCurrentPlayer().goToNextStatus();
+            goToNextStatus(match.getCurrentPlayer());
         }
         else
             throw new WrongStatusException("You cannot grab any ammo now!");
@@ -163,9 +166,8 @@ public class MatchController{
             } catch (NotEnoughAmmoException e2) {
                 throw new NotEnoughAmmoException(e2.getMessage());
             }
-
-            match.getCurrentPlayer().goToNextStatus();
-
+            // OLD : match.getCurrentPlayer().goToNextStatus();
+            goToNextStatus(match.getCurrentPlayer());
         }
         else
             throw new WrongStatusException("You cannot grab any weapons now!");
@@ -254,7 +256,10 @@ public class MatchController{
            if(match.getPlayer(nickName).isConnected())
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
            if(!match.getPlayer(nickName).isConnected()) {
-               match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+               if(match.getActiveStatusMatch())
+                    match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+               if(!match.getActiveStatusMatch())
+                   match.getPlayer(nickName).getStatus().setTurnStatusLobby();
                System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
                return;
            }
@@ -265,6 +270,26 @@ public class MatchController{
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
 
+        if(!checkThereIsLobbyMaster()){
+            match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+        }
+
+    }
+
+    private boolean checkThereIsMaster(){
+        for(Player p: match.getPlayers()){
+            if(p.isInStatusMaster())
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkThereIsLobbyMaster(){
+        for(Player p: match.getPlayers()){
+            if(p.isInStatusLobbyMaster())
+                return true;
+        }
+        return false;
     }
 
     //returns the number of connected players
@@ -332,32 +357,93 @@ public class MatchController{
         return false;
     }
 
-    //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
-    /*
-    public void loginPlayer(String nickname) {
-        if(checkPlayerPresence(nickname)) {
-            //Il player è già registrato ma non era più in gioco (è in stato disconnected)
-            match.getPlayer(nickname).getStatus().setTurnStatusWaitTurn();
-            //metto il giocatore da disconnected a waitTurn !
-        }
-        else{
-            addPlayer(nickname);
+
+    public void goToNextStatus(Player p){
+        switch(p.getStatus().getTurnStatus()){
+            case LOBBY_MASTER:
+                p.getStatus().setTurnStatusMaster();
+                break;
+
+            case LOBBY:
+                p.getStatus().setTurnStatusWaitFirstTurn();
+                break;
+
+            case WAIT_FIRST_TURN:
+                p.getStatus().setTurnStatusSpawn();
+                break;
+
+            case MASTER:
+                p.getStatus().setTurnStatusSpawn();
+                break;
+
+            case SPAWN:
+                p.getStatus().setTurnStatusFirstAction();
+                break;
+
+            case FIRST_ACTION:
+                p.getStatus().setTurnStatusSecondAction();
+                break;
+
+            case SECOND_ACTION:
+                p.getStatus().setTurnStatusReloading();
+                break;
+
+            case RELOADING:
+                p.getStatus().setTurnStatusEndTurn();
+                break;
+
+            case END_TURN:
+                p.getStatus().setTurnStatusWaitTurn();
+                //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
+                //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
+                break;
+
+            case WAIT_TURN:
+                if(!p.isDead())
+                    p.getStatus().setTurnStatusFirstAction();
+                else
+                    p.getStatus().setTurnStatusSpawn();
+                break;
         }
     }
 
-     */
 
-    //metodo da chiamare con trucchetto quando un player si disconnette (vedi appunti per capire trucchetto)
-    //TODO implementare la gestione dello stato DISCONNECTED quando un utente si disconnette, LATO CLIENT chiamare il metodo per la disconnessione
+    //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
+
+    //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
+    public void skipAction(Player p){
+        goToNextStatus(p);
+    }
+
     public void disconnectPlayer(String nickname){
         if(checkPlayerPresence(nickname)){
+            if(match.getPlayer(nickname).isInStatusLobbyMaster() && match.getPlayers().size() > 1){
+                for(Player p: match.getPlayers()){
+                    int count = 0;
+                    if(p.getNickname().equals(nickname)){
+                        match.getPlayers().get(count + 1).getStatus().setTurnStatusLobbyMaster();
+                    }
+                    count ++;
+                }
+            }
+            if(match.getPlayer(nickname).isInStatusMaster() && match.getPlayers().size() > 1){
+                for(Player p: match.getPlayers()){
+                    int count = 0;
+                    if(p.getNickname().equals(nickname)){
+                        match.getPlayers().get(count + 1).getStatus().setTurnStatusMaster();
+                    }
+                    count ++;
+                }
+            }
+
             match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
+
+            //qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
         }
     }
 
     public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
         if(canDoAction()) {
-
             shootController.setInput(input);
 
             if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
@@ -403,11 +489,9 @@ public class MatchController{
             } catch (NotAllowedShootingModeException e) {
                 throw new NotAllowedShootingModeException();
             }
-
             input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
-
-
-            match.getCurrentPlayer().goToNextStatus(); //don't touch
+            // OLD : match.getCurrentPlayer().goToNextStatus(); //don't touch
+            goToNextStatus(match.getCurrentPlayer());
         }
         else
             throw new WrongStatusException("You are not allowed to shoot now!");
@@ -609,5 +693,19 @@ public class MatchController{
         }
     }
 */
+
+    /*
+    public void loginPlayer(String nickname) {
+        if(checkPlayerPresence(nickname)) {
+            //Il player è già registrato ma non era più in gioco (è in stato disconnected)
+            match.getPlayer(nickname).getStatus().setTurnStatusWaitTurn();
+            //metto il giocatore da disconnected a waitTurn !
+        }
+        else{
+            addPlayer(nickname);
+        }
+    }
+
+     */
 
 }

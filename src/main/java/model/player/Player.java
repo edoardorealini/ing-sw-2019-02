@@ -273,6 +273,7 @@ public class Player implements Serializable{
         return status.getTurnStatus().equals(RoundStatus.END_TURN);
     }
 
+    /*
     public void goToNextStatus(){
         switch(status.getTurnStatus()){
             case LOBBY_MASTER:
@@ -319,6 +320,7 @@ public class Player implements Serializable{
                 break;
         }
     }
+    */
 
     public String printPowerUps() {
         StringBuilder string = new StringBuilder();

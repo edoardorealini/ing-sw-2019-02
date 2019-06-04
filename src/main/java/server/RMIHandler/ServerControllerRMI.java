@@ -180,6 +180,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
             System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());
+
         }
         catch(Exception e1){
             e1.printStackTrace();

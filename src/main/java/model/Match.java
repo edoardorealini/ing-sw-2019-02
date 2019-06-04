@@ -29,7 +29,7 @@ public class Match implements Serializable {
         this.weaponDeck = new WeaponDeck();
         weaponDeck.shuffleDeck();
         ammoDeck.shuffleDeck();
-        this.matchIsActive = true;
+        this.matchIsActive = false;
     }
 
     public boolean getActiveStatusMatch(){
