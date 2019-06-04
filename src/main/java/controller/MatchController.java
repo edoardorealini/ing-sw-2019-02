@@ -5,6 +5,7 @@ import exception.*;
 import model.Color;
 import model.Match;
 import model.map.*;
+import model.map.Map;
 import model.map.MapBuilder;
 import model.player.Board;
 import model.player.Player;
@@ -13,10 +14,7 @@ import model.powerup.PowerUp;
 import model.weapons.*;
 
 import javax.security.auth.login.FailedLoginException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 public class MatchController{
@@ -264,13 +262,8 @@ public class MatchController{
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
-        if (match.getPlayers().size() == 1) {
+        if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
-            match.getPlayer(nickName).getStatus().setTurnStatusMaster();
-        }
-        else
-            match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
-
 
     }
 
@@ -534,22 +527,24 @@ public class MatchController{
         for (Player p : match.getPlayers()) {
             if (p.isDead()) {
                 Board board = p.getBoard();
-                addPoints(board);
+                countBoard(board);
                 //update number of deaths
             }
         }
     }
 
-    public void addPoints(Board board) {
-        ArrayList<Integer> numberOfDamages = new ArrayList<>();
+    public void countBoard(Board board) {
+        //HashMap<>
+        ArrayList<Integer> numberOfDamagesSorted = new ArrayList<>();
+
         for (Player p : match.getPlayers()) {
             int hits = board.howManyHits(p.getId());
-            numberOfDamages.add(hits);
+            numberOfDamagesSorted.add(hits);
         }
-        numberOfDamages.sort(Comparator.naturalOrder());
-        Collections.reverse(numberOfDamages);
+        numberOfDamagesSorted.sort(Comparator.naturalOrder());   //creation of
+        Collections.reverse(numberOfDamagesSorted);
 
-        //TODO mappa 1 a 1 chi ha fatto i danni e assegna i punti
+
     }
 
 
