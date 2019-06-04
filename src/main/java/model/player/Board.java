@@ -141,8 +141,20 @@ public class Board  implements Serializable {
         return numberOfDeaths;
     }
 
-    public void setNumberOfDeaths(int numberOfDeaths) {
-        this.numberOfDeaths = numberOfDeaths;
+    public void increaseNumberOfDeaths() {
+        this.numberOfDeaths++;
+    }
+
+    public int[] getPoints() {
+        return points;
+    }
+
+    public int whoMadeDamageBefore(List<Integer> arrayIDPlayer) {
+        for (int damage : lifePoints) {
+            if (arrayIDPlayer.contains(damage))
+                return damage;
+        }
+        return -1;
     }
 
     //for test and maybe for CLI
@@ -171,4 +183,5 @@ public class Board  implements Serializable {
         }
         return string.toString();
     }
+
 }

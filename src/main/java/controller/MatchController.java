@@ -12,13 +12,9 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
-import model.player.PlayerStatusHandler;
-import model.player.RoundStatus;
-import model.player.AbilityStatus;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.*;
-import java.util.stream.*;
 
 
 public class MatchController{
@@ -616,19 +612,24 @@ public class MatchController{
             if (p.isDead()) {
                 Board board = p.getBoard();
                 countBoard(board);
-                //update number of deaths
+                board.initializeBoard();
+                board.increaseNumberOfDeaths();
+                p.falseDead();
             }
         }
     }
 
     public void countBoard(Board board) {
-        HashMap<Integer, List<String>> rank = new HashMap<>();
+
+        java.util.Map<Integer, List<String>> rank = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
         for (Player p : match.getPlayers()) {
             int hits = board.howManyHits(p.getId());
             numberOfDamages.add(hits);
         }
+
+        numberOfDamages.removeIf(x -> x.equals(0));    //TODO check if it works
 
         for (int i = 0; i < numberOfDamages.size(); i++) {
             rank = addElementInRank(numberOfDamages.get(i), i, rank);
@@ -637,16 +638,37 @@ public class MatchController{
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
 
-        //TODO finisci
+        int deaths = board.getNumberOfDeaths();
 
+        for (int n : numberOfDamages) {
+            if (rank.get(n).size() == 1) {
+                int points = board.getPoints()[deaths];
+                match.getPlayer(rank.get(n).get(0)).addPoints(points);
+                deaths--;
+            } else {
+                ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
+                for (String nickname : rank.get(n)) {
+                    arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
+                }
+                do {
+                    int IDPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                    int points = board.getPoints()[deaths];
+                    match.getPlayers().get(IDPlayer).addPoints(points);
+                    deaths--;
+                    arrayIDPlayersSameDamage.remove(0);     //TODO maybe it doesn't work for concurrent access
+                } while (!arrayIDPlayersSameDamage.isEmpty());
+            }
+        }
+
+        match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first damage
     }
 
-    public HashMap<Integer, List<String>> addElementInRank(int damageMaked, int idPlayer, HashMap<Integer, List<String>> rank) {
+    public java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {
 
-        List<String> currentValue = rank.get(damageMaked);
+        List<String> currentValue = rank.get(damageMade);
         if (currentValue == null) {
             currentValue = new ArrayList<>();
-            rank.put(damageMaked, currentValue);
+            rank.put(damageMade, currentValue);
         }
         currentValue.add(match.getPlayers().get(idPlayer).getNickname());
 
