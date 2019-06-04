@@ -37,8 +37,10 @@ public class Player implements Serializable{
         points=0;
         status = new PlayerStatusHandler();
 
-        if(id == 0){
-            status.setTurnStatusLobbyMaster();
+        this.status.setTurnStatusLobby();
+
+        if(this.id == 0){
+            this.status.setTurnStatusLobbyMaster();
         }
 
         dead=false;

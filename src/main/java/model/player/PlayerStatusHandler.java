@@ -8,9 +8,9 @@ public class PlayerStatusHandler  implements Serializable {
     private AbilityStatus specialAbility;
 
 
-    public void PlayerStatusHandler(){
-        turnStatus = RoundStatus.LOBBY;       // in modo che quando viene generato un giocatore esso sia direttamente in stato LOBBY
-        specialAbility = AbilityStatus.NORMAL;// come si gestisce questa roba qui ?!
+    public PlayerStatusHandler(){
+        this.turnStatus = RoundStatus.LOBBY;       // in modo che quando viene generato un giocatore esso sia direttamente in stato LOBBY
+        this.specialAbility = AbilityStatus.NORMAL;// come si gestisce questa roba qui ?!
     }
 
 // metodi set per SpecialAbility
@@ -82,6 +82,8 @@ public class PlayerStatusHandler  implements Serializable {
     public void setTurnStatusWaitFirstTurn(){
         this.turnStatus = RoundStatus.WAIT_FIRST_TURN;
     }
+
+    public void setTurnStatusRespawn(){ this.turnStatus = RoundStatus.RESPAWN; }
 
 //metodi isInStatus ...
 

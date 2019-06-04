@@ -51,7 +51,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
-            System.out.println("[INFO]: The player "+ nickname + " is now in status: " + matchController.getMatch().getPlayer(nickname).getStatus().getTurnStatus());
+            System.out.println("[INFO]: The player "+ nickname + " ID = " + matchController.getMatch().getPlayer(nickname).getId() + " is now in status: " + matchController.getMatch().getPlayer(nickname).getStatus().getTurnStatus());
 
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
