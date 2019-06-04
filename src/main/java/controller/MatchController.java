@@ -534,17 +534,35 @@ public class MatchController{
     }
 
     public void countBoard(Board board) {
-        //HashMap<>
-        ArrayList<Integer> numberOfDamagesSorted = new ArrayList<>();
+        HashMap<Integer, List<String>> rank = new HashMap<>();
+        ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
         for (Player p : match.getPlayers()) {
             int hits = board.howManyHits(p.getId());
-            numberOfDamagesSorted.add(hits);
+            numberOfDamages.add(hits);
         }
-        numberOfDamagesSorted.sort(Comparator.naturalOrder());   //creation of
-        Collections.reverse(numberOfDamagesSorted);
 
+        for (int i = 0; i < numberOfDamages.size(); i++) {
+            rank = addElementInRank(numberOfDamages.get(i), i, rank);
+        }
 
+        numberOfDamages.sort(Comparator.naturalOrder());
+        Collections.reverse(numberOfDamages);
+
+        //TODO finisci
+
+    }
+
+    public HashMap<Integer, List<String>> addElementInRank(int damageMaked, int idPlayer, HashMap<Integer, List<String>> rank) {
+
+        List<String> currentValue = rank.get(damageMaked);
+        if (currentValue == null) {
+            currentValue = new ArrayList<>();
+            rank.put(damageMaked, currentValue);
+        }
+        currentValue.add(match.getPlayers().get(idPlayer).getNickname());
+
+        return rank;
     }
 
 
