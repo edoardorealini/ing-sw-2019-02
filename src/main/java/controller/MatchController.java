@@ -6,6 +6,7 @@ import model.Color;
 import model.Match;
 import model.map.*;
 import model.map.MapBuilder;
+import model.player.Board;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -13,6 +14,8 @@ import model.weapons.*;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -526,6 +529,29 @@ public class MatchController{
 
         return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
     }
+
+    public void endOfTurn() {
+        for (Player p : match.getPlayers()) {
+            if (p.isDead()) {
+                Board board = p.getBoard();
+                addPoints(board);
+                //update number of deaths
+            }
+        }
+    }
+
+    public void addPoints(Board board) {
+        ArrayList<Integer> numberOfDamages = new ArrayList<>();
+        for (Player p : match.getPlayers()) {
+            int hits = board.howManyHits(p.getId());
+            numberOfDamages.add(hits);
+        }
+        numberOfDamages.sort(Comparator.naturalOrder());
+        Collections.reverse(numberOfDamages);
+
+        //TODO mappa 1 a 1 chi ha fatto i danni e assegna i punti
+    }
+
 
 //here there is the code of the hashmap, it doesn't work well
 /*

@@ -7,18 +7,31 @@ import java.util.List;
 public class Board  implements Serializable {
     private int[] lifePoints;
     private ArrayList<Integer> marks;
+    private int[] points;   //points to be assigned after death
+    private int numberOfDeaths; //to be updated
 
 
 
     public Board(){
         lifePoints = new int[12];
-        marks = new ArrayList<>();
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
+
+        marks = new ArrayList<>();
+
+        numberOfDeaths = 0;
+
+        points = new int[6];
+        points[0] = 8;
+        points[1] = 6;
+        points[2] = 4;
+        points[3] = 2;
+        points[4] = 1;
+        points[5] = 1;
     }
 
-    public void InitializeBoard(){   // serve anche per quando muore un giocatore
+    public void initializeBoard(){   // serve anche per quando muore un giocatore
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
@@ -36,7 +49,6 @@ public class Board  implements Serializable {
             }
         }
     }
-
 
     public void updateMarks(int damageMarks, int idCurrPlayer, int idTarget){
         if (idCurrPlayer != idTarget) {
@@ -63,10 +75,10 @@ public class Board  implements Serializable {
         }
     }
 
-    public void removeMarks(int numeroDiMarksDaTogliere, int idPlayerAttaccante){
+    public void removeMarks(int marksToBeRemoved, int idStrikerPlayer){
         int countMarks=0;
-        for (int i=0; (i<marks.size()) && (countMarks<numeroDiMarksDaTogliere); i++){
-            if (marks.get(i)==idPlayerAttaccante) {
+        for (int i = 0; (i<marks.size()) && (countMarks< marksToBeRemoved); i++){
+            if (marks.get(i)== idStrikerPlayer) {
                 marks.remove(i);
                 countMarks++;
                 i=i-1;
@@ -78,38 +90,45 @@ public class Board  implements Serializable {
         return this.marks;
     }
 
-    public int getSpecificMarks(int idPlayerAttaccante) {
+    public int getSpecificMarks(int idStrikerPlayer) {
         int countMarks=0;
         for (int i=0; i<marks.size(); i++){
-            if (marks.get(i) ==idPlayerAttaccante) countMarks++;
+            if (marks.get(i) == idStrikerPlayer) countMarks++;
         }
         return countMarks;
     }
-
 
     public int[] getLifePoints() {
         return lifePoints;
     }
 
-    public boolean isDead(){
+    public boolean isDead() {
         int damage=0;
-        for (int i=0;i < 12;i++){
+        for (int i = 0; i < 12; i++){
             if (lifePoints[i] != 9) damage++;
         }
         if (damage>9) return true;
         else return false;
     }
 
-    public boolean isOverKilled(){
+    public boolean isOverKilled() {
         int damage=0;
-        for (int i=0;i < 12;i++){
+        for (int i = 0; i < 12; i++){
             if (lifePoints[i] != 9) damage++;
         }
-        if (damage==11) return true;
-        else return false;
+        return damage==11;
     }
 
-    public int getNumberOfDamages() {       //necessary to know the progress status of life points independently by who made damages
+    public int howManyHits(int id) {
+        int damages = 0;
+        for (int i=0; i<12; i++) {
+            if (lifePoints[i] == id)
+                damages++;
+        }
+        return damages;
+    }
+
+    public int getTotalNumberOfDamages() {       //necessary to know the progress status of life points independently by who made damages
         int damages = 0;
         for (int i=0; i<12; i++) {
             if (lifePoints[i] != 9)
@@ -118,12 +137,23 @@ public class Board  implements Serializable {
         return damages;
     }
 
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public void setNumberOfDeaths(int numberOfDeaths) {
+        this.numberOfDeaths = numberOfDeaths;
+    }
+
     //for test and maybe for CLI
     public String toStringLP() {
         StringBuilder string = new StringBuilder();
         string.append("LifePoints: ");
         for (int i=0; i<12; i++) {
-            string.append(lifePoints[i]);
+            if (lifePoints[i] == 9)
+                string.append(" ");
+            else
+                string.append(lifePoints[i]);
             if (i!=11)
                 string.append("-");
         }

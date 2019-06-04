@@ -25,7 +25,7 @@ public class Player implements Serializable{
     private PowerUp[] powerUps = {null, null, null};
     private int points;
     private PlayerStatusHandler status;
-    private boolean dead; //valore da aggiornare quando si uccide il giocatore!! //TODO chiedere a ricky se lo fa con ShootController
+    private boolean dead;
     private Match match;
 
     public Player (String nickname, int id, Match match){
@@ -50,11 +50,8 @@ public class Player implements Serializable{
 
     }
 
-    public boolean isConnected(){
-        if(status.getTurnStatus().equals(RoundStatus.DISCONNECTED))
-            return false;
-
-        return true;
+    public boolean isConnected() {
+        return !status.getTurnStatus().equals(RoundStatus.DISCONNECTED);
     }
 
     public String getNickname() {
@@ -237,66 +234,39 @@ public class Player implements Serializable{
     }
 
     public boolean isInStatusWaitTurn(){
-        if(status.getTurnStatus().equals(RoundStatus.WAIT_TURN))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.WAIT_TURN);
     }
 
     public boolean isInStatusMaster(){
-        if(status.getTurnStatus().equals(RoundStatus.MASTER))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.MASTER);
     }
 
     public boolean isInStatusLobbyMaster(){
-        if(status.getTurnStatus().equals(RoundStatus.LOBBY_MASTER))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.LOBBY_MASTER);
     }
 
     public boolean isInStatusLobby(){
-        if(status.getTurnStatus().equals(RoundStatus.LOBBY))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.LOBBY);
     }
 
     public boolean isInStatusFirstAction(){
-        if(status.getTurnStatus().equals(RoundStatus.FIRST_ACTION))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.FIRST_ACTION);
     }
 
     public boolean isInStatusSecondAction(){
-        if(status.getTurnStatus().equals(RoundStatus.SECOND_ACTION))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.SECOND_ACTION);
     }
 
     public boolean isInStatusSpawn(){
-        if(status.getTurnStatus().equals(RoundStatus.SPAWN))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.SPAWN);
     }
 
     public boolean isInStatusReloading(){
-        if(status.getTurnStatus().equals(RoundStatus.RELOADING))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.RELOADING);
     }
 
     public boolean isInStatusEndTurn(){
-        if(status.getTurnStatus().equals(RoundStatus.END_TURN))
-            return true;
-
-        return false;
+        return status.getTurnStatus().equals(RoundStatus.END_TURN);
     }
 
     public void goToNextStatus(){
