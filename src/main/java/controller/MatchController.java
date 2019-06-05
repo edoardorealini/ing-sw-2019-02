@@ -248,11 +248,9 @@ public class MatchController{
     //usare questo!!
     public synchronized void addPlayer(String nickName) throws  FailedLoginException{
 
-       if(checkPlayerPresence(nickName)) {
-           if(match.getPlayer(nickName).isConnected())
+        if(checkPlayerPresence(nickName)) {
+           if(match.getPlayer(nickName.trim()).isConnected()) //with .trim() a usernames with the same name of another but with spaces is not allowed!
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
-           if(match.getPlayers().size() > 4)
-               throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
 
            if(!match.getPlayer(nickName).isConnected()) {
 
@@ -268,6 +266,10 @@ public class MatchController{
                return;
            }
        }
+
+        if(match.getPlayers().size() > 4)
+            throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
+
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //setta current player se sono il primo a connettermi
