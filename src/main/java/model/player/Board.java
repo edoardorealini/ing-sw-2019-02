@@ -120,6 +120,7 @@ public class Board  implements Serializable {
     }
 
     public int howManyHits(int id) {
+        //this method return how many hits have been made by the player given in input
         int damages = 0;
         for (int i=0; i<12; i++) {
             if (lifePoints[i] == id)
