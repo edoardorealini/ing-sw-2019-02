@@ -15,6 +15,7 @@ import model.weapons.*;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class MatchController{
@@ -616,19 +617,25 @@ public class MatchController{
     }
 
     public void endOfTurn() {
+        //this method is called automatically by the server at the end of the turn of each player
         for (Player p : match.getPlayers()) {
             if (p.isDead()) {
                 Board board = p.getBoard();
-                countBoard(board);
+                scoreBoard(board);
+                if (board.getLifePoints()[11] != 9)
+                    match.getPlayers().get(board.getLifePoints()[11]).getBoard().updateMarks(1, p.getId(), board.getLifePoints()[11]);  //giving the revenge mark
                 board.initializeBoard();
                 board.increaseNumberOfDeaths();
                 p.falseDead();
+
             }
         }
     }
 
-    public void countBoard(Board board) {
+    //TODO mortal path skulls update and that shit, now it's called KillShotTrack as in the rules, remember to put there the token (id)
 
+    public void scoreBoard(Board board) {
+        //this method score the board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rank = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
@@ -637,11 +644,14 @@ public class MatchController{
             numberOfDamages.add(hits);
         }
 
-        numberOfDamages.removeIf(x -> x.equals(0));    //TODO check if it works
+
 
         for (int i = 0; i < numberOfDamages.size(); i++) {
             rank = addElementInRank(numberOfDamages.get(i), i, rank);
         }
+
+        numberOfDamages.removeIf(x -> x.equals(0));   //remove the players who made no damage
+        numberOfDamages = numberOfDamages.stream().distinct().collect(Collectors.toCollection(ArrayList::new));   //removing duplicates
 
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
@@ -652,7 +662,7 @@ public class MatchController{
             if (rank.get(n).size() == 1) {
                 int points = board.getPoints()[deaths];
                 match.getPlayer(rank.get(n).get(0)).addPoints(points);
-                deaths--;
+                deaths++;
             } else {
                 ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
                 for (String nickname : rank.get(n)) {
@@ -662,7 +672,7 @@ public class MatchController{
                     int IDPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
                     int points = board.getPoints()[deaths];
                     match.getPlayers().get(IDPlayer).addPoints(points);
-                    deaths--;
+                    deaths++;
                     arrayIDPlayersSameDamage.remove(0);     //TODO maybe it doesn't work for concurrent access
                 } while (!arrayIDPlayersSameDamage.isEmpty());
             }

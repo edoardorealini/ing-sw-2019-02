@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class MatchControllerTest {
 
     private MatchController matchController;
+    private Player p0;
     private Player p1;
     private Player p2;
     private Player p3;
-    private Player p4;
-    private AmmoCard ammo = new AmmoCard(3, 1, 3, false);
+    private AmmoCard ammo = new AmmoCard(3, 3, 3, false);
     private ShootingParametersInput input = new ShootingParametersInput();
 
     @BeforeEach
@@ -29,10 +29,10 @@ class MatchControllerTest {
         try {
             matchController = new MatchController();
             matchController.buildMapForTest(1);
-            p1 = new Player("MADSOMMA", 1, matchController.getMatch());
-            p2 = new Player("REALNGNEER", 2, matchController.getMatch());
-            p3 = new Player("JOHNNYCA$H", 3, matchController.getMatch());
-            p4 = new Player("AHHHH", 4, matchController.getMatch());
+            p0 = new Player("MADSOMMA", 0, matchController.getMatch());
+            p1 = new Player("REALNGNEER", 1, matchController.getMatch());
+            p2 = new Player("JOHNNYCA$H", 2, matchController.getMatch());
+            p3 = new Player("AHHHH", 3, matchController.getMatch());
         }
         catch(Exception e){
             e.printStackTrace();
@@ -47,11 +47,11 @@ class MatchControllerTest {
     @Test
     void shootTestLockRifle() {
         //setting players and map
-        matchController.getMatch().setCurrentPlayer(p1);
-        p1.getStatus().setTurnStatusFirstAction();
-        matchController.getMatch().setPlayers(p1);
-        matchController.getMatch().setPlayers(p3);
+        matchController.getMatch().setCurrentPlayer(p0);
+        p0.getStatus().setTurnStatusFirstAction();
+        matchController.getMatch().setPlayers(p0);
         matchController.getMatch().setPlayers(p2);
+        matchController.getMatch().setPlayers(p1);
         matchController.getMatch().getCurrentPlayer().addAmmoCard(ammo);
         matchController.getShootController().getCurrPlayer().setPosition(matchController.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
         matchController.getMatch().getPlayers().get(1).setPosition(matchController.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of JOHNNTYCA$H
@@ -59,19 +59,20 @@ class MatchControllerTest {
 
         //setting the input
         input.setWeapon(matchController.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE));
+        input.getWeapon().setWeaponStatus(WeaponAmmoStatus.LOADED);
         input.setShootModes(ShootMode.BASIC);
         input.setShootModes(ShootMode.OPTIONAL1);
+        input.setTargets(p1);
         input.setTargets(p2);
-        input.setTargets(p3);
 
 
         //executing code
         try {
             matchController.shoot(input);
+            System.out.println(p1.getBoard().toStringLP());
+            System.out.println(p1.getBoard().toStringMarks());
             System.out.println(p2.getBoard().toStringLP());
             System.out.println(p2.getBoard().toStringMarks());
-            System.out.println(p3.getBoard().toStringLP());
-            System.out.println(p3.getBoard().toStringMarks());
 
         } catch (Exception e){
             System.out.println("shit happened");
@@ -81,9 +82,9 @@ class MatchControllerTest {
 
     @Test
     void reloadWeapon() {
-        matchController.getMatch().setCurrentPlayer(p1);
-        //p1.getStatus().setTurnStatusFirstAction();
-        matchController.getMatch().setPlayers(p1);
+        matchController.getMatch().setCurrentPlayer(p0);
+        //p0.getStatus().setTurnStatusFirstAction();
+        matchController.getMatch().setPlayers(p0);
         matchController.getMatch().getCurrentPlayer().addAmmoCard(ammo);
         PowerUp pow1 = new PowerUp(Color.RED, PowerUpName.TELEPORTER);
         PowerUp pow2 = new PowerUp(Color.YELLOW, PowerUpName.TAGBACK_GRENADE);
@@ -95,6 +96,36 @@ class MatchControllerTest {
             matchController.reloadWeapon(weap);
         } catch (NotEnoughAmmoException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    void endOfTurn() {
+        matchController.getMatch().setCurrentPlayer(p0);
+        matchController.getMatch().setPlayers(p0);
+        matchController.getMatch().setPlayers(p1);
+        matchController.getMatch().setPlayers(p2);
+        matchController.getMatch().setPlayers(p3);
+        p1.getBoard().updateLife(6, 0, 1);
+        p1.getBoard().updateLife(6, 2, 1);
+        //p1.getBoard().updateLife(3, 3, 1);
+        //p1.getBoard().updateLife(1, 0, 1);
+        //p1.getBoard().updateLife(2, 3, 1);
+        p1.trueDead();
+
+        System.out.println(p1.getNickname()+ "'s " + p1.getBoard().toStringLP());
+        System.out.println(p1.isDead());
+        System.out.println("\n");
+
+        for (Player p : matchController.getMatch().getPlayers()) {
+            System.out.println(p.getNickname()+ "'s points:" + p.getPoints());
+        }
+
+        matchController.endOfTurn();
+        System.out.println("\n");
+
+        for (Player p : matchController.getMatch().getPlayers()) {
+            System.out.println(p.getNickname()+ "'s points:" + p.getPoints());
         }
     }
 
