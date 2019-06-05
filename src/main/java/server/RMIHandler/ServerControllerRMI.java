@@ -22,6 +22,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //ex remoteObjectRMI
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
@@ -30,12 +32,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private MatchController matchController;
     private ArrayList<InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
+    private Timer timeout;
 
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
         this.converter = new InputConverter(matchController.getMatch());
         this.clientControllers = new ArrayList<>(5);
         this.hashNicknameID = new HashMap<>();
+        this.timeout = new Timer();
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
@@ -147,9 +151,39 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected succesfully");
             notifyNewPlayers();
+
+            if(connectedPlayers() > 3 && connectedPlayers() != 5) {
+                timeout.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                startGame();
+                            }
+                        }, 10000
+                );
+                System.out.println("[INFO]: Starter timer, the match will start soon . . . ");
+            }
+
+            if(connectedPlayers() == 5) {
+                timeout.cancel();
+                startGame();
+            }
+
         }catch(Exception e){
             throw new FailedLoginException(e.getMessage());
         }
+    }
+
+    public void startGame(){
+        System.out.println("[INFO]: Enough players to start the new game");
+        System.out.println("[INFO]: GAME STARTING");
+
+        //qui devo notificare tutti i client che il game sta inizando.
+
+        for(InterfaceClientControllerRMI controller: clientControllers) {
+            controller.startGame();
+        }
+
     }
 
     public int connectedPlayers(){
@@ -181,6 +215,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                     return false;
                 }
             });
+
+            if (connectedPlayers() < 3) {
+                System.out.println("[INFO]: Timeout stopped");
+                timeout.cancel();
+            }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
             System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());

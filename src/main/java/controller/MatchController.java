@@ -272,6 +272,7 @@ public class MatchController{
 
 
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
+        //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
         //setta current player se sono il primo a connettermi
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));

@@ -11,4 +11,7 @@ public interface InterfaceClientControllerRMI extends Remote {
     void ping() throws RemoteException;
     void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException;
     String getNickname() throws RemoteException;
+    public void startGame();
+
+
 }
