@@ -16,16 +16,16 @@ public class MapBuilder implements Serializable{
     */
 
     private String map1Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "map1.json";
+            + File.separatorChar + "resources" + File.separatorChar + "maps"+ File.separatorChar + "map1.json";
 
     private String map2Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "map2.json";
+            + File.separatorChar + "resources" + File.separatorChar + "maps"+ File.separatorChar + "map2.json";
 
     private String map3Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "map3.json";
+            + File.separatorChar + "resources" + File.separatorChar + "maps"+ File.separatorChar + "map3.json";
 
     private String map4Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "map4.json";
+            + File.separatorChar + "resources" + File.separatorChar + "maps"+ File.separatorChar + "map4.json";
 
 
     public MapBuilder() {
