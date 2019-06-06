@@ -17,6 +17,7 @@ public class Match implements Serializable {
     private Map map;
     private WeaponDeck weaponDeck;
     private boolean matchIsActive;
+    private KillShotTrack killShotTrack;
 
     /*
         costruttore di match si aspetta in input id della mappa da costruire
@@ -30,6 +31,7 @@ public class Match implements Serializable {
         weaponDeck.shuffleDeck();
         ammoDeck.shuffleDeck();
         this.matchIsActive = false;
+        this.killShotTrack = new KillShotTrack();
     }
 
     public boolean getActiveStatusMatch(){
@@ -98,4 +100,9 @@ public class Match implements Serializable {
     public void setMap(Map map) {
         this.map = map;
     }
+
+    public KillShotTrack getKillShotTrack() {
+        return killShotTrack;
+    }
+
 }
