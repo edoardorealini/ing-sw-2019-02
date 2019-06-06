@@ -106,9 +106,9 @@ class MatchControllerTest {
         matchController.getMatch().setPlayers(p1);
         matchController.getMatch().setPlayers(p2);
         matchController.getMatch().setPlayers(p3);
-        p1.getBoard().updateLife(6, 0, 1);
-        p1.getBoard().updateLife(6, 2, 1);
-        //p1.getBoard().updateLife(3, 3, 1);
+        p1.getBoard().updateLife(2, 0, 1);
+        p1.getBoard().updateLife(5, 2, 1);
+        p1.getBoard().updateLife(5, 3, 1);
         //p1.getBoard().updateLife(1, 0, 1);
         //p1.getBoard().updateLife(2, 3, 1);
         p1.trueDead();
@@ -127,6 +127,10 @@ class MatchControllerTest {
         for (Player p : matchController.getMatch().getPlayers()) {
             System.out.println(p.getNickname()+ "'s points:" + p.getPoints());
         }
+
+        System.out.println("\n");
+        System.out.println(p1.getNickname()+ "'s " + p1.getBoard().toStringLP());
+        System.out.println(p1.isDead());
     }
 
 
