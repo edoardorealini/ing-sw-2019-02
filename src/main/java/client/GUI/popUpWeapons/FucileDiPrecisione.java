@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -22,10 +23,20 @@ public class FucileDiPrecisione extends Application {
         primaryStage.setTitle("Shoot");
         SplitPane splitPane = new SplitPane();
 
-        Label imageFake = new Label("      Image HERE     ");
-        imageFake.setAlignment(Pos.CENTER);
+        //image
+        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "AD_weapons_IT_0215.png");
+        Image image = new Image(file.toURI().toString());
+        ImageView iv = new ImageView(image);
+        iv.setX(0);
+        iv.setY(0);
+        iv.setFitHeight(250);
+        iv.setFitWidth(200);
+        iv.setPreserveRatio(true);
+        //Label imageFake = new Label("      Image HERE     ");
+        //imageFake.setAlignment(Pos.CENTER);
         VBox vBox = new VBox();
-        splitPane.getItems().addAll(imageFake,vBox);
+        splitPane.getItems().addAll(iv,vBox);
         Label effectType = new Label("Effect Type: ");
         ChoiceBox<String> choiceBoxEffect = new ChoiceBox<>();
         choiceBoxEffect.getItems().add("Basic");
