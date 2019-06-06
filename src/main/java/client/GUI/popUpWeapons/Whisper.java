@@ -7,22 +7,36 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 
-public class RazzoTermico extends Application {
+import java.io.File;
+
+public class Whisper extends Application {
     Match match;
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Shoot");
         SplitPane splitPane = new SplitPane();
 
-        Label imageFake = new Label("      Image HERE     ");
-        imageFake.setAlignment(Pos.CENTER);
+        //image
+        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Whisper.png");
+        Image image = new Image(file.toURI().toString());
+        ImageView iv = new ImageView(image);
+        iv.setX(0);
+        iv.setY(0);
+        iv.setFitHeight(250);
+        iv.setFitWidth(200);
+        iv.setPreserveRatio(true);
+        //Label imageFake = new Label("      Image HERE     ");
+        //imageFake.setAlignment(Pos.CENTER);
         VBox vBox = new VBox();
-        splitPane.getItems().addAll(imageFake,vBox);
+        splitPane.getItems().addAll(iv,vBox);
         Label effectType = new Label("Effect Type: ");
         ChoiceBox<String> choiceBoxEffect = new ChoiceBox<>();
         choiceBoxEffect.getItems().add("Basic");
@@ -55,11 +69,27 @@ public class RazzoTermico extends Application {
     }
 
     public void Shoot(ChoiceBox<String> choiceBoxEffect, ChoiceBox<String> choiceBoxName){
-        //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
-        //TODO aggiungere il metodo shoot al senderControllerRMI
+            //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
+            //TODO aggiungere il metodo shoot al senderControllerRMI
     }
 
     public void setMatch(Match match) {
         this.match = match;
     }
 }
+
+
+
+
+//TODO come chiamare questa tipologia di classe:
+/*
+playButton.setOnAction(e -> {
+            try {
+               FucileDiPrecisione fp = new FucileDiPrecisione();
+               fp.setMatch(this.getMatch());
+               fp.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+ */

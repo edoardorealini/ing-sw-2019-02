@@ -9,14 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 
 import java.io.File;
 
-public class FucileDiPrecisione extends Application {
+public class HeatSeeker extends Application {
     Match match;
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -25,7 +25,7 @@ public class FucileDiPrecisione extends Application {
 
         //image
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "AD_weapons_IT_0215.png");
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "HeatSeeker.png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setX(0);
@@ -69,27 +69,11 @@ public class FucileDiPrecisione extends Application {
     }
 
     public void Shoot(ChoiceBox<String> choiceBoxEffect, ChoiceBox<String> choiceBoxName){
-            //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
-            //TODO aggiungere il metodo shoot al senderControllerRMI
+        //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
+        //TODO aggiungere il metodo shoot al senderControllerRMI
     }
 
     public void setMatch(Match match) {
         this.match = match;
     }
 }
-
-
-
-
-//TODO come chiamare questa tipologia di classe:
-/*
-playButton.setOnAction(e -> {
-            try {
-               FucileDiPrecisione fp = new FucileDiPrecisione();
-               fp.setMatch(this.getMatch());
-               fp.start(new Stage());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
- */
