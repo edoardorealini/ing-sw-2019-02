@@ -2,6 +2,7 @@ package commons; //package commons contais the common interfaces and classes (th
 
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
+import exception.WrongStatusException;
 import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
@@ -18,14 +19,14 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     int register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
-    Match getMatch(int clientHashedID) throws RemoteException;
+    public int hashNickname(String nickName) throws RemoteException;
 
     Map getMap(int clientHashedID) throws RemoteException;
 
-    void buildMap(int mapID, int clientHashedID) throws RemoteException, Exception;
+    void buildMap(int mapID, int clientHashedID) throws RemoteException, WrongValueException, WrongStatusException;
 
     //metodi derivanti da classe moveController
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws Exception, RemoteException;
+    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException;
 
     boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, int clientHashedID) throws RemoteException;
 

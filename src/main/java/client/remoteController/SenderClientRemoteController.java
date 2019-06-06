@@ -1,12 +1,14 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
+import exception.NotAllowedMoveException;
 import model.map.*;
 import model.player.*;
 import model.Match;
 import model.powerup.*;
 
 import javax.security.auth.login.FailedLoginException;
+import java.rmi.RemoteException;
 
 public abstract class SenderClientRemoteController {
 
@@ -17,7 +19,7 @@ public abstract class SenderClientRemoteController {
     public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
-    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed);
+    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException;
 
     abstract boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance);
 
