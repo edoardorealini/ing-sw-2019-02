@@ -63,7 +63,7 @@ public class MoveController {
     */
     public void move(Player player, Square destination, int maxDistanceAllowed) throws  NotAllowedMoveException{
         if(! isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))
-            throw new NotAllowedMoveException();
+            throw new NotAllowedMoveException("You cannot do this move");
 
         else
             player.setPosition(destination);

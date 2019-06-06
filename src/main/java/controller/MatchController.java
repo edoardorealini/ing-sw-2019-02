@@ -117,8 +117,13 @@ public class MatchController{
     }
 
     //metodi derivanti da classe moveController
-    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws Exception{
-        moveController.move(player, destination, maxDistanceAllowed);
+    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws NotAllowedMoveException{
+        try {
+            moveController.move(player, destination, maxDistanceAllowed);
+        }catch (NotAllowedMoveException e){
+            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
+        }
     }
 
     public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {

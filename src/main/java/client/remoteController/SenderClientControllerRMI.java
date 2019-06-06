@@ -3,6 +3,9 @@ package client.remoteController;
 import client.GUI.FirstPage;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
+import exception.NotAllowedMoveException;
+import exception.WrongStatusException;
+import exception.WrongValueException;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -13,6 +16,7 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -71,17 +75,35 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void buildMap(int mapID) throws Exception {
+    public void buildMap(int mapID) throws WrongStatusException, WrongValueException, RemoteException {
         try {
             serverController.buildMap(mapID, this.hashedNickname);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
+        } catch (WrongStatusException e) {
+            e.printStackTrace();
+            throw new WrongStatusException(e.getMessage());
+        }
+        catch (WrongValueException e2){
+            e2.printStackTrace();
+            throw new WrongValueException(e2.getMessage());
+        }
+        catch(RemoteException e3){
+            e3.printStackTrace();
+            throw new RemoteException(e3.getMessage());
         }
     }
 
     @Override
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed) {
-
+    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws RemoteException, NotAllowedMoveException {
+        try {
+            serverController.move(player, iDestination, jDestination, maxDistanceAllowed, clientHashedID);
+        }catch(RemoteException remote){
+            remote.printStackTrace();
+            throw new RemoteException(remote.getMessage());
+        }
+        catch(NotAllowedMoveException notAllowedMove){
+            notAllowedMove.printStackTrace();
+            throw new NotAllowedMoveException(notAllowedMove.getMessage());
+        }
     }
 
     @Override

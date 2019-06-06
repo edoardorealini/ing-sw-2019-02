@@ -6,6 +6,7 @@ import controller.InputConverter;
 import controller.MatchController;
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
+import exception.WrongStatusException;
 import exception.WrongValueException;
 import model.Match;
 import model.map.Map;
@@ -94,20 +95,24 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return matchController.getMap();
     }
 
-    public void buildMap(int mapID, int clientHashedID) throws  Exception{
+    public void buildMap(int mapID, int clientHashedID) throws  WrongValueException, WrongStatusException {
         try {
             System.out.println("[RMIServer]: Building Map with mapID = " + mapID);
             matchController.buildMap(mapID);
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
+        }catch (WrongValueException e){
+            throw new WrongValueException(e.getMessage());
+        }
+        catch (WrongStatusException e2){
+            throw new WrongStatusException(e2.getMessage());
         }
     }
 
     //metodi derivanti da classe moveController
-    public void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws Exception {
-        matchController.getMoveController().move(player, converter.indexToSquare(iDestination, jDestination), maxDistanceAllowed);
+    public void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException {
+        matchController.move(player, converter.indexToSquare(iDestination, jDestination), maxDistanceAllowed);
     }
 
+    //TODO qui va corretto tutto aggiungendo anche il controllo sull'id hashato!! 
     public boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, int clientHashedID) {
         return matchController.getMoveController().isAllowedMove(startingPoint, converter.indexToSquare(iDestination, jDestination), maxDistance);
     }
