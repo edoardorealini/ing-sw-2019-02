@@ -18,7 +18,7 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     int register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
-    Match getMatch(int clientHashedID) throws RemoteException;
+    public int hashNickname(String nickName) throws RemoteException;
 
     Map getMap(int clientHashedID) throws RemoteException;
 

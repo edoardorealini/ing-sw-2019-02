@@ -70,6 +70,22 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return hashedTemp.hashCode();
     }
 
+    public int hashNickname(String nickName){
+
+        String hashedTemp = "";
+
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(nickName.getBytes());
+            hashedTemp = new String(messageDigest.digest());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return hashedTemp.hashCode();
+
+    }
+
     public Match getMatch(int clientHashedID) {
         return matchController.getMatch();
     }
@@ -146,7 +162,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return "[RMIServer]: Connection status OK";
     }
 
-    public void addPlayer(String nickName) throws  FailedLoginException{
+    public void addPlayer(String nickName) throws  FailedLoginException, RemoteException{
         try {
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected succesfully");
@@ -157,7 +173,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                         new TimerTask() {
                             @Override
                             public void run() {
-                                startGame();
+                                try {
+                                    startGame();
+                                }catch (RemoteException e){
+                                    e.printStackTrace();
+                                }
                             }
                         }, 10000
                 );
@@ -174,14 +194,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    public void startGame(){
-        System.out.println("[INFO]: Enough players to start the new game");
-        System.out.println("[INFO]: GAME STARTING");
+    public void startGame() throws RemoteException{
+        try {
+            System.out.println("[INFO]: Enough players to start the new game");
+            System.out.println("[INFO]: GAME STARTING");
 
-        //qui devo notificare tutti i client che il game sta inizando.
+            //qui devo notificare tutti i client che il game sta inizando.
+            //inoltre devo passare tutti i giocatori allo stato successivo ! (per dare i permessi di iniziare a fare le azioni !).
 
-        for(InterfaceClientControllerRMI controller: clientControllers) {
-            controller.startGame();
+            for (InterfaceClientControllerRMI controller : clientControllers) {
+                matchController.goToNextStatus(matchController.getMatch().getPlayer(controller.getNickname()));
+                controller.startGame();
+            }
+        }catch(RemoteException e){
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
         }
 
     }
