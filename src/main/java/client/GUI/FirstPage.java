@@ -102,7 +102,7 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp,primaryStage)); /*{
+        playButton.setOnAction(e -> {
             try {
                 ElectroScythe fp = new ElectroScythe();
                fp.setMatch(this.getMatch());
@@ -110,7 +110,7 @@ public class FirstPage extends Application implements Runnable{
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }); */ //checkInput(inputName,choiceBox,inputIp,primaryStage));
+        });  //checkInput(inputName,choiceBox,inputIp,primaryStage));
         // ++++++++++++++++++++++++++++++++++
         // codice per cambaire font
         nameLabel.setTextFill(Color.YELLOWGREEN);
