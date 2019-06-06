@@ -55,4 +55,11 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         //TODO per johnny questo è il metodo che fa cambiare la vista alla GUI in automatico per iniziare la partita
     }
 
+    public void updateMatch(Match match){
+        setMatch(match);
+    }
+
+    private void setMatch(Match m){
+        this.match = m;
+    }
 }
