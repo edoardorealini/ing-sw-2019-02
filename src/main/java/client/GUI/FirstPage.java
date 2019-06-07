@@ -102,7 +102,8 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp,primaryStage));/*{
+        playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp,primaryStage));
+        /* {
             try {
                 ElectroScythe fp = new ElectroScythe();
                fp.setMatch(this.getMatch());
