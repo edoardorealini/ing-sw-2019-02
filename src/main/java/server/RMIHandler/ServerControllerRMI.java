@@ -4,10 +4,7 @@ import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
-import exception.NotAllowedMoveException;
-import exception.NotAllowedTargetException;
-import exception.WrongStatusException;
-import exception.WrongValueException;
+import exception.*;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
@@ -113,19 +110,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     //TODO qui va corretto tutto aggiungendo anche il controllo sull'id hashato!! 
-    public boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, int clientHashedID) {
-        return matchController.getMoveController().isAllowedMove(startingPoint, converter.indexToSquare(iDestination, jDestination), maxDistance);
-    }
-
-    public void moveOneSquare(String movement, int clientHashedID) throws Exception {
-        matchController.getMoveController().moveOneSquare(converter.stringToDirections(movement));
-    }
-
-    public void moveOneSquare(String movement, Player player, int clientHashedID) throws Exception {
-        matchController.getMoveController().moveOneSquare(converter.stringToDirections(movement), player);
-    }
-
-
     //metodi da grab controller
     public void grabAmmoCard(int clientHashedID) throws Exception {
         matchController.getGrabController().grabAmmoCard();
@@ -136,24 +120,25 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     //metodi di powerUpController
+    @Deprecated
     public void usePowerUpAsAmmo(int indexOfPowerUp, int clientHashedID) throws Exception {
         matchController.getPowerUpController().usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPowerUp));
     }
 
-    public void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) {
-        matchController.getPowerUpController().useTeleporter(teleporter, destination);
+    public void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws NotInYourPossessException, WrongStatusException {
+        matchController.useTeleporter(teleporter, destination);
     }
 
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException {
-        matchController.getPowerUpController().useNewton(newton, affectedPlayer, destination);
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, NotInYourPossessException, WrongStatusException {
+        matchController.useNewton(newton, affectedPlayer, destination);
     }
 
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws NotAllowedTargetException {
-        matchController.getPowerUpController().useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException {
+        matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
     }
 
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) {
-        matchController.getPowerUpController().useTargetingScope(targetingScope, affectedPlayer);
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws NotInYourPossessException, WrongStatusException {
+        matchController.useTargetingScope(targetingScope, affectedPlayer);
     }
 
 

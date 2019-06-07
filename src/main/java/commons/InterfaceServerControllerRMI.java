@@ -1,9 +1,6 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
-import exception.NotAllowedMoveException;
-import exception.NotAllowedTargetException;
-import exception.WrongStatusException;
-import exception.WrongValueException;
+import exception.*;
 import model.Match;
 import model.map.Map;
 import model.map.Square;
@@ -28,13 +25,6 @@ public interface InterfaceServerControllerRMI extends Remote {
     //metodi derivanti da classe moveController
     void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException;
 
-    boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance, int clientHashedID) throws RemoteException;
-
-    void moveOneSquare(String movement, int clientHashedID) throws Exception, RemoteException;
-
-    void moveOneSquare(String movement, Player player, int clientHashedID) throws Exception, RemoteException;
-
-
     //metodi da grab controller
     void grabAmmoCard(int clientHashedID) throws Exception, RemoteException;
 
@@ -43,13 +33,13 @@ public interface InterfaceServerControllerRMI extends Remote {
     //metodi di powerUpController
     void usePowerUpAsAmmo(int indexOfPowerUp, int clientHashedID) throws Exception, RemoteException;
 
-    void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException;
+    void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
-    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, RemoteException;
+    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException;
 
-    void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException;
+    void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotInYourPossessException, WrongStatusException;
 
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException;
+    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
 
     String RMICallTest(String message, int clientHashedID) throws RemoteException;

@@ -282,7 +282,7 @@ public class MatchController{
         //setta current player se sono il primo a connettermi
         if (match.getPlayers().size() == 1)
             match.setCurrentPlayer(match.getPlayers().get(0));
-}
+    }
 
     private boolean checkThereIsMaster(){
         for(Player p: match.getPlayers()){
@@ -336,6 +336,7 @@ public class MatchController{
     //insieme di metodi privati che servono per fare i controlli prima di fale le azioni nei metodi di matchController
     // NB quando fai il controllo nel metodo del controller lanciare l'eccezione WrongStatusException dicendo perchè c'è errore.
 
+    //TODO controllare bene qui
     private boolean canDoAction(){
         if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction()){
             return true;
@@ -401,8 +402,8 @@ public class MatchController{
                 break;
 
             case END_TURN:
-                p.getStatus().setTurnStatusWaitTurn();
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
+                p.getStatus().setTurnStatusWaitTurn();
                 //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
                 break;
 
