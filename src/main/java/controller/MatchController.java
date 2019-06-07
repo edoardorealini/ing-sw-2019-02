@@ -623,21 +623,36 @@ public class MatchController{
 
     public void endOfTurn() {
         //this method is called automatically by the server at the end of the turn of each player
+        int numberOfPeopleKilled = 0;   //local variable that keeps the count of how many people have been killed in order to updated doubleKill in killShot track
+
         for (Player p : match.getPlayers()) {
             if (p.isDead()) {
                 Board board = p.getBoard();
                 scoreBoard(board);
                 if (board.getLifePoints()[11] != 9)
                     match.getPlayers().get(board.getLifePoints()[11]).getBoard().updateMarks(1, p.getId(), board.getLifePoints()[11]);  //giving the revenge mark
-                board.initializeBoard();
+
+
+                match.getKillShotTrack().setMortalShots(match.getCurrentPlayer().getId());  //with the following lines I replace the skull in KillShotTrack, with the token id of the current player
+                if (board.isOverKilled())
+                    match.getKillShotTrack().setMortalShots(match.getCurrentPlayer().getId());
+
+                match.getKillShotTrack().decreaseSkulls();      //remove just one skull
+
+                //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status)
+
+                board.initializeBoard();    //resetting the board of th killed player
                 board.increaseNumberOfDeaths();
                 p.falseDead();
 
+                numberOfPeopleKilled++;
+
             }
         }
-    }
+        if (numberOfPeopleKilled > 2)
+            match.getKillShotTrack().setDoubleKill(match.getCurrentPlayer().getId());
 
-    //TODO mortal path skulls update and that shit, now it's called KillShotTrack as in the rules, remember to put there the token (id)
+    }
 
     public void scoreBoard(Board board) {
         //this method score the board of a dead player, giving points to the other players

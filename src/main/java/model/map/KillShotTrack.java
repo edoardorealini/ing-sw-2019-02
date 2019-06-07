@@ -30,9 +30,15 @@ public class KillShotTrack implements Serializable {
 		//TODO tutta la classe +  aggiornare valore al primo turno
 	}
 
-	public void setMortalShots(int shots, int idPlayer){		//shots can be 1 or 2, depending on the rage damage
-		mortalShots.add(idPlayer);
-		if (shots == 2) mortalShots.add(idPlayer);
+	public void decreaseSkulls() {
+		this.skulls--;
 	}
 
+	public void setMortalShots(int idPlayer){
+		mortalShots.add(idPlayer);
+	}
+
+	public void setDoubleKill(int idPlayer) {
+		this.doubleKill.add(idPlayer);
+	}
 }
