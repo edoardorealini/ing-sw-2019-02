@@ -18,10 +18,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 //ex remoteObjectRMI
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
@@ -158,7 +155,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             System.out.println("[INFO]: Player " + nickName + " connected succesfully");
             notifyNewPlayers();
 
-            if(connectedPlayers() > 3 && connectedPlayers() != 5) {
+            if(connectedPlayers() >= 3 && connectedPlayers() < 5) {
                 timeout.schedule(
                         new TimerTask() {
                             @Override
@@ -184,19 +181,35 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    public void startGame() throws RemoteException{
+    private void startGame() throws RemoteException{
         try {
             System.out.println("[INFO]: Enough players to start the new game");
             System.out.println("[INFO]: GAME STARTING");
 
             //qui devo notificare tutti i client che il game sta inizando.
             //inoltre devo passare tutti i giocatori allo stato successivo ! (per dare i permessi di iniziare a fare le azioni !).
+            int master = 0;
 
-            for (InterfaceClientControllerRMI controller : clientControllers) {
-                matchController.goToNextStatus(matchController.getMatch().getPlayer(controller.getNickname()));
-                controller.startGame();
+            for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++) {
+                if (matchController.getMatch().getPlayers().get(i).isInStatusLobbyMaster())
+                    master = i;
             }
+            //the master is always in first position
+            Collections.swap(matchController.getMatch().getPlayers(),0, master);
+
+            //all the players pass to the next state, if someone is disconnected he cannot change status here
+            for(Player p: matchController.getMatch().getPlayers())
+                matchController.goToNextStatus(p);
+
+            //setting the currentplayer always as the first (master)
+            matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
+
+            //notifying all the clients that the match is starting !
+            for (InterfaceClientControllerRMI controller : clientControllers)
+                controller.startGame();
+
         }catch(RemoteException e){
+            //exception thrown in case of connection error with client!
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
         }
