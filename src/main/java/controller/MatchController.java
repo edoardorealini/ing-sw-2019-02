@@ -259,19 +259,19 @@ public class MatchController{
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
 
            if(!match.getPlayer(nickName).isConnected()) {
-
                if(match.getActiveStatusMatch())
                    match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+
                if(!match.getActiveStatusMatch())
                    match.getPlayer(nickName).getStatus().setTurnStatusLobby();
+
                if(!checkThereIsLobbyMaster())
                    match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
 
                System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
-
                return;
            }
-       }
+        }
 
         if(match.getPlayers().size() > 4)
             throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
@@ -283,6 +283,13 @@ public class MatchController{
 
         //if (match.getPlayers().size() == 1)
         //   match.setCurrentPlayer(match.getPlayers().get(0));
+
+        if(!match.getActiveStatusMatch())
+            match.getPlayer(nickName).getStatus().setTurnStatusLobby();
+
+        if(!checkThereIsLobbyMaster())
+            match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+
     }
 
     private boolean checkThereIsMaster(){
@@ -303,7 +310,13 @@ public class MatchController{
 
     //returns the number of connected players
     public synchronized  int connectedPlayers(){
-        return match.getPlayers().size();
+        int tmp = 0;
+
+        for(Player p: match.getPlayers())
+            if(p.isConnected())
+                tmp ++;
+
+        return tmp;
     }
 
     //FOR TEST PURPOSE ONLY

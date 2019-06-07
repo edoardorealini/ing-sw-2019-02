@@ -51,10 +51,17 @@ public class AdrenalineMainServer {
         AdrenalineMainServer mainServer = new AdrenalineMainServer(1337, 1338);
 
         try {
-            mainServer.launchSocketServer();
-            System.out.println("Launched SocketServer with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getSocketPort() + ", waiting for connections");
-            mainServer.launchRMIServer();
+            //mainServer.launchSocketServer();
+
+            //System.out.println("Launched SocketServer with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getSocketPort() + ", waiting for connections");
+
+            System.out.println("WELCOME TO ADRENALINE MAIN SERVER v1.0.0");
+            System.out.println("Developed by:   GioValca, MADSOMMA, RealNGneer");
+            System.out.println("All rights reserved, 2019\n\n");
+
+
             System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getRmiPort() + ", waiting for connections");
+            mainServer.launchRMIServer();
 
         }catch (Exception e){
             e.printStackTrace();

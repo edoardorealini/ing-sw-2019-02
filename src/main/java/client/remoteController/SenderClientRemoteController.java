@@ -14,8 +14,6 @@ public abstract class SenderClientRemoteController {
 
     abstract Match getMatch();
 
-    public abstract Map getMap();
-
     public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController

@@ -16,10 +16,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     int register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
-    public int hashNickname(String nickName) throws RemoteException;
-
-    Map getMap(int clientHashedID) throws RemoteException;
-
     void buildMap(int mapID, int clientHashedID) throws RemoteException, WrongValueException, WrongStatusException;
 
     //metodi derivanti da classe moveController
@@ -55,5 +51,7 @@ public interface InterfaceServerControllerRMI extends Remote {
     boolean getMatchStatus() throws RemoteException;
 
     void disconnectPlayer (int clientHashedID) throws RemoteException;
+
+    boolean checkIfConnected(String nickname) throws RemoteException;
 
 }

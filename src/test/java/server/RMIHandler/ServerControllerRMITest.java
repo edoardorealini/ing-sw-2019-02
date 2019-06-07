@@ -30,24 +30,14 @@ class ServerControllerRMITest {
     void lobbyTests(){
         try {
             controller.addPlayer("Edoardo");
-            int edo = controller.hashNickname("Edoardo");
-            System.out.println(edo);
 
             controller.addPlayer("Johnny");
-            int johnny = controller.hashNickname("Johnny");
-            System.out.println(johnny);
 
             controller.addPlayer("Ricky");
-            int ricks = controller.hashNickname("Ricky");
-            System.out.println(ricks);
 
             controller.addPlayer("Sims");
-            int sims = controller.hashNickname("Sims");
-            System.out.println(sims);
 
             controller.addPlayer("GGWP");
-            int gg = controller.hashNickname("GGWP");
-            System.out.println(gg);
 
         }catch (Exception e){
             e.printStackTrace();

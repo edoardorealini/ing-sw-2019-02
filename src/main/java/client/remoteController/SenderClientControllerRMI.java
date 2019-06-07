@@ -34,12 +34,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         try {
             this.match = match;
             this.firstPage = fp;
-            clientController = new ReceiverClientControllerRMI(match, nickname, fp);
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
             System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
             //UnicastRemoteObject.exportObject(clientController, 0);
+            clientController = new ReceiverClientControllerRMI(match, nickname, fp);
             this.hashedNickname = serverController.register(clientController, nickname); //the server now has a controller to call methods on the client and return to the client his hashed nickname
             this.nickname = nickname;
         } catch (RemoteException e) {
@@ -58,16 +58,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
     }
 
-    @Override
-    public Map getMap() {
-        try {
-            return serverController.getMap(this.hashedNickname);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     @Override
     Match getMatch() {

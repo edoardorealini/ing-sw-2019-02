@@ -57,9 +57,20 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void updateMatch(Match match){
         setMatch(match);
+        //TODO QUI CHIAMARE METODO DELLA GUI CHE AGGIORNA LA VISTA!
+        //questo metodo viene chiamato piu volte.
     }
 
     private void setMatch(Match m){
         this.match = m;
     }
+
+    public void askMap(){
+        //TODO lanciare popup che chiede la mappa (solo a player in stato master)
+    }
+
+    public void waitForMap(){
+
+    }
+
 }

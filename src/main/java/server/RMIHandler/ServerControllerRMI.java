@@ -46,6 +46,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             addPlayer(nickname);
             clientController.ping();
             System.out.println("[INFO]: Client " + nickname + " pinged");
+            System.out.println("[INFO]: There are " + clientControllers.size() + " players REGISTERED");
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
@@ -81,25 +82,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public Match getMatch(int clientHashedID) {
-        return matchController.getMatch();
-    }
-
     public Map getMap(int clientHashedID) {
         return matchController.getMap();
     }
 
-    public void buildMap(int mapID, int clientHashedID) throws  WrongValueException, WrongStatusException {
-        try {
-            System.out.println("[RMIServer]: Building Map with mapID = " + mapID);
-            matchController.buildMap(mapID);
-        }catch (WrongValueException e){
-            throw new WrongValueException(e.getMessage());
-        }
-        catch (WrongStatusException e2){
-            throw new WrongStatusException(e2.getMessage());
-        }
-    }
 
     //metodi derivanti da classe moveController
     public void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException {
@@ -154,55 +140,99 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected succesfully");
             notifyNewPlayers();
-
+        }catch(Exception e){
+            throw new FailedLoginException(e.getMessage());
+        }
+        finally {
             if(connectedPlayers() >= 3 && connectedPlayers() < 5) {
                 timeout.schedule(
                         new TimerTask() {
                             @Override
                             public void run() {
                                 try {
-                                    startGame();
+                                    //startGame is called later, the first action should be calling a client to ask for the map
+                                    //startGame();
+                                    System.out.println("[INFO]: Starting countdown, the match will start soon . . . ");
+                                    askMap();
                                 }catch (RemoteException e){
                                     e.printStackTrace();
                                 }
                             }
                         }, 10000
                 );
-                System.out.println("[INFO]: Starter timer, the match will start soon . . . ");
             }
 
             if(connectedPlayers() == 5) {
                 timeout.cancel();
-                startGame();
+                askMap();
             }
 
-        }catch(Exception e){
-            throw new FailedLoginException(e.getMessage());
         }
     }
 
-    private void startGame() throws RemoteException{
+    //this method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
+    //from buildmap --> call startGame() that has to be changed
+    //TODO change implementation of startGame().
+    public void askMap() throws RemoteException{
+        //this code is useful for having the master always in first position (he doesn't know lol)
+        int master = 0;
+        for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++)
+            if (matchController.getMatch().getPlayers().get(i).isInStatusLobbyMaster())
+                master = i;
+        //the master is always in first position
+        Collections.swap(matchController.getMatch().getPlayers(),0, master);
+
+        //here i have to update the status of all the players in the game
+        updateAllPlayersStatus();
+
+        //setting the currentplayer always as the first (master)
+        matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
+
+        pushMatchToAllPlayers();
+        System.out.println("[INFO]: Asking for the map to the MASTER player.");
+        //here i notify the player in MASTER that has to choose the map.
+        for(InterfaceClientControllerRMI controller: clientControllers) {
+            if (matchController.getMatch().getPlayer(controller.getNickname()).isInStatusMaster())
+                controller.askMap(); //asking the map only to the master player.
+            else
+                controller.waitForMap(); //method called on the players that are not in status master.
+        }
+    }
+
+    private void updateAllPlayersStatus(){
+        System.out.println("[INFO]: Updating the status of all the players.");
+        for(Player p: matchController.getMatch().getPlayers())
+            matchController.goToNextStatus(p);
+    }
+
+    private void pushMatchToAllPlayers() throws RemoteException{
+        System.out.println("[INFO]: Pushing the updated match to all the players ");
+        for(InterfaceClientControllerRMI controller: clientControllers)
+            controller.updateMatch(matchController.getMatch());
+    }
+
+
+    public void buildMap(int mapID, int clientHashedID) throws  WrongValueException, WrongStatusException, RemoteException {
+        try {
+            //building the map
+            matchController.buildMap(mapID);
+            //starting the game pushing the updated model on all the clients ( this method calls the main page of the GUI ! )
+            startGame();
+        }catch (WrongValueException e){
+            throw new WrongValueException(e.getMessage());
+        }
+        catch (WrongStatusException e2){
+            throw new WrongStatusException(e2.getMessage());
+        }
+        catch (RemoteException e){
+            throw new RemoteException(e.getMessage());
+        }
+    }
+
+    public void startGame() throws RemoteException{
         try {
             System.out.println("[INFO]: Enough players to start the new game");
             System.out.println("[INFO]: GAME STARTING");
-
-            //qui devo notificare tutti i client che il game sta inizando.
-            //inoltre devo passare tutti i giocatori allo stato successivo ! (per dare i permessi di iniziare a fare le azioni !).
-            int master = 0;
-
-            for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++) {
-                if (matchController.getMatch().getPlayers().get(i).isInStatusLobbyMaster())
-                    master = i;
-            }
-            //the master is always in first position
-            Collections.swap(matchController.getMatch().getPlayers(),0, master);
-
-            //all the players pass to the next state, if someone is disconnected he cannot change status here
-            for(Player p: matchController.getMatch().getPlayers())
-                matchController.goToNextStatus(p);
-
-            //setting the currentplayer always as the first (master)
-            matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
 
             //notifying all the clients that the match is starting !
             for (InterfaceClientControllerRMI controller : clientControllers)
@@ -245,16 +275,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                     return false;
                 }
             });
-            /*
-                CAPIRE SE SERVE QUI !
+
             if (connectedPlayers() < 3) {
                 System.out.println("[INFO]: Timeout stopped");
                 timeout.cancel();
             }
-            */
+
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
             System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());
-            System.out.println("\n");
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
@@ -281,5 +309,13 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return hashNicknameID.get(hashedID).equals(matchController.getMatch().getCurrentPlayer().getNickname());
     }
 
-
+    @Override
+    public boolean checkIfConnected(String nickname) throws RemoteException {
+        try {
+            return matchController.getMatch().getPlayers().contains(matchController.getMatch().getPlayer(nickname));
+        }
+        catch (NullPointerException e){
+            return false;
+        }
+    }
 }
