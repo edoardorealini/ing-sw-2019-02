@@ -3,9 +3,11 @@ package client.clientController;
 //this is the remote object that the client shares with the server in order to help the server push information whenever needed
 //info such as Model updates, turn status or other stuff.
 
+import client.GUI.ChooseMap;
 import client.GUI.FirstPage;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
+import javafx.stage.Stage;
 import model.Color;
 import model.Match;
 import model.player.Player;
@@ -65,8 +67,22 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         this.match = m;
     }
 
-    public void askMap(){
+    public void askMap() throws Exception{
         //TODO lanciare popup che chiede la mappa (solo a player in stato master)
+        ChooseMap chooseMap = new ChooseMap();
+        chooseMap.setMatch(match);
+        Platform.runLater(
+                () -> {
+                    // Update UI here.
+                    try {
+                        //todo qui va chiusa la finestra con la lobby (come si fa @johnny)
+                        chooseMap.start(new Stage());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+        );
+
     }
 
     public void waitForMap(){

@@ -18,6 +18,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.ECField;
 import java.util.*;
 
 //ex remoteObjectRMI
@@ -155,6 +156,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                 }catch (RemoteException e){
                                     e.printStackTrace();
                                 }
+                                catch (Exception e){
+                                    System.out.println("[ERROR]: Error launching the chooseMap window");
+                                    e.printStackTrace();
+                                }
                             }
                         }, 10000
                 );
@@ -163,7 +168,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             if(connectedPlayers() == 5) {
                 timeout.cancel();
                 timeout.purge();
-                askMap();
+                try {
+                    askMap();
+                }catch (Exception e){
+                    System.out.println("[ERROR]: Error launching the chooseMap window");
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -172,7 +182,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     //this method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
     //from buildmap --> call startGame() that has to be changed
     //TODO change implementation of startGame().
-    public void askMap() throws RemoteException{
+    public void askMap() throws RemoteException, Exception{
         //this code is useful for having the master always in first position (he doesn't know lol)
         int master = 0;
         for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++)

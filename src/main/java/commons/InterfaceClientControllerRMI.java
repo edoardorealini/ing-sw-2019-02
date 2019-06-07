@@ -13,7 +13,7 @@ public interface InterfaceClientControllerRMI extends Remote {
     void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException;
     String getNickname() throws RemoteException;
     void startGame() throws RemoteException;
-    void askMap() throws  RemoteException;
+    void askMap() throws  RemoteException, Exception;
     void waitForMap() throws RemoteException;
     void updateMatch(Match match) throws RemoteException;
 }
