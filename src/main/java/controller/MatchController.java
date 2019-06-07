@@ -280,8 +280,9 @@ public class MatchController{
         match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
         //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
         //setta current player se sono il primo a connettermi
-        if (match.getPlayers().size() == 1)
-            match.setCurrentPlayer(match.getPlayers().get(0));
+
+        //if (match.getPlayers().size() == 1)
+        //   match.setCurrentPlayer(match.getPlayers().get(0));
     }
 
     private boolean checkThereIsMaster(){
@@ -405,6 +406,10 @@ public class MatchController{
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
                 p.getStatus().setTurnStatusWaitTurn();
                 //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
+                break;
+
+            case RESPAWN:
+                p.getStatus().setTurnStatusWaitTurn();
                 break;
 
             case WAIT_TURN:
