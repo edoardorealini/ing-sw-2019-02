@@ -26,7 +26,7 @@ public class ElectroScythe extends Application {
 
         //image
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "ELECTROSCYTHE" + ".png");
+                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + "ELECTROSCYTHE" + ".png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setX(0);

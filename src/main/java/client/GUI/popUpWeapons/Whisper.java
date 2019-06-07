@@ -25,7 +25,7 @@ public class Whisper extends Application {
 
         //image
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Whisper.png");
+                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + "WHISPER.png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setX(0);

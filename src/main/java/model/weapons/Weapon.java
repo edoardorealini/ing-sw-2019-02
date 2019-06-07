@@ -22,6 +22,7 @@ public class Weapon  implements Serializable {
     private ArrayList<Effect> optionalModeTwo;
     private ArrayList<Effect> alternateMode;
 
+    private RequiredParameters requiredParameters;
 
 
     //constructor
@@ -35,6 +36,7 @@ public class Weapon  implements Serializable {
         this.costOpt2 = new ArrayList<>();
         this.costAlternate = new ArrayList<>();
         this.ammoStatus = WeaponAmmoStatus.PARTIALLYLOADED;
+        this.requiredParameters = new RequiredParameters();
     }
 
 
@@ -86,44 +88,44 @@ public class Weapon  implements Serializable {
 
 
 
-    public void setCost(Color one){
+    void setCost(Color one){
         this.cost.add(one);
     }
 
-    public void setCost(Color one, Color two){
+    void setCost(Color one, Color two){
         this.cost.add(one);
         this.cost.add(two);
     }
 
-    public void setCost(Color one, Color two, Color three){
+    void setCost(Color one, Color two, Color three){
         this.cost.add(one);
         this.cost.add(two);
         this.cost.add(three);
     }
 
-    public void setCostOpt1(Color one){
+    void setCostOpt1(Color one){
         this.costOpt1.add(one);
     }
 
-    public void setCostOpt1(Color one, Color two){
+    void setCostOpt1(Color one, Color two){
         this.costOpt1.add(one);
         this.costOpt1.add(two);
     }
 
-    public void setCostOpt2(Color one){
+    void setCostOpt2(Color one){
         this.costOpt2.add(one);
     }
 
-    public void setCostOpt2(Color one, Color two){
+    void setCostOpt2(Color one, Color two){
         this.costOpt2.add(one);
         this.costOpt2.add(two);
     }
 
-    public void setCostAlternate(Color one){
+    void setCostAlternate(Color one){
         this.costAlternate.add(one);
     }
 
-    public void setCostAlternate(Color one, Color two){
+    void setCostAlternate(Color one, Color two){
         this.costAlternate.add(one);
         this.costAlternate.add(two);
     }
@@ -141,22 +143,22 @@ public class Weapon  implements Serializable {
 
     //overloading setBasicMode
 
-    public void setBasicMode(Effect a) {
+    void setBasicMode(Effect a) {
         this.basicMode.add(a);
     }
 
-    public void setBasicMode(Effect a, Effect b) {
+    void setBasicMode(Effect a, Effect b) {
         this.basicMode.add(a);
         this.basicMode.add(b);
     }
 
-    public void setBasicMode(Effect a, Effect b, Effect c) {
+    void setBasicMode(Effect a, Effect b, Effect c) {
         this.basicMode.add(a);
         this.basicMode.add(b);
         this.basicMode.add(c);
     }
 
-    public void setBasicMode(Effect a, Effect b, Effect c, Effect d) {
+    void setBasicMode(Effect a, Effect b, Effect c, Effect d) {
         this.basicMode.add(a);
         this.basicMode.add(b);
         this.basicMode.add(c);
@@ -166,22 +168,22 @@ public class Weapon  implements Serializable {
 
     //overloading setOptionalModeOne
 
-    public void setOptionalModeOne(Effect a) {
+    void setOptionalModeOne(Effect a) {
         this.optionalModeOne.add(a);
     }
 
-    public void setOptionalModeOne(Effect a, Effect b) {
+    void setOptionalModeOne(Effect a, Effect b) {
         this.optionalModeOne.add(a);
         this.optionalModeOne.add(b);
     }
 
-    public void setOptionalModeOne(Effect a, Effect b, Effect c) {
+    void setOptionalModeOne(Effect a, Effect b, Effect c) {
         this.optionalModeOne.add(a);
         this.optionalModeOne.add(b);
         this.optionalModeOne.add(c);
     }
 
-    public void setOptionalModeOne(Effect a, Effect b, Effect c, Effect d) {
+    void setOptionalModeOne(Effect a, Effect b, Effect c, Effect d) {
         this.optionalModeOne.add(a);
         this.optionalModeOne.add(b);
         this.optionalModeOne.add(c);
@@ -191,16 +193,16 @@ public class Weapon  implements Serializable {
 
     //overloading setOptionalModeTwo
 
-    public void setOptionalModeTwo(Effect a) {
+    void setOptionalModeTwo(Effect a) {
         this.optionalModeTwo.add(a);
     }
 
-    public void setOptionalModeTwo(Effect a, Effect b) {
+    void setOptionalModeTwo(Effect a, Effect b) {
         this.optionalModeTwo.add(a);
         this.optionalModeTwo.add(b);
     }
 
-    public void setOptionalModeTwo(Effect a, Effect b, Effect c) {
+    void setOptionalModeTwo(Effect a, Effect b, Effect c) {
         this.optionalModeTwo.add(a);
         this.optionalModeTwo.add(b);
         this.optionalModeTwo.add(c);
@@ -209,22 +211,22 @@ public class Weapon  implements Serializable {
 
     //overloading setAlternateMode
 
-    public void setAlternateMode(Effect a) {
+    void setAlternateMode(Effect a) {
         this.alternateMode.add(a);
     }
 
-    public void setAlternateMode(Effect a, Effect b) {
+    void setAlternateMode(Effect a, Effect b) {
         this.alternateMode.add(a);
         this.alternateMode.add(b);
     }
 
-    public void setAlternateMode(Effect a, Effect b, Effect c) {
+    void setAlternateMode(Effect a, Effect b, Effect c) {
         this.alternateMode.add(a);
         this.alternateMode.add(b);
         this.alternateMode.add(c);
     }
 
-    public void setAlternateMode(Effect a, Effect b, Effect c, Effect d) {
+    void setAlternateMode(Effect a, Effect b, Effect c, Effect d) {
         this.alternateMode.add(a);
         this.alternateMode.add(b);
         this.alternateMode.add(c);
@@ -234,9 +236,9 @@ public class Weapon  implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder nameWeap = new StringBuilder();
-        nameWeap.append(this.name);
-        return nameWeap.toString();
+        String nameWeapon;
+        nameWeapon = this.name.toString();
+        return nameWeapon;
     }
 
     public List<Effect> getMode(ShootMode mode) {
@@ -270,4 +272,15 @@ public class Weapon  implements Serializable {
 		return alternateMode;
 	}
 
+	void setRequiredParameters(int shootModeType, int numberOfTargets, int numberOfSquares, boolean direction, boolean makeDamageBeforeMove) {
+        this.requiredParameters.setShootModeType(shootModeType);
+        this.requiredParameters.setNumberOfTargets(numberOfTargets);
+        this.requiredParameters.setNumberOfSquares(numberOfSquares);
+        this.requiredParameters.setDirection(direction);
+        this.requiredParameters.setMakeDamageBeforeMove(makeDamageBeforeMove);
+    }
+
+    public RequiredParameters getRequiredParameters() {
+        return requiredParameters;
+    }
 }

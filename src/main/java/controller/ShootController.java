@@ -252,7 +252,7 @@ public class ShootController extends ActionController {
                 try {
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("poverooo!");   //TODO
+                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
         }
 
@@ -287,7 +287,7 @@ public class ShootController extends ActionController {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
 
         try {
@@ -298,7 +298,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for MACHINE GUN
 
         for (ShootMode mode : input.getShootModes()) {
@@ -318,7 +318,7 @@ public class ShootController extends ActionController {
                 if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -328,7 +328,7 @@ public class ShootController extends ActionController {
                     try {
                         eff.executeEffect(match, moveController, input);
                     } catch (Exception e) {
-
+                        throw new NotAllowedMoveException();
                     }
                 }
             }
@@ -364,7 +364,7 @@ public class ShootController extends ActionController {
                 if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -380,7 +380,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootPlasmaGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
+    public void shootPlasmaGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Plasma Gun
         Effect eff;
         Square squareTemp = getCurrPlayer().getPosition();
@@ -411,7 +411,7 @@ public class ShootController extends ActionController {
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -443,7 +443,6 @@ public class ShootController extends ActionController {
 					try{
 						eff.executeEffect(match, moveController, input);
 					} catch (Exception e) {
-						//TODO manage the NotAllowedMoveException, ask Edo
 						System.out.println("not ok!");
 					}
 					break;
@@ -459,7 +458,6 @@ public class ShootController extends ActionController {
 							throw new NotAllowedTargetException();
 						}
 					} catch (Exception e) {
-						//TODO write the catch part, prolly calling the view with a pop-up, maybe re-throw the exception
 					}
 					break;
 
@@ -486,7 +484,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootTractorBeam () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException{
+    public void shootTractorBeam () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException{
         //this method is valid only for Tractor Beam
         ShootMode mode = input.getShootModes().get(0);
         Square squareTemp = input.getTargets().get(0).getPosition();
@@ -515,7 +513,7 @@ public class ShootController extends ActionController {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -538,7 +536,6 @@ public class ShootController extends ActionController {
 						eff.executeEffect(match, moveController, input);
 					}
 				} catch (Exception e) {
-					//TODO
 				}
 				break;
 
@@ -553,7 +550,6 @@ public class ShootController extends ActionController {
 					checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(0));
 					eff.executeEffect(match, moveController, input);
 				} catch (Exception e) {
-					//TODO
 				}
 				break;
 
@@ -592,7 +588,7 @@ public class ShootController extends ActionController {
                 try {
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("poverooo!");   //TODO
+                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
             }
         }
@@ -615,7 +611,6 @@ public class ShootController extends ActionController {
 				checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
 				eff.executeEffect(match, moveController, input);
 			} catch (Exception e) {
-				//TODO
 			}
 		}
 
@@ -631,7 +626,6 @@ public class ShootController extends ActionController {
 					// System.out.println("eccezione");
 					break;
 
-					//TODO REMEMBER TO ADD EVERYWHERE BREAK INSTRUCTION WHEN YOU CATCH AN EXCEPTION
 
 				}
 			}
@@ -640,7 +634,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootFurnace () throws NotAllowedTargetException, NotAllowedMoveException {
+    public void shootFurnace () throws NotAllowedTargetException, NotAllowedMoveException, NotAllowedShootingModeException {
         //this method is valid only for Furnace
 
         ShootMode mode = input.getShootModes().get(0);
@@ -696,11 +690,14 @@ public class ShootController extends ActionController {
                     try {
                         effect.executeEffect(match, moveController, input);
                     } catch (Exception e) {
-
+                        throw new NotAllowedMoveException();
                     }
                 }
 
                 break;
+
+                default:
+                    throw new NotAllowedShootingModeException("Not allowed shoot mode");
 
         }
     }
@@ -743,7 +740,7 @@ public class ShootController extends ActionController {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -795,7 +792,7 @@ public class ShootController extends ActionController {
                 try {
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("poverooo");  //TODO
+                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
 
                 //checks
@@ -868,7 +865,7 @@ public class ShootController extends ActionController {
                  if (mode == ShootMode.OPTIONAL1)
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("sei povero"); //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -947,7 +944,7 @@ public class ShootController extends ActionController {
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -1030,7 +1027,7 @@ public class ShootController extends ActionController {
                     payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo!");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -1047,7 +1044,7 @@ public class ShootController extends ActionController {
         }
     }
 
-    public void shootZX2 () throws NotAllowedTargetException {
+    public void shootZX2 () throws NotAllowedTargetException, NotAllowedMoveException {
         //this method is valid only for ZX2
         ShootMode mode = input.getShootModes().get(0);
 
@@ -1063,7 +1060,7 @@ public class ShootController extends ActionController {
             try {
               eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                e.printStackTrace(); //TODO maybe use a logger
+                throw new NotAllowedMoveException();
             }
         }
 
@@ -1090,7 +1087,7 @@ public class ShootController extends ActionController {
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                e.printStackTrace(); //TODO
+                throw new NotAllowedMoveException();
             }
         }
 
@@ -1148,7 +1145,7 @@ public class ShootController extends ActionController {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("poverooo");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -1168,7 +1165,7 @@ public class ShootController extends ActionController {
 
     }
 
-    public void shootSchockWave () throws NotAllowedTargetException, NotEnoughAmmoException {
+    public void shootSchockWave () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Shockwave
         ShootMode mode = input.getShootModes().get(0);
 
@@ -1195,7 +1192,7 @@ public class ShootController extends ActionController {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -1215,7 +1212,7 @@ public class ShootController extends ActionController {
                if (mode == ShootMode.ALTERNATE)
                    eff.executeEffect(match, moveController, input);
            } catch (NotAllowedMoveException e) {
-               e.printStackTrace();   //TODO
+               throw new NotAllowedMoveException();
            }
         }
 
@@ -1248,7 +1245,7 @@ public class ShootController extends ActionController {
             try {
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("poverooo");   //TODO
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         }
 
@@ -1256,7 +1253,7 @@ public class ShootController extends ActionController {
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                e.printStackTrace(); //TODO
+                throw new NotAllowedMoveException();
             }
         }
 

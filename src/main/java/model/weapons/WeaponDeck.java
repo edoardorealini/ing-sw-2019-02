@@ -24,6 +24,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(0).setOptionalModeOne(new EffectMark(1, 1, 1,true, 0));
         weaponDeck.get(0).setOptionalModeTwo(null);
         weaponDeck.get(0).setAlternateMode(null);
+        weaponDeck.get(0).setRequiredParameters(3, 2, 0, false, false);
 
 
         //ELECTROSCYTHE
@@ -38,6 +39,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(1).setOptionalModeOne(null);
         weaponDeck.get(1).setOptionalModeTwo(null);
         weaponDeck.get(1).setAlternateMode(new EffectDamage(2, -1, -1, true, -1));
+        weaponDeck.get(1).setRequiredParameters(2, 0, 0, false, false);
 
 
         //MACHINE GUN
@@ -52,9 +54,10 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(2).setOptionalModeOne(new EffectDamage(1, 1, 0, true, 0));
         weaponDeck.get(2).setOptionalModeTwo(new EffectDamage(1, 1, 1, true, 0), new EffectDamage(1, 1, 2, true, 0));
         weaponDeck.get(2).setAlternateMode(null);
+        weaponDeck.get(2).setRequiredParameters(4, 3, 0, false, false);
 
 
-        //TRaCTOR BEAM
+        //TRACTOR BEAM
         weaponDeck.addLast(new Weapon());
         weaponDeck.get(3).setName(WeaponName.TRACTOR_BEAM);
         weaponDeck.get(3).setColor(Color.BLUE);
@@ -66,6 +69,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(3).setOptionalModeOne(null);
         weaponDeck.get(3).setOptionalModeTwo(null);
         weaponDeck.get(3).setAlternateMode(new EffectMoveTarget(2, 1, 0, false, 0), new EffectDamage(3, 1, 0, true, -1));  //same target, remember to check if the moved target is in your square
+        weaponDeck.get(3).setRequiredParameters(2, 1, 1, false, false);
 
 
         //T.H.O.R.
@@ -80,6 +84,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(4).setOptionalModeOne(new EffectDamage(1, 1, 2, true, 0));  //remember to change the striker with the defender to create the chain
         weaponDeck.get(4).setOptionalModeTwo(new EffectDamage(2, 1, 3, true, 0));  //visible is set true so because I assume to shift the reference to the striker
         weaponDeck.get(4).setAlternateMode(null);
+        weaponDeck.get(4).setRequiredParameters(4, 3, 0, false, false);
         //remember that Opt2 is allowed only if Opt1 has been used
 
 
@@ -95,6 +100,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(5).setOptionalModeOne(new EffectMoveYourself(2));
         weaponDeck.get(5).setOptionalModeTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
         weaponDeck.get(5).setAlternateMode(null);
+        weaponDeck.get(5).setRequiredParameters(4, 1, 0, false, false);
 
 
         //WHISPER
@@ -109,6 +115,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(6).setOptionalModeOne(null);
         weaponDeck.get(6).setOptionalModeTwo(null);
         weaponDeck.get(6).setAlternateMode(null);
+        weaponDeck.get(6).setRequiredParameters(1, 1, 0, false, false);
 
 
         //VORTEX CANNON
@@ -123,6 +130,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(7).setOptionalModeOne(new EffectMoveTarget(1, 1, 1, false, 0), new EffectDamage(1, 1, 1, true, 1), new EffectMoveTarget(1, 1, 2, false, 0), new EffectDamage(1, 1, 2, true, 1));  //same targets
         weaponDeck.get(7).setOptionalModeTwo(null);
         weaponDeck.get(7).setAlternateMode(null);
+        weaponDeck.get(7).setRequiredParameters(3, 3, 1, false, false);
 
 
         //FURNACE
@@ -137,6 +145,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(8).setOptionalModeOne(null);
         weaponDeck.get(8).setOptionalModeTwo(null);
         weaponDeck.get(8).setAlternateMode(new EffectDamage(1, -1, -1, true, 1), new EffectMark(1, -1, -1, true, 1));  //same targets
+        weaponDeck.get(8).setRequiredParameters(2, 0, 1, false, false);
 
 
         //HEATSEEKER
@@ -151,6 +160,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(9).setOptionalModeOne(null);
         weaponDeck.get(9).setOptionalModeTwo(null);
         weaponDeck.get(9).setAlternateMode(null);
+        weaponDeck.get(9).setRequiredParameters(1, 1, 0, false, false);
 
 
         //HELLION
@@ -165,6 +175,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(10).setOptionalModeOne(null);
         weaponDeck.get(10).setOptionalModeTwo(null);
         weaponDeck.get(10).setAlternateMode(new EffectDamage(1, 1, 0, true, 1), new EffectMark(2, -1, -1, true, 1)); //same square, mark every player
+        weaponDeck.get(10).setRequiredParameters(2, 1, 0, false, false);
 
 
         //FLAMETHROWER
@@ -179,7 +190,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(11).setOptionalModeOne(null);
         weaponDeck.get(11).setOptionalModeTwo(null);
         weaponDeck.get(11).setAlternateMode(new EffectDamage(2, -1, -1, true, 1),new EffectDamage(1, -1, -1, false, 2));  //same direction
-
+        weaponDeck.get(11).setRequiredParameters(2, 2, 0, true, false);
 
         //GRENADE LAUNCHER
         weaponDeck.addLast(new Weapon());
@@ -193,6 +204,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(12).setOptionalModeOne(new EffectDamage(1, -1, -1, true, 0));  //can be used before or after the EffectMove of basic mode
         weaponDeck.get(12).setOptionalModeTwo(null);
         weaponDeck.get(12).setAlternateMode(null);
+        weaponDeck.get(12).setRequiredParameters(3, 1, 2, false, true);
 
 
         //ROCKET LAUNCHER
@@ -207,6 +219,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(13).setOptionalModeOne(new EffectMoveYourself(2));
         weaponDeck.get(13).setOptionalModeTwo(new EffectDamage(1, -1, -1, true, 1));  //same square as EffectDamage of BasicMode, to be executed during BasicMode
         weaponDeck.get(13).setAlternateMode(null);
+        weaponDeck.get(13).setRequiredParameters(4, 1, 2, false, false);
 
 
         //RAILGUN
@@ -221,6 +234,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(14).setOptionalModeOne(null);
         weaponDeck.get(14).setOptionalModeTwo(null);
         weaponDeck.get(14).setAlternateMode(new EffectDamage(2, 1, 0, false, 0), new EffectDamage(2, 1, 1, false, 0));  //same direction, remember you can always split them into two new
+        weaponDeck.get(14).setRequiredParameters(2, 2, 0, true, false);
 
 
         //CYBERBLADE
@@ -235,6 +249,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(15).setOptionalModeOne(new EffectMoveYourself(1));   //before or after the basic effect
         weaponDeck.get(15).setOptionalModeTwo(new EffectDamage(2, 1, 1, true, -1));   //different target from basic effect
         weaponDeck.get(15).setAlternateMode(null);
+        weaponDeck.get(15).setRequiredParameters(4, 2, 1, false, false);
 
 
         //ZX-2
@@ -249,6 +264,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(16).setOptionalModeOne(null);
         weaponDeck.get(16).setOptionalModeTwo(null);
         weaponDeck.get(16).setAlternateMode(new EffectMark(1, 1, 0, true, 0), new EffectMark(1, 1, 1, true, 0), new EffectMark(1, 1, 2, true, 0));
+        weaponDeck.get(16).setRequiredParameters(2, 3, 0, false, false);
 
 
         //SHOTGUN
@@ -263,6 +279,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(17).setOptionalModeOne(null);
         weaponDeck.get(17).setOptionalModeTwo(null);
         weaponDeck.get(17).setAlternateMode(new EffectDamage(2, 1, 0, true, 1));   //exactly one move away
+        weaponDeck.get(17).setRequiredParameters(2, 1, 1, false, false);
 
 
         //POWER GLOVE
@@ -277,6 +294,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(18).setOptionalModeOne(null);
         weaponDeck.get(18).setOptionalModeTwo(null);
         weaponDeck.get(18).setAlternateMode(new EffectMoveYourself(1), new EffectDamage(2, 1, 0, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, 1, true, -1));    //same direction
+        weaponDeck.get(18).setRequiredParameters(2, 2, 1, true, false);
 
 
         //SHOCKWAVE
@@ -291,6 +309,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(19).setOptionalModeOne(null);
         weaponDeck.get(19).setOptionalModeTwo(null);
         weaponDeck.get(19).setAlternateMode(new EffectDamage(1, -1, -1, true, 1));   //exactly one move away
+        weaponDeck.get(19).setRequiredParameters(2, 3, 0, false, false);
 
 
         //SLEDGEHAMMER
@@ -305,6 +324,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(20).setOptionalModeOne(null);
         weaponDeck.get(20).setOptionalModeTwo(null);
         weaponDeck.get(20).setAlternateMode(new EffectDamage(3, 1, 0, true, -1), new EffectMoveTarget(2, 1, 0, true,-1)); //same target
+        weaponDeck.get(20).setRequiredParameters(2, 1, 1, false, false);
     }
 
 

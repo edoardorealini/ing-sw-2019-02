@@ -1,6 +1,7 @@
 package client.GUI;
 
 import client.GUI.popUpWeapons.ElectroScythe;
+import client.GUI.popUpWeapons.GeneralWeaponPopUp;
 import client.GUI.popUpWeapons.HeatSeeker;
 import client.GUI.popUpWeapons.Whisper;
 import client.remoteController.SenderClientRemoteController;
@@ -18,6 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import model.Match;
+import model.powerup.PowerUp;
+import model.weapons.WeaponName;
+
 import java.io.File;
 
 public class FirstPage extends Application implements Runnable{
@@ -103,10 +107,11 @@ public class FirstPage extends Application implements Runnable{
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
         playButton.setOnAction(e -> checkInput(inputName,choiceBox,inputIp,primaryStage));
-        /* {
+         /* {
             try {
-                ElectroScythe fp = new ElectroScythe();
+                GeneralWeaponPopUp fp = new GeneralWeaponPopUp();
                fp.setMatch(this.getMatch());
+               fp.setWeapon(match.getWeaponDeck().getWeapon(WeaponName.VORTEX_CANNON));
                fp.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
