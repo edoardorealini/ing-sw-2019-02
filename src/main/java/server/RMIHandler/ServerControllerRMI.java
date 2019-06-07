@@ -34,25 +34,22 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         this.converter = new InputConverter(matchController.getMatch());
         this.clientControllers = new ArrayList<>(5);
         this.hashNicknameID = new HashMap<>();
-        this.timeout = new Timer();
     }
 
     //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
     public int register(InterfaceClientControllerRMI clientController, String nickname) throws FailedLoginException{
-        System.out.println("Test connection to client");
+        System.out.println("[INFO]: Trying to connect a new client");
         String hashedTemp = "";       //inizialized to emptyString;
         try {
             clientControllers.add(clientController);
             addPlayer(nickname);
             clientController.ping();
             System.out.println("[INFO]: Client " + nickname + " pinged");
-            System.out.println("[INFO]: There are " + clientControllers.size() + " players REGISTERED");
+            System.out.println("[INFO]: There are " + clientControllers.size() + " players connected");
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
-            System.out.println("[INFO]: The player "+ nickname + " ID = " + matchController.getMatch().getPlayer(nickname).getId() + " is now in status: " + matchController.getMatch().getPlayer(nickname).getStatus().getTurnStatus());
-            System.out.println("\n");
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
@@ -138,13 +135,15 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public void addPlayer(String nickName) throws  FailedLoginException, RemoteException{
         try {
             matchController.addPlayer(nickName);
-            System.out.println("[INFO]: Player " + nickName + " connected succesfully");
+            System.out.println("[INFO]: Player " + nickName + " connected successfully");
             notifyNewPlayers();
         }catch(Exception e){
             throw new FailedLoginException(e.getMessage());
         }
         finally {
             if(connectedPlayers() >= 3 && connectedPlayers() < 5) {
+                System.out.println("[TIMER]: Starting countdown, the match will start soon . . . ");
+                timeout = new Timer();
                 timeout.schedule(
                         new TimerTask() {
                             @Override
@@ -152,7 +151,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                 try {
                                     //startGame is called later, the first action should be calling a client to ask for the map
                                     //startGame();
-                                    System.out.println("[INFO]: Starting countdown, the match will start soon . . . ");
                                     askMap();
                                 }catch (RemoteException e){
                                     e.printStackTrace();
@@ -164,6 +162,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
             if(connectedPlayers() == 5) {
                 timeout.cancel();
+                timeout.purge();
                 askMap();
             }
 
@@ -277,16 +276,19 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             });
 
             if (connectedPlayers() < 3) {
-                System.out.println("[INFO]: Timeout stopped");
+                System.out.println("[INFO]: Timeout killed");
                 timeout.cancel();
+                timeout.purge();
             }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
             System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());
+
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
             }
+
         }
         catch(Exception e1){
             e1.printStackTrace();
