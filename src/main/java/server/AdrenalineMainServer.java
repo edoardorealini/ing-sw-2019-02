@@ -56,7 +56,7 @@ public class AdrenalineMainServer {
             //System.out.println("Launched SocketServer with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getSocketPort() + ", waiting for connections");
 
             System.out.println("WELCOME TO ADRENALINE MAIN SERVER v1.0.0");
-            System.out.println("Developed by:   GioValca, MADSOMMA, RealNGneer");
+            System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
             System.out.println("All rights reserved, 2019\n\n");
 
 
