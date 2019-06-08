@@ -1,6 +1,8 @@
 package model.weapons;
 
-public class RequiredParameters {
+import java.io.Serializable;
+
+public class RequiredParameters implements Serializable {
     //this class contains flags that allow to build popups for the weapons in the GUI
     private int shootModeType;
     private int numberOfTargets;
