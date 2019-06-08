@@ -285,15 +285,13 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 }
             });
 
-            if (connectedPlayers() < 3) {
+            if (connectedPlayers() < 3 && timeout != null) {
                 System.out.println("[INFO]: Timeout killed");
                 timeout.cancel();
                 timeout.purge();
             }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
-            System.out.println("[INFO]: The client "+ hashNicknameID.get(clientHashedID) + " is now in status:" + matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getTurnStatus());
-
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
