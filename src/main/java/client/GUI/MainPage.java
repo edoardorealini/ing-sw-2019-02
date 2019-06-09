@@ -8,7 +8,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -28,23 +30,36 @@ public class MainPage extends Application {
     @Override
     public void start(Stage mainStage) throws Exception {
         mainStage.setTitle("Adrenaline");
-        /*// load images
+        VBox mainVbox = new VBox();
+        SplitPane splitPane = new SplitPane();
+        //left
+        VBox vBoxLife = new VBox();
+        splitPane.getItems().add(vBoxLife);
+        //centre
+        //image (map)
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" +File.separatorChar + "Vita1.png");
+                + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map" + match.getMap().getMapID() + ".png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
-        StackPane stackPane = new StackPane(iv);
-        stackPane.setMaxHeight(100);
-        stackPane.setMaxWidth(20);
-        iv.fitWidthProperty().bind(stackPane.widthProperty());
-        VBox vBox = new VBox();
-        vBox.getChildren().add(stackPane);
-        Scene scene = new Scene(vBox,1400,825);
-        mainStage.setScene(scene);
-        mainStage.setScene(scene);
-        mainStage.sizeToScene();
-        mainStage.show();  */
-        
+        iv.setX(0);
+        iv.setY(0);
+        iv.setFitHeight(500);
+        iv.setFitWidth(500);
+        iv.setPreserveRatio(true);
+        splitPane.getItems().add(iv);
+        //right
+        VBox vBoxRight = new VBox();
+        Button moveButton = new Button(" MOVE ");
+        //moveButton.setOnAction(e -> MoveButton());
+        Button grabButton = new Button(" GRAB ");
+        //grabButton.setOnAction(e -> GrabButton());
+        Button shootButton = new Button(" SHOOT ");
+        //shootButton.setOnAction(e -> ShootButton());
+        vBoxRight.getChildren().addAll(moveButton,grabButton,shootButton);
+        splitPane.getItems().add(vBoxRight);
+
+        //
+        mainVbox.getChildren().add(splitPane);
 
     }
 
