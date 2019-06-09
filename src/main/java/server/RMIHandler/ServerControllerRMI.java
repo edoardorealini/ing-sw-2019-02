@@ -19,7 +19,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.ECField;
 import java.util.*;
 
 //ex remoteObjectRMI
@@ -28,7 +27,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     private InputConverter converter;
     private MatchController matchController;
-    private ArrayList<InterfaceClientControllerRMI> clientControllers; //better implementation with a Map!
+    private ArrayList<InterfaceClientControllerRMI> clientControllers; //todo better implementation with a Map!
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
     private Timer timeout;
 
@@ -106,7 +105,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                             }
                         }, 10000
                 );
-            }
+            } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
 
             if(connectedPlayers() == 5) {
                 timeout.cancel();
