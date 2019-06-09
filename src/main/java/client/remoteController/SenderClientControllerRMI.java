@@ -191,4 +191,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
 
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }

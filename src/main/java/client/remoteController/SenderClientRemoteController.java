@@ -50,4 +50,5 @@ public abstract class SenderClientRemoteController {
 
     public  abstract void disconnectPlayer();
 
+    public abstract String getNickname();
 }
