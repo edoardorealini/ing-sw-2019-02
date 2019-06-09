@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 
+import java.awt.*;
 import java.io.File;
 
 public class ChooseMap extends Application {
@@ -43,19 +44,34 @@ public class ChooseMap extends Application {
         ImageView iv = new ImageView(image);
         iv.setX(0);
         iv.setY(0);
-        //iv.setFitHeight(250);
-        //iv.setFitWidth(200);
-        //iv.setPreserveRatio(true);
+        iv.setFitHeight(650);
+        iv.setFitWidth(864);
+        iv.setPreserveRatio(true);
 
 
         HBox hBox = new HBox();
         splitPane.getItems().addAll(iv, hBox);
 
+        Label chooseMapText = new Label("Select the map you want to use:");
+        ChoiceBox<Integer> selectMap = new ChoiceBox<>();
+
+        Label numberOfSkulls = new Label("Select the number of skull:");
+        ChoiceBox<Integer> nSkulls = new ChoiceBox<>();
+
+        Button play = new Button("PLAY");
+        play.setTextFill(Color.BLUE);
+        play.setAlignment(Pos.BOTTOM_CENTER);
+        //TODO set on action
+
+        //filling the choice boxes
+        
+
+
         hBox.getChildren().addAll();
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(5);
 
-        Scene scene= new Scene(splitPane,1000,1000);
+        Scene scene= new Scene(splitPane,864,750);
         primaryStage.setScene(scene);
         primaryStage.show();
 
