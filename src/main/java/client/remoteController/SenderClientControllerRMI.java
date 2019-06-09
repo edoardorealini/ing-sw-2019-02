@@ -14,7 +14,6 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -37,7 +36,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
             System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
             //UnicastRemoteObject.exportObject(clientController, 0);
-            clientController = new ReceiverClientControllerRMI(match, nickname, fp);
+            clientController = new ReceiverClientControllerRMI(match, nickname, fp, this);
             this.hashedNickname = serverController.register(clientController, nickname); //the server now has a controller to call methods on the client and return to the client his hashed nickname
             this.nickname = nickname;
         } catch (RemoteException e) {
@@ -81,6 +80,19 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         catch(RemoteException e3){
             e3.printStackTrace();
             throw new RemoteException(e3.getMessage());
+        } catch (NotAllowedCallException e) {
+            e.printStackTrace();
+            throw new NotAllowedCallException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void setSkulls(int nSkulls) throws RemoteException, NotAllowedCallException {
+        try {
+            serverController.setSkulls(nSkulls, hashedNickname);
+        } catch(RemoteException e) {
+                e.printStackTrace();
+                throw new RemoteException(e.getMessage());
         } catch (NotAllowedCallException e) {
             e.printStackTrace();
             throw new NotAllowedCallException(e.getMessage());

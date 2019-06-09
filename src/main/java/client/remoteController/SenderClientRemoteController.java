@@ -51,4 +51,6 @@ public abstract class SenderClientRemoteController {
     public  abstract void disconnectPlayer();
 
     public abstract String getNickname();
+
+    public abstract void setSkulls(int nSkulls) throws RemoteException, NotAllowedCallException;
 }
