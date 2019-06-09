@@ -3,9 +3,7 @@ package client.remoteController;
 import client.GUI.FirstPage;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
-import exception.NotAllowedMoveException;
-import exception.WrongStatusException;
-import exception.WrongValueException;
+import exception.*;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -64,8 +62,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         return null;
     }
 
+    public void setFirstPage(FirstPage firstPage){
+        this.firstPage = firstPage;
+    }
+
     @Override
-    public void buildMap(int mapID) throws WrongStatusException, WrongValueException, RemoteException {
+    public void buildMap(int mapID) throws WrongStatusException, WrongValueException, RemoteException, NotAllowedCallException {
         try {
             serverController.buildMap(mapID, this.hashedNickname);
         } catch (WrongStatusException e) {
@@ -79,11 +81,14 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         catch(RemoteException e3){
             e3.printStackTrace();
             throw new RemoteException(e3.getMessage());
+        } catch (NotAllowedCallException e) {
+            e.printStackTrace();
+            throw new NotAllowedCallException(e.getMessage());
         }
     }
 
     @Override
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws RemoteException, NotAllowedMoveException {
+    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws RemoteException, NotAllowedMoveException, InvalidInputException , WrongStatusException, NotAllowedCallException {
         try {
             serverController.move(player, iDestination, jDestination, maxDistanceAllowed, clientHashedID);
         }catch(RemoteException remote){
@@ -94,21 +99,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             notAllowedMove.printStackTrace();
             throw new NotAllowedMoveException(notAllowedMove.getMessage());
         }
-    }
-
-    @Override
-    boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance) {
-        return false;
-    }
-
-    @Override
-    void moveOneSquare(String movement) {
-
-    }
-
-    @Override
-    void moveOneSquare(String movement, Player player) {
-
+        catch(InvalidInputException e){
+            throw new InvalidInputException(e.getMessage());
+        }
     }
 
     @Override
@@ -158,19 +151,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void addPlayer(String nickName) throws FailedLoginException {
-        try {
-            serverController.addPlayer(nickName);
-            firstPage.refreshPlayersInLobby();
-        } catch (FailedLoginException e) {
-            throw new FailedLoginException(e.getMessage());
-        }
-        catch (RemoteException e){
-            e.printStackTrace();
-        }
-
-    }
-    @Override
     public int connectedPlayers() {
         try {
             return serverController.connectedPlayers();
@@ -199,10 +179,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public void setFirstPage(FirstPage firstPage){
-        this.firstPage = firstPage;
     }
 
     @Override

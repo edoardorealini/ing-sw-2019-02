@@ -16,33 +16,28 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     int register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
-    void buildMap(int mapID, int clientHashedID) throws RemoteException, WrongValueException, WrongStatusException;
+    void buildMap(int mapID, int clientHashedID) throws RemoteException, WrongValueException, WrongStatusException, NotAllowedCallException;
 
-    //metodi derivanti da classe moveController
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException;
+    //metodi di moveController
+    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
-    //metodi da grab controller
-    void grabAmmoCard(int clientHashedID) throws Exception, RemoteException;
+    //metodi da grabController
+    void grabAmmoCard(int clientHashedID) throws  WrongStatusException, WrongPositionException, NotAllowedCallException , RemoteException;
 
-    void grabWeapon(int indexOfWeapon, int clientHashedID) throws Exception, RemoteException;
+    void grabWeapon(int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException , RemoteException;
 
     //metodi di powerUpController
-    void usePowerUpAsAmmo(int indexOfPowerUp, int clientHashedID) throws Exception, RemoteException;
+    void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
 
-    void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
-
-    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException;
+    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
 
     void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotInYourPossessException, WrongStatusException;
 
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
-
+    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
 
     String RMICallTest(String message, int clientHashedID) throws RemoteException;
 
     String checkConnection(String IP, int clientHashedID) throws RemoteException;
-
-    void addPlayer(String nickName) throws RemoteException, FailedLoginException;
 
     int connectedPlayers() throws RemoteException;
 

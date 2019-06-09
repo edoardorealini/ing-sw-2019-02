@@ -117,13 +117,18 @@ public class MatchController{
     }
 
     //metodi derivanti da classe moveController
-    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws NotAllowedMoveException{
-        try {
-            moveController.move(player, destination, maxDistanceAllowed);
-        }catch (NotAllowedMoveException e){
-            e.printStackTrace();
-            throw new NotAllowedMoveException(e.getMessage());
+    public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws NotAllowedMoveException, WrongStatusException{
+        if(canDoAction()) {
+            try {
+                moveController.move(player, destination, maxDistanceAllowed);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
+            }
         }
+        else
+            throw new WrongStatusException("You are not allowed to execute a move action now, you must wait for your turn");
+
     }
 
     public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
@@ -159,7 +164,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
-    public  synchronized void grabWeapon(Weapon weapon) throws Exception {
+    public  synchronized void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException {
         if(canDoAction()) {
             try {
                 grabController.grabWeapon(weapon);

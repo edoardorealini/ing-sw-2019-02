@@ -4,6 +4,7 @@ import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
+import controller.ShootingParametersInput;
 import exception.*;
 import model.Match;
 import model.map.Map;
@@ -22,6 +23,7 @@ import java.security.spec.ECField;
 import java.util.*;
 
 //ex remoteObjectRMI
+//this is the class that generates the remote object, called by the client!
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
 
     private InputConverter converter;
@@ -30,6 +32,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
     private Timer timeout;
 
+    /*
+        Builder
+     */
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
         this.converter = new InputConverter(matchController.getMatch());
@@ -37,20 +42,27 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         this.hashNicknameID = new HashMap<>();
     }
 
-    //with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
-    public int register(InterfaceClientControllerRMI clientController, String nickname) throws FailedLoginException{
+    /*
+        LOGIN METHODS
+        with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
+     */
+    public synchronized int register(InterfaceClientControllerRMI clientController, String nickname) throws FailedLoginException{
         System.out.println("[INFO]: Trying to connect a new client");
         String hashedTemp = "";       //inizialized to emptyString;
         try {
             clientControllers.add(clientController);
+
             addPlayer(nickname);
             clientController.ping();
+
             System.out.println("[INFO]: Client " + nickname + " pinged");
-            System.out.println("[INFO]: There are " + clientControllers.size() + " players connected");
+            System.out.println("[INFO]: There are: " + clientControllers.size() + " players connected and " +  matchController.getMatch().getPlayers().size() + " players registered to the server");
+            //creating a token that the client will use to identify on the server!
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
+
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
@@ -64,76 +76,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return hashedTemp.hashCode();
     }
 
-    public int hashNickname(String nickName){
-
-        String hashedTemp = "";
-
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(nickName.getBytes());
-            hashedTemp = new String(messageDigest.digest());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return hashedTemp.hashCode();
-
-    }
-
-    public Map getMap(int clientHashedID) {
-        return matchController.getMap();
-    }
-
-
-    //metodi derivanti da classe moveController
-    public void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException {
-        matchController.move(player, converter.indexToSquare(iDestination, jDestination), maxDistanceAllowed);
-    }
-
-    //TODO qui va corretto tutto aggiungendo anche il controllo sull'id hashato!! 
-    //metodi da grab controller
-    public void grabAmmoCard(int clientHashedID) throws Exception {
-        matchController.getGrabController().grabAmmoCard();
-    }
-
-    public void grabWeapon(int indexOfWeapon, int clientHashedID) throws Exception {
-        matchController.getGrabController().grabWeapon(converter.intToWeapon(indexOfWeapon));
-    }
-
-    //metodi di powerUpController
-    @Deprecated
-    public void usePowerUpAsAmmo(int indexOfPowerUp, int clientHashedID) throws Exception {
-        matchController.getPowerUpController().usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPowerUp));
-    }
-
-    public void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws NotInYourPossessException, WrongStatusException {
-        matchController.useTeleporter(teleporter, destination);
-    }
-
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, NotInYourPossessException, WrongStatusException {
-        matchController.useNewton(newton, affectedPlayer, destination);
-    }
-
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException {
-        matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
-    }
-
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws NotInYourPossessException, WrongStatusException {
-        matchController.useTargetingScope(targetingScope, affectedPlayer);
-    }
-
-
-    public String RMICallTest(String message, int clientHashedID) {
-        System.out.println("Called test method with message: " + message);
-        return "Called MatchController.RMICallTest(message) method with message: " + message;
-    }
-
-    public String checkConnection(String IP, int clientHashedID) {
-        System.out.println("[INFO]: Connection with client " + IP + " completed successfully.");
-        return "[RMIServer]: Connection status OK";
-    }
-
-    public void addPlayer(String nickName) throws  FailedLoginException, RemoteException{
+    private synchronized void addPlayer(String nickName) throws  FailedLoginException, RemoteException{
         try {
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected successfully");
@@ -181,8 +124,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     //this method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
     //from buildmap --> call startGame() that has to be changed
-    //TODO change implementation of startGame().
-    public void askMap() throws RemoteException, Exception{
+    private synchronized void askMap() throws RemoteException, Exception{
         //this code is useful for having the master always in first position (he doesn't know lol)
         int master = 0;
         for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++)
@@ -208,37 +150,26 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    private void updateAllPlayersStatus(){
-        System.out.println("[INFO]: Updating the status of all the players.");
-        for(Player p: matchController.getMatch().getPlayers())
-            matchController.goToNextStatus(p);
+    public synchronized void buildMap(int mapID, int clientHashedID) throws NotAllowedCallException, WrongValueException, WrongStatusException, RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            try {
+                //building the map
+                matchController.buildMap(mapID);
+                //starting the game pushing the updated model on all the clients ( this method calls the main page of the GUI ! )
+                startGame();
+            } catch (WrongValueException e) {
+                throw new WrongValueException(e.getMessage());
+            } catch (WrongStatusException e2) {
+                throw new WrongStatusException(e2.getMessage());
+            } catch (RemoteException e) {
+                throw new RemoteException(e.getMessage());
+            }
+        }
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
-    private void pushMatchToAllPlayers() throws RemoteException{
-        System.out.println("[INFO]: Pushing the updated match to all the players ");
-        for(InterfaceClientControllerRMI controller: clientControllers)
-            controller.updateMatch(matchController.getMatch());
-    }
-
-
-    public void buildMap(int mapID, int clientHashedID) throws  WrongValueException, WrongStatusException, RemoteException {
-        try {
-            //building the map
-            matchController.buildMap(mapID);
-            //starting the game pushing the updated model on all the clients ( this method calls the main page of the GUI ! )
-            startGame();
-        }catch (WrongValueException e){
-            throw new WrongValueException(e.getMessage());
-        }
-        catch (WrongStatusException e2){
-            throw new WrongStatusException(e2.getMessage());
-        }
-        catch (RemoteException e){
-            throw new RemoteException(e.getMessage());
-        }
-    }
-
-    public void startGame() throws RemoteException{
+    private synchronized void startGame() throws RemoteException{
         try {
             System.out.println("[INFO]: Enough players to start the new game");
             System.out.println("[INFO]: GAME STARTING");
@@ -253,18 +184,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException(e.getMessage());
         }
 
-    }
-
-    public int connectedPlayers(){
-        return matchController.connectedPlayers();
-    }
-
-    public PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
-        return matchController.getPlayerStatus(idPlayer);
-    }
-
-    public boolean getMatchStatus() throws RemoteException{
-        return matchController.getMatchStatus();
     }
 
     public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
@@ -303,7 +222,109 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    private void notifyNewPlayers(){
+    //TODO qui va corretto tutto aggiungendo anche il controllo sull'id hashato!!
+
+    /*
+        methods from moveController class
+     */
+
+    public synchronized void move(Player affectedPlayer, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.move(affectedPlayer, converter.indexToSquare(iDestination, jDestination), maxDistanceAllowed);
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+
+    /*
+        methods from grabController class
+     */
+    public synchronized void grabAmmoCard(int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.grabAmmoCard();
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+
+    }
+
+    public synchronized void grabWeapon(int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+
+    /*
+        methods from powerup controller
+     */
+    public synchronized void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws NotInYourPossessException, WrongStatusException , RemoteException , NotAllowedCallException{
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.useTeleporter(teleporter, destination);
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+
+    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException , RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.useNewton(newton, affectedPlayer, destination);
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+
+    }
+
+    public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException , RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.useTargetingScope(targetingScope, affectedPlayer);
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+
+    }
+
+    public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException , RemoteException {
+        //TODO gestire controlli di permissions per chiamare questo metodo!
+        matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    }
+
+    /*
+        Methods form shoot controller
+    */
+    public synchronized void shoot(ShootingParametersInput input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException  {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.shoot(input);
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+
+
+    /*
+        Update methods
+    */
+    private synchronized void updateAllPlayersStatus(){
+        System.out.println("[INFO]: Updating the status of all the players.");
+        for(Player p: matchController.getMatch().getPlayers())
+            matchController.goToNextStatus(p);
+    }
+
+    private synchronized void pushMatchToAllPlayers() throws RemoteException{
+        System.out.println("[INFO]: Pushing the updated match to all the players ");
+        for(InterfaceClientControllerRMI controller: clientControllers)
+            controller.updateMatch(matchController.getMatch());
+    }
+
+    //TODO capire se server effettivamente esporre questi metodi!
+    public synchronized int connectedPlayers(){
+        return matchController.connectedPlayers();
+    }
+
+    public synchronized PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
+        return matchController.getPlayerStatus(idPlayer);
+    }
+
+    public synchronized boolean getMatchStatus() throws RemoteException{
+        return matchController.getMatchStatus();
+    }
+
+
+    private synchronized void notifyNewPlayers(){
         try {
             for (InterfaceClientControllerRMI c : clientControllers) {
                 c.updateConnectedPlayers(matchController.getMatch().getPlayers());
@@ -314,18 +335,58 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    //GENERAL CONTROLS:
 
-    private boolean checkHashedIDAsCurrentPlayer(int hashedID) {
+    //Check if the caller of a method is actually the correct player (check on the token)
+    private synchronized boolean checkHashedIDAsCurrentPlayer(int hashedID){
         return hashNicknameID.get(hashedID).equals(matchController.getMatch().getCurrentPlayer().getNickname());
     }
 
+    //connection check
     @Override
-    public boolean checkIfConnected(String nickname) throws RemoteException {
+    public synchronized boolean checkIfConnected(String nickname) throws RemoteException {
         try {
+            for(InterfaceClientControllerRMI controller: clientControllers)
+                if(controller.getNickname().equals(nickname))
+                    controller.ping(); // if a network error happens, a RemoteException is thrown.
             return matchController.getMatch().getPlayers().contains(matchController.getMatch().getPlayer(nickname));
         }
         catch (NullPointerException e){
             return false;
         }
+        catch (RemoteException e){
+            return false;
+        }
     }
+
+    //USELESS METHODS:
+    public synchronized String RMICallTest(String message, int clientHashedID) {
+        System.out.println("Called test method with message: " + message);
+        return "Called MatchController.RMICallTest(message) method with message: " + message;
+    }
+
+    public synchronized String checkConnection(String IP, int clientHashedID) {
+        System.out.println("[INFO]: Connection with client " + IP + " completed successfully.");
+        return "[RMIServer]: Connection status OK";
+    }
+
+    /*
+        this method is for test use only
+     */
+    private synchronized int hashNickname(String nickName){
+
+        String hashedTemp = "";
+
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(nickName.getBytes());
+            hashedTemp = new String(messageDigest.digest());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return hashedTemp.hashCode();
+
+    }
+
 }

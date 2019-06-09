@@ -1,5 +1,6 @@
 package controller;
 
+import exception.InvalidInputException;
 import model.Match;
 import model.map.Directions;
 import model.map.Square;
@@ -19,7 +20,13 @@ public class InputConverter {
     //TODO eccezioni per input sbagliati
 
     // prende in input le coordinate e restituisce loggetto sqare corrispondente
-    public Square indexToSquare(int i, int j){
+    public Square indexToSquare(int i, int j) throws InvalidInputException{
+        if(!(i >= 0 && i <= 3 && j >= 0 && j <= 2))
+            throw new InvalidInputException("Error converting the input integer coordinates to square, not a valid input");
+
+        if(!match.getMap().getSquareFromIndex(i,j).isActive())
+            throw new InvalidInputException("The square that you selected is not an active one, please retry");
+
         return (match.getMap().getSquareFromIndex(i,j));
     }
 

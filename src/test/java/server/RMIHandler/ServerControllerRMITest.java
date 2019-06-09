@@ -28,19 +28,6 @@ class ServerControllerRMITest {
     //impossibile fare test senza simulare l'esecuzione completa! (NOT GOOD)
     @Test
     void lobbyTests(){
-        try {
-            controller.addPlayer("Edoardo");
-
-            controller.addPlayer("Johnny");
-
-            controller.addPlayer("Ricky");
-
-            controller.addPlayer("Sims");
-
-            controller.addPlayer("GGWP");
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        //fare a manella
     }
 }

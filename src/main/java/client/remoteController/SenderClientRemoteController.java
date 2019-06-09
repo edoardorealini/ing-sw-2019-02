@@ -1,7 +1,10 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
+import exception.InvalidInputException;
+import exception.NotAllowedCallException;
 import exception.NotAllowedMoveException;
+import exception.WrongStatusException;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -17,13 +20,7 @@ public abstract class SenderClientRemoteController {
     public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
-    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException;
-
-    abstract boolean isAllowedMove(Square startingPoint, int iDestination, int jDestination, int maxDistance);
-
-    abstract void moveOneSquare(String movement);
-
-    abstract void moveOneSquare(String movement, Player player);
+    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
     //metodi da grab controller
     abstract void grabAmmoCard();
@@ -42,8 +39,6 @@ public abstract class SenderClientRemoteController {
     abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
 
     public abstract String checkConnection(String IP);
-
-    public abstract void addPlayer(String nickName) throws FailedLoginException;
 
     public abstract int connectedPlayers();
 
