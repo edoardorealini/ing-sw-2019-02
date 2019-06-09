@@ -60,7 +60,7 @@ public class AdrenalineMainServer {
             System.out.println("All rights reserved, 2019\n\n");
 
 
-            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getRmiPort() + ", waiting for connections");
+            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on default port " + mainServer.getRmiPort() + ", waiting for connections");
             mainServer.launchRMIServer();
 
         }catch (Exception e){

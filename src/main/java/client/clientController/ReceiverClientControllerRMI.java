@@ -68,7 +68,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     }
 
     public void askMap() throws Exception{
-        firstPage.closePrimaryStage();
+        Platform.runLater( () -> firstPage.closePrimaryStage());
         //TODO lanciare popup che chiede la mappa (solo a player in stato master)
         ChooseMap chooseMap = new ChooseMap();
         //chooseMap.setMatch(match);
