@@ -30,6 +30,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private ArrayList<InterfaceClientControllerRMI> clientControllers; //todo better implementation with a Map!
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
     private Timer timeout;
+    private boolean timerStatus = false;
 
     /*
         Builder
@@ -84,7 +85,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new FailedLoginException(e.getMessage());
         }
         finally {
-            if(connectedPlayers() >= 3 && connectedPlayers() < 5) {
+            //the use of timerStatus preevents the creation of 2 or more timers!
+            if(connectedPlayers() >= 3 && connectedPlayers() < 5 && !timerStatus) {
                 System.out.println("[TIMER]: Starting countdown, the match will start soon . . . ");
                 timeout = new Timer();
                 timeout.schedule(
@@ -103,8 +105,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                     e.printStackTrace();
                                 }
                             }
-                        }, 1
+                        }, 15000
                 );
+                timerStatus = true;
             } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
 
             if(connectedPlayers() == 5) {

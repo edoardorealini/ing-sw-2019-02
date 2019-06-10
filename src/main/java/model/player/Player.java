@@ -269,9 +269,10 @@ public class Player implements Serializable{
         return status.getTurnStatus().equals(RoundStatus.RELOADING);
     }
 
-    public boolean isInStatusEndTurn(){
-        return status.getTurnStatus().equals(RoundStatus.END_TURN);
+    public boolean isInStatusWaitFirstTurn(){
+        return status.getTurnStatus().equals(RoundStatus.WAIT_FIRST_TURN);
     }
+
 
     /*
     public void goToNextStatus(){
