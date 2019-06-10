@@ -183,8 +183,9 @@ public class MainPage extends Application {
         SplitPane VsplitPane = new SplitPane();
         VsplitPane.setOrientation(Orientation.VERTICAL);
         VsplitPane.getItems().addAll(hboxTop,splitPane);
+        //TODO VsplitPane.setBackground(Color.rgb(40,44,52));
 
-        Scene scene = new Scene(VsplitPane,1100,650);
+        Scene scene = new Scene(VsplitPane,1110,650);
         mainStage.setScene(scene);
         mainStage.show();
 
@@ -229,7 +230,8 @@ public class MainPage extends Application {
             //TODO chiamare il metodo move
         } );
 
-        vBoxMove.getChildren().addAll(Hbox1,Hbox2);
+
+        vBoxMove.getChildren().addAll(Hbox1,Hbox2,move);
         vBoxMove.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBoxMove);
@@ -272,7 +274,7 @@ public class MainPage extends Application {
             }
         } );
 
-        vBoxMove.getChildren().addAll(Hbox1,Hbox2);
+        vBoxMove.getChildren().addAll(Hbox1,Hbox2,show);
         vBoxMove.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBoxMove);
