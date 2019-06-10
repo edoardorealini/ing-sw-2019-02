@@ -28,7 +28,6 @@ import java.io.File;
 
 public class MainPage extends Application {
     private Match match;
-    // TODO RICORDARSI DI SETTARE IL SENDERCONTROLLER
     SenderClientRemoteController remoteController;
 
     @Override
@@ -37,8 +36,90 @@ public class MainPage extends Application {
         SplitPane splitPane = new SplitPane();
         //left (life)
         VBox vBoxLife = new VBox();
+        //prima board
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(400);
+        iv0.setFitWidth(200);
+        iv0.setPreserveRatio(true);
+        vBoxLife.getChildren().add(iv0);
+        // seconda board
+        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaVerde.png");
+        Image image1 = new Image(file1.toURI().toString());
+        ImageView iv1 = new ImageView(image1);
+        iv1.setFitHeight(400);
+        iv1.setFitWidth(200);
+        iv1.setPreserveRatio(true);
+        vBoxLife.getChildren().add(iv1);
+        // terza board
+        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGrigio.png");
+        Image image2 = new Image(file2.toURI().toString());
+        ImageView iv2 = new ImageView(image2);
+        iv2.setFitHeight(400);
+        iv2.setFitWidth(200);
+        iv2.setPreserveRatio(true);
+        vBoxLife.getChildren().add(iv2);
+        // quarta board
+        if (match.getPlayers().size()>=4){
+            File file3 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaRosso.png");
+            Image image3 = new Image(file3.toURI().toString());
+            ImageView iv3 = new ImageView(image3);
+            iv3.setFitHeight(400);
+            iv3.setFitWidth(200);
+            iv3.setPreserveRatio(true);
+            vBoxLife.getChildren().add(iv3);
+        }
+        // quinta board
+        if (match.getPlayers().size()>=5){
+            File file4 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaBlu.png");
+            Image image4 = new Image(file4.toURI().toString());
+            ImageView iv4 = new ImageView(image4);
+            iv4.setFitHeight(400);
+            iv4.setFitWidth(200);
+            iv4.setPreserveRatio(true);
+            vBoxLife.getChildren().add(iv4);
+        }
+        // inserisco le posizioni sotto
+        Label pos1 = new Label("");
+        Label pos2 = new Label("");
+        Label pos3 = new Label("");
+        Label pos4 = new Label("");
+        Label pos5 = new Label("");
+
+        if (match.getPlayers().get(0).getStatus().isInStatusSpawn()==false) {
+            pos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
+        }
+        else pos1.setText("Not already spowned");
+        if (match.getPlayers().get(1).getStatus().isInStatusSpawn()==false) {
+            pos2.setText("Position of " + match.getPlayers().get(1).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(1).getPosition()));
+        }
+        else pos2.setText("Not already spowned");
+        if (match.getPlayers().get(2).getStatus().isInStatusSpawn()==false) {
+            pos3.setText("Position of " + match.getPlayers().get(2).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(2).getPosition()));
+        }
+        else pos3.setText("Not already spowned");
+        if (match.getPlayers().size()>=4) {
+            if (match.getPlayers().get(3).getStatus().isInStatusSpawn()==false) {
+                pos4.setText("Position of " + match.getPlayers().get(3).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(3).getPosition()));
+            }
+            else pos4.setText("Not already spowned");
+        }
+        if (match.getPlayers().size()>=5) {
+            if (match.getPlayers().get(4).getStatus().isInStatusSpawn() == false) {
+                pos5.setText("Position of " + match.getPlayers().get(4).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(4).getPosition()));
+            }
+            else pos5.setText("Not already spowned");
+        }
+
+        vBoxLife.getChildren().addAll(pos1,pos2,pos3,pos4,pos5);
         splitPane.getItems().add(vBoxLife);
-        //centre (map)
+        //right (map)
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map" + match.getMap().getMapID() + ".png");
         Image image = new Image(file.toURI().toString());
@@ -49,35 +130,6 @@ public class MainPage extends Application {
         iv.setFitWidth(500);
         iv.setPreserveRatio(true);
         splitPane.getItems().add(iv);
-        //right
-        //mettere prima le pos dei giocatori
-        // TODO da fare caso particolare in cui i player non sono ancora spounati
-        VBox vBoxRight = new VBox();
-        Label pos1 = new Label("");
-        Label pos2 = new Label("");
-        Label pos3 = new Label("");
-        Label pos4 = new Label("");
-        Label pos5 = new Label("");
-        /*
-        pos1.setText("Position of "+match.getPlayers().get(0).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
-        pos2.setText("Position of "+match.getPlayers().get(1).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(1).getPosition()));
-        pos3.setText("Position of "+match.getPlayers().get(2).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(2).getPosition()));
-
-         */
-        if (match.getPlayers().size()>=4) {
-            pos4.setText("Position of "+match.getPlayers().get(3).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(3).getPosition()));
-            if (match.getPlayers().size()>=5) { pos5.setText("Position of "+match.getPlayers().get(4).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(4).getPosition()));}
-        }
-        Label empty1 = new Label("");
-        Label empty2 = new Label("");
-        Button moveButton = new Button(" MOVE ");
-        //TODO moveButton.setOnAction(e -> MoveButton());
-        Button grabButton = new Button(" GRAB ");
-        //TODO grabButton.setOnAction(e -> GrabButton());
-        Button shootButton = new Button(" SHOOT ");
-        //TODO shootButton.setOnAction(e -> ShootButton());
-        vBoxRight.getChildren().addAll(pos1,pos2,pos3,pos4,pos5,empty1,empty2,moveButton,grabButton,shootButton);
-        splitPane.getItems().add(vBoxRight);
 
         // Top (buttons)
         HBox hboxTop = new HBox();
@@ -107,7 +159,16 @@ public class MainPage extends Application {
             }
             });
 
-        hboxTop.getChildren().addAll(showAmmoInPlace,showMyWeapons,showMyPowerUps);
+        Label empty1 = new Label("");
+        Label empty2 = new Label("");
+        Button moveButton = new Button(" MOVE ");
+        //TODO moveButton.setOnAction(e -> MoveButton());
+        Button grabButton = new Button(" GRAB ");
+        //TODO grabButton.setOnAction(e -> GrabButton());
+        Button shootButton = new Button(" SHOOT ");
+        //TODO shootButton.setOnAction(e -> ShootButton());
+
+        hboxTop.getChildren().addAll(showAmmoInPlace,showMyWeapons,showMyPowerUps,empty1,empty2,moveButton,grabButton,shootButton);
 
         SplitPane VsplitPane = new SplitPane();
         VsplitPane.setOrientation(Orientation.VERTICAL);
