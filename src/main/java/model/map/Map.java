@@ -10,6 +10,21 @@ public class Map implements Serializable {
     private Square[][] squaresMatrix;
     private int mapID;
 
+    public Square getSpawnSquareFromColor(Color color){
+        for (Square[] row : squaresMatrix) {
+            for (Square sq: row) {
+                if(sq.getColor().equals(color) && sq.getType().equals(SquareType.SPAWN)){
+                    return sq;
+                }
+            }
+
+        }
+
+        return null;
+
+    }
+
+
     /*
         NB: non fare mai la new di Map, va costruito con MapBuilder
     */
@@ -18,6 +33,7 @@ public class Map implements Serializable {
         allowedMoves tells me which moves i can do from a specific square.
         returns empty list if square not found in squaresMatrix.
     */
+
     public List<Directions> getAllowedMoves(Square square) {
 
         for (Square[] row : squaresMatrix) {

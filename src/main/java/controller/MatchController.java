@@ -137,6 +137,13 @@ public class MatchController{
 
     }
 
+    //this method doesn't need the player. the first spawn always occurs when a pleyer is the current player.
+    public synchronized void firstSpawn(PowerUp spawnPoint){
+        //TODO
+        match.getMap().getSpawnSquareFromColor(spawnPoint.getColor());
+    }
+
+
     public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
         return moveController.isAllowedMove(startingPoint, destination, maxDistance);
     }
