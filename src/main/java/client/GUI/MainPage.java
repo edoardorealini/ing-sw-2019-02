@@ -58,9 +58,12 @@ public class MainPage extends Application {
         Label pos3 = new Label("");
         Label pos4 = new Label("");
         Label pos5 = new Label("");
+        /*
         pos1.setText("Position of "+match.getPlayers().get(0).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
         pos2.setText("Position of "+match.getPlayers().get(1).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(1).getPosition()));
         pos3.setText("Position of "+match.getPlayers().get(2).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(2).getPosition()));
+        
+         */
         if (match.getPlayers().size()>=4) {
             pos4.setText("Position of "+match.getPlayers().get(3).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(3).getPosition()));
             if (match.getPlayers().size()>=5) { pos5.setText("Position of "+match.getPlayers().get(4).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(4).getPosition()));}
