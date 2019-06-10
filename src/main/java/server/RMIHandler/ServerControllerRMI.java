@@ -103,7 +103,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                     e.printStackTrace();
                                 }
                             }
-                        }, 10000
+                        }, 1
                 );
             } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
 

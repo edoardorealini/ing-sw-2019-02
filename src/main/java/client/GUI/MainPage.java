@@ -62,7 +62,7 @@ public class MainPage extends Application {
         pos1.setText("Position of "+match.getPlayers().get(0).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
         pos2.setText("Position of "+match.getPlayers().get(1).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(1).getPosition()));
         pos3.setText("Position of "+match.getPlayers().get(2).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(2).getPosition()));
-        
+
          */
         if (match.getPlayers().size()>=4) {
             pos4.setText("Position of "+match.getPlayers().get(3).getNickname()+" is X,Y :"+match.getMap().getIndex(match.getPlayers().get(3).getPosition()));
