@@ -30,6 +30,7 @@ public class Match implements Serializable {
         this.weaponDeck = new WeaponDeck();
         weaponDeck.shuffleDeck();
         ammoDeck.shuffleDeck();
+        powerUpDeck.shuffle();
         this.matchIsActive = false;
         this.killShotTrack = new KillShotTrack();
     }
