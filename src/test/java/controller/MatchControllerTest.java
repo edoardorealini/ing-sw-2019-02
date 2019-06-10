@@ -2,6 +2,8 @@ package controller;
 
 import exception.NotEnoughAmmoException;
 import model.Color;
+import model.ShootMode;
+import model.ShootingParametersInput;
 import model.ammo.AmmoCard;
 import model.player.Player;
 import model.powerup.PowerUp;
@@ -11,8 +13,6 @@ import model.weapons.WeaponAmmoStatus;
 import model.weapons.WeaponName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MatchControllerTest {
 

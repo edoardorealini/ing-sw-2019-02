@@ -1,5 +1,7 @@
 package controller;
 
+import model.ShootMode;
+import model.ShootingParametersInput;
 import model.ammo.AmmoCard;
 import model.map.Directions;
 import model.player.Player;

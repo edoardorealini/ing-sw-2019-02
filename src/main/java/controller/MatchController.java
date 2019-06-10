@@ -4,6 +4,8 @@ import controller.observer.Observer;
 import exception.*;
 import model.Color;
 import model.Match;
+import model.ShootMode;
+import model.ShootingParametersInput;
 import model.map.*;
 import model.map.Map;
 import model.map.MapBuilder;

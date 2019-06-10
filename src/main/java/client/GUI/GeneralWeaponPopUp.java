@@ -1,5 +1,10 @@
-package client.GUI.popUpWeapons;
+package client.GUI;
 
+import client.remoteController.SenderClientRemoteController;
+import exception.NotAllowedTargetException;
+import model.ShootMode;
+import model.ShootingParametersInput;
+import exception.NotAllowedShootingModeException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,16 +24,23 @@ import model.player.Player;
 import model.weapons.Weapon;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class GeneralWeaponPopUp extends Application {
 
     private Match match;
     private Weapon weapon;
+    SenderClientRemoteController senderRemoteController;
+    private ShootingParametersInput input;
 
+    public GeneralWeaponPopUp() {
+        this.input = new ShootingParametersInput();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         primaryStage.setTitle("Shoot");
         SplitPane splitPane = new SplitPane();
 
@@ -51,18 +63,23 @@ public class GeneralWeaponPopUp extends Application {
         HBox modesHbox = new HBox();
         HBox targetHbox = new HBox();
         HBox squaresHbox = new HBox();
+        HBox squaresHbox1 = new HBox();
 
         Label shootingMode = new Label("Select the shooting modes: ");
         Label targets = new Label("Select the targets: ");
         Label squares = new Label("Select the squares by indexes (in case of more than one, the first is where you want to move the target): ");
         Label direction = new Label("Select the direction: ");
         Label damageBeforeMove = new Label("Do you want to execute the optional effect before moving the target? ");
-        Label emptySpace= new Label(" ");
-        Label emptySpace1= new Label(" ");
+        Label x = new Label("X: ");
+        Label y = new Label("Y: ");
+        Label x2 = new Label("X: ");
+        Label y2 = new Label("Y: ");
+        Label emptySpace = new Label(" ");
+        Label emptySpace1 = new Label(" ");
 
-        ChoiceBox<String> choiceBoxEffect = new ChoiceBox<>();
-        ChoiceBox<String> choiceBoxEffectOpt1 = new ChoiceBox<>();
-        ChoiceBox<String> choiceBoxEffectOpt2 = new ChoiceBox<>();
+        ChoiceBox<ShootMode> choiceBoxEffect = new ChoiceBox<>();
+        ChoiceBox<ShootMode> choiceBoxEffectOpt1 = new ChoiceBox<>();
+        ChoiceBox<ShootMode> choiceBoxEffectOpt2 = new ChoiceBox<>();
         ChoiceBox<String> target1 = new ChoiceBox<>();
         ChoiceBox<String> target2 = new ChoiceBox<>();
         ChoiceBox<String> target3 = new ChoiceBox<>();
@@ -72,6 +89,9 @@ public class GeneralWeaponPopUp extends Application {
         ChoiceBox<Integer> ySquare2 = new ChoiceBox<>();
         ChoiceBox<Directions> directionBox = new ChoiceBox<>();
         ChoiceBox<Boolean> damageBeforeMoveBox = new ChoiceBox<>();
+        ArrayList<ChoiceBox<ShootMode>> modes = new ArrayList<>();
+        ArrayList<ChoiceBox<String>> targetPlayers = new ArrayList<>();
+        ArrayList<ChoiceBox<Integer>> arraySquares = new ArrayList<>();
 
         //start filling the vbox
         vBox.getChildren().add(shootingMode);
@@ -80,39 +100,46 @@ public class GeneralWeaponPopUp extends Application {
         switch (weapon.getRequiredParameters().getShootModeType()) {
 
             case 1:
-                choiceBoxEffect.getItems().add("Basic");
-                choiceBoxEffect.setValue("Basic");
+                choiceBoxEffect.getItems().add(ShootMode.BASIC);
+                choiceBoxEffect.setValue(ShootMode.BASIC);
                 modesHbox.getChildren().add(choiceBoxEffect);
+                modes.add(choiceBoxEffect);
                 break;
 
             case 2:
-                choiceBoxEffect.getItems().add("Basic");
-                choiceBoxEffect.getItems().add("Alternate");
-                choiceBoxEffect.setValue("Basic");
+                choiceBoxEffect.getItems().add(ShootMode.BASIC);
+                choiceBoxEffect.getItems().add(ShootMode.ALTERNATE);
+                choiceBoxEffect.setValue(ShootMode.BASIC);
                 modesHbox.getChildren().add(choiceBoxEffect);
+                modes.add(choiceBoxEffect);
                 break;
 
             case 3:
-                choiceBoxEffect.getItems().add("Basic");
-                choiceBoxEffect.getItems().add("Optional one");
-                choiceBoxEffect.setValue("Basic");
-                choiceBoxEffectOpt1.getItems().add("Basic");
-                choiceBoxEffectOpt1.getItems().add("Optional one");
+                choiceBoxEffect.getItems().add(ShootMode.BASIC);
+                choiceBoxEffect.getItems().add(ShootMode.OPTIONAL1);
+                choiceBoxEffect.setValue(ShootMode.BASIC);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.BASIC);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL1);
                 modesHbox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1);
+                modes.add(choiceBoxEffect);
+                modes.add(choiceBoxEffectOpt1);
                 break;
 
             case 4:
-                choiceBoxEffect.getItems().add("Basic");
-                choiceBoxEffect.getItems().add("Optional one");
-                choiceBoxEffect.getItems().add("Optional two");
-                choiceBoxEffect.setValue("Basic");
-                choiceBoxEffectOpt1.getItems().add("Basic");
-                choiceBoxEffectOpt1.getItems().add("Optional one");
-                choiceBoxEffectOpt1.getItems().add("Optional two");
-                choiceBoxEffectOpt2.getItems().add("Basic");
-                choiceBoxEffectOpt2.getItems().add("Optional one");
-                choiceBoxEffectOpt2.getItems().add("Optional two");
+                choiceBoxEffect.getItems().add(ShootMode.BASIC);
+                choiceBoxEffect.getItems().add(ShootMode.OPTIONAL1);
+                choiceBoxEffect.getItems().add(ShootMode.OPTIONAL2);
+                choiceBoxEffect.setValue(ShootMode.BASIC);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.BASIC);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL1);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL2);
+                choiceBoxEffectOpt2.getItems().add(ShootMode.BASIC);
+                choiceBoxEffectOpt2.getItems().add(ShootMode.OPTIONAL1);
+                choiceBoxEffectOpt2.getItems().add(ShootMode.OPTIONAL2);
                 modesHbox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1, choiceBoxEffectOpt2);
+                modes.add(choiceBoxEffect);
+                modes.add(choiceBoxEffectOpt1);
+                modes.add(choiceBoxEffectOpt2);
                 break;
 
             default:
@@ -131,6 +158,7 @@ public class GeneralWeaponPopUp extends Application {
                 vBox.getChildren().add(targets);
                 fillChoiceBoxName(target1);
                 targetHbox.getChildren().add(target1);
+                targetPlayers.add(target1);
                 break;
 
             case 2:
@@ -138,6 +166,8 @@ public class GeneralWeaponPopUp extends Application {
                 fillChoiceBoxName(target1);
                 fillChoiceBoxName(target2);
                 targetHbox.getChildren().addAll(target1, target2);
+                targetPlayers.add(target1);
+                targetPlayers.add(target2);
                 break;
 
             case 3:
@@ -146,6 +176,9 @@ public class GeneralWeaponPopUp extends Application {
                 fillChoiceBoxName(target2);
                 fillChoiceBoxName(target3);
                 targetHbox.getChildren().addAll(target1, target2, target3);
+                targetPlayers.add(target1);
+                targetPlayers.add(target2);
+                targetPlayers.add(target3);
                 break;
 
             default:
@@ -164,7 +197,9 @@ public class GeneralWeaponPopUp extends Application {
                 vBox.getChildren().add(squares);
                 setX(xSquare1);
                 setY(ySquare1);
-                squaresHbox.getChildren().addAll(xSquare1, ySquare1);
+                squaresHbox.getChildren().addAll(x, xSquare1, y, ySquare1);
+                arraySquares.add(xSquare1);
+                arraySquares.add(ySquare1);
                 break;
 
             case 2:
@@ -173,7 +208,12 @@ public class GeneralWeaponPopUp extends Application {
                 setY(ySquare1);
                 setX(xSquare2);
                 setY(ySquare2);
-                squaresHbox.getChildren().addAll(xSquare1, ySquare1, xSquare2, ySquare2);
+                squaresHbox.getChildren().addAll(x, xSquare1, y, ySquare1);
+                squaresHbox1.getChildren().addAll(x2, xSquare2, y2, ySquare2);
+                arraySquares.add(xSquare1);
+                arraySquares.add(ySquare1);
+                arraySquares.add(xSquare2);
+                arraySquares.add(ySquare2);
                 break;
 
             default:
@@ -181,6 +221,9 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         vBox.getChildren().add(squaresHbox);
+
+        if (weapon.getRequiredParameters().getNumberOfSquares() == 2)
+            vBox.getChildren().add(squaresHbox1);
 
         if (weapon.getRequiredParameters().needToKnowDirection()) {
             vBox.getChildren().add(direction);
@@ -201,7 +244,7 @@ public class GeneralWeaponPopUp extends Application {
         Button shootButton = new Button(" SHOOT ");
         shootButton.setTextFill(Color.BLUE);
         shootButton.setAlignment(Pos.CENTER);
-        //shootButton.setOnAction(e -> Shoot(choiceBoxEffect, ));
+        //shootButton.setOnAction(e -> shoot(choiceBoxEffect, ));
 
         vBox.getChildren().addAll(emptySpace, emptySpace1, shootButton);
         vBox.setAlignment(Pos.CENTER);
@@ -209,11 +252,13 @@ public class GeneralWeaponPopUp extends Application {
         targetHbox.setAlignment(Pos.CENTER);
         modesHbox.setAlignment(Pos.CENTER);
         squaresHbox.setAlignment(Pos.CENTER);
-        targetHbox.setSpacing(5);
-        modesHbox.setSpacing(5);
-        squaresHbox.setSpacing(5);
+        squaresHbox1.setAlignment(Pos.CENTER);
+        targetHbox.setSpacing(8);
+        modesHbox.setSpacing(8);
+        squaresHbox.setSpacing(8);
+        squaresHbox1.setSpacing(8);
 
-        Scene scene = new Scene(splitPane,500,300);
+        Scene scene = new Scene(splitPane,700,400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -231,13 +276,12 @@ public class GeneralWeaponPopUp extends Application {
         this.weapon = weapon;
     }
 
-    public void Shoot(ChoiceBox<String> choiceBoxEffect, ChoiceBox<String> choiceBoxName) {
-        //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
-        //TODO aggiungere il metodo shoot al senderControllerRMI
-    }
-
     public void setMatch(Match match) {
         this.match = match;
+    }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderClientRemoteController) {
+        this.senderRemoteController = senderClientRemoteController;
     }
 
     private void setX(ChoiceBox<Integer> xChoiceBox) {
@@ -250,5 +294,44 @@ public class GeneralWeaponPopUp extends Application {
         yChoiceBox.setValue(0);
     }
 
+    public void convertInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
+                             ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMove) throws NotAllowedShootingModeException, NotAllowedTargetException {
+        boolean basicModeChosen = false;
+        boolean alternateModeChosen = false;
+
+        for (ChoiceBox<ShootMode> choiceBox : modes) {
+            if (choiceBox.getValue() == ShootMode.BASIC)
+                basicModeChosen = true;
+            if (choiceBox.getValue() == ShootMode.ALTERNATE)
+                alternateModeChosen = true;
+        }
+
+        if (! (basicModeChosen || alternateModeChosen))
+            throw new NotAllowedShootingModeException("Not allowed shooting mode, please try again");
+
+        //setting shooting modes
+        for (ChoiceBox<ShootMode> choiceBox : modes) {
+            input.setShootModes(choiceBox.getValue());
+        }
+
+        for (ChoiceBox<String> choiceBox : targetPlayers) {
+            for (Player player : match.getPlayers()) {
+                if (choiceBox.getValue().equals(player.getNickname()))
+                    input.setTargets(player);
+            }
+        }
+
+        //checking no duplication in targets
+        for (int i = 0; i < input.getTargets().size()-1; i++) {
+            for (int j = i; j < input.getTargets().size(); j++)
+                if (input.getTargets().get(i).getNickname().equals(input.getTargets().get(j).getNickname()))
+                    throw new NotAllowedTargetException("You selected the same target more than one");
+        }
+
+
+
+        //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
+        //TODO aggiungere il metodo shoot al senderControllerRMI
+    }
 
 }

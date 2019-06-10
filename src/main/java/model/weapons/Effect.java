@@ -2,7 +2,7 @@ package model.weapons;
 
 
 import controller.MoveController;
-import controller.ShootingParametersInput;
+import model.ShootingParametersInput;
 import exception.NotAllowedMoveException;
 import model.Match;
 
