@@ -22,6 +22,7 @@ import java.io.File;
 public class ChooseMap extends Application {
 
     private SenderClientRemoteController remoteController;
+    private Stage primaryStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -33,6 +34,7 @@ public class ChooseMap extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage=primaryStage;
         primaryStage.setTitle("Choose map");
 
         //splitting the pane vertically
@@ -113,6 +115,10 @@ public class ChooseMap extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+
+    public void closePrimaryStage() {
+        this.primaryStage.close();
     }
 
 }

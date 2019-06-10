@@ -25,6 +25,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     private Match match;
     private String nickname;
     private FirstPage firstPage;
+    private ChooseMap chooseMap = null;
     private MainPage mainPage;
     private SenderClientRemoteController senderRemoteController;
 
@@ -68,6 +69,8 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         Platform.runLater( () -> {
                     try {
                         firstPage.closePrimaryStage();
+                        if(chooseMap != null)
+                            chooseMap.closePrimaryStage();
                         mainPage.start(new Stage());
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -89,7 +92,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     public void askMap() throws Exception{
         // Platform.runLater( () -> firstPage.closePrimaryStage());
         //TODO lanciare popup che chiede la mappa (solo a player in stato master)
-        ChooseMap chooseMap = new ChooseMap();
+        chooseMap = new ChooseMap();
         chooseMap.setRemoteController(senderRemoteController);
         Platform.runLater(
                 () -> {
