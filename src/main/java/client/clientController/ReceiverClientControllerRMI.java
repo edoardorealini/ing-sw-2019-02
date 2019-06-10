@@ -5,6 +5,7 @@ package client.clientController;
 
 import client.GUI.ChooseMap;
 import client.GUI.FirstPage;
+import client.remoteController.SenderClientRemoteController;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -23,11 +24,13 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     private Match match;
     private String nickname;
     private FirstPage firstPage;
+    private SenderClientRemoteController senderRemoteController;
 
-    public ReceiverClientControllerRMI(Match match, String nickname, FirstPage fp) throws RemoteException{
+    public ReceiverClientControllerRMI(Match match, String nickname, FirstPage fp, SenderClientRemoteController senderClientRemoteController) throws RemoteException{
         this.match = match;
         this.nickname = nickname;
         this.firstPage = fp;
+        this.senderRemoteController = senderClientRemoteController;
     }
 
     //here are implemented all the methods that the server can call remotely to the client
@@ -71,7 +74,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         Platform.runLater( () -> firstPage.closePrimaryStage());
         //TODO lanciare popup che chiede la mappa (solo a player in stato master)
         ChooseMap chooseMap = new ChooseMap();
-        //chooseMap.setMatch(match);
+        chooseMap.setRemoteController(senderRemoteController);
         Platform.runLater(
                 () -> {
                     // Update UI here.

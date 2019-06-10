@@ -49,4 +49,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     boolean checkIfConnected(String nickname) throws RemoteException;
 
+    void setSkulls(int nSkulls, int clientHashedID) throws RemoteException, NotAllowedCallException;
+
 }
