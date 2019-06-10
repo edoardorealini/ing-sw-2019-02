@@ -83,12 +83,16 @@ public class MatchController{
 
                 try {
                     match.setMap(new MapBuilder().makeMap(mapID));
+                    System.out.println("[INFO]: Map "+ mapID+ " built correctly.");
                 } catch (Exception e) {
                     e.printStackTrace(); //non serve per ora gestire con logger
                 }
 
                 match.getMap().fillWeaponBox(match.getWeaponDeck());
+                System.out.println("[INFO]: Map filled with weapons");
+
                 match.getMap().fillAmmo(match.getAmmoDeck());
+                System.out.println("[INFO]: Map filled with ammos");
 
             } else
                 throw new WrongValueException("Not a valid mapID");

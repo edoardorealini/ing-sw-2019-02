@@ -58,6 +58,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void startGame(){
         //TODO per johnny questo è il metodo che fa cambiare la vista alla GUI in automatico per iniziare la partita
+        System.out.println("[SERVER]: Starting a new game");
     }
 
     public void updateMatch(Match match){

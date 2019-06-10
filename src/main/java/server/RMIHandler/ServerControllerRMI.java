@@ -171,7 +171,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private synchronized void startGame() throws RemoteException{
         try {
             System.out.println("[INFO]: Enough players to start the new game");
-            System.out.println("[INFO]: GAME STARTING");
+            System.out.println("[INFO]: GAME STARTING . . .");
+            pushMatchToAllPlayers();
 
             //notifying all the clients that the match is starting !
             for (InterfaceClientControllerRMI controller : clientControllers)
