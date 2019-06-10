@@ -5,6 +5,7 @@ package client.clientController;
 
 import client.GUI.ChooseMap;
 import client.GUI.FirstPage;
+import client.GUI.MainPage;
 import client.remoteController.SenderClientRemoteController;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
@@ -24,6 +25,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     private Match match;
     private String nickname;
     private FirstPage firstPage;
+    private MainPage mainPage;
     private SenderClientRemoteController senderRemoteController;
 
     public ReceiverClientControllerRMI(Match match, String nickname, FirstPage fp, SenderClientRemoteController senderClientRemoteController) throws RemoteException{
@@ -59,6 +61,19 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     public void startGame(){
         //TODO per johnny questo è il metodo che fa cambiare la vista alla GUI in automatico per iniziare la partita
         System.out.println("[SERVER]: Starting a new game");
+        mainPage = new MainPage();
+        mainPage.setMatch(match);
+        mainPage.setRemoteController(senderRemoteController);
+
+        Platform.runLater( () -> {
+                    try {
+                        firstPage.closePrimaryStage();
+                        mainPage.start(new Stage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 
     public void updateMatch(Match match){
@@ -72,7 +87,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     }
 
     public void askMap() throws Exception{
-        Platform.runLater( () -> firstPage.closePrimaryStage());
+        // Platform.runLater( () -> firstPage.closePrimaryStage());
         //TODO lanciare popup che chiede la mappa (solo a player in stato master)
         ChooseMap chooseMap = new ChooseMap();
         chooseMap.setRemoteController(senderRemoteController);
