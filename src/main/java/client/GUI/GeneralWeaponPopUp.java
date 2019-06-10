@@ -325,8 +325,24 @@ public class GeneralWeaponPopUp extends Application {
         for (int i = 0; i < input.getTargets().size()-1; i++) {
             for (int j = i; j < input.getTargets().size(); j++)
                 if (input.getTargets().get(i).getNickname().equals(input.getTargets().get(j).getNickname()))
-                    throw new NotAllowedTargetException("You selected the same target more than one");
+                    throw new NotAllowedTargetException("You selected the same target more than once");
         }
+
+        int x = 0;
+        int y = 0;
+
+        if (! arraySquares.isEmpty()) {
+            x = arraySquares.get(0).getValue();
+            y = arraySquares.get(1).getValue();
+            input.setSquares(match.getMap().getSquareFromIndex(x, y));
+        }
+        
+        if (arraySquares.size() > 2) {
+            x = arraySquares.get(2).getValue();
+            y = arraySquares.get(3).getValue();
+            input.setSquares(match.getMap().getSquareFromIndex(x, y));
+        }
+
 
 
 
