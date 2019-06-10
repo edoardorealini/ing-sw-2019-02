@@ -115,6 +115,7 @@ public class MainPage extends Application {
 
         Scene scene = new Scene(VsplitPane,900,900);
         mainStage.setScene(scene);
+        mainStage.show();
 
 
     }
