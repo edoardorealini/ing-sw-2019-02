@@ -3,6 +3,8 @@ package controller;
 import model.Color;
 import model.Match;
 import exception.*;
+import model.ShootMode;
+import model.ShootingParametersInput;
 import model.map.Directions;
 import model.map.Square;
 import model.player.Player;

@@ -1,9 +1,5 @@
 package client.GUI;
 
-import client.GUI.popUpWeapons.ElectroScythe;
-import client.GUI.popUpWeapons.GeneralWeaponPopUp;
-import client.GUI.popUpWeapons.HeatSeeker;
-import client.GUI.popUpWeapons.Whisper;
 import client.remoteController.SenderClientRemoteController;
 import client.remoteController.SenderClientControllerRMI;
 import javafx.application.Application;
@@ -106,18 +102,18 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e ->  checkInput(inputName,choiceBox,inputIp,primaryStage)); /*
+        playButton.setOnAction(e -> // checkInput(inputName,choiceBox,inputIp,primaryStage)); /*
           {
             try {
                 GeneralWeaponPopUp fp = new GeneralWeaponPopUp();
                fp.setMatch(this.getMatch());
-               fp.setWeapon(match.getWeaponDeck().getWeapon(WeaponName.VORTEX_CANNON));
+               fp.setWeapon(match.getWeaponDeck().getWeapon(WeaponName.THOR));
                fp.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });  //checkInput(inputName,choiceBox,inputIp,primaryStage));
-         */
+        // */
         // ++++++++++++++++++++++++++++++++++
         // codice per cambiare font
         nameLabel.setTextFill(Color.YELLOWGREEN);

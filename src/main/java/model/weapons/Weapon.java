@@ -1,5 +1,5 @@
 package model.weapons;
-import controller.ShootMode;
+import model.ShootMode;
 import  model.Color;
 
 import java.io.Serializable;

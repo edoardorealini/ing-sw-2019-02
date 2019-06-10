@@ -4,17 +4,14 @@ import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
-import controller.ShootingParametersInput;
+import model.ShootingParametersInput;
 import exception.*;
-import model.Match;
-import model.map.Map;
 import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 
 import javax.security.auth.login.FailedLoginException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
