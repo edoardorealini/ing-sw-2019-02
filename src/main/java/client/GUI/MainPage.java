@@ -36,13 +36,15 @@ public class MainPage extends Application {
         SplitPane splitPane = new SplitPane();
         //left (life)
         VBox vBoxLife = new VBox();
+        vBoxLife.setMinWidth(Region.USE_PREF_SIZE);
+        vBoxLife.setPrefWidth(400);
         //prima board
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(400);
-        iv0.setFitWidth(200);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
         iv0.setPreserveRatio(true);
         vBoxLife.getChildren().add(iv0);
         // seconda board
@@ -50,8 +52,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaVerde.png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(400);
-        iv1.setFitWidth(200);
+        iv1.setFitHeight(200);
+        iv1.setFitWidth(400);
         iv1.setPreserveRatio(true);
         vBoxLife.getChildren().add(iv1);
         // terza board
@@ -59,8 +61,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGrigio.png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(400);
-        iv2.setFitWidth(200);
+        iv2.setFitHeight(200);
+        iv2.setFitWidth(400);
         iv2.setPreserveRatio(true);
         vBoxLife.getChildren().add(iv2);
         // quarta board
@@ -69,8 +71,8 @@ public class MainPage extends Application {
                     + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaRosso.png");
             Image image3 = new Image(file3.toURI().toString());
             ImageView iv3 = new ImageView(image3);
-            iv3.setFitHeight(400);
-            iv3.setFitWidth(200);
+            iv3.setFitHeight(200);
+            iv3.setFitWidth(400);
             iv3.setPreserveRatio(true);
             vBoxLife.getChildren().add(iv3);
         }
@@ -80,8 +82,8 @@ public class MainPage extends Application {
                     + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaBlu.png");
             Image image4 = new Image(file4.toURI().toString());
             ImageView iv4 = new ImageView(image4);
-            iv4.setFitHeight(400);
-            iv4.setFitWidth(200);
+            iv4.setFitHeight(200);
+            iv4.setFitWidth(400);
             iv4.setPreserveRatio(true);
             vBoxLife.getChildren().add(iv4);
         }
@@ -91,7 +93,7 @@ public class MainPage extends Application {
         Label pos3 = new Label("");
         Label pos4 = new Label("");
         Label pos5 = new Label("");
-
+/*
         if (match.getPlayers().get(0).getStatus().isInStatusSpawn()==false) {
             pos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
         }
@@ -116,7 +118,7 @@ public class MainPage extends Application {
             }
             else pos5.setText("Not already spowned");
         }
-
+*/
         vBoxLife.getChildren().addAll(pos1,pos2,pos3,pos4,pos5);
         splitPane.getItems().add(vBoxLife);
         //right (map)
@@ -126,13 +128,14 @@ public class MainPage extends Application {
         ImageView iv = new ImageView(image);
         iv.setX(0);
         iv.setY(0);
-        iv.setFitHeight(500);
-        iv.setFitWidth(500);
+        iv.setFitHeight(825);
+        iv.setFitWidth(700);
         iv.setPreserveRatio(true);
         splitPane.getItems().add(iv);
 
         // Top (buttons)
         HBox hboxTop = new HBox();
+        hboxTop.setMaxHeight(15);
         //TODO aggiungere anche i punti del giocatore ?
         Button showAmmoInPlace = new Button(" Show Goods In Place ");
         //TODO set on action
@@ -159,8 +162,8 @@ public class MainPage extends Application {
             }
             });
 
-        Label empty1 = new Label("");
-        Label empty2 = new Label("");
+        Label empty1 = new Label("        ");
+        Label empty2 = new Label("        ");
         Button moveButton = new Button(" MOVE ");
         //TODO moveButton.setOnAction(e -> MoveButton());
         Button grabButton = new Button(" GRAB ");
@@ -174,7 +177,7 @@ public class MainPage extends Application {
         VsplitPane.setOrientation(Orientation.VERTICAL);
         VsplitPane.getItems().addAll(hboxTop,splitPane);
 
-        Scene scene = new Scene(VsplitPane,900,900);
+        Scene scene = new Scene(VsplitPane,1100,650);
         mainStage.setScene(scene);
         mainStage.show();
 
