@@ -1,5 +1,6 @@
 package model.ammo;
 
+import java.util.*;
 import java.io.Serializable;
 
 public class AmmoCard  implements Serializable {
@@ -30,5 +31,20 @@ public class AmmoCard  implements Serializable {
     public boolean isTherePowerUp() {
         return isTherePowerUp;
     }
-    
+
+    public ArrayList<Character> getAmmo(){
+        ArrayList<Character> ammo = new ArrayList<>();
+        for (int i = 1 ; i<= redAmmo; i++){
+            ammo.add('R');
+        }
+        for (int i = 1 ; i<= blueAmmo; i++){
+            ammo.add('B');
+        }
+        for (int i = 1 ; i<= yellowAmmo; i++){
+            ammo.add('Y');
+        }
+        if (isTherePowerUp) ammo.add('P');
+
+        return ammo;
+    }
 }
