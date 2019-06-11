@@ -46,6 +46,12 @@ public class EffectDamage extends Effect  implements Serializable {
 
 				if (player.getBoard().isDead())                                                            //check if the target is dead
 					player.trueDead();
+
+				if (player.getBoard().getTotalNumberOfDamages() > 2)
+					player.getStatus().setSpecialAbilityAdrenalinePick();
+
+				if (player.getBoard().getTotalNumberOfDamages() > 5)
+					player.getStatus().setSpecialAbilityAdrenalineShoot();
 			}
 		} else {
 			Player target = input.getTargets().get(getSameTarget());
