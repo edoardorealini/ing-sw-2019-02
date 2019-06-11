@@ -1,10 +1,13 @@
 package client.GUI;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Cell;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.Match;
 import model.player.Player;
@@ -26,7 +29,7 @@ public class WeaponsOwned extends Application {
         Short b = 0;
         Short c = 0;
         primaryStage.setTitle("My Weapons");
-        SplitPane splitPane = new SplitPane();
+        HBox hBoxWeapon = new HBox();
 
         if (playerWhoClickButton.getWeapons()[0]!=null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
@@ -36,7 +39,7 @@ public class WeaponsOwned extends Application {
             iv0.setFitHeight(350);
             iv0.setFitWidth(300);
             iv0.setPreserveRatio(true);
-            splitPane.getItems().add(iv0);
+            hBoxWeapon.getChildren().add(iv0);
             a=1;
         }
 
@@ -48,7 +51,7 @@ public class WeaponsOwned extends Application {
             iv1.setFitHeight(350);
             iv1.setFitWidth(300);
             iv1.setPreserveRatio(true);
-            splitPane.getItems().add(iv1);
+            hBoxWeapon.getChildren().add(iv1);
             b=1;
         }
 
@@ -60,13 +63,15 @@ public class WeaponsOwned extends Application {
             iv2.setFitHeight(350);
             iv2.setFitWidth(300);
             iv2.setPreserveRatio(true);
-            splitPane.getItems().add(iv2);
+            hBoxWeapon.getChildren().add(iv2);
             c=1;
         }
 
-        splitPane.setMinHeight(350);
-        splitPane.setMinWidth(300);
-        Scene scene= new Scene(splitPane,(300*(a+b+c)),(300*(a+b+c)));
+        primaryStage.setMinHeight(350);
+        primaryStage.setMinWidth(300);
+        hBoxWeapon.setAlignment(Pos.CENTER);
+        hBoxWeapon.setSpacing(8);
+        Scene scene = new Scene(hBoxWeapon,(300*(a+b+c)),400);
         primaryStage.setScene(scene);
         primaryStage.show();
 

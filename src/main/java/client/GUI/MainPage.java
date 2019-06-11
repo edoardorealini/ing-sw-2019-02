@@ -1,32 +1,22 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
-import com.sun.javafx.scene.SceneEventDispatcher;
 import exception.InvalidInputException;
 import exception.NotAllowedCallException;
 import exception.NotAllowedMoveException;
 import exception.WrongStatusException;
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -152,21 +142,21 @@ public class MainPage extends Application {
         splitPane.getItems().add(iv);
 
         // Top (buttons)
-        HBox hboxTop = new HBox();
-        hboxTop.setMaxHeight(15);
+        HBox hBoxTop = new HBox();
+        hBoxTop.setMaxHeight(15);
         Label points = new Label("My Points : "+match.getPlayer(remoteController.getNickname()).getPoints()+" ");
         Button showGoodsInPlace = new Button(" Show Goods In Place ");
         showGoodsInPlace.setOnAction(e -> showGoods() );
         Button showMyWeapons = new Button(" Show My Weapons ");
         showMyWeapons.setOnAction(e -> {
             try {
-            WeaponsOwned wp = new WeaponsOwned();
-            wp.setMatch(match);
-            wp.setPlayerWhoClickButton(match.getPlayer(remoteController.getNickname()));
-            wp.start(new Stage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+                WeaponsOwned wp = new WeaponsOwned();
+                wp.setMatch(match);
+                wp.setPlayerWhoClickButton(match.getPlayer(remoteController.getNickname()));
+                wp.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
         Button showMyPowerUps = new Button(" Show My PowerUps");
         showMyPowerUps.setOnAction(e -> {
@@ -178,7 +168,7 @@ public class MainPage extends Application {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            });
+        });
         Button skipTurn = new Button(" Skip Turn ");
         //TODO metodo che cambia il turno
         Label empty1 = new Label("                 ");
@@ -188,18 +178,28 @@ public class MainPage extends Application {
         Button grabButton = new Button(" GRAB ");
         grabButton.setOnAction(e -> grab());
         Button shootButton = new Button(" SHOOT ");
-        //TODO shootButton.setOnAction(e -> ShootButton());
+        shootButton.setOnAction(event -> {
+            try {
+                GeneralWeaponPopUp shootPopUp = new GeneralWeaponPopUp();
+                shootPopUp.setMatch(match);
+                shootPopUp.setSenderRemoteController(remoteController);
+                shootPopUp.start(new Stage());
+            } catch (Exception e) {
+                PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
+                //TODO errore che dice che hbox è già settata e non può essere usata come root
+            }
+        });
         Button chargeWeapons = new Button(" Charge Weapons");
         //TODO charge wepons
 
-        hboxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,chargeWeapons);
+        hBoxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,chargeWeapons);
 
-        SplitPane VsplitPane = new SplitPane();
-        VsplitPane.setOrientation(Orientation.VERTICAL);
-        VsplitPane.getItems().addAll(hboxTop,splitPane);
-        //TODO VsplitPane.setBackground(Color.rgb(40,44,52));
+        SplitPane vSplitPane = new SplitPane();
+        vSplitPane.setOrientation(Orientation.VERTICAL);
+        vSplitPane.getItems().addAll(hBoxTop,splitPane);
+        //TODO vSplitPane.setBackground(Color.rgb(40,44,52));
 
-        Scene scene = new Scene(VsplitPane,1110,650);
+        Scene scene = new Scene(vSplitPane,1110,650);
         mainStage.setScene(scene);
         mainStage.show();
 
@@ -224,22 +224,22 @@ public class MainPage extends Application {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Move");
         stage.setMinWidth(250);
-        stage.setMinHeight(90);
+        stage.setMinHeight(150);
         VBox vBoxMove = new VBox(10);
 
-        HBox Hbox1 = new HBox(5);
+        HBox hBox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
-        Hbox1.getChildren().addAll(label1,posX);
+        hBox1.getChildren().addAll(label1,posX);
 
-        HBox Hbox2 = new HBox(5);
+        HBox hBox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
         ChoiceBox<Integer> posY = new ChoiceBox<>();
         posY.getItems().addAll(0,1,2);
-        Hbox2.getChildren().addAll(label2,posY);
+        hBox2.getChildren().addAll(label2,posY);
 
         Button move = new Button(" Move ");
         move.setOnAction(e -> {
@@ -260,8 +260,10 @@ public class MainPage extends Application {
         } );
 
 
-        vBoxMove.getChildren().addAll(Hbox1,Hbox2,move);
+        vBoxMove.getChildren().addAll(hBox1,hBox2,move);
         vBoxMove.setAlignment(Pos.CENTER);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBoxMove);
 
@@ -275,22 +277,22 @@ public class MainPage extends Application {
         stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
         stage.setTitle("Show Goods");
         stage.setMinWidth(250);
-        stage.setMinHeight(90);
+        stage.setMinHeight(150);
         VBox vBoxMove = new VBox(10);
 
-        HBox Hbox1 = new HBox(5);
+        HBox hBox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
-        Hbox1.getChildren().addAll(label1,posX);
+        hBox1.getChildren().addAll(label1,posX);
 
-        HBox Hbox2 = new HBox(5);
+        HBox hBox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
         ChoiceBox<Integer> posY = new ChoiceBox<>();
         posY.getItems().addAll(0,1,2);
-        Hbox2.getChildren().addAll(label2,posY);
+        hBox2.getChildren().addAll(label2,posY);
 
         Button show = new Button(" Show Goods ");
         show.setOnAction(e -> {
@@ -307,8 +309,10 @@ public class MainPage extends Application {
             }
         } );
 
-        vBoxMove.getChildren().addAll(Hbox1,Hbox2,show);
+        vBoxMove.getChildren().addAll(hBox1, hBox2,show);
         vBoxMove.setAlignment(Pos.CENTER);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBoxMove);
 
@@ -320,29 +324,29 @@ public class MainPage extends Application {
         Stage stage = new Stage();
 
         stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
-        stage.setTitle("Move");
+        stage.setTitle("Grab");
         stage.setMinWidth(250);
-        stage.setMinHeight(90);
-        VBox vBoxMove = new VBox(10);
+        stage.setMinHeight(200);
+        VBox vBoxGrab = new VBox(10);
 
-        HBox Hbox1 = new HBox(5);
+        HBox hBox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
-        Hbox1.getChildren().addAll(label1,posX);
+        hBox1.getChildren().addAll(label1,posX);
 
-        HBox Hbox2 = new HBox(5);
+        HBox hBox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
         ChoiceBox<Integer> posY = new ChoiceBox<>();
         posY.getItems().addAll(0,1,2);
-        Hbox2.getChildren().addAll(label2,posY);
+        hBox2.getChildren().addAll(label2,posY);
 
         Label titlePosition = new Label(" Choose where you want to grab : ");
         Label titleWhichWeapon = new Label(" Choose which weapon (1,2,3 or empty) : ");
         ChoiceBox<Integer> numberWeapon = new ChoiceBox<>();
-        posY.getItems().addAll(1,2,3);
+        numberWeapon.getItems().addAll(1,2,3);
 
         Button grab = new Button(" Grab ");
         grab.setOnAction(e -> {
@@ -353,10 +357,12 @@ public class MainPage extends Application {
         } );
 
 
-        vBoxMove.getChildren().addAll(titlePosition,Hbox1,Hbox2,titleWhichWeapon,numberWeapon,grab);
-        vBoxMove.setAlignment(Pos.CENTER);
+        vBoxGrab.getChildren().addAll(titlePosition,hBox1,hBox2,titleWhichWeapon,numberWeapon,grab);
+        vBoxGrab.setAlignment(Pos.CENTER);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(vBoxMove);
+        Scene scene = new Scene(vBoxGrab);
 
         stage.setScene(scene);
         stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
@@ -412,8 +418,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(0) + ".png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(30);
-        iv0.setFitWidth(30);
+        iv0.setFitHeight(60);
+        iv0.setFitWidth(60);
         iv0.setPreserveRatio(true);
         hBox.getChildren().add(iv0);
 
@@ -421,8 +427,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(1) + ".png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(30);
-        iv1.setFitWidth(30);
+        iv1.setFitHeight(60);
+        iv1.setFitWidth(60);
         iv1.setPreserveRatio(true);
         hBox.getChildren().add(iv1);
 
@@ -430,14 +436,15 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(2) + ".png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(30);
-        iv2.setFitWidth(30);
+        iv2.setFitHeight(60);
+        iv2.setFitWidth(60);
         iv2.setPreserveRatio(true);
         hBox.getChildren().add(iv2);
 
         hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(8);
         hBox.setStyle("-fx-background-color: #191a17");
-        Scene scene= new Scene(hBox,(200),(50));
+        Scene scene = new Scene(hBox,(220),(100));
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -574,11 +581,11 @@ public class MainPage extends Application {
     }
 
     public void refreshPlayersPosition(){
-        List<Integer> pos1 = new ArrayList<>();
-        List<Integer> pos2 = new ArrayList<>();
-        List<Integer> pos3 = new ArrayList<>();
-        List<Integer> pos4 = new ArrayList<>();
-        List<Integer> pos5 = new ArrayList<>();
+        List<Integer> pos1;
+        List<Integer> pos2;
+        List<Integer> pos3;
+        List<Integer> pos4;
+        List<Integer> pos5;
 
         if (!match.getPlayers().get(0).isInStatusSpawn() && !match.getPlayers().get(0).isInStatusWaitFirstTurn()) {
             pos1 = match.getMap().getIndex(match.getPlayers().get(0).getPosition());
