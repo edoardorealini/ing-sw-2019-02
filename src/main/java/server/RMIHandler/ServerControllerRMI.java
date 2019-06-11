@@ -188,9 +188,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public synchronized void spawn(int powerUpID, int clientHashedID) throws NotInYourPossessException, WrongStatusException{
+    public synchronized void spawn(int powerUpID, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException{
         try {
             matchController.spawn(converter.indexToPowerUp(powerUpID), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            pushMatchToAllPlayers();
         }
         catch(NotInYourPossessException e){
             e.printStackTrace();
@@ -199,6 +200,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         catch (WrongStatusException e){
             e.printStackTrace();
             throw new WrongStatusException(e.getMessage());
+        }
+        catch(RemoteException e){
+            e.printStackTrace();
         }
     }
 
