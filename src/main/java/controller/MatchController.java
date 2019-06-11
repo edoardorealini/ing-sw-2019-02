@@ -691,6 +691,7 @@ public class MatchController{
 
                 numberOfPeopleKilled++;
 
+                p.getStatus().setTurnStatusRespawn();
             }
         }
         if (numberOfPeopleKilled > 2)
