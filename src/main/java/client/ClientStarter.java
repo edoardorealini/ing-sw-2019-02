@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class ClientStarter{
 
     private ExecutorService executor;
-    private Match match;
+    private Match match;            //TODO capiamo bene dove metterlo e se passarlo alle varie classi
 
     public ClientStarter(){
         executor = Executors.newCachedThreadPool();

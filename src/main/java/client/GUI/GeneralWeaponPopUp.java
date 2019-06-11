@@ -34,9 +34,9 @@ public class GeneralWeaponPopUp extends Application {
     SenderClientRemoteController senderRemoteController;
     private ShootingParametersInput input;
 
-    public GeneralWeaponPopUp() {
-        this.input = new ShootingParametersInput();
-    }
+   // public GeneralWeaponPopUp() {
+     //   this.input = new ShootingParametersInput();
+   // }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
