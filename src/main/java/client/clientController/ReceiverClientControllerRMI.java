@@ -83,6 +83,8 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     public void updateMatch(Match match){
         setMatch(match);
         //TODO QUI CHIAMARE METODO DELLA GUI CHE AGGIORNA LA VISTA!
+        if(mainPage != null)
+            mainPage.setMatch(match);
         //questo metodo viene chiamato piu volte.
     }
 
