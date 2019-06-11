@@ -159,10 +159,16 @@ public class MatchController{
         user.removePowerUps(powerUpChoosed);
 
         System.out.println("[SPAWN]: Client " + user.getNickname() + " spawned correctly in square coordinates: X = " + getMap().getIndex(spawnPoint).get(0) + " - Y = " + getMap().getIndex(spawnPoint).get(1));
-
         goToNextStatus(user);
+        printPlayerStatuses();
+
     }
 
+    private void printPlayerStatuses(){
+        for(Player p: match.getPlayers()){
+            System.out.println("[STATUS]: The player "+ p.getNickname() + " is in status: " +p.getStatus().getTurnStatus());
+        }
+    }
 
     public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
         return moveController.isAllowedMove(startingPoint, destination, maxDistance);
