@@ -145,7 +145,9 @@ public class MatchController{
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
         if(abilityStatus.equals(AbilityStatus.NORMAL))
             return 3;
-        //TODO gestione move turno finale (va cambiato qualcosa ?)
+        //TODO controllare qui AbiltyStatus di due tipi in FRENZY.
+        if(abilityStatus.equals(AbilityStatus.FRENZY))
+            return 4;
         return 0;
     }
 
