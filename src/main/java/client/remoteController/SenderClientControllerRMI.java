@@ -1,8 +1,7 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
-import client.GUI.PopUpSceneMethod;
-import client.GUI.ShootingParametersClient;
+import commons.ShootingParametersClient;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
 import exception.*;
