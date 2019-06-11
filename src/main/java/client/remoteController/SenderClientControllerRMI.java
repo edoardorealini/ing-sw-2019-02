@@ -1,6 +1,8 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
+import client.GUI.PopUpSceneMethod;
+import client.GUI.ShootingParametersClient;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
 import exception.*;
@@ -195,10 +197,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     @Override
     public void disconnectPlayer() {
-        try{
+        try {
             serverController.disconnectPlayer(this.hashedNickname);
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
@@ -211,14 +212,33 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     public void spawn(int indexOfPowerUpInHand) throws NotInYourPossessException, WrongStatusException, RemoteException{
         try {
             serverController.spawn(indexOfPowerUpInHand, hashedNickname);
-        }catch(NotInYourPossessException e){
+        } catch(NotInYourPossessException e){
             throw new NotInYourPossessException(e.getMessage());
-        }
-        catch(WrongStatusException e){
+        } catch(WrongStatusException e){
             throw new WrongStatusException(e.getMessage());
-        }
-        catch(RemoteException e){
+        } catch(RemoteException e){
             throw new RemoteException("Network call error");
+        }
+    }
+
+    @Override
+    public void shoot(ShootingParametersClient input) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException{
+        try {
+            serverController.shoot(input, hashedNickname);
+        } catch (RemoteException e) {
+            throw new RemoteException(e.getMessage());
+        } catch (NotAllowedCallException e) {
+           throw new NotAllowedCallException(e.getMessage());
+        }  catch (NotAllowedMoveException e) {
+            throw new NotAllowedMoveException(e.getMessage());
+        } catch (NotAllowedShootingModeException e) {
+            throw new NotAllowedShootingModeException(e.getMessage());
+        } catch (WrongStatusException e) {
+            throw new WrongStatusException(e.getMessage());
+        } catch (NotAllowedTargetException e) {
+            throw new NotAllowedTargetException(e.getMessage());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException(e.getMessage());
         }
     }
 }

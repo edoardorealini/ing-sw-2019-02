@@ -1,5 +1,6 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
+import client.GUI.ShootingParametersClient;
 import exception.*;
 import model.map.Square;
 import model.player.Player;
@@ -51,4 +52,5 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void spawn(int powerUpID, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
+    void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException;
 }

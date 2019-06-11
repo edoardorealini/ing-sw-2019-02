@@ -1,11 +1,12 @@
 package server.RMIHandler;
 
+import client.GUI.ShootingParametersClient;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
-import model.ShootingParametersInput;
 import exception.*;
+import model.ShootingParametersInput;
 import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
@@ -322,12 +323,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
     }
 
-    /*
-        Methods form shoot controller
-    */
-    public synchronized void shoot(ShootingParametersInput input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException  {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.shoot(input);
+
+    // Methods for shoot controller
+    @Override
+    public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException  {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            ShootingParametersInput parameters = new ShootingParametersInput();
+
+            matchController.shoot(parameters);
+
+        }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }

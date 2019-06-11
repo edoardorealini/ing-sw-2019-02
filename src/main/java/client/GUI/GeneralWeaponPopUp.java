@@ -1,9 +1,8 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
-import exception.NotAllowedTargetException;
+import exception.*;
 import model.ShootMode;
-import exception.NotAllowedShootingModeException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,6 +22,7 @@ import model.player.Player;
 import model.weapons.Weapon;
 
 import java.io.File;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 
@@ -350,6 +350,20 @@ public class GeneralWeaponPopUp extends Application {
         input.setDirection(direction.getValue());
 
         input.setMakeDamageBeforeMove(damageBeforeMove.getValue());
+
+        try {
+            senderRemoteController.shoot(input);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            PopUpSceneMethod.display("NETWORK ERROR", e.getMessage());
+        } catch (NotAllowedCallException e) {
+            e.printStackTrace();
+            PopUpSceneMethod.display("CALL ERROR", e.getMessage());
+        }  catch (NotAllowedTargetException |NotAllowedShootingModeException | NotEnoughAmmoException | NotAllowedMoveException | WrongStatusException e) {
+            e.printStackTrace();
+            PopUpSceneMethod.display("SHOOT ERROR", e.getMessage());
+        }
+
 
         //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
         //TODO aggiungere il metodo shoot al senderControllerRMI
