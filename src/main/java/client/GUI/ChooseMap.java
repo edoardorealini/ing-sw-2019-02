@@ -34,8 +34,9 @@ public class ChooseMap extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.primaryStage=primaryStage;
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("Choose map");
+        primaryStage.setOnCloseRequest(event -> {});
 
         //splitting the pane vertically
         SplitPane splitPane = new SplitPane();

@@ -34,6 +34,7 @@ public class RespawnPopUp extends Application {
         int c = 0;
 
         primaryStage.setTitle("Respawn");
+        primaryStage.setOnCloseRequest(event -> {});
        // SplitPane splitPane = new SplitPane();
         HBox hBoxImages = new HBox();
         VBox vBoxPage = new VBox();
@@ -59,7 +60,9 @@ public class RespawnPopUp extends Application {
         pow1.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(0);
+                primaryStage.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
         });
@@ -67,7 +70,9 @@ public class RespawnPopUp extends Application {
         pow2.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(1);
+                primaryStage.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
         });
@@ -75,7 +80,9 @@ public class RespawnPopUp extends Application {
         pow3.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(2);
+                primaryStage.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
         });
