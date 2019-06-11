@@ -9,8 +9,6 @@ import model.powerup.PowerUp;
 import model.weapons.Weapon;
 
 public class InputConverter {
-    private String inputString;
-    private int inputInt;
     private Match match;
 
     public InputConverter(Match match){
@@ -19,7 +17,7 @@ public class InputConverter {
 
     //TODO eccezioni per input sbagliati
 
-    // prende in input le coordinate e restituisce loggetto sqare corrispondente
+    // prende in input le coordinate e restituisce l'oggetto square corrispondente
     public Square indexToSquare(int i, int j) throws InvalidInputException{
         if(!(i >= 0 && i <= 3 && j >= 0 && j <= 2))
             throw new InvalidInputException("Error converting the input integer coordinates to square, not a valid input");

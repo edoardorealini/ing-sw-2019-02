@@ -3,7 +3,6 @@ package client.GUI;
 import client.remoteController.SenderClientRemoteController;
 import exception.NotAllowedTargetException;
 import model.ShootMode;
-import model.ShootingParametersInput;
 import exception.NotAllowedShootingModeException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -32,17 +31,15 @@ public class GeneralWeaponPopUp extends Application {
     private Match match;
     private Weapon weapon;
     SenderClientRemoteController senderRemoteController;
-    private ShootingParametersInput input;
+    private ShootingParametersClient input;
 
-   // public GeneralWeaponPopUp() {
-     //   this.input = new ShootingParametersInput();
-   // }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Shoot");
         SplitPane splitPane = new SplitPane();
+        this.input = new ShootingParametersClient();
 
         //image
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
@@ -244,7 +241,15 @@ public class GeneralWeaponPopUp extends Application {
         Button shootButton = new Button(" SHOOT ");
         shootButton.setTextFill(Color.BLUE);
         shootButton.setAlignment(Pos.CENTER);
-        //shootButton.setOnAction(e -> shoot(choiceBoxEffect, ));
+        shootButton.setOnAction(event -> {
+            try {
+                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("SHOOTING ERROR", e.getMessage());
+            }
+        });
 
         vBox.getChildren().addAll(emptySpace, emptySpace1, shootButton);
         vBox.setAlignment(Pos.CENTER);
@@ -294,8 +299,9 @@ public class GeneralWeaponPopUp extends Application {
         yChoiceBox.setValue(0);
     }
 
-    public void convertInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
-                             ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMove) throws NotAllowedShootingModeException, NotAllowedTargetException {
+    public void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
+                          ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMove) throws NotAllowedShootingModeException, NotAllowedTargetException {
+
         boolean basicModeChosen = false;
         boolean alternateModeChosen = false;
 
@@ -315,16 +321,14 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         for (ChoiceBox<String> choiceBox : targetPlayers) {
-            for (Player player : match.getPlayers()) {
-                if (choiceBox.getValue().equals(player.getNickname()))
-                    input.setTargets(player);
-            }
+            if (!match.getCurrentPlayer().getNickname().equals(choiceBox.getValue()))
+                input.setTargetPlayers(choiceBox.getValue());
         }
 
         //checking no duplication in targets
-        for (int i = 0; i < input.getTargets().size()-1; i++) {
-            for (int j = i; j < input.getTargets().size(); j++)
-                if (input.getTargets().get(i).getNickname().equals(input.getTargets().get(j).getNickname()))
+        for (int i = 0; i < input.getTargetPlayers().size(); i++) {
+            for (int j = i; j < input.getTargetPlayers().size(); j++)
+                if (input.getTargetPlayers().get(i).equals(input.getTargetPlayers().get(j)))
                     throw new NotAllowedTargetException("You selected the same target more than once");
         }
 
@@ -334,17 +338,18 @@ public class GeneralWeaponPopUp extends Application {
         if (! arraySquares.isEmpty()) {
             x = arraySquares.get(0).getValue();
             y = arraySquares.get(1).getValue();
-            input.setSquares(match.getMap().getSquareFromIndex(x, y));
+            input.setSquaresCoordinates(x, y);
         }
         
         if (arraySquares.size() > 2) {
             x = arraySquares.get(2).getValue();
             y = arraySquares.get(3).getValue();
-            input.setSquares(match.getMap().getSquareFromIndex(x, y));
+            input.setSquaresCoordinates(x, y);
         }
 
+        input.setDirection(direction.getValue());
 
-
+        input.setMakeDamageBeforeMove(damageBeforeMove.getValue());
 
         //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
         //TODO aggiungere il metodo shoot al senderControllerRMI
