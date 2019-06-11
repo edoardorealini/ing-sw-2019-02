@@ -464,6 +464,7 @@ public class MatchController{
                         }
                     }
                 p.getStatus().setTurnStatusEndTurn();
+                goToNextStatus(p);
                 break;
 
             case RELOADING:
@@ -473,8 +474,10 @@ public class MatchController{
 
             case END_TURN:
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
-                endOfTurn(); // manages the points to the players
                 setNewCurrentPlayer();
+
+                endOfTurn(); // manages the points to the players
+
                 p.getStatus().setTurnStatusWaitTurn();
                 //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
                 break;
