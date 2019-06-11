@@ -4,6 +4,7 @@ import client.GUI.PopUpSceneMethod;
 import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Match;
-import model.player.Player;
 
 import java.io.File;
 
@@ -34,23 +34,26 @@ public class RespawnPopUp extends Application {
         int c = 0;
 
         primaryStage.setTitle("Respawn");
-        SplitPane splitPane = new SplitPane();
+       // SplitPane splitPane = new SplitPane();
         HBox hBoxImages = new HBox();
-        VBox lowPage = new VBox();
+        VBox vBoxPage = new VBox();
         HBox hBoxButtons = new HBox();
-        splitPane.setOrientation(Orientation.VERTICAL);
+      //  splitPane.setOrientation(Orientation.VERTICAL);
 
         Label text = new Label("Choose one power up to discard, you will spawn on the square with the same color");
         Button pow1 = new Button("DISCARD THIS");
         Button pow2 = new Button("DISCARD THIS");
         Button pow3 = new Button("DISCARD THIS");
 
-        splitPane.getItems().addAll(hBoxImages, lowPage);
+        //splitPane.getItems().addAll(hBoxImages, vBoxPage);
 
-        lowPage.getChildren().setAll(text, hBoxButtons);
+        vBoxPage.getChildren().setAll(hBoxImages, text, hBoxButtons);
 
-        lowPage.setSpacing(8);
-        hBoxImages.setSpacing(5);
+        vBoxPage.setAlignment(Pos.CENTER);
+        hBoxButtons.setAlignment(Pos.CENTER);
+        hBoxImages.setAlignment(Pos.CENTER);
+        vBoxPage.setSpacing(8);
+        hBoxImages.setSpacing(10);
         hBoxButtons.setSpacing(100);
 
         pow1.setOnAction(event -> {
@@ -87,7 +90,7 @@ public class RespawnPopUp extends Application {
             iv0.setFitWidth(250);
             iv0.setPreserveRatio(true);
             hBoxButtons.getChildren().add(pow1);
-            splitPane.getItems().add(iv0);
+            hBoxImages.getChildren().add(iv0);
             a = 1;
         }
 
@@ -100,7 +103,7 @@ public class RespawnPopUp extends Application {
             iv1.setFitWidth(250);
             iv1.setPreserveRatio(true);
             hBoxButtons.getChildren().add(pow2);
-            splitPane.getItems().add(iv1);
+            hBoxImages.getChildren().add(iv1);
             b = 1;
         }
 
@@ -113,14 +116,14 @@ public class RespawnPopUp extends Application {
             iv2.setFitWidth(250);
             iv2.setPreserveRatio(true);
             hBoxButtons.getChildren().add(pow3);
-            splitPane.getItems().add(iv2);
+            hBoxImages.getChildren().add(iv2);
             c = 1;
         }
 
-        splitPane.setMinHeight(300);
-        splitPane.setMinWidth(250);
+       // splitPane.setMinHeight(300);
+       // splitPane.setMinWidth(250);
 
-        Scene scene = new Scene(splitPane, (300*(a+b+c)), 400);
+        Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
