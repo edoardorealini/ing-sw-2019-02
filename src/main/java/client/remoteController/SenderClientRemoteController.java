@@ -1,7 +1,9 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
+import client.GUI.ShootingParametersClient;
 import exception.*;
+import model.ShootingParametersInput;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -51,4 +53,6 @@ public abstract class SenderClientRemoteController {
     public abstract void setSkulls(int nSkulls) throws RemoteException, NotAllowedCallException;
 
     public abstract void spawn(int indexOfPowerUpInHand) throws RemoteException, NotInYourPossessException, WrongStatusException;
+
+    public abstract void shoot(ShootingParametersClient input)  throws RemoteException, NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException;
 }
