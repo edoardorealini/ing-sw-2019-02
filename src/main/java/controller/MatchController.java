@@ -9,6 +9,7 @@ import model.ShootingParametersInput;
 import model.map.*;
 import model.map.Map;
 import model.map.MapBuilder;
+import model.player.AbilityStatus;
 import model.player.Board;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
@@ -127,6 +128,8 @@ public class MatchController{
         if(canDoAction()) {
             try {
                 moveController.move(player, destination, maxDistanceAllowed);
+                goToNextStatus(player);
+                printPlayerStatuses();
             } catch (NotAllowedMoveException e) {
                 e.printStackTrace();
                 throw new NotAllowedMoveException(e.getMessage());
@@ -139,8 +142,10 @@ public class MatchController{
 
 
     public synchronized int getMaxDistanceAllowed(Player player){
-        player.getStatus().getSpecialAbility();
-        //TODO
+        AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
+        if(abilityStatus.equals(AbilityStatus.NORMAL))
+            return 3;
+        //TODO gestione move turno finale (va cambiato qualcosa ?)
         return 0;
     }
 

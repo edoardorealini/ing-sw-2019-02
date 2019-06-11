@@ -246,15 +246,15 @@ public class MainPage extends Application {
             try {
                 remoteController.move(posX.getValue(),posY.getValue());
             } catch (NotAllowedMoveException ex) {
-                ex.printStackTrace();
+                PopUpSceneMethod.display("Move Error", ex.getMessage());
             } catch (RemoteException ex) {
-                ex.printStackTrace();
+                PopUpSceneMethod.display("Network Error", ex.getMessage());
             } catch (InvalidInputException ex) {
-                ex.printStackTrace();
+                PopUpSceneMethod.display("Invalid Input Error", ex.getMessage());
             } catch (WrongStatusException ex) {
-                ex.printStackTrace();
+                PopUpSceneMethod.display("Wrong Status Error", ex.getMessage());
             } catch (NotAllowedCallException ex) {
-                ex.printStackTrace();
+                PopUpSceneMethod.display("Not Allowed Call Error", ex.getMessage());
             }
             stage.close();
         } );

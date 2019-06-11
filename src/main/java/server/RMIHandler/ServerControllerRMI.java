@@ -269,6 +269,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             Player affectedPlayer = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID));
             int maxDistance = matchController.getMaxDistanceAllowed(affectedPlayer);
             matchController.move(affectedPlayer, converter.indexToSquare(iDestination, jDestination), maxDistance);
+            pushMatchToAllPlayers();
         }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");

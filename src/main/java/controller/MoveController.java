@@ -65,8 +65,10 @@ public class MoveController {
         if(! isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))
             throw new NotAllowedMoveException("You cannot do this move");
 
-        else
+        else {
             player.setPosition(destination);
+            System.out.println("[MOVE]: Player " + player.getNickname() + " moved to position: X = " + match.getMap().getIndex(destination).get(0) + " - Y = " + match.getMap().getIndex(destination).get(1));
+        }
     }
 
         /*
