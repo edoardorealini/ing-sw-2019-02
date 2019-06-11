@@ -47,8 +47,6 @@ public class InputConverter {
                 return Directions.LEFT;
 
         }
-        // TODO da togliere questo return (messo solo per non dare errore)
-        //return Directions.DOWN;
         return null;
     }
 
