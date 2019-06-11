@@ -149,6 +149,7 @@ public class MatchController{
 
         Square spawnPoint = match.getMap().getSpawnSquareFromColor(powerUpChoosed.getColor());
         user.setPosition(spawnPoint);
+        user.removePowerUps(powerUpChoosed);
 
         System.out.println("[SPAWN]: Client " + user.getNickname() + " spawned correctly in square coordinates: X = " + getMap().getIndex(spawnPoint).get(0) + " - Y = " + getMap().getIndex(spawnPoint).get(1));
 

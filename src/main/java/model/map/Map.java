@@ -13,8 +13,10 @@ public class Map implements Serializable {
     public Square getSpawnSquareFromColor(Color color){
         for (Square[] row : squaresMatrix) {
             for (Square sq: row) {
-                if(sq.getColor().equals(color) && sq.getType().equals(SquareType.SPAWN)){
-                    return sq;
+                if(sq.isActive()) {
+                    if (sq.getColor().equals(color) && sq.getType().equals(SquareType.SPAWN)) {
+                        return sq;
+                    }
                 }
             }
 
