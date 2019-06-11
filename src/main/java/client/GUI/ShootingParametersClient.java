@@ -2,10 +2,13 @@ package client.GUI;
 
 import model.ShootMode;
 import model.map.Directions;
+import model.weapons.WeaponName;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class ShootingParametersClient {
+public class ShootingParametersClient extends Object{
+
+    private WeaponName name;
     private ArrayList<String> targetPlayers;
     private ArrayList<ShootMode> shootModes;
     private ArrayList<Integer> squaresCoordinates;
@@ -17,6 +20,7 @@ public class ShootingParametersClient {
         this.targetPlayers = new ArrayList<>();
         this.squaresCoordinates = new ArrayList<>();
     }
+
 
     public void setShootModes(ShootMode shootMode) {
         this.shootModes.add(shootMode);
@@ -43,19 +47,27 @@ public class ShootingParametersClient {
         return direction;
     }
 
-    public ArrayList<ShootMode> getShootModes() {
+    public List<ShootMode> getShootModes() {
         return shootModes;
     }
 
-    public ArrayList<Integer> getSquaresCoordinates() {
+    public List<Integer> getSquaresCoordinates() {
         return squaresCoordinates;
     }
 
-    public ArrayList<String> getTargetPlayers() {
+    public List<String> getTargetPlayers() {
         return targetPlayers;
     }
 
     public boolean getMakeDamageBeforeMove() {
         return makeDamageBeforeMove;
+    }
+
+    public WeaponName getName() {
+        return name;
+    }
+
+    public void setName(WeaponName name) {
+        this.name = name;
     }
 }

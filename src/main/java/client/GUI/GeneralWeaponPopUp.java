@@ -302,6 +302,8 @@ public class GeneralWeaponPopUp extends Application {
     public void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
                           ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMove) throws NotAllowedShootingModeException, NotAllowedTargetException {
 
+        input.setName(weapon.getName());
+
         boolean basicModeChosen = false;
         boolean alternateModeChosen = false;
 

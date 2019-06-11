@@ -11,6 +11,7 @@ import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
+import model.weapons.Weapon;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.RemoteException;
@@ -329,9 +330,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException  {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             ShootingParametersInput parameters = new ShootingParametersInput();
+            Weapon weapon = null;
+
+            for (Weapon wea: matchController.getMatch().getCurrentPlayer().getWeapons()) {
+                if (wea.getName().equals(input.getName()))
+                    weapon = wea;
+            }
+
+            parameters.setWeapon(weapon);
+            
 
             matchController.shoot(parameters);
-
         }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
