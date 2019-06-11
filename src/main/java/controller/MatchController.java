@@ -137,6 +137,13 @@ public class MatchController{
 
     }
 
+
+    public synchronized int getMaxDistanceAllowed(Player player){
+        player.getStatus().getSpecialAbility();
+        //TODO
+        return 0;
+    }
+
     //this method doesn't need the player. the first spawn always occurs when a pleyer is the current player.
     public synchronized void spawn(PowerUp powerUpChoosed, Player user) throws NotInYourPossessException, WrongStatusException{
         if(!user.hasPowerUp(powerUpChoosed))

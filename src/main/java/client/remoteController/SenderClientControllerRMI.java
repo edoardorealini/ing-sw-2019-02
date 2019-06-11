@@ -14,7 +14,6 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -101,9 +100,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws RemoteException, NotAllowedMoveException, InvalidInputException , WrongStatusException, NotAllowedCallException {
+    public void move(int iDestination, int jDestination, int clientHashedID) throws RemoteException, NotAllowedMoveException, InvalidInputException , WrongStatusException, NotAllowedCallException {
         try {
-            serverController.move(player, iDestination, jDestination, maxDistanceAllowed, clientHashedID);
+            serverController.move(iDestination, jDestination, clientHashedID);
         }catch(RemoteException remote){
             remote.printStackTrace();
             throw new RemoteException(remote.getMessage());
@@ -118,36 +117,36 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    void grabAmmoCard() {
+    public void grabAmmoCard() {
 
     }
 
     @Override
-    void grabWeapon(int indexOfWeapon) {
+    public void grabWeapon(int indexOfWeapon) {
 
     }
 
     @Override
-    void usePowerUpAsAmmo(int indexOfPowerUp) {
+    public void usePowerUpAsAmmo(int indexOfPowerUp) {
 
     }
 
     @Override
-    void useTeleporter(PowerUp teleporter, Square destination) {
+    public void useTeleporter(PowerUp teleporter, Square destination) {
 
     }
 
     @Override
-    void useNewton(PowerUp newton, Player affectedPlayer, Square destination) {
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) {
     }
 
     @Override
-    void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) {
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) {
 
     }
 
     @Override
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) {
+    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) {
 
     }
 

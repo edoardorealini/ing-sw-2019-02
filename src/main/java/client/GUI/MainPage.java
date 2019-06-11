@@ -228,6 +228,7 @@ public class MainPage extends Application {
         Button move = new Button(" Move ");
         move.setOnAction(e -> {
             //TODO chiamare il metodo move
+            //TODO remoteController.move();
         } );
 
 

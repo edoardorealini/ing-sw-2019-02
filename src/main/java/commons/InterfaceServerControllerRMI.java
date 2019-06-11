@@ -1,8 +1,6 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
 import exception.*;
-import model.Match;
-import model.map.Map;
 import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
@@ -19,7 +17,7 @@ public interface InterfaceServerControllerRMI extends Remote {
     void buildMap(int mapID, int clientHashedID) throws RemoteException, WrongValueException, WrongStatusException, NotAllowedCallException;
 
     //metodi di moveController
-    void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
+    void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
     //metodi da grabController
     void grabAmmoCard(int clientHashedID) throws  WrongStatusException, WrongPositionException, NotAllowedCallException , RemoteException;

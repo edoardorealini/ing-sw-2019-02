@@ -7,7 +7,6 @@ import model.player.*;
 import model.Match;
 import model.powerup.*;
 
-import javax.security.auth.login.FailedLoginException;
 import java.rmi.RemoteException;
 
 public abstract class SenderClientRemoteController {
@@ -17,23 +16,23 @@ public abstract class SenderClientRemoteController {
     public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
-    abstract void move(Player player, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
+    public abstract void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
     //metodi da grab controller
-    abstract void grabAmmoCard();
+    public abstract void grabAmmoCard();
 
-    abstract void grabWeapon(int indexOfWeapon);
+    public abstract void grabWeapon(int indexOfWeapon);
 
     //metodi di powerUpController
-    abstract void usePowerUpAsAmmo(int indexOfPowerUp);
+    public abstract void usePowerUpAsAmmo(int indexOfPowerUp);
 
-    abstract void useTeleporter(PowerUp teleporter, Square destination);
+    public abstract void useTeleporter(PowerUp teleporter, Square destination);
 
-    abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination);
+    public abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination);
 
-    abstract void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer);
+    public  abstract void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer);
 
-    abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
+    public abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
 
     public abstract String checkConnection(String IP);
 

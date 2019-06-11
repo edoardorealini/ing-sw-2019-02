@@ -262,12 +262,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         methods from moveController class
      */
 
-    public synchronized void move(Player affectedPlayer, int iDestination, int jDestination, int maxDistanceAllowed, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.move(affectedPlayer, converter.indexToSquare(iDestination, jDestination), maxDistanceAllowed);
+    public synchronized void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            Player affectedPlayer = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID));
+            int maxDistance = matchController.getMaxDistanceAllowed(affectedPlayer);
+            matchController.move(affectedPlayer, converter.indexToSquare(iDestination, jDestination), maxDistance);
+        }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
+
 
     /*
         methods from grabController class
