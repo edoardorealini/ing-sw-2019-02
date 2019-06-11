@@ -1,7 +1,6 @@
 package client;
 
 import client.GUI.PopUpSceneMethod;
-import client.remoteController.SenderClientControllerRMI;
 import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -24,8 +23,7 @@ import java.io.File;
 
 public class RespawnPopUp extends Application {
 
-    // private Match match;
-    private Player respawnPlayer;
+    private Match match;
     private SenderClientRemoteController senderRemoteController;
 
     @Override
@@ -80,9 +78,9 @@ public class RespawnPopUp extends Application {
         });
 
 
-        if (respawnPlayer.getPowerUps()[0]!=null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0]!=null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + respawnPlayer.getPowerUps()[0].getName() + "_" + respawnPlayer.getPowerUps()[0].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
@@ -93,9 +91,9 @@ public class RespawnPopUp extends Application {
             a = 1;
         }
 
-        if (respawnPlayer.getPowerUps()[1]!=null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1]!=null){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + respawnPlayer.getPowerUps()[1].getName() + "_" + respawnPlayer.getPowerUps()[1].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
@@ -106,9 +104,9 @@ public class RespawnPopUp extends Application {
             b = 1;
         }
 
-        if (respawnPlayer.getPowerUps()[2]!=null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2]!=null){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + respawnPlayer.getPowerUps()[2].getName() + "_" + respawnPlayer.getPowerUps()[2].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
@@ -131,8 +129,9 @@ public class RespawnPopUp extends Application {
   //      this.match = match;
   //  }
 
-    public void setRespawnPlayer(Player respawnPlayer) {
-        this.respawnPlayer = respawnPlayer;
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
