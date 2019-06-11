@@ -272,6 +272,9 @@ public class Player implements Serializable{
     public boolean isInStatusWaitFirstTurn(){
         return status.getTurnStatus().equals(RoundStatus.WAIT_FIRST_TURN);
     }
+    public boolean isInStatusRespawn(){
+        return status.getTurnStatus().equals(RoundStatus.RESPAWN);
+    }
 
 
     /*

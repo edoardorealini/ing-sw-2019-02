@@ -138,9 +138,16 @@ public class MatchController{
     }
 
     //this method doesn't need the player. the first spawn always occurs when a pleyer is the current player.
-    public synchronized void firstSpawn(PowerUp spawnPoint){
-        //TODO
-        match.getMap().getSpawnSquareFromColor(spawnPoint.getColor());
+    public synchronized void spawn(PowerUp powerUpChoosed, Player user) throws NotInYourPossessException, WrongStatusException{
+        if(!user.hasPowerUp(powerUpChoosed))
+            throw new NotInYourPossessException("You don't have such powerup, please retry");
+
+        if(!user.isInStatusSpawn() || !user.isInStatusRespawn())
+            throw new WrongStatusException("You must be in status respawn or spawn to choose where to spawn");
+
+        Square spawnPoint = match.getMap().getSpawnSquareFromColor(powerUpChoosed.getColor());
+        user.setPosition(spawnPoint);
+        goToNextStatus(user);
     }
 
 

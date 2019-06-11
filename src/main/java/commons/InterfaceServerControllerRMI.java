@@ -51,4 +51,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void setSkulls(int nSkulls, int clientHashedID) throws RemoteException, NotAllowedCallException;
 
+    void spawn(int powerUpID, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
+
 }

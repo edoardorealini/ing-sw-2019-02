@@ -1,10 +1,7 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
-import exception.InvalidInputException;
-import exception.NotAllowedCallException;
-import exception.NotAllowedMoveException;
-import exception.WrongStatusException;
+import exception.*;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -53,4 +50,6 @@ public abstract class SenderClientRemoteController {
     public abstract String getNickname();
 
     public abstract void setSkulls(int nSkulls) throws RemoteException, NotAllowedCallException;
+
+    public abstract void spawn(int indexOfPowerUpInHand) throws RemoteException, NotInYourPossessException, WrongStatusException;
 }

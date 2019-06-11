@@ -14,6 +14,7 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -206,5 +207,19 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public void spawn(int indexOfPowerUpInHand) throws NotInYourPossessException, WrongStatusException, RemoteException{
+        try {
+            serverController.spawn(indexOfPowerUpInHand, hashedNickname);
+        }catch(NotInYourPossessException e){
+            throw new NotInYourPossessException(e.getMessage());
+        }
+        catch(WrongStatusException e){
+            throw new WrongStatusException(e.getMessage());
+        }
+        catch(RemoteException e){
+            throw new RemoteException("Network call error");
+        }
     }
 }
