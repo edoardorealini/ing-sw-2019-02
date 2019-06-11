@@ -273,7 +273,7 @@ public class MainPage extends Application {
         Stage stage = new Stage();
 
         stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
-        stage.setTitle("Move");
+        stage.setTitle("Show Goods");
         stage.setMinWidth(250);
         stage.setMinHeight(90);
         VBox vBoxMove = new VBox(10);
@@ -297,9 +297,13 @@ public class MainPage extends Application {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue())!=null){
                 if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType()==SPAWN){
                     showWeaponsGoods(posX.getValue(),posY.getValue());
+                    stage.close();
                 }
-                else showAmmoGoods(posX.getValue(),posY.getValue());
-                stage.close();
+                else {
+                    showAmmoGoods(posX.getValue(),posY.getValue());
+                    stage.close();
+                }
+
             }
         } );
 
@@ -393,7 +397,7 @@ public class MainPage extends Application {
 
         splitPane.setMinHeight(350);
         splitPane.setMinWidth(300);
-        Scene scene= new Scene(splitPane,(900),(900));
+        Scene scene= new Scene(splitPane,800,350);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -430,8 +434,6 @@ public class MainPage extends Application {
         iv2.setPreserveRatio(true);
         hBox.getChildren().add(iv1);
 
-
-        //TODO hBox.setBackground(Color.rgb(25,26,23));
         Scene scene= new Scene(hBox,(200),(100));
         primaryStage.setScene(scene);
         primaryStage.show();
