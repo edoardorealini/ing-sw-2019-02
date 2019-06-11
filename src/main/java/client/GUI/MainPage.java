@@ -284,7 +284,51 @@ public class MainPage extends Application {
         stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
     }
 
+    public void grab(){
+        Stage stage = new Stage();
 
+        stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
+        stage.setTitle("Move");
+        stage.setMinWidth(250);
+        stage.setMinHeight(90);
+        VBox vBoxMove = new VBox(10);
+
+        HBox Hbox1 = new HBox(5);
+        Label label1 = new Label();
+        label1.setText("X : ");
+        TextField posX = new TextField();
+        Hbox1.getChildren().addAll(label1,posX);
+
+        HBox Hbox2 = new HBox(5);
+        Label label2 = new Label();
+        label2.setText("Y : ");
+        TextField posY = new TextField();
+        Hbox2.getChildren().addAll(label2,posY);
+
+        Label titlePosition = new Label(" Choose where you want to grab : ");
+        Label titleWhichWeapon = new Label(" Choose which weapon (1,2,3 or empty) : ");
+        TextField weaponNumber = new TextField();
+
+        Button grab = new Button(" Grab ");
+        grab.setOnAction(e -> {
+            int x = Integer.parseInt(posX.getText());
+            int y = Integer.parseInt(posY.getText());
+            if (match.getMap().getSquareFromIndex(x,y).getType() == SPAWN) {
+                int numberOfAmmo = Integer.parseInt(weaponNumber.getText());
+                //TODO grab Weapon
+            }
+            else ;//TODO grab ammo card
+        } );
+
+
+        vBoxMove.getChildren().addAll(titlePosition,Hbox1,Hbox2,titleWhichWeapon,weaponNumber,grab);
+        vBoxMove.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(vBoxMove);
+
+        stage.setScene(scene);
+        stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
+    }
 
     public void showWeaponsGoods(int x,int y){
         Stage primaryStage = new Stage();
