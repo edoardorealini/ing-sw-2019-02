@@ -33,8 +33,8 @@ public class PowerUpsOwned extends Application {
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[0].getName() + "_" + playerWhoClickButton.getPowerUps()[0].getColor() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
-            iv0.setFitHeight(350);
-            iv0.setFitWidth(300);
+            iv0.setFitHeight(300);
+            iv0.setFitWidth(250);
             iv0.setPreserveRatio(true);
             splitPane.getItems().add(iv0);
             a=1;
@@ -45,8 +45,8 @@ public class PowerUpsOwned extends Application {
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[1].getName() + "_" + playerWhoClickButton.getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
-            iv1.setFitHeight(350);
-            iv1.setFitWidth(300);
+            iv1.setFitHeight(300);
+            iv1.setFitWidth(250);
             iv1.setPreserveRatio(true);
             splitPane.getItems().add(iv1);
             b=1;
@@ -57,8 +57,8 @@ public class PowerUpsOwned extends Application {
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[2].getName() + "_" + playerWhoClickButton.getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
-            iv2.setFitHeight(350);
-            iv2.setFitWidth(300);
+            iv2.setFitHeight(300);
+            iv2.setFitWidth(250);
             iv2.setPreserveRatio(true);
             splitPane.getItems().add(iv2);
             c=1;
@@ -66,7 +66,7 @@ public class PowerUpsOwned extends Application {
 
         splitPane.setMinHeight(350);
         splitPane.setMinWidth(300);
-        Scene scene= new Scene(splitPane,(300*(a+b+c)),(300*(a+b+c)));
+        Scene scene= new Scene(splitPane,(350*(a+b+c)),(300*(a+b+c)));
         primaryStage.setScene(scene);
         primaryStage.show();
 

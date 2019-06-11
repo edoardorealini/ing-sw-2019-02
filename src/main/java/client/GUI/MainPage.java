@@ -2,6 +2,10 @@ package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
 import com.sun.javafx.scene.SceneEventDispatcher;
+import exception.InvalidInputException;
+import exception.NotAllowedCallException;
+import exception.NotAllowedMoveException;
+import exception.WrongStatusException;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -10,10 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
@@ -27,12 +28,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.File;
-
+import java.rmi.RemoteException;
+import java.util.*;
 import static model.map.SquareType.*;
 
 public class MainPage extends Application {
     private Match match;
     SenderClientRemoteController remoteController;
+
+    Label labelpos1;
+    Label labelpos2;
+    Label labelpos3;
+    Label labelpos4;
+    Label labelpos5;
 
     @Override
     public void start(Stage mainStage) throws Exception {
@@ -41,7 +49,10 @@ public class MainPage extends Application {
         //left (life)
         VBox vBoxLife = new VBox();
         vBoxLife.setMinWidth(Region.USE_PREF_SIZE);
-        vBoxLife.setPrefWidth(400);
+        vBoxLife.setSpacing(3);
+        vBoxLife.setMaxWidth(250);
+        vBoxLife.setAlignment(Pos.CENTER);
+        /*
         //prima board
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
@@ -91,40 +102,43 @@ public class MainPage extends Application {
             iv4.setPreserveRatio(true);
             vBoxLife.getChildren().add(iv4);
         }
+        */
         // inserisco le posizioni sotto
         Label pos1 = new Label("");
         Label pos2 = new Label("");
         Label pos3 = new Label("");
         Label pos4 = new Label("");
         Label pos5 = new Label("");
-
-        if (!match.getPlayers().get(0).isInStatusSpawn() && !match.getPlayers().get(0).isInStatusWaitFirstTurn()) {
-            pos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(0).getPosition()));
-        }
-        else pos1.setText("Not already spawned");
-        if (!match.getPlayers().get(1).isInStatusSpawn() && !match.getPlayers().get(1).isInStatusWaitFirstTurn()) {
-            pos2.setText("Position of " + match.getPlayers().get(1).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(1).getPosition()));
-        }
-        else pos2.setText("Not already spawned");
-        if (!match.getPlayers().get(2).isInStatusSpawn() && !match.getPlayers().get(2).isInStatusWaitFirstTurn()) {
-            pos3.setText("Position of " + match.getPlayers().get(2).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(2).getPosition()));
-        }
-        else pos3.setText("Not already spawned");
-        if (match.getPlayers().size()>=4) {
-            if (!match.getPlayers().get(3).isInStatusSpawn() && !match.getPlayers().get(3).isInStatusWaitFirstTurn()) {
-                pos4.setText("Position of " + match.getPlayers().get(3).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(3).getPosition()));
-            }
-            else pos4.setText("Not already spawned");
-        }
-        if (match.getPlayers().size()>=5) {
-            if (!match.getPlayers().get(4).isInStatusSpawn() && !match.getPlayers().get(4).isInStatusWaitFirstTurn()) {
-                pos5.setText("Position of " + match.getPlayers().get(4).getNickname() + " is X,Y :" + match.getMap().getIndex(match.getPlayers().get(4).getPosition()));
-            }
-            else pos5.setText("Not already spawned");
-        }
-
+        refreshPlayersPosition();
         vBoxLife.getChildren().addAll(pos1,pos2,pos3,pos4,pos5);
+
+        Button buttonLife1 = new Button();
+        buttonLife1.setText(" Show "+match.getPlayers().get(0).getNickname()+"'s life ");
+        buttonLife1.setOnAction(e -> showLifePlayer1());
+        vBoxLife.getChildren().add(buttonLife1);
+        Button buttonLife2 = new Button();
+        buttonLife2.setText(" Show "+match.getPlayers().get(1).getNickname()+"'s life ");
+        buttonLife2.setOnAction(e -> showLifePlayer2());
+        vBoxLife.getChildren().add(buttonLife2);
+        Button buttonLife3 = new Button();
+        buttonLife3.setText(" Show "+match.getPlayers().get(2).getNickname()+"'s life ");
+        buttonLife3.setOnAction(e -> showLifePlayer3());
+        vBoxLife.getChildren().add(buttonLife3);
+        if (match.getPlayers().size()>=4){
+            Button buttonLife4 = new Button();
+            buttonLife4.setText(" Show "+match.getPlayers().get(3).getNickname()+"'s life ");
+            buttonLife4.setOnAction(e -> showLifePlayer4());
+            vBoxLife.getChildren().add(buttonLife4);
+        }
+        if (match.getPlayers().size()>=5){
+            Button buttonLife5 = new Button();
+            buttonLife5.setText(" Show "+match.getPlayers().get(4).getNickname()+"'s life ");
+            buttonLife5.setOnAction(e -> showLifePlayer5());
+            vBoxLife.getChildren().add(buttonLife5);
+        }
+
         splitPane.getItems().add(vBoxLife);
+
         //right (map)
         File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map" + match.getMap().getMapID() + ".png");
@@ -132,8 +146,8 @@ public class MainPage extends Application {
         ImageView iv = new ImageView(image);
         iv.setX(0);
         iv.setY(0);
-        iv.setFitHeight(825);
-        iv.setFitWidth(700);
+        iv.setFitHeight(875);
+        iv.setFitWidth(750);
         iv.setPreserveRatio(true);
         splitPane.getItems().add(iv);
 
@@ -172,7 +186,7 @@ public class MainPage extends Application {
         Button moveButton = new Button(" MOVE ");
         moveButton.setOnAction(e -> moveButton());
         Button grabButton = new Button(" GRAB ");
-        //TODO grabButton.setOnAction(e -> GrabButton());
+        grabButton.setOnAction(e -> grab());
         Button shootButton = new Button(" SHOOT ");
         //TODO shootButton.setOnAction(e -> ShootButton());
         Button chargeWeapons = new Button(" Charge Weapons");
@@ -207,7 +221,7 @@ public class MainPage extends Application {
     public void moveButton(){
         Stage stage = new Stage();
 
-        stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Move");
         stage.setMinWidth(250);
         stage.setMinHeight(90);
@@ -216,19 +230,32 @@ public class MainPage extends Application {
         HBox Hbox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
-        TextField posX = new TextField();
+        ChoiceBox<Integer> posX = new ChoiceBox<>();
+        posX.getItems().addAll(0,1,2,3);
         Hbox1.getChildren().addAll(label1,posX);
 
         HBox Hbox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
-        TextField posY = new TextField();
+        ChoiceBox<Integer> posY = new ChoiceBox<>();
+        posY.getItems().addAll(0,1,2);
         Hbox2.getChildren().addAll(label2,posY);
 
         Button move = new Button(" Move ");
         move.setOnAction(e -> {
-            //TODO chiamare il metodo move
-            //TODO remoteController.move();
+            try {
+                remoteController.move(posX.getValue(),posY.getValue());
+            } catch (NotAllowedMoveException ex) {
+                ex.printStackTrace();
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            } catch (InvalidInputException ex) {
+                ex.printStackTrace();
+            } catch (WrongStatusException ex) {
+                ex.printStackTrace();
+            } catch (NotAllowedCallException ex) {
+                ex.printStackTrace();
+            }
         } );
 
 
@@ -238,7 +265,7 @@ public class MainPage extends Application {
         Scene scene = new Scene(vBoxMove);
 
         stage.setScene(scene);
-        stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
+        stage.showAndWait();
     }
 
     public void showGoods(){
@@ -253,24 +280,24 @@ public class MainPage extends Application {
         HBox Hbox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
-        TextField posX = new TextField();
+        ChoiceBox<Integer> posX = new ChoiceBox<>();
+        posX.getItems().addAll(0,1,2,3);
         Hbox1.getChildren().addAll(label1,posX);
 
         HBox Hbox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
-        TextField posY = new TextField();
+        ChoiceBox<Integer> posY = new ChoiceBox<>();
+        posY.getItems().addAll(0,1,2);
         Hbox2.getChildren().addAll(label2,posY);
 
         Button show = new Button(" Show Goods ");
         show.setOnAction(e -> {
-            int x = Integer.parseInt(posX.getText());
-            int y = Integer.parseInt(posY.getText());
-            if (match.getMap().getSquareFromIndex(x,y)!=null){
-                if (match.getMap().getSquareFromIndex(x,y).getType()==SPAWN){
-                    showWeaponsGoods(x,y);
+            if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue())!=null){
+                if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType()==SPAWN){
+                    showWeaponsGoods(posX.getValue(),posY.getValue());
                 }
-                else showAmmoGoods(x,y);
+                else showAmmoGoods(posX.getValue(),posY.getValue());
                 stage.close();
             }
         } );
@@ -296,32 +323,32 @@ public class MainPage extends Application {
         HBox Hbox1 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
-        TextField posX = new TextField();
+        ChoiceBox<Integer> posX = new ChoiceBox<>();
+        posX.getItems().addAll(0,1,2,3);
         Hbox1.getChildren().addAll(label1,posX);
 
         HBox Hbox2 = new HBox(5);
         Label label2 = new Label();
         label2.setText("Y : ");
-        TextField posY = new TextField();
+        ChoiceBox<Integer> posY = new ChoiceBox<>();
+        posY.getItems().addAll(0,1,2);
         Hbox2.getChildren().addAll(label2,posY);
 
         Label titlePosition = new Label(" Choose where you want to grab : ");
         Label titleWhichWeapon = new Label(" Choose which weapon (1,2,3 or empty) : ");
-        TextField weaponNumber = new TextField();
+        ChoiceBox<Integer> numberWeapon = new ChoiceBox<>();
+        posY.getItems().addAll(1,2,3);
 
         Button grab = new Button(" Grab ");
         grab.setOnAction(e -> {
-            int x = Integer.parseInt(posX.getText());
-            int y = Integer.parseInt(posY.getText());
-            if (match.getMap().getSquareFromIndex(x,y).getType() == SPAWN) {
-                int numberOfAmmo = Integer.parseInt(weaponNumber.getText());
-                //TODO grab Weapon
+            if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
+                //TODO grab Weapon in x,y
             }
-            else ;//TODO grab ammo card
+            else ;//TODO grab ammo card in x,y
         } );
 
 
-        vBoxMove.getChildren().addAll(titlePosition,Hbox1,Hbox2,titleWhichWeapon,weaponNumber,grab);
+        vBoxMove.getChildren().addAll(titlePosition,Hbox1,Hbox2,titleWhichWeapon,numberWeapon,grab);
         vBoxMove.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vBoxMove);
@@ -407,6 +434,174 @@ public class MainPage extends Application {
         Scene scene= new Scene(hBox,(200),(100));
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void showLifePlayer1(){
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Life Player 1");
+        stage.setMinWidth(410);
+        stage.setMinHeight(210);
+        StackPane stackPane = new StackPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
+        iv0.setPreserveRatio(true);
+
+        stackPane.getChildren().addAll(iv0);
+        stackPane.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(stackPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void showLifePlayer2(){
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Life Player 1");
+        stage.setMinWidth(410);
+        stage.setMinHeight(210);
+        StackPane stackPane = new StackPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaVerde.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
+        iv0.setPreserveRatio(true);
+
+        stackPane.getChildren().addAll(iv0);
+        stackPane.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(stackPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void showLifePlayer3(){
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Life Player 1");
+        stage.setMinWidth(410);
+        stage.setMinHeight(210);
+        StackPane stackPane = new StackPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGrigio.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
+        iv0.setPreserveRatio(true);
+
+        stackPane.getChildren().addAll(iv0);
+        stackPane.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(stackPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void showLifePlayer4(){
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Life Player 1");
+        stage.setMinWidth(410);
+        stage.setMinHeight(210);
+        StackPane stackPane = new StackPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaRosso.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
+        iv0.setPreserveRatio(true);
+
+        stackPane.getChildren().addAll(iv0);
+        stackPane.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(stackPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void showLifePlayer5(){
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Life Player 1");
+        stage.setMinWidth(410);
+        stage.setMinHeight(210);
+        StackPane stackPane = new StackPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaBlu.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(200);
+        iv0.setFitWidth(400);
+        iv0.setPreserveRatio(true);
+
+        stackPane.getChildren().addAll(iv0);
+        stackPane.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(stackPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    public void refreshPlayersPosition(){
+        List<Integer> pos1 = new ArrayList<>();
+        List<Integer> pos2 = new ArrayList<>();
+        List<Integer> pos3 = new ArrayList<>();
+        List<Integer> pos4 = new ArrayList<>();
+        List<Integer> pos5 = new ArrayList<>();
+
+        if (!match.getPlayers().get(0).isInStatusSpawn() && !match.getPlayers().get(0).isInStatusWaitFirstTurn()) {
+            pos1 = match.getMap().getIndex(match.getPlayers().get(0).getPosition());
+            labelpos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + pos1);
+        }
+        else labelpos1.setText("Not already spawned");
+        if (!match.getPlayers().get(1).isInStatusSpawn() && !match.getPlayers().get(1).isInStatusWaitFirstTurn()) {
+            pos2 = match.getMap().getIndex(match.getPlayers().get(1).getPosition());
+            labelpos2.setText("Position of " + match.getPlayers().get(1).getNickname() + " is X,Y :" + pos2);
+        }
+        else labelpos2.setText("Not already spawned");
+        if (!match.getPlayers().get(2).isInStatusSpawn() && !match.getPlayers().get(2).isInStatusWaitFirstTurn()) {
+            pos3 = match.getMap().getIndex(match.getPlayers().get(2).getPosition());
+            labelpos3.setText("Position of " + match.getPlayers().get(2).getNickname() + " is X,Y :" + pos3);
+        }
+        else labelpos3.setText("Not already spawned");
+        if (match.getPlayers().size()>=4) {
+            if (!match.getPlayers().get(3).isInStatusSpawn() && !match.getPlayers().get(3).isInStatusWaitFirstTurn()) {
+                pos4 = match.getMap().getIndex(match.getPlayers().get(3).getPosition());
+                labelpos4.setText("Position of " + match.getPlayers().get(3).getNickname() + " is X,Y :" +pos4);
+            }
+            else labelpos4.setText("Not already spawned");
+        }
+        if (match.getPlayers().size()>=5) {
+            if (!match.getPlayers().get(4).isInStatusSpawn() && !match.getPlayers().get(4).isInStatusWaitFirstTurn()) {
+                pos5 = match.getMap().getIndex(match.getPlayers().get(4).getPosition());
+                labelpos5.setText("Position of " + match.getPlayers().get(4).getNickname() + " is X,Y :" + pos5);
+            }
+            else labelpos5.setText("Not already spawned");
+        }
     }
 
 }
