@@ -174,8 +174,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             pushMatchToAllPlayers();
 
             //notifying all the clients that the match is starting !
-            for (InterfaceClientControllerRMI controller : clientControllers)
+            for (InterfaceClientControllerRMI controller : clientControllers) {
                 controller.startGame();
+                if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn())
+                    controller.askSpawn();
+            }
 
             System.out.println("[INFO]: GAME STARTING . . .");
 
