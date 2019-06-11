@@ -16,7 +16,7 @@ public abstract class SenderClientRemoteController {
     public abstract void buildMap(int mapID) throws Exception;
 
     //metodi derivanti da classe moveController
-    public abstract void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
+    public abstract void move(int iDestination, int jDestination) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
     //metodi da grab controller
     public abstract void grabAmmoCard();

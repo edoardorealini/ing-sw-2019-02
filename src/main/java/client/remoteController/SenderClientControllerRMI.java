@@ -100,9 +100,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void move(int iDestination, int jDestination, int clientHashedID) throws RemoteException, NotAllowedMoveException, InvalidInputException , WrongStatusException, NotAllowedCallException {
+    public void move(int iDestination, int jDestination) throws RemoteException, NotAllowedMoveException, InvalidInputException , WrongStatusException, NotAllowedCallException {
         try {
-            serverController.move(iDestination, jDestination, clientHashedID);
+            serverController.move(iDestination, jDestination, this.hashedNickname);
         }catch(RemoteException remote){
             remote.printStackTrace();
             throw new RemoteException(remote.getMessage());
