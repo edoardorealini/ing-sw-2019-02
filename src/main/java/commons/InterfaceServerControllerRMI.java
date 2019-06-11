@@ -1,6 +1,5 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
-import client.GUI.ShootingParametersClient;
 import exception.*;
 import model.map.Square;
 import model.player.Player;

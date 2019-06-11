@@ -1,9 +1,8 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
-import client.GUI.ShootingParametersClient;
+import commons.ShootingParametersClient;
 import exception.*;
-import model.ShootingParametersInput;
 import model.map.*;
 import model.player.*;
 import model.Match;

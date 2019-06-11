@@ -1,6 +1,7 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import commons.ShootingParametersClient;
 import exception.*;
 import model.ShootMode;
 import javafx.application.Application;

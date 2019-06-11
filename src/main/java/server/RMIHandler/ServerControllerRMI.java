@@ -1,6 +1,6 @@
 package server.RMIHandler;
 
-import client.GUI.ShootingParametersClient;
+import commons.ShootingParametersClient;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;

@@ -1,4 +1,4 @@
-package client.GUI;
+package commons;
 
 import model.ShootMode;
 import model.map.Directions;
