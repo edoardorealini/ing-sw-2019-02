@@ -173,14 +173,19 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             System.out.println("[INFO]: Enough players to start the new game");
             pushMatchToAllPlayers();
 
+            System.out.println("[INFO]: S T A R T I N G   A   N E W   G A M E  . . .");
+
+            printPlayerStatuses();
+
             //notifying all the clients that the match is starting !
             for (InterfaceClientControllerRMI controller : clientControllers) {
                 controller.startGame();
-                if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn())
+                if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
                     controller.askSpawn();
+                    System.out.println("[INFO]: Asking client " + controller.getNickname() + " to spawn.");
+                }
             }
 
-            System.out.println("[INFO]: GAME STARTING . . .");
 
 
         }catch(RemoteException e){
@@ -189,6 +194,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException(e.getMessage());
         }
 
+    }
+
+    private void printPlayerStatuses(){
+        for(Player p: matchController.getMatch().getPlayers()){
+            System.out.println("[STATUS]: The player "+ p.getNickname() + " is in status: " +p.getStatus().getTurnStatus());
+        }
     }
 
     public synchronized void spawn(int powerUpID, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException{
