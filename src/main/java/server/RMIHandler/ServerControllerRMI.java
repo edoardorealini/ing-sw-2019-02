@@ -333,15 +333,19 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         Update methods
     */
     private synchronized void updateAllPlayersStatus(){
-        System.out.println("[INFO]: Updating the status of all the players.");
         for(Player p: matchController.getMatch().getPlayers())
             matchController.goToNextStatus(p);
+
+        System.out.println("[INFO]: Updating the status of all the players.");
+
     }
 
     private synchronized void pushMatchToAllPlayers() throws RemoteException{
-        System.out.println("[INFO]: Pushing the updated match to all the players ");
         for(InterfaceClientControllerRMI controller: clientControllers)
             controller.updateMatch(matchController.getMatch());
+
+        System.out.println("[INFO]: Pushing the updated match to all the players ");
+
     }
 
     //TODO capire se server effettivamente esporre questi metodi!
