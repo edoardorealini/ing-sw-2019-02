@@ -112,7 +112,18 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     public void askSpawn() throws RemoteException{
         respawnPopUp = new RespawnPopUp();
         respawnPopUp.setSenderRemoteController(senderRemoteController);
-        
+        respawnPopUp.setMatch(match);
+
+        Platform.runLater(
+                ()-> {
+                    try{
+                        respawnPopUp.start(new Stage());
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 
     public void waitForMap(){

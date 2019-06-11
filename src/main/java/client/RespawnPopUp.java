@@ -55,7 +55,7 @@ public class RespawnPopUp extends Application {
 
         pow1.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(1);
+                senderRemoteController.spawn(0);
             } catch (Exception e) {
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
@@ -63,7 +63,7 @@ public class RespawnPopUp extends Application {
 
         pow2.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(2);
+                senderRemoteController.spawn(1);
             } catch (Exception e) {
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
@@ -71,7 +71,7 @@ public class RespawnPopUp extends Application {
 
         pow3.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(3);
+                senderRemoteController.spawn(2);
             } catch (Exception e) {
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
