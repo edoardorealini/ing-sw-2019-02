@@ -32,7 +32,7 @@ public class PlayerStatusHandler  implements Serializable {
     }
 
     public void setSpecialAbilityAdrenalineShoot() {
-        this.specialAbility = AbilityStatus.ADRENALINE_PICK;
+        this.specialAbility = AbilityStatus.ADRENALINE_SHOOT;
     }
 
 // metodi set per TurnStatus
