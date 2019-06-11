@@ -6,6 +6,7 @@ package client.clientController;
 import client.GUI.ChooseMap;
 import client.GUI.FirstPage;
 import client.GUI.MainPage;
+import client.RespawnPopUp;
 import client.remoteController.SenderClientRemoteController;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
@@ -26,6 +27,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     private String nickname;
     private FirstPage firstPage;
     private ChooseMap chooseMap = null;
+    private RespawnPopUp respawnPopUp;
     private MainPage mainPage;
     private SenderClientRemoteController senderRemoteController;
 
@@ -105,6 +107,12 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 }
         );
 
+    }
+
+    public void askSpawn() throws RemoteException{
+        respawnPopUp = new RespawnPopUp();
+        respawnPopUp.setSenderRemoteController(senderRemoteController);
+        
     }
 
     public void waitForMap(){

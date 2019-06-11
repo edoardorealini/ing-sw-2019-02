@@ -14,6 +14,7 @@ public interface InterfaceClientControllerRMI extends Remote {
     String getNickname() throws RemoteException;
     void startGame() throws RemoteException;
     void askMap() throws  RemoteException, Exception;
+    void askSpawn() throws RemoteException;
     void waitForMap() throws RemoteException;
     void updateMatch(Match match) throws RemoteException;
 }

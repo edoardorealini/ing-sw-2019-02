@@ -2,6 +2,7 @@ package client;
 
 import client.GUI.PopUpSceneMethod;
 import client.remoteController.SenderClientControllerRMI;
+import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -25,7 +26,7 @@ public class RespawnPopUp extends Application {
 
     // private Match match;
     private Player respawnPlayer;
-    private SenderClientControllerRMI senderRemoteController;
+    private SenderClientRemoteController senderRemoteController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -134,7 +135,7 @@ public class RespawnPopUp extends Application {
         this.respawnPlayer = respawnPlayer;
     }
 
-    public void setSenderRemoteController(SenderClientControllerRMI senderRemoteController) {
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
         this.senderRemoteController = senderRemoteController;
     }
 }
