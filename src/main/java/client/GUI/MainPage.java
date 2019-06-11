@@ -397,7 +397,8 @@ public class MainPage extends Application {
 
         splitPane.setMinHeight(350);
         splitPane.setMinWidth(300);
-        Scene scene= new Scene(splitPane,800,350);
+        splitPane.setStyle("-fx-background-color: #191a17");
+        Scene scene= new Scene(splitPane,670,350);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -411,8 +412,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(0) + ".png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(10);
-        iv0.setFitWidth(10);
+        iv0.setFitHeight(30);
+        iv0.setFitWidth(30);
         iv0.setPreserveRatio(true);
         hBox.getChildren().add(iv0);
 
@@ -420,8 +421,8 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(1) + ".png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(10);
-        iv1.setFitWidth(10);
+        iv1.setFitHeight(30);
+        iv1.setFitWidth(30);
         iv1.setPreserveRatio(true);
         hBox.getChildren().add(iv1);
 
@@ -429,12 +430,14 @@ public class MainPage extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(2) + ".png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(10);
-        iv2.setFitWidth(10);
+        iv2.setFitHeight(30);
+        iv2.setFitWidth(30);
         iv2.setPreserveRatio(true);
-        hBox.getChildren().add(iv1);
+        hBox.getChildren().add(iv2);
 
-        Scene scene= new Scene(hBox,(200),(100));
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setStyle("-fx-background-color: #191a17");
+        Scene scene= new Scene(hBox,(200),(50));
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -458,6 +461,7 @@ public class MainPage extends Application {
 
         stackPane.getChildren().addAll(iv0);
         stackPane.setAlignment(Pos.CENTER);
+        stackPane.setStyle("-fx-background-color: #191a17");
 
         Scene scene = new Scene(stackPane);
 
@@ -484,7 +488,7 @@ public class MainPage extends Application {
 
         stackPane.getChildren().addAll(iv0);
         stackPane.setAlignment(Pos.CENTER);
-
+        stackPane.setStyle("-fx-background-color: #191a17");
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
@@ -510,7 +514,7 @@ public class MainPage extends Application {
 
         stackPane.getChildren().addAll(iv0);
         stackPane.setAlignment(Pos.CENTER);
-
+        stackPane.setStyle("-fx-background-color: #191a17");
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
@@ -536,7 +540,7 @@ public class MainPage extends Application {
 
         stackPane.getChildren().addAll(iv0);
         stackPane.setAlignment(Pos.CENTER);
-
+        stackPane.setStyle("-fx-background-color: #191a17");
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
@@ -562,7 +566,7 @@ public class MainPage extends Application {
 
         stackPane.getChildren().addAll(iv0);
         stackPane.setAlignment(Pos.CENTER);
-
+        stackPane.setStyle("-fx-background-color: #191a17");
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
