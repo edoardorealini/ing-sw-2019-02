@@ -104,13 +104,13 @@ public class MainPage extends Application {
         }
         */
         // inserisco le posizioni sotto
-        Label pos1 = new Label("");
-        Label pos2 = new Label("");
-        Label pos3 = new Label("");
-        Label pos4 = new Label("");
-        Label pos5 = new Label("");
+        labelpos1 = new Label("");
+        labelpos2 = new Label("");
+        labelpos3 = new Label("");
+        labelpos4 = new Label("");
+        labelpos5 = new Label("");
         refreshPlayersPosition();
-        vBoxLife.getChildren().addAll(pos1,pos2,pos3,pos4,pos5);
+        vBoxLife.getChildren().addAll(labelpos1,labelpos2,labelpos3,labelpos4,labelpos5);
 
         Button buttonLife1 = new Button();
         buttonLife1.setText(" Show "+match.getPlayers().get(0).getNickname()+"'s life ");
@@ -256,6 +256,7 @@ public class MainPage extends Application {
             } catch (NotAllowedCallException ex) {
                 ex.printStackTrace();
             }
+            stage.close();
         } );
 
 
