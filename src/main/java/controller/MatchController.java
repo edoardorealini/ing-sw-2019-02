@@ -555,7 +555,7 @@ public class MatchController{
             shootController.setInput(input);
 
             if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
-                throw new NotEnoughAmmoException("poveroo");  //TODO
+                throw new NotEnoughAmmoException("You are trying to shoot with an unloaded weapon, nice shot!");
 
             if (!(input.getShootModes().contains(ShootMode.BASIC) || input.getShootModes().contains(ShootMode.ALTERNATE)))
                 throw new NotAllowedShootingModeException();
@@ -591,7 +591,7 @@ public class MatchController{
             }  catch (NotAllowedMoveException e) {
                 throw new  NotAllowedMoveException();
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("sei povero"); //TODO
+                throw new NotEnoughAmmoException("It seems you do not have enough ammo");
             } catch (NotAllowedTargetException e) {
                 throw new NotAllowedTargetException();
             } catch (NotAllowedShootingModeException e) {

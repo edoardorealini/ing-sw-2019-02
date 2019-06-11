@@ -6,6 +6,7 @@ import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
+import model.ShootMode;
 import model.ShootingParametersInput;
 import model.map.Square;
 import model.player.Player;
@@ -338,23 +339,60 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     // Methods for shoot controller
     @Override
-    public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException  {
+    public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             ShootingParametersInput parameters = new ShootingParametersInput();
-            Weapon weapon = null;
 
-            for (Weapon wea: matchController.getMatch().getCurrentPlayer().getWeapons()) {
-                if (wea.getName().equals(input.getName()))
-                    weapon = wea;
-            }
-
-            parameters.setWeapon(weapon);
-            
+            parameters = parseInput(input, parameters);
 
             matchController.shoot(parameters);
         }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+
+
+    private synchronized ShootingParametersInput parseInput(ShootingParametersClient input, ShootingParametersInput parameters) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException {
+        Weapon weapon = null;
+
+        for (Weapon wea: matchController.getMatch().getCurrentPlayer().getWeapons()) {
+            if (wea.getName().equals(input.getName()))
+                weapon = wea;
+        }
+
+        parameters.setWeapon(weapon);
+
+        for (String name : input.getTargetPlayers()) {
+            if (!name.equals(matchController.getMatch().getCurrentPlayer().getNickname()))
+                parameters.setTargets(matchController.getMatch().getPlayer(name));
+            else
+                throw new NotAllowedTargetException("You cannot shoot to yourself");
+        }
+
+        if (!input.getShootModes().contains(ShootMode.BASIC) && !input.getShootModes().contains(ShootMode.ALTERNATE))
+            throw new NotAllowedShootingModeException("Wrong shooting mode");
+
+        for (ShootMode mode : input.getShootModes()) {
+            parameters.setShootModes(mode);
+        }
+
+        if (! input.getSquaresCoordinates().isEmpty()) {
+            int x = input.getSquaresCoordinates().get(0);
+            int y = input.getSquaresCoordinates().get(1);
+            parameters.setSquares(converter.indexToSquare(x, y));
+        }
+
+        if (input.getSquaresCoordinates().size() > 2) {
+            int x = input.getSquaresCoordinates().get(2);
+            int y = input.getSquaresCoordinates().get(3);
+            parameters.setSquares(converter.indexToSquare(x, y));
+        }
+
+        parameters.setDirection(input.getDirection());
+
+        parameters.setMakeDamageBeforeMove(input.getMakeDamageBeforeMove());
+
+        return parameters;
     }
 
 

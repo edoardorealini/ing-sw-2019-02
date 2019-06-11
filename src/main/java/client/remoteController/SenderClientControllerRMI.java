@@ -221,7 +221,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void shoot(ShootingParametersClient input) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException{
+    public void shoot(ShootingParametersClient input) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException {
         try {
             serverController.shoot(input, hashedNickname);
         } catch (RemoteException e) {
@@ -238,6 +238,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             throw new NotAllowedTargetException(e.getMessage());
         } catch (NotEnoughAmmoException e) {
             throw new NotEnoughAmmoException(e.getMessage());
+        } catch (InvalidInputException e) {
+            throw new InvalidInputException(e.getMessage());
         }
     }
 }

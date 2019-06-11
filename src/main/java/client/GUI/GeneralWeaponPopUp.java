@@ -362,14 +362,11 @@ public class GeneralWeaponPopUp extends Application {
         } catch (NotAllowedCallException e) {
             e.printStackTrace();
             PopUpSceneMethod.display("CALL ERROR", e.getMessage());
-        }  catch (NotAllowedTargetException |NotAllowedShootingModeException | NotEnoughAmmoException | NotAllowedMoveException | WrongStatusException e) {
+        }  catch (NotAllowedTargetException |NotAllowedShootingModeException | NotEnoughAmmoException | NotAllowedMoveException | WrongStatusException | InvalidInputException e) {
             e.printStackTrace();
             PopUpSceneMethod.display("SHOOT ERROR", e.getMessage());
         }
 
-
-        //TODO aggiungere come attributo alla classe il remote controller (per poter chiamare un metodo)
-        //TODO aggiungere il metodo shoot al senderControllerRMI
     }
 
 }

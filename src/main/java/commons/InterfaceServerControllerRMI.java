@@ -51,5 +51,5 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void spawn(int powerUpID, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
-    void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException;
+    void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException;
 }
