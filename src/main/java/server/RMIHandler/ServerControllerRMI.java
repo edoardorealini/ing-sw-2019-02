@@ -39,6 +39,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         this.converter = new InputConverter(matchController.getMatch());
         this.clientControllers = new ArrayList<>(5);
         this.hashNicknameID = new HashMap<>();
+        matchController.setServerControllerRMI(this);
     }
 
     /*
@@ -196,6 +197,15 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException(e.getMessage());
         }
 
+    }
+
+    public void askSpawn() throws RemoteException{
+        for (InterfaceClientControllerRMI controller : clientControllers) {
+            if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
+                controller.askSpawn();
+                System.out.println("[INFO]: Asking client " + controller.getNickname() + " to spawn.");
+            }
+        }
     }
 
     private void printPlayerStatuses(){

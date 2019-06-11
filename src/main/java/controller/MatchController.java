@@ -1,5 +1,7 @@
 package controller;
 
+import commons.InterfaceClientControllerRMI;
+import commons.InterfaceServerControllerRMI;
 import controller.observer.Observer;
 import exception.*;
 import model.Color;
@@ -15,8 +17,10 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.*;
+import server.RMIHandler.ServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +33,7 @@ public class MatchController{
     private ShootController shootController;
     private MoveController moveController;
     // private HashMap<WeaponName, String> weaponHashMap;
-    private List<Observer> observers;  //TODO observers
+    private ServerControllerRMI serverControllerRMI;
 
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
@@ -46,7 +50,6 @@ public class MatchController{
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController);
-        observers = new ArrayList<>(); //TODO riepmpire la struttura dati passando al costruttore nel momento della creazione dell'oggetto
     }
 
     /*
@@ -62,14 +65,8 @@ public class MatchController{
 
     }
 
-    public void attach(Observer observer){
-        observers.add(observer);
-    }
-
-    public void notifyAllObservers(){
-        for(Observer o: observers){
-            o.update();
-        }
+    public void setServerControllerRMI(ServerControllerRMI controller){
+        this.serverControllerRMI = controller;
     }
 
     public synchronized Match getMatch() {
@@ -459,15 +456,25 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION:
-                p.getStatus().setTurnStatusReloading();
+                for(Weapon w: p.getWeapons())
+                    if(w != null) {
+                        if (!w.getWeaponStatus().equals(WeaponAmmoStatus.LOADED)) {
+                            p.getStatus().setTurnStatusReloading();
+                            break;
+                        }
+                    }
+                p.getStatus().setTurnStatusEndTurn();
                 break;
 
             case RELOADING:
                 p.getStatus().setTurnStatusEndTurn();
+                goToNextStatus(p);
                 break;
 
             case END_TURN:
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
+                endOfTurn(); // manages the points to the players
+                setNewCurrentPlayer();
                 p.getStatus().setTurnStatusWaitTurn();
                 //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
                 break;
@@ -483,6 +490,20 @@ public class MatchController{
                     p.getStatus().setTurnStatusSpawn();
                 break;
         }
+    }
+
+    public void setNewCurrentPlayer(){
+        int idCurrentPlayer = match.getCurrentPlayer().getId();
+
+        if(idCurrentPlayer == match.getPlayers().size() - 1) {
+            match.setCurrentPlayer(match.getPlayers().get(0));
+            goToNextStatus(match.getPlayers().get(0));
+        }
+        else{
+            match.setCurrentPlayer(match.getPlayers().get(idCurrentPlayer + 1));
+            goToNextStatus(match.getPlayers().get(idCurrentPlayer + 1));
+        }
+
     }
 
 
@@ -691,7 +712,7 @@ public class MatchController{
         return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
     }
 
-    public void endOfTurn() {
+    public void endOfTurn(){
         //this method is called automatically by the server at the end of the turn of each player
         int numberOfPeopleKilled = 0;   //local variable that keeps the count of how many people have been killed in order to updated doubleKill in killShot track
 
@@ -709,23 +730,34 @@ public class MatchController{
 
                 match.getKillShotTrack().decreaseSkulls();      //remove just one skull
 
-                //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status)
+                //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status) - GOOD IDEA MANN e.
 
                 board.initializeBoard();    //resetting the board of th killed player
                 board.increaseNumberOfDeaths();
+
                 p.falseDead();
+                p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
-
-                p.getStatus().setTurnStatusRespawn();
             }
         }
+
+        try {
+            serverControllerRMI.askSpawn();
+            //TODO chiamare controller che fa scegliere punto di spawn al giocatore!
+            //TODO qui dovrei aspettare che tutti i giocatori che sono in respawn abbiano finito prima di continuare con l'esecuzione del turno successivo!
+
+        }catch(RemoteException e){
+            e.printStackTrace();
+        }
+
         if (numberOfPeopleKilled > 2)
             match.getKillShotTrack().setDoubleKill(match.getCurrentPlayer().getId());
 
     }
 
-    public void scoreBoard(Board board) {
+
+    private void scoreBoard(Board board) {
         //this method score the board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rank = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
@@ -772,7 +804,7 @@ public class MatchController{
         match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first damage
     }
 
-    public java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {
+    private java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {
 
         List<String> currentValue = rank.get(damageMade);
         if (currentValue == null) {
