@@ -142,7 +142,7 @@ public class MatchController{
         if(!user.hasPowerUp(powerUpChoosed))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
 
-        if(!user.isInStatusSpawn() || !user.isInStatusRespawn()) {
+        if(!(user.isInStatusSpawn() || user.isInStatusRespawn())) {
             System.out.println("[ERROR]: The client " + user.getNickname() + " is trying to spawn in status: " + user.getStatus().getTurnStatus());
             throw new WrongStatusException("You must be in status respawn or spawn to choose where to spawn");
         }
