@@ -427,8 +427,8 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         //checking no duplication in targets
-        for (int i = 0; i < input.getTargetPlayers().size(); i++) {
-            for (int j = i; j < input.getTargetPlayers().size(); j++)
+        for (int i = 0; i < input.getTargetPlayers().size() - 1; i++) {
+            for (int j = i + 1; j < input.getTargetPlayers().size(); j++)
                 if (input.getTargetPlayers().get(i).equals(input.getTargetPlayers().get(j)))
                     throw new NotAllowedTargetException("You selected the same target more than once");
         }
