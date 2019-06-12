@@ -42,7 +42,7 @@ public class MainPage extends Application {
         /*
         //prima board
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "0.png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
@@ -51,7 +51,7 @@ public class MainPage extends Application {
         vBoxLife.getChildren().add(iv0);
         // seconda board
         File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaVerde.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "1.png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(200);
@@ -60,7 +60,7 @@ public class MainPage extends Application {
         vBoxLife.getChildren().add(iv1);
         // terza board
         File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGrigio.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "2.png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
         iv2.setFitHeight(200);
@@ -70,7 +70,7 @@ public class MainPage extends Application {
         // quarta board
         if (match.getPlayers().size()>=4){
             File file3 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaRosso.png");
+                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "4.png");
             Image image3 = new Image(file3.toURI().toString());
             ImageView iv3 = new ImageView(image3);
             iv3.setFitHeight(200);
@@ -81,7 +81,7 @@ public class MainPage extends Application {
         // quinta board
         if (match.getPlayers().size()>=5){
             File file4 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaBlu.png");
+                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "3.png");
             Image image4 = new Image(file4.toURI().toString());
             ImageView iv4 = new ImageView(image4);
             iv4.setFitHeight(200);
@@ -101,28 +101,77 @@ public class MainPage extends Application {
 
         Button buttonLife1 = new Button();
         buttonLife1.setText(" Show "+match.getPlayers().get(0).getNickname()+"'s life ");
-        buttonLife1.setOnAction(e -> showLifePlayer1());
+        buttonLife1.setOnAction(e -> {
+            LifeBoard life = new LifeBoard();
+            life.setMatch(this.match);
+            life.setRemoteController(this.remoteController);
+            try {
+                life.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         vBoxLife.getChildren().add(buttonLife1);
         Button buttonLife2 = new Button();
         buttonLife2.setText(" Show "+match.getPlayers().get(1).getNickname()+"'s life ");
-        buttonLife2.setOnAction(e -> showLifePlayer2());
+        buttonLife2.setOnAction(e -> {
+            LifeBoard life = new LifeBoard();
+            life.setMatch(this.match);
+            life.setRemoteController(this.remoteController);
+            try {
+                life.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         vBoxLife.getChildren().add(buttonLife2);
         Button buttonLife3 = new Button();
         buttonLife3.setText(" Show "+match.getPlayers().get(2).getNickname()+"'s life ");
-        buttonLife3.setOnAction(e -> showLifePlayer3());
+        buttonLife3.setOnAction(e -> {
+            LifeBoard life = new LifeBoard();
+            life.setMatch(this.match);
+            life.setRemoteController(this.remoteController);
+            try {
+                life.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         vBoxLife.getChildren().add(buttonLife3);
         if (match.getPlayers().size()>=4){
             Button buttonLife4 = new Button();
             buttonLife4.setText(" Show "+match.getPlayers().get(3).getNickname()+"'s life ");
-            buttonLife4.setOnAction(e -> showLifePlayer4());
+            buttonLife4.setOnAction(e -> {
+                LifeBoard life = new LifeBoard();
+                life.setMatch(this.match);
+                life.setRemoteController(this.remoteController);
+                try {
+                    life.start(new Stage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
             vBoxLife.getChildren().add(buttonLife4);
         }
         if (match.getPlayers().size()>=5){
             Button buttonLife5 = new Button();
             buttonLife5.setText(" Show "+match.getPlayers().get(4).getNickname()+"'s life ");
-            buttonLife5.setOnAction(e -> showLifePlayer5());
+            buttonLife5.setOnAction(e -> {
+                LifeBoard life = new LifeBoard();
+                life.setMatch(this.match);
+                life.setRemoteController(this.remoteController);
+                try {
+                    life.start(new Stage());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
             vBoxLife.getChildren().add(buttonLife5);
         }
+
+        Button myAmmo = new Button(" Show My Ammo");
+        myAmmo.setOnAction(e -> ShowMyAmmo());
+        vBoxLife.getChildren().add(myAmmo);
 
         splitPane.getItems().add(vBoxLife);
 
@@ -194,7 +243,6 @@ public class MainPage extends Application {
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);
         vSplitPane.getItems().addAll(hBoxTop,splitPane);
-        //TODO vSplitPane.setBackground(Color.rgb(40,44,52));
 
         Scene scene = new Scene(vSplitPane,1110,650);
         mainStage.setScene(scene);
@@ -462,137 +510,6 @@ public class MainPage extends Application {
         primaryStage.show();
     }
 
-    public void showLifePlayer1(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Life Player 1");
-        stage.setMinWidth(410);
-        stage.setMinHeight(210);
-        StackPane stackPane = new StackPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGiallo.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-
-        stackPane.getChildren().addAll(iv0);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setStyle("-fx-background-color: #191a17");
-
-        Scene scene = new Scene(stackPane);
-
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    public void showLifePlayer2(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Life Player 1");
-        stage.setMinWidth(410);
-        stage.setMinHeight(210);
-        StackPane stackPane = new StackPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaVerde.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-
-        stackPane.getChildren().addAll(iv0);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setStyle("-fx-background-color: #191a17");
-        Scene scene = new Scene(stackPane);
-
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    public void showLifePlayer3(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Life Player 1");
-        stage.setMinWidth(410);
-        stage.setMinHeight(210);
-        StackPane stackPane = new StackPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaGrigio.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-
-        stackPane.getChildren().addAll(iv0);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setStyle("-fx-background-color: #191a17");
-        Scene scene = new Scene(stackPane);
-
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    public void showLifePlayer4(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Life Player 1");
-        stage.setMinWidth(410);
-        stage.setMinHeight(210);
-        StackPane stackPane = new StackPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaRosso.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-
-        stackPane.getChildren().addAll(iv0);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setStyle("-fx-background-color: #191a17");
-        Scene scene = new Scene(stackPane);
-
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
-    public void showLifePlayer5(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Life Player 1");
-        stage.setMinWidth(410);
-        stage.setMinHeight(210);
-        StackPane stackPane = new StackPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "VitaBlu.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-
-        stackPane.getChildren().addAll(iv0);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setStyle("-fx-background-color: #191a17");
-        Scene scene = new Scene(stackPane);
-
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-
     public void refreshPlayersPosition(){
         List<Integer> pos1;
         List<Integer> pos2;
@@ -631,6 +548,61 @@ public class MainPage extends Application {
         }
     }
 
+    public void ShowMyAmmo(){
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("My Ammo");
+
+        VBox vBox = new VBox(10);
+        HBox hBox1 = new HBox(5);
+        HBox hBox2 = new HBox(5);
+        HBox hBox3 = new HBox(5);
+
+        // BLUE AMMO
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "B.png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(60);
+        iv0.setFitWidth(60);
+        iv0.setPreserveRatio(true);
+
+        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getBlueAmmo();i++){
+            hBox1.getChildren().add(iv0);
+        }
+
+        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "R.png");
+        Image image1 = new Image(file1.toURI().toString());
+        ImageView iv1 = new ImageView(image1);
+        iv1.setFitHeight(60);
+        iv1.setFitWidth(60);
+        iv1.setPreserveRatio(true);
+
+        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo();i++){
+            hBox2.getChildren().add(iv1);
+        }
+
+        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Y.png");
+        Image image2 = new Image(file2.toURI().toString());
+        ImageView iv2 = new ImageView(image2);
+        iv2.setFitHeight(60);
+        iv2.setFitWidth(60);
+        iv2.setPreserveRatio(true);
+
+        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo();i++){
+            hBox3.getChildren().add(iv2);
+        }
+
+        vBox.getChildren().addAll(hBox1,hBox2,hBox3);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
+        hBox3.setAlignment(Pos.CENTER);
+        vBox.setStyle("-fx-background-color: #191a17");
+        Scene scene = new Scene(vBox,(400),(400));
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 }
 
 
