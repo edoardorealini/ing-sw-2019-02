@@ -4,9 +4,10 @@ import model.ShootMode;
 import model.map.Directions;
 import model.weapons.WeaponName;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ShootingParametersClient extends Object{
+public class ShootingParametersClient implements Serializable {
 
     private WeaponName name;
     private ArrayList<String> targetPlayers;
