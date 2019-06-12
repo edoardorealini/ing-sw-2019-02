@@ -100,6 +100,8 @@ public class GeneralWeaponPopUp extends Application {
 
         hBoxWeapon.setMinHeight(350);
         hBoxWeapon.setMinWidth(300);
+        hBoxButtons.setMinHeight(80);
+        hBoxButtons.setMinWidth(100);
         hBoxWeapon.setAlignment(Pos.CENTER);
         hBoxWeapon.setSpacing(8);
         hBoxButtons.setAlignment(Pos.CENTER);
@@ -125,7 +127,7 @@ public class GeneralWeaponPopUp extends Application {
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
-        Scene scene = new Scene(hBoxWeapon,(300*(a+b+c)),400);
+        Scene scene = new Scene(hBoxWeapon,(300*(a+b+c) + 100),450);
         primaryStage.setScene(scene);
         primaryStage.show();
 
