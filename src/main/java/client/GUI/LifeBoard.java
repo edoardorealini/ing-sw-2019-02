@@ -42,19 +42,26 @@ public class LifeBoard extends Application {
 
         stackPane.setAlignment(Pos.CENTER);
 
-        Circle blueCircle = new Circle(40,40,7);
-        blueCircle.setFill(Color.TRANSPARENT);
+        Circle empty1 = new Circle(40,40,7);
+        empty1.setFill(Color.TRANSPARENT);
 
-        Circle redCircle = new Circle(40,40,7);
-        redCircle.setFill(Color.TRANSPARENT);
+        Circle empty2 = new Circle(40,40,7);
+        empty2.setFill(Color.TRANSPARENT);
 
-        Circle yCircle = new Circle(40,40,7);
-        yCircle.setFill(Color.YELLOW);
-
-
-        HBox testLife = new HBox(7);
-        testLife.getChildren().addAll(blueCircle, redCircle, yCircle);
+        HBox testLife = new HBox(7.5);
+        testLife.getChildren().addAll(empty1, empty2);
         testLife.setAlignment(Pos.CENTER_LEFT);
+
+
+        Circle damage1 = new Circle(7);
+        damage1.setFill(Color.YELLOW);
+        testLife.getChildren().add(damage1);
+
+        Circle damage2 = new Circle(7);
+        damage2.setFill(Color.YELLOW);
+        testLife.getChildren().add(damage2);
+
+
 
         stackPane.setStyle("-fx-background-color: #191a17");
         stackPane.getChildren().addAll(iv0, testLife);
