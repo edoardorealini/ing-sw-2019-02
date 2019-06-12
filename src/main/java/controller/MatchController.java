@@ -211,16 +211,29 @@ public class MatchController{
         if(canDoAction()) {
             try {
                 grabController.grabWeapon(weapon);
+                goToNextStatus(match.getCurrentPlayer());
             } catch (WrongPositionException e) {
                 throw new WrongPositionException(e.getMessage());
             } catch (NotEnoughAmmoException e2) {
                 throw new NotEnoughAmmoException(e2.getMessage());
             }
-            // OLD : match.getCurrentPlayer().goToNextStatus();
-            goToNextStatus(match.getCurrentPlayer());
         }
         else
             throw new WrongStatusException("You cannot grab any weapons now!");
+    }
+
+    public synchronized void grabMove(Square destination) throws NotAllowedMoveException{
+        try{
+            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.NORMAL))
+                moveController.move(match.getCurrentPlayer(), destination, 1);
+
+            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK))
+                moveController.move(match.getCurrentPlayer(), destination, 2);
+
+        } catch (NotAllowedMoveException e) {
+            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
+        }
     }
 
     //metodi di powerUpController

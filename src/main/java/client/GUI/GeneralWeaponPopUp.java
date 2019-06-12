@@ -100,6 +100,8 @@ public class GeneralWeaponPopUp extends Application {
 
         hBoxWeapon.setMinHeight(350);
         hBoxWeapon.setMinWidth(300);
+        hBoxButtons.setMinHeight(80);
+        hBoxButtons.setMinWidth(100);
         hBoxWeapon.setAlignment(Pos.CENTER);
         hBoxWeapon.setSpacing(8);
         hBoxButtons.setAlignment(Pos.CENTER);
@@ -113,19 +115,20 @@ public class GeneralWeaponPopUp extends Application {
                 shoot(new Stage());
                 });
 
-        useWeapon1.setOnAction(event -> {
+        useWeapon2.setOnAction(event -> {
                 this.weapon = match.getCurrentPlayer().getWeapons()[1];
                 shoot(new Stage());
                 });
 
-        useWeapon1.setOnAction(event -> {
-                this.weapon = match.getCurrentPlayer().getWeapons()[3];
+        useWeapon3.setOnAction(event -> {
+                this.weapon = match.getCurrentPlayer().getWeapons()[2];
                 shoot(new Stage());
                 });
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
-        Scene scene = new Scene(vBox,(300*(a+b+c)),400);
+
+        Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
         primaryStage.setScene(scene);
         primaryStage.show();
 

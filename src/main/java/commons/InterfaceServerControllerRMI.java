@@ -22,7 +22,7 @@ public interface InterfaceServerControllerRMI extends Remote {
     //metodi da grabController
     void grabAmmoCard(int clientHashedID) throws  WrongStatusException, WrongPositionException, NotAllowedCallException , RemoteException;
 
-    void grabWeapon(int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException , RemoteException;
+    void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException , RemoteException, InvalidInputException, NotAllowedMoveException;
 
     //metodi di powerUpController
     void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;

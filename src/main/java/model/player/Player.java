@@ -86,10 +86,9 @@ public class Player implements Serializable{
         for (int i=0; i<3; i++){
             if (weapons[i]==null) {
                 this.weapons[i] = w;
-               // return "Weapon aggiunta";
+                return;
             }
         }
-        //return "spazio armi esaurito";
     }
 
     public void removeWeapons(int i){

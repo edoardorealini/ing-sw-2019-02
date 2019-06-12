@@ -60,7 +60,7 @@ public class GrabController extends ActionController {
                 if (match.getCurrentPlayer().getPosition().getAvailableWeapons().contains(weapon)){
                     List <Color> weaponCost = weapon.getCost();
                     int redTmp=0, blueTemp=0, yelloTmp=0;
-                    for (int i=1; i<weaponCost.size(); i++){
+                    for (int i = 1; i < weaponCost.size(); i++){
                         switch (weaponCost.get(i)){
                             case BLUE:
                                 blueTemp++;

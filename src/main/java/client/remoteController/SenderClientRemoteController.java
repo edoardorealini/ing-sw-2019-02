@@ -22,7 +22,7 @@ public abstract class SenderClientRemoteController {
     //metodi da grab controller
     public abstract void grabAmmoCard();
 
-    public abstract void grabWeapon(int indexOfWeapon);
+    public abstract void grabWeapon(int xDestination, int yDestination, int indexOfWeapon) throws NotAllowedCallException, WrongStatusException, RemoteException, NotEnoughAmmoException, WrongPositionException, InvalidInputException, NotAllowedMoveException;
 
     //metodi di powerUpController
     public abstract void usePowerUpAsAmmo(int indexOfPowerUp);

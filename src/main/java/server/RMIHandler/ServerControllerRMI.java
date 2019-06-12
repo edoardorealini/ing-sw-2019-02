@@ -297,10 +297,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
-
-    public synchronized void grabWeapon(int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+    //lets the current player grab a weapon
+    public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            //TODO add check on move and eventully move. Call method from matchcontroller.
+            matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
             matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
+            pushMatchToAllPlayers();
+        }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }

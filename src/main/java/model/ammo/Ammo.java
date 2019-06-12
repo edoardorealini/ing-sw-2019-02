@@ -10,9 +10,9 @@ public class Ammo implements Serializable {
     private int yellowAmmo;
 
     public Ammo (){
-        redAmmo=0;
-        blueAmmo=0;
-        yellowAmmo=0;
+        redAmmo=1;
+        blueAmmo=1;
+        yellowAmmo=1;
     }
 
     public int getBlueAmmo() {
