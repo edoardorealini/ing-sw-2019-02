@@ -26,7 +26,7 @@ public class LifeBoard extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.initModality(Modality.APPLICATION_MODAL);
+        //stage.initModality(Modality.APPLICATION_MODAL);
        // stage.setTitle("Life Player '"+remoteController.getNickname()+"'");
         stage.setTitle("Prova");
         stage.setMinWidth(410);
@@ -35,7 +35,7 @@ public class LifeBoard extends Application {
         StackPane stackPane = new StackPane();
 
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + /*"LifeBoardNormal" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getId() +*/ "1.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + /*match.getPlayer(remoteController.getNickname()).getId() +*/ "1.png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
@@ -76,7 +76,7 @@ public class LifeBoard extends Application {
         uCircle.setFill(Color.YELLOW);
 
         HBox testLife = new HBox(8.3);
-        testLife.getChildren().addAll(blueCircle, redCircle, yCircle, rCircle,aCircle,bCircle,cCircle,dCircle,eCircle,fCircle,qCircle,wCircle,tCircle,uCircle);
+        testLife.getChildren().addAll(empty1,empty2,yCircle, rCircle,aCircle,bCircle,cCircle,dCircle,eCircle,fCircle,qCircle,wCircle,tCircle,uCircle);
         testLife.setAlignment(Pos.CENTER_LEFT);
         stackPane.setStyle("-fx-background-color: #191a17");
         stackPane.getChildren().addAll(iv0, testLife);
@@ -84,7 +84,8 @@ public class LifeBoard extends Application {
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
-        stage.showAndWait();
+        //stage.showAndWait();
+        stage.show();
     }
 
     public void setRemoteController(SenderClientRemoteController remoteController) {
