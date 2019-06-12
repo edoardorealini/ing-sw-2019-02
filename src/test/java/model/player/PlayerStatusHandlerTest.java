@@ -1,5 +1,6 @@
 package model.player;
 
+import controller.MatchController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerStatusHandlerTest {
 
-    private Player p1 = new Player("Test", 8, null);
+    private MatchController matchController = new MatchController();
+    private Player p1 = new Player("Test", 8, matchController.getMatch());
 
     @BeforeEach
     void setUp() {
@@ -15,7 +17,7 @@ class PlayerStatusHandlerTest {
 
     @Test
     void PlayerStatusHandler(){
-        assertEquals(RoundStatus.WAIT_TURN, p1.getStatus().getTurnStatus());
+        assertNotEquals(RoundStatus.WAIT_TURN, p1.getStatus().getTurnStatus());
         assertEquals(AbilityStatus.NORMAL, p1.getStatus().getSpecialAbility());
     }
     @Test

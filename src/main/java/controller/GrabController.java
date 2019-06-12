@@ -8,6 +8,7 @@ import model.Match;
 import model.player.Player;
 import model.map.Directions;
 import model.weapons.Weapon;
+import model.weapons.WeaponAmmoStatus;
 
 import java.util.*;
 public class GrabController extends ActionController {
@@ -80,6 +81,7 @@ public class GrabController extends ActionController {
                         // fine controllo munizioni disponibili
                         match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp); // il giocatore paga l'arma
                         match.getCurrentPlayer().addWeapons(weapon); // arma aggiunta al giocatore
+                        weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
                         match.getCurrentPlayer().getPosition().removeWeapon(weapon); // rimuovo arma dallo square
                         match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
                     }
