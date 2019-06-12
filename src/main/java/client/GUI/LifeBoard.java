@@ -50,10 +50,31 @@ public class LifeBoard extends Application {
 
         Circle yCircle = new Circle(40,40,7);
         yCircle.setFill(Color.YELLOW);
+        Circle rCircle = new Circle(40,40,7);
+        rCircle.setFill(Color.YELLOW);
+        Circle aCircle = new Circle(40,40,7);
+        aCircle.setFill(Color.YELLOW);
+        Circle bCircle = new Circle(40,40,7);
+        bCircle.setFill(Color.YELLOW);
+        Circle cCircle = new Circle(40,40,7);
+        cCircle.setFill(Color.YELLOW);
+        Circle dCircle = new Circle(40,40,7);
+        dCircle.setFill(Color.YELLOW);
+        Circle eCircle = new Circle(40,40,7);
+        eCircle.setFill(Color.YELLOW);
+        Circle fCircle = new Circle(40,40,7);
+        fCircle.setFill(Color.YELLOW);
+        Circle qCircle = new Circle(40,40,7);
+        qCircle.setFill(Color.YELLOW);
+        Circle wCircle = new Circle(40,40,7);
+        wCircle.setFill(Color.YELLOW);
+        Circle tCircle = new Circle(40,40,7);
+        tCircle.setFill(Color.YELLOW);
+        Circle uCircle = new Circle(40,40,7);
+        uCircle.setFill(Color.YELLOW);
 
-
-        HBox testLife = new HBox(7);
-        testLife.getChildren().addAll(blueCircle, redCircle, yCircle);
+        HBox testLife = new HBox(8.3);
+        testLife.getChildren().addAll(blueCircle, redCircle, yCircle, rCircle,aCircle,bCircle,cCircle,dCircle,eCircle,fCircle,qCircle,wCircle,tCircle,uCircle);
         testLife.setAlignment(Pos.CENTER_LEFT);
 
         stackPane.setStyle("-fx-background-color: #191a17");
