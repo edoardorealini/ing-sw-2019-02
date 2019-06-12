@@ -1,10 +1,7 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
-import exception.InvalidInputException;
-import exception.NotAllowedCallException;
-import exception.NotAllowedMoveException;
-import exception.WrongStatusException;
+import exception.*;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -351,7 +348,23 @@ public class MainPage extends Application {
         Button grab = new Button(" Grab ");
         grab.setOnAction(e -> {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
-                //TODO grab Weapon in x,y
+                try {
+                    remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
+                } catch (NotAllowedCallException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (WrongStatusException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (RemoteException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (NotEnoughAmmoException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (WrongPositionException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (InvalidInputException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                } catch (NotAllowedMoveException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                }
             }
             else ;//TODO grab ammo card in x,y
         } );
