@@ -601,6 +601,7 @@ public class MatchController{
                     case ROCKET_LAUNCHER: shootController.shootRocketLauncher(); break;
                     case GRENADE_LAUNCHER: shootController.shootGrenadeLauncher(); break;
                 }
+
             }  catch (NotAllowedMoveException e) {
                 throw new  NotAllowedMoveException();
             } catch (NotEnoughAmmoException e) {
