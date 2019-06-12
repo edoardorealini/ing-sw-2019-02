@@ -19,13 +19,11 @@ public class LifeBoard extends Application {
     private Match match;
     SenderClientRemoteController remoteController;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.initModality(Modality.APPLICATION_MODAL);
+        //stage.initModality(Modality.APPLICATION_MODAL);
        // stage.setTitle("Life Player '"+remoteController.getNickname()+"'");
         stage.setTitle("Prova");
         stage.setMinWidth(410);
@@ -33,7 +31,7 @@ public class LifeBoard extends Application {
         StackPane stackPane = new StackPane();
 
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + /*"LifeBoardNormal" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getId() +*/ "1.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" +/* File.separatorChar + match.getPlayer(remoteController.getNickname()).getId() +*/ "1.png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
@@ -55,7 +53,8 @@ public class LifeBoard extends Application {
         Scene scene = new Scene(stackPane);
 
         stage.setScene(scene);
-        stage.showAndWait();
+        //stage.showAndWait();
+        stage.show();
     }
 
     public void setRemoteController(SenderClientRemoteController remoteController) {
