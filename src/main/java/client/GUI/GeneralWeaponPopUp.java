@@ -399,7 +399,7 @@ public class GeneralWeaponPopUp extends Application {
     }
 
     private void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
-                          ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMove) throws NotAllowedShootingModeException, NotAllowedTargetException {
+                          ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMoveBox) throws NotAllowedShootingModeException, NotAllowedTargetException {
 
         input.setName(weapon.getName());
 
@@ -450,7 +450,7 @@ public class GeneralWeaponPopUp extends Application {
 
         input.setDirection(direction.getValue());
 
-        input.setMakeDamageBeforeMove(damageBeforeMove.getValue());
+        input.setMakeDamageBeforeMove(damageBeforeMoveBox.getValue());
 
         try {
             senderRemoteController.shoot(input);
