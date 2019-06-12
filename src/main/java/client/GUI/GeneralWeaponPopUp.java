@@ -347,6 +347,7 @@ public class GeneralWeaponPopUp extends Application {
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("SHOOTING ERROR", e.getMessage());
+                shootStage.close();
             }
         });
 
