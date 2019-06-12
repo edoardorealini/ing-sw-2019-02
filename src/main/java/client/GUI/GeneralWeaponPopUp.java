@@ -448,9 +448,11 @@ public class GeneralWeaponPopUp extends Application {
             input.setSquaresCoordinates(x, y);
         }
 
-        input.setDirection(direction.getValue());
+        if(direction != null)
+            input.setDirection(direction.getValue());
 
-        input.setMakeDamageBeforeMove(damageBeforeMoveBox.getValue());
+        if(damageBeforeMoveBox != null)
+            input.setMakeDamageBeforeMove(damageBeforeMoveBox.getValue());
 
         try {
             senderRemoteController.shoot(input);

@@ -303,6 +303,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             //TODO add check on move and eventully move. Call method from matchcontroller.
             matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
             matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
+            //TODO correggere log
             System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + converter.intToWeapon(indexOfWeapon).getName() + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();
         }
