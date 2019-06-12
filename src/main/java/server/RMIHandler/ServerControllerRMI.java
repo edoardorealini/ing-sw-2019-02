@@ -359,8 +359,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         ShootingParametersInput parameters = new ShootingParametersInput();
 
         for (Weapon wea: matchController.getMatch().getCurrentPlayer().getWeapons()) {
-            if (wea.getName().equals(input.getName()))
-                weapon = wea;
+            if(wea != null) {
+                if (wea.getName().equals(input.getName()))
+                    weapon = wea;
+            }
         }
 
         parameters.setWeapon(weapon);
