@@ -82,7 +82,8 @@ public class LifeBoard extends Application {
         stackPane.getChildren().addAll(iv0, testLife);
 
         Scene scene = new Scene(stackPane);
-
+        stage.setMaxHeight(210);
+        stage.setMaxWidth(410);
         stage.setScene(scene);
         //stage.showAndWait();
         stage.show();
