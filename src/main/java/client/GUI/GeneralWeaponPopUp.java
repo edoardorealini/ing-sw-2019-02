@@ -342,8 +342,8 @@ public class GeneralWeaponPopUp extends Application {
         shootButton.setAlignment(Pos.CENTER);
         shootButton.setOnAction(event -> {
             try {
-                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
 
+                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("SHOOTING ERROR", e.getMessage());
@@ -418,11 +418,12 @@ public class GeneralWeaponPopUp extends Application {
 
         //setting shooting modes
         for (ChoiceBox<ShootMode> choiceBox : modes) {
-            input.setShootModes(choiceBox.getValue());
+            if (choiceBox.getValue() != null)
+                input.setShootModes(choiceBox.getValue());
         }
 
         for (ChoiceBox<String> choiceBox : targetPlayers) {
-            if (!match.getCurrentPlayer().getNickname().equals(choiceBox.getValue()))
+            if (!match.getCurrentPlayer().getNickname().equals(choiceBox.getValue()) && choiceBox.getValue() != null)
                 input.setTargetPlayers(choiceBox.getValue());
         }
 
