@@ -48,9 +48,9 @@ public class GeneralWeaponPopUp extends Application {
         Button useWeapon1 = new Button();
         Button useWeapon2 = new Button();
         Button useWeapon3 = new Button();
-        useWeapon1.setTextFill(Color.AQUAMARINE);
-        useWeapon2.setTextFill(Color.AQUAMARINE);
-        useWeapon3.setTextFill(Color.AQUAMARINE);
+        useWeapon1.setTextFill(Color.DARKRED);
+        useWeapon2.setTextFill(Color.DARKRED);
+        useWeapon3.setTextFill(Color.DARKRED);
         useWeapon1.setAlignment(Pos.CENTER);
         useWeapon2.setAlignment(Pos.CENTER);
         useWeapon3.setAlignment(Pos.CENTER);

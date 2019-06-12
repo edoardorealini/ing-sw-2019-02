@@ -611,8 +611,18 @@ public class MatchController{
                 throw new NotAllowedShootingModeException();
             }
             input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
-            // OLD : match.getCurrentPlayer().goToNextStatus(); //don't touch
+
+            System.out.println("[INFO]: Updated lives of all player \n");
+
+            for (Player p : match.getPlayers()) {
+                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringLP());
+                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringMarks());
+                System.out.println("\n");
+            }
+
             goToNextStatus(match.getCurrentPlayer());
+
+            printPlayerStatuses();
         }
         else
             throw new WrongStatusException("You are not allowed to shoot now!");
