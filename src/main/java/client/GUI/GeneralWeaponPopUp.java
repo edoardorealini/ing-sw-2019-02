@@ -125,7 +125,7 @@ public class GeneralWeaponPopUp extends Application {
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
-        Scene scene = new Scene(hBoxWeapon,(300*(a+b+c)),400);
+        Scene scene = new Scene(vBox,(300*(a+b+c)),400);
         primaryStage.setScene(scene);
         primaryStage.show();
 
