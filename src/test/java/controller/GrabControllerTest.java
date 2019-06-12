@@ -28,6 +28,7 @@ class GrabControllerTest {
         matchController.getMap().fillWeaponBox(matchController.getMatch().getWeaponDeck());
         matchController.addPlayer("Johnny");
         matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
+        matchController.getMatch().getCurrentPlayer().getStatus().setTurnStatusFirstAction();
     }
 
     @Test
@@ -50,9 +51,9 @@ class GrabControllerTest {
     void grabAmmoCard(){
         matchController.getMatch().getCurrentPlayer().setPosition(matchController.getMap().getSquareFromIndex(1,0));
 
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),0);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(), 0);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),0);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),1);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(), 1);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),1);
         assertNotEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[0],null);
         assertNotEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[1],null);
         assertEquals(matchController.getMatch().getCurrentPlayer().getPowerUps()[2],null);
@@ -64,15 +65,14 @@ class GrabControllerTest {
 
         try {
             matchController.grabAmmoCard();
-
         }
         catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),blueAmmo);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(),redAmmo);
-        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),yellowAmmo);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),blueAmmo+1);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getRedAmmo(),redAmmo+1);
+        assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getYellowAmmo(),yellowAmmo+1);
         if (isTherePowerUp){
             assertNotNull(matchController.getMatch().getCurrentPlayer().getPowerUps()[2]);
         }

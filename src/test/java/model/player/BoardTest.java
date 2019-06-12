@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     private MatchController matchController = new MatchController();
-    private Player currPlayer = new Player("JJ", 1 , null);
-    private Player targetPlayer = new Player("MAD", 2, null);
+    private Player currPlayer = new Player("JJ", 1 , matchController.getMatch());
+    private Player targetPlayer = new Player("MAD", 2, matchController.getMatch());
     private Board b1 = new Board();
 
     @Test
@@ -59,7 +59,7 @@ class BoardTest {
 
     @Test
     void removeTarget() {
-        Player p2 = new Player("solo per questo test", 2, null);
+        Player p2 = new Player("solo per questo test", 2, matchController.getMatch());
         b1.updateMarks(2,p2.getId(), targetPlayer.getId());
         b1.updateMarks(4, currPlayer.getId(), targetPlayer.getId());
         b1.updateMarks(2,p2.getId(), targetPlayer.getId());

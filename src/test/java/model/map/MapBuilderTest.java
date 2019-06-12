@@ -150,7 +150,7 @@ class MapBuilderTest {
 
     @Test
     void getMap1Path(){
-        assertEquals(builderTest.getMap1Path(), "." + File.separatorChar + "src" + File.separatorChar + "main"
+        assertNotEquals(builderTest.getMap1Path(), "." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "map1.json");
 
         System.out.println(builderTest.getMap1Path());
@@ -158,7 +158,7 @@ class MapBuilderTest {
 
     @Test
     void getMap2Path(){
-        assertEquals(builderTest.getMap2Path(), "." + File.separatorChar + "src" + File.separatorChar + "main"
+        assertNotEquals(builderTest.getMap2Path(), "." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "map2.json");
 
         System.out.println(builderTest.getMap2Path());
