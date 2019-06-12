@@ -107,7 +107,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.2</version>
                 <configuration>
-                    <mainClass>client.GUI.MainPage</mainClass>
+                    <mainClass>client.GUI.LifeBoard</mainClass>
                 </configuration>
             </plugin>
 
