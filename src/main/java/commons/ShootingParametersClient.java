@@ -40,8 +40,9 @@ public class ShootingParametersClient implements Serializable {
         this.direction = direction;
     }
 
-    public void setMakeDamageBeforeMove(boolean makeDamageBeforeMove) {
-        this.makeDamageBeforeMove = makeDamageBeforeMove;
+    public void setMakeDamageBeforeMove(Boolean makeDamageBeforeMove) {
+        if (makeDamageBeforeMove != null)
+             this.makeDamageBeforeMove = (boolean) makeDamageBeforeMove;
     }
 
     public Directions getDirection() {

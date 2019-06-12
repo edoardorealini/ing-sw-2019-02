@@ -347,19 +347,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     @Override
     public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            ShootingParametersInput parameters = new ShootingParametersInput();
-
-            parameters = parseInput(input, parameters);
-
-            matchController.shoot(parameters);
+            matchController.shoot(parseInput(input));
         }
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
 
-    private synchronized ShootingParametersInput parseInput(ShootingParametersClient input, ShootingParametersInput parameters) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException {
+    private synchronized ShootingParametersInput parseInput(ShootingParametersClient input) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException {
         Weapon weapon = null;
+        ShootingParametersInput parameters = new ShootingParametersInput();
 
         for (Weapon wea: matchController.getMatch().getCurrentPlayer().getWeapons()) {
             if (wea.getName().equals(input.getName()))
