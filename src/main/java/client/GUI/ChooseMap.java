@@ -25,6 +25,10 @@ public class ChooseMap extends Application {
     private SenderClientRemoteController remoteController;
     private Stage primaryStage;
 
+
+    /*
+        FOR TEST USE  ONLY,  REMEMBER TO REMOVE BEFORE PACKAGING THE JAR
+    */
     public static void main(String[] args) {
         launch(args);
     }

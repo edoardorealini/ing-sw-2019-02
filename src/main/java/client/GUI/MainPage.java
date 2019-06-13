@@ -251,6 +251,9 @@ public class MainPage extends Application {
 
     }
 
+    /*
+        FOR TEST USE  ONLY,  REMEMBER TO REMOVE BEFORE PACKAGING THE JAR
+    */
     public static void main(String[] args) {
         launch(args);
     }

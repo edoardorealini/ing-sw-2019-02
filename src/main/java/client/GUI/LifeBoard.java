@@ -24,6 +24,10 @@ public class LifeBoard extends Application {
     private Match match;
     Player playerClicked;
 
+
+    /*
+        FOR TEST USE  ONLY,  REMEMBER TO REMOVE BEFORE PACKAGING THE JAR
+    */
     public static void main(String[] args) {
         launch(args);
     }
