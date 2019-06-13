@@ -31,7 +31,7 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage mainStage) throws Exception {
-        mainStage.setTitle("Adrenaline");
+        mainStage.setTitle("Adrenaline "+remoteController.getNickname());
         SplitPane splitPane = new SplitPane();
         //left (life)
         VBox vBoxLife = new VBox();
@@ -104,7 +104,7 @@ public class MainPage extends Application {
         buttonLife1.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
-            life.setRemoteController(this.remoteController);
+            life.setPlayerClicked(match.getPlayers().get(0));
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -117,7 +117,7 @@ public class MainPage extends Application {
         buttonLife2.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
-            life.setRemoteController(this.remoteController);
+            life.setPlayerClicked(match.getPlayers().get(1));
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -130,7 +130,7 @@ public class MainPage extends Application {
         buttonLife3.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
-            life.setRemoteController(this.remoteController);
+            life.setPlayerClicked(match.getPlayers().get(2));
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -144,7 +144,7 @@ public class MainPage extends Application {
             buttonLife4.setOnAction(e -> {
                 LifeBoard life = new LifeBoard();
                 life.setMatch(this.match);
-                life.setRemoteController(this.remoteController);
+                life.setPlayerClicked(match.getPlayers().get(3));
                 try {
                     life.start(new Stage());
                 } catch (Exception ex) {
@@ -159,7 +159,7 @@ public class MainPage extends Application {
             buttonLife5.setOnAction(e -> {
                 LifeBoard life = new LifeBoard();
                 life.setMatch(this.match);
-                life.setRemoteController(this.remoteController);
+                life.setPlayerClicked(match.getPlayers().get(4));
                 try {
                     life.start(new Stage());
                 } catch (Exception ex) {
