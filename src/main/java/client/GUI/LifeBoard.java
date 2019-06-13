@@ -2,6 +2,7 @@ package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -29,7 +30,7 @@ public class LifeBoard extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        stage.initModality(Modality.APPLICATION_MODAL);
+         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Life Player '"+playerClicked.getNickname()+"'");
         stage.setMinWidth(410);
         stage.setMinHeight(210);
@@ -37,7 +38,7 @@ public class LifeBoard extends Application {
         StackPane stackPane = new StackPane();
 
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + "1.png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
@@ -46,6 +47,7 @@ public class LifeBoard extends Application {
 
         stackPane.setAlignment(Pos.CENTER);
 
+        // LIFE
         Circle empty1 = new Circle(40,40,7);
         empty1.setFill(Color.TRANSPARENT);
 
@@ -83,6 +85,7 @@ public class LifeBoard extends Application {
         // giocatore 3 blu
         // giocatore 4 viola
 
+
         for (int i=0; i<listCircle.size(); i++){
             switch (match.getPlayer(playerClicked.getNickname()).getBoard().getLifePoints()[i]){
                 case 0:
@@ -106,42 +109,85 @@ public class LifeBoard extends Application {
             }
         }
 
-        Circle a = new Circle(40,40,7);
-        a.setFill(Color.YELLOW);
-        Circle b = new Circle(40,40,7);
-        b.setFill(Color.YELLOW);
-        Circle c = new Circle(40,40,7);
-        c.setFill(Color.YELLOW);
-        Circle d = new Circle(40,40,7);
-        d.setFill(Color.YELLOW);
-        Circle e = new Circle(40,40,7);
-        e.setFill(Color.YELLOW);
-        Circle f = new Circle(40,40,7);
-        f.setFill(Color.YELLOW);
-        Circle g = new Circle(40,40,7);
-        g.setFill(Color.YELLOW);
-        Circle h = new Circle(40,40,7);
-        h.setFill(Color.YELLOW);
-        Circle i = new Circle(40,40,7);
-        i.setFill(Color.YELLOW);
-        Circle l = new Circle(40,40,7);
-        l.setFill(Color.YELLOW);
-        Circle m = new Circle(40,40,7);
-        m.setFill(Color.YELLOW);
-        Circle n = new Circle(40,40,7);
-        n.setFill(Color.YELLOW);
-        Circle o = new Circle(40,40,7);
-        o.setFill(Color.YELLOW);
-        Circle p = new Circle(40,40,7);
-        p.setFill(Color.YELLOW);
+        // TARGET
+        Circle target1 = new Circle(40,40,5);
+        target1.setFill(Color.TRANSPARENT);
+        Circle target2 = new Circle(40,40,5);
+        target2.setFill(Color.TRANSPARENT);
+        Circle target3 = new Circle(40,40,5);
+        target3.setFill(Color.TRANSPARENT);
+        Circle target4 = new Circle(40,40,5);
+        target4.setFill(Color.TRANSPARENT);
+        Circle target5 = new Circle(40,40,5);
+        target5.setFill(Color.TRANSPARENT);
+        Circle target6 = new Circle(40,40,5);
+        target6.setFill(Color.TRANSPARENT);
+        Circle target7 = new Circle(40,40,5);
+        target7.setFill(Color.TRANSPARENT);
+        Circle target8 = new Circle(40,40,5);
+        target8.setFill(Color.TRANSPARENT);
+        Circle target9 = new Circle(40,40,5);
+        target9.setFill(Color.TRANSPARENT);
+        Circle target10 = new Circle(40,40,5);
+        target10.setFill(Color.TRANSPARENT);
+        Circle target11 = new Circle(40,40,5);
+        target11.setFill(Color.TRANSPARENT);
+        Circle target12 = new Circle(40,40,5);
+        target12.setFill(Color.TRANSPARENT);
+        Circle target13 = new Circle(40,40,5);
+        target13.setFill(Color.TRANSPARENT);
+        Circle target14 = new Circle(40,40,5);
+        target14.setFill(Color.TRANSPARENT);
+        Circle target15 = new Circle(40,40,5);
+        target15.setFill(Color.TRANSPARENT);
+        ArrayList<Circle> targetList = new ArrayList<>();
+        targetList.add(target1);
+        targetList.add(target2);
+        targetList.add(target3);
+        targetList.add(target4);
+        targetList.add(target5);
+        targetList.add(target6);
+        targetList.add(target7);
+        targetList.add(target8);
+        targetList.add(target9);
+        targetList.add(target10);
+        targetList.add(target11);
+        targetList.add(target12);
+        targetList.add(target13);
+        targetList.add(target14);
+        targetList.add(target15);
 
+
+        for (int i=0; i< match.getPlayer(playerClicked.getNickname()).getBoard().getMarks().size(); i++){
+            switch (match.getPlayer(playerClicked.getNickname()).getBoard().getMarks().get(i)){
+                case 0:
+                    targetList.get(i).setFill(Color.YELLOW);
+                    break;
+                case 1:
+                    targetList.get(i).setFill(Color.GREEN);
+                    break;
+                case 2:
+                    targetList.get(i).setFill(Color.GRAY);
+                    break;
+                case 3:
+                    targetList.get(i).setFill(Color.BLUE);
+                    break;
+                case 4:
+                    targetList.get(i).setFill(Color.VIOLET);
+                    break;
+                default:
+                    targetList.get(i).setFill(Color.TRANSPARENT);
+                    break;
+            }
+        }
 
         HBox lifeHbox = new HBox(8.3);
         lifeHbox.getChildren().addAll(empty1,empty2,circle1, circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9,circle10,circle11,circle12);
         lifeHbox.setAlignment(Pos.CENTER_LEFT);
-        HBox markHbox = new HBox(8.3);
-        markHbox.getChildren().addAll(a,b,c,d,e,f,g,h,i,l,m,n,o,p);
+        HBox markHbox = new HBox(3);
+        markHbox.getChildren().addAll(target1,target2,target3,target4,target5,target6,target7,target8,target9,target10,target11,target12,target13,target14,target15);
         markHbox.setAlignment(Pos.TOP_LEFT);
+        markHbox.setPadding(new Insets(50, 0, 0, 200));
         stackPane.setStyle("-fx-background-color: #191a17");
         stackPane.getChildren().addAll(iv0, lifeHbox,markHbox);
 
@@ -150,6 +196,7 @@ public class LifeBoard extends Application {
         stage.setMaxWidth(410);
         stage.setScene(scene);
         stage.showAndWait();
+
     }
 
     public void setPlayerClicked(Player playerClicked) {
