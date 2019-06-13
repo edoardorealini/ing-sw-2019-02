@@ -141,7 +141,7 @@ public class LifeBoard extends Application {
         lifeHbox.setAlignment(Pos.CENTER_LEFT);
         HBox markHbox = new HBox(8.3);
         markHbox.getChildren().addAll(a,b,c,d,e,f,g,h,i,l,m,n,o,p);
-        lifeHbox.setAlignment(Pos.TOP_LEFT);
+        markHbox.setAlignment(Pos.TOP_LEFT);
         stackPane.setStyle("-fx-background-color: #191a17");
         stackPane.getChildren().addAll(iv0, lifeHbox,markHbox);
 
