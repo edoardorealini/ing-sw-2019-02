@@ -106,11 +106,44 @@ public class LifeBoard extends Application {
             }
         }
 
-        HBox testLife = new HBox(8.3);
-        testLife.getChildren().addAll(empty1,empty2,circle1, circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9,circle10,circle11,circle12);
-        testLife.setAlignment(Pos.CENTER_LEFT);
+        Circle a = new Circle(40,40,7);
+        a.setFill(Color.YELLOW);
+        Circle b = new Circle(40,40,7);
+        b.setFill(Color.YELLOW);
+        Circle c = new Circle(40,40,7);
+        c.setFill(Color.YELLOW);
+        Circle d = new Circle(40,40,7);
+        d.setFill(Color.YELLOW);
+        Circle e = new Circle(40,40,7);
+        e.setFill(Color.YELLOW);
+        Circle f = new Circle(40,40,7);
+        f.setFill(Color.YELLOW);
+        Circle g = new Circle(40,40,7);
+        g.setFill(Color.YELLOW);
+        Circle h = new Circle(40,40,7);
+        h.setFill(Color.YELLOW);
+        Circle i = new Circle(40,40,7);
+        i.setFill(Color.YELLOW);
+        Circle l = new Circle(40,40,7);
+        l.setFill(Color.YELLOW);
+        Circle m = new Circle(40,40,7);
+        m.setFill(Color.YELLOW);
+        Circle n = new Circle(40,40,7);
+        n.setFill(Color.YELLOW);
+        Circle o = new Circle(40,40,7);
+        o.setFill(Color.YELLOW);
+        Circle p = new Circle(40,40,7);
+        p.setFill(Color.YELLOW);
+
+
+        HBox lifeHbox = new HBox(8.3);
+        lifeHbox.getChildren().addAll(empty1,empty2,circle1, circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9,circle10,circle11,circle12);
+        lifeHbox.setAlignment(Pos.CENTER_LEFT);
+        HBox markHbox = new HBox(8.3);
+        markHbox.getChildren().addAll(a,b,c,d,e,f,g,h,i,l,m,n,o,p);
+        lifeHbox.setAlignment(Pos.TOP_LEFT);
         stackPane.setStyle("-fx-background-color: #191a17");
-        stackPane.getChildren().addAll(iv0, testLife);
+        stackPane.getChildren().addAll(iv0, lifeHbox,markHbox);
 
         Scene scene = new Scene(stackPane);
         stage.setMaxHeight(210);
