@@ -6,7 +6,7 @@ package client.clientController;
 import client.GUI.ChooseMap;
 import client.GUI.FirstPage;
 import client.GUI.MainPage;
-import client.RespawnPopUp;
+import client.GUI.RespawnPopUp;
 import client.remoteController.SenderClientRemoteController;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;

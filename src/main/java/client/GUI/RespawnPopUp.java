@@ -1,4 +1,4 @@
-package client;
+package client.GUI;
 
 import client.GUI.PopUpSceneMethod;
 import client.remoteController.SenderClientRemoteController;
@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
 
@@ -33,6 +34,8 @@ public class RespawnPopUp extends Application {
         int b = 0;
         int c = 0;
 
+        //TODO uncomment the following line
+        //primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.setTitle("Respawn");
         primaryStage.setOnCloseRequest(event -> {});
        // SplitPane splitPane = new SplitPane();
@@ -132,7 +135,7 @@ public class RespawnPopUp extends Application {
 
         Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.showAndWait();
     }
 
   //  public void setMatch(Match match) {
