@@ -135,6 +135,17 @@ public class RespawnPopUp extends Application {
 
         Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(e -> {
+            RespawnPopUp newRespawn = new RespawnPopUp();
+            newRespawn.setMatch(this.match);
+            newRespawn.setSenderRemoteController(this.senderRemoteController);
+            try {
+                newRespawn.start(new Stage());
+                primaryStage.close(); // TODO questo .close l'ho aggiunto ma non ancora testato
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         primaryStage.showAndWait();
     }
 
