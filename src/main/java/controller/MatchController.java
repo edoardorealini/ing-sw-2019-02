@@ -431,6 +431,12 @@ public class MatchController{
         return false;
     }
 
+    private boolean checkIfCanSkipAction(Player p){
+        if(p.isInStatusFirstAction() || p.isInStatusSecondAction() || p.isInStatusReloading())
+            return true;
+        return false;
+    }
+
     private boolean canChooseMap(){
         if(match.getCurrentPlayer().isInStatusMaster())
             return true;
@@ -491,9 +497,24 @@ public class MatchController{
 
             case END_TURN:
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
+                endOfTurn(); // manages the points to the players
+
+                try {
+                    serverControllerRMI.askRespawn();
+                    //TODO qui dovrei aspettare che tutti i giocatori che sono in respawn abbiano finito prima di continuare con l'esecuzione del turno successivo!
+
+                }catch(RemoteException e){
+                    e.printStackTrace();
+                }
+
                 setNewCurrentPlayer();
 
-                endOfTurn(); // manages the points to the players
+                try {
+                    serverControllerRMI.askRespawn();
+
+                }catch(RemoteException e){
+                    e.printStackTrace();
+                }
 
                 p.getStatus().setTurnStatusWaitTurn();
                 //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
@@ -518,6 +539,7 @@ public class MatchController{
 
         if(idCurrentPlayer == match.getPlayers().size() - 1) {
             match.setCurrentPlayer(match.getPlayers().get(0));
+            //TODO prova a implementare attesa con timer
             goToNextStatus(match.getPlayers().get(0));
         }
         else{
@@ -531,8 +553,14 @@ public class MatchController{
     //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
-    public void skipAction(Player p){
-        goToNextStatus(p);
+    public void skipAction(Player p) throws WrongStatusException{
+        if(checkIfCanSkipAction(p)) {
+            goToNextStatus(p);
+            System.out.println("[TURN]: The player " + p.getNickname() + " skipped an action");
+            printPlayerStatuses();
+        }
+        else
+            throw new WrongStatusException("You cannot skip the turn now!");
     }
 
     public void disconnectPlayer(String nickname){
@@ -774,17 +802,8 @@ public class MatchController{
             }
         }
 
-        try {
-            serverControllerRMI.askRespawn();
-            //TODO qui dovrei aspettare che tutti i giocatori che sono in respawn abbiano finito prima di continuare con l'esecuzione del turno successivo!
-
-        }catch(RemoteException e){
-            e.printStackTrace();
-        }
-
         if (numberOfPeopleKilled > 2)
             match.getKillShotTrack().setDoubleKill(match.getCurrentPlayer().getId());
-
     }
 
 

@@ -82,11 +82,11 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void updateMatch(Match match){
         setMatch(match);
-        //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA LA VISTA!
         if(mainPage != null) {
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
                 mainPage.refreshPlayersPosition();
+                //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA LA VISTA!
             });
         }
         //questo metodo viene chiamato piu volte.
@@ -98,7 +98,6 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void askMap() throws Exception{
         // Platform.runLater( () -> firstPage.closePrimaryStage());
-        //TODO lanciare popup che chiede la mappa (solo a player in stato master)
         chooseMap = new ChooseMap();
         chooseMap.setRemoteController(senderRemoteController);
         Platform.runLater(

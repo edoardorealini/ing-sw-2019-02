@@ -215,8 +215,16 @@ public class MainPage extends Application {
                 ex.printStackTrace();
             }
         });
-        Button skipTurn = new Button(" Skip Turn ");
-        //TODO metodo che cambia il turno
+        Button skipTurn = new Button(" Skip Action ");
+        skipTurn.setOnAction(e -> {
+            try {
+                remoteController.skipAction();
+            }catch (RemoteException ex){
+                PopUpSceneMethod.display("Network Error", "A RemoteException was called");
+            }catch (WrongStatusException ex){
+                PopUpSceneMethod.display(" Status Error ", ex.getMessage());
+            }
+        });
         Label empty1 = new Label("                 ");
         Label empty2 = new Label("                 ");
         Button moveButton = new Button(" MOVE ");

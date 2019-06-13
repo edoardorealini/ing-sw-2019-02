@@ -192,8 +192,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 }
             }
 
-
-
         }catch(RemoteException e){
             //exception thrown in case of connection error with client!
             e.printStackTrace();
@@ -204,7 +202,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     public void askRespawn() throws RemoteException{
         for (InterfaceClientControllerRMI controller : clientControllers) {
-            if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusRespawn()) {
+            if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusRespawn() || matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
                 matchController.addPowerUpToSpawn(matchController.getMatch().getPlayer(controller.getNickname()));
                 pushMatchToAllPlayers();
                 controller.askSpawn();
@@ -514,4 +512,15 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         else
           throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
+
+    public void skipAction(int clientHashedID) throws RemoteException, WrongStatusException {
+        try {
+            matchController.skipAction(matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            pushMatchToAllPlayers();
+        }catch (WrongStatusException e){
+            e.printStackTrace();
+            throw new  WrongStatusException(e.getMessage());
+        }
+    }
+
 }

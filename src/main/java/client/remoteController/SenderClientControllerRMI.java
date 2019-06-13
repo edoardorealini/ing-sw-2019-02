@@ -151,21 +151,22 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     @Override
     public void useTeleporter(PowerUp teleporter, Square destination) {
-
+        //TODO
     }
 
     @Override
     public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) {
+        //TODO
     }
 
     @Override
     public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) {
-
+        //TODO
     }
 
     @Override
     public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) {
-
+        //TODO
     }
 
     @Override
@@ -259,4 +260,17 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             throw new InvalidInputException(e.getMessage());
         }
     }
+
+    @Override
+    public void skipAction() throws RemoteException, WrongStatusException{
+        try{
+            serverController.skipAction(this.hashedNickname);
+        }catch (RemoteException e){
+            throw new RemoteException();
+        }
+        catch (WrongStatusException e){
+            throw new WrongStatusException(e.getMessage());
+        }
+    }
+
 }
