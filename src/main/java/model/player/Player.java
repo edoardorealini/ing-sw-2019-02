@@ -50,7 +50,6 @@ public class Player implements Serializable{
 
         //metto nella mano del player gia due power up per inizio della partita.
         powerUps[0] = match.getPowerUpDeck().pickFirstCard();
-        powerUps[1] = match.getPowerUpDeck().pickFirstCard();
 
     }
 
@@ -157,7 +156,7 @@ public class Player implements Serializable{
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
-                //return "PowerUp aggiunto";
+                return;
             }
         }
 
@@ -169,7 +168,7 @@ public class Player implements Serializable{
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = match.getPowerUpDeck().pickFirstCard();
-                //return "PowerUp aggiunto";
+                return;
             }
         }
 

@@ -140,8 +140,8 @@ public class RespawnPopUp extends Application {
             newRespawn.setMatch(this.match);
             newRespawn.setSenderRemoteController(this.senderRemoteController);
             try {
-                newRespawn.start(new Stage());
                 primaryStage.close(); // TODO questo .close l'ho aggiunto ma non ancora testato
+                newRespawn.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

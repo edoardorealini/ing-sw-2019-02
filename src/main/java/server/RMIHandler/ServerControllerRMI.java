@@ -185,6 +185,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             for (InterfaceClientControllerRMI controller : clientControllers) {
                 controller.startGame();
                 if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
+                    matchController.addPowerUpToSpawn(matchController.getMatch().getPlayer(controller.getNickname()));
+                    pushMatchToAllPlayers();
                     controller.askSpawn();
                     System.out.println("[INFO]: Asking client " + controller.getNickname() + " to spawn.");
                 }
@@ -200,9 +202,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void askSpawn() throws RemoteException{
+    public void askRespawn() throws RemoteException{
         for (InterfaceClientControllerRMI controller : clientControllers) {
-            if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
+            if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusRespawn()) {
+                matchController.addPowerUpToSpawn(matchController.getMatch().getPlayer(controller.getNickname()));
+                pushMatchToAllPlayers();
                 controller.askSpawn();
                 System.out.println("[INFO]: Asking client " + controller.getNickname() + " to spawn.");
             }

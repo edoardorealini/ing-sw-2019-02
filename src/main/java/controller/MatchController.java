@@ -149,8 +149,8 @@ public class MatchController{
     }
 
     //this method doesn't need the player. the first spawn always occurs when a pleyer is the current player.
-    public synchronized void spawn(PowerUp powerUpChoosed, Player user) throws NotInYourPossessException, WrongStatusException{
-        if(!user.hasPowerUp(powerUpChoosed))
+    public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException{
+        if(!user.hasPowerUp(powerUpChosen))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
 
         if(!(user.isInStatusSpawn() || user.isInStatusRespawn())) {
@@ -158,14 +158,18 @@ public class MatchController{
             throw new WrongStatusException("You must be in status respawn or spawn to choose where to spawn");
         }
 
-        Square spawnPoint = match.getMap().getSpawnSquareFromColor(powerUpChoosed.getColor());
+        Square spawnPoint = match.getMap().getSpawnSquareFromColor(powerUpChosen.getColor());
         user.setPosition(spawnPoint);
-        user.removePowerUps(powerUpChoosed);
+        user.removePowerUps(powerUpChosen);
 
         System.out.println("[SPAWN]: Client " + user.getNickname() + " spawned correctly in square coordinates: X = " + getMap().getIndex(spawnPoint).get(0) + " - Y = " + getMap().getIndex(spawnPoint).get(1));
         goToNextStatus(user);
         printPlayerStatuses();
 
+    }
+
+    public void addPowerUpToSpawn(Player player){
+        player.addPowerUpsHaphazard();
     }
 
     private void printPlayerStatuses(){
@@ -421,7 +425,7 @@ public class MatchController{
     }
 
     private boolean canUsePowerUp(){
-        if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction())
+        if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction() || match.getCurrentPlayer().isInStatusReloading())
             return true;
 
         return false;
@@ -473,7 +477,7 @@ public class MatchController{
                     if(w != null) {
                         if (!w.getWeaponStatus().equals(WeaponAmmoStatus.LOADED)) {
                             p.getStatus().setTurnStatusReloading();
-                            break;
+                            return;
                         }
                     }
                 p.getStatus().setTurnStatusEndTurn();
@@ -509,6 +513,7 @@ public class MatchController{
     }
 
     public void setNewCurrentPlayer(){
+        //TODO controllo su giocatori disconnessi
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
         if(idCurrentPlayer == match.getPlayers().size() - 1) {
@@ -770,8 +775,7 @@ public class MatchController{
         }
 
         try {
-            serverControllerRMI.askSpawn();
-            //TODO chiamare controller che fa scegliere punto di spawn al giocatore!
+            serverControllerRMI.askRespawn();
             //TODO qui dovrei aspettare che tutti i giocatori che sono in respawn abbiano finito prima di continuare con l'esecuzione del turno successivo!
 
         }catch(RemoteException e){
