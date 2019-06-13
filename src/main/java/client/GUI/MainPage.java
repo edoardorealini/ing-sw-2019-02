@@ -371,7 +371,7 @@ public class MainPage extends Application {
         stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
         stage.setTitle("Grab");
         stage.setMinWidth(250);
-        stage.setMinHeight(200);
+        stage.setMinHeight(250);
         VBox vBoxGrab = new VBox(10);
 
         HBox hBox1 = new HBox(5);
@@ -398,6 +398,7 @@ public class MainPage extends Application {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
                 try {
                     remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
+                    stage.close();
                 } catch (NotAllowedCallException ex) {
                     PopUpSceneMethod.display("Error", ex.getMessage());
                 } catch (WrongStatusException ex) {

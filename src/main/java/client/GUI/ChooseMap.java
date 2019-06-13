@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -36,6 +37,7 @@ public class ChooseMap extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Choose map");
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.setOnCloseRequest(event -> {});
 
         //splitting the pane vertically
@@ -90,7 +92,7 @@ public class ChooseMap extends Application {
                 try {
                     remoteController.setSkulls(nSkulls.getValue());
                     remoteController.buildMap(selectMap.getValue());
-
+                    primaryStage.close();
                 } catch (Exception e) {
                     PopUpSceneMethod.display("Something went wrong", e.getMessage());
                 }});
@@ -114,7 +116,7 @@ public class ChooseMap extends Application {
 
         Scene scene = new Scene(splitPane,864,750);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.showAndWait();
 
     }
 

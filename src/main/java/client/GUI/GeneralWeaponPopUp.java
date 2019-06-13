@@ -3,6 +3,7 @@ package client.GUI;
 import client.remoteController.SenderClientRemoteController;
 import commons.ShootingParametersClient;
 import exception.*;
+import javafx.stage.Modality;
 import model.ShootMode;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -37,9 +38,13 @@ public class GeneralWeaponPopUp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         short a = 0;
         short b = 0;
         short c = 0;
+
+
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.setTitle("Owned weapons");
         Label text = new Label("Choose the weapon to shoot with:");
         HBox hBoxWeapon = new HBox();
@@ -113,16 +118,19 @@ public class GeneralWeaponPopUp extends Application {
         useWeapon1.setOnAction(event -> {
                 this.weapon = match.getCurrentPlayer().getWeapons()[0];
                 shoot(new Stage());
+                primaryStage.close();
                 });
 
         useWeapon2.setOnAction(event -> {
                 this.weapon = match.getCurrentPlayer().getWeapons()[1];
                 shoot(new Stage());
+                primaryStage.close();
                 });
 
         useWeapon3.setOnAction(event -> {
                 this.weapon = match.getCurrentPlayer().getWeapons()[2];
                 shoot(new Stage());
+                primaryStage.close();
                 });
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
@@ -130,13 +138,14 @@ public class GeneralWeaponPopUp extends Application {
 
         Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.showAndWait();
 
     }
 
     private void shoot (Stage shootStage) {
 
         shootStage.setTitle("Shoot");
+        shootStage.initModality(Modality.APPLICATION_MODAL);
         SplitPane splitPane = new SplitPane();
         this.input = new ShootingParametersClient();
 
@@ -342,8 +351,8 @@ public class GeneralWeaponPopUp extends Application {
         shootButton.setAlignment(Pos.CENTER);
         shootButton.setOnAction(event -> {
             try {
-
                 fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
+                shootStage.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("SHOOTING ERROR", e.getMessage());
@@ -365,7 +374,7 @@ public class GeneralWeaponPopUp extends Application {
 
         Scene scene = new Scene(splitPane,700,400);
         shootStage.setScene(scene);
-        shootStage.show();
+        shootStage.showAndWait();
     }
 
 
