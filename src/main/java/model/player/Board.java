@@ -14,8 +14,14 @@ public class Board  implements Serializable {
 
     public Board(){
         lifePoints = new int[12];
+
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
+        }
+
+        //todo rimuovere!!!
+        for (int i=0; i<10; i++){
+            lifePoints[i]=1;
         }
 
         marks = new ArrayList<>();

@@ -42,7 +42,7 @@ public class LifeBoard extends Application {
         StackPane stackPane = new StackPane();
 
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + "1.png");
+                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);

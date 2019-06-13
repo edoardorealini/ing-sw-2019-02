@@ -1,8 +1,5 @@
 package controller;
 
-import commons.InterfaceClientControllerRMI;
-import commons.InterfaceServerControllerRMI;
-import controller.observer.Observer;
 import exception.*;
 import model.Color;
 import model.Match;
@@ -499,19 +496,22 @@ public class MatchController{
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
                 endOfTurn(); // manages the points to the players
 
+                /*
                 try {
                     serverControllerRMI.askRespawn();
-                    //TODO qui dovrei aspettare che tutti i giocatori che sono in respawn abbiano finito prima di continuare con l'esecuzione del turno successivo!
-
+                    //qui chiedo a tutti quelli che sono in  Respawn, se c'è qualcuno in spawn qui non lo vedo! (la set new current player non l'ha ancora messo!)
                 }catch(RemoteException e){
                     e.printStackTrace();
                 }
 
+                 */
+
                 setNewCurrentPlayer();
+                //in set current player in teoria attendo che quelli in respawn abbiano effettuato il loro respawn.
 
                 try {
                     serverControllerRMI.askRespawn();
-
+                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                 }catch(RemoteException e){
                     e.printStackTrace();
                 }
@@ -538,16 +538,71 @@ public class MatchController{
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
         if(idCurrentPlayer == match.getPlayers().size() - 1) {
-            match.setCurrentPlayer(match.getPlayers().get(0));
             //TODO prova a implementare attesa con timer
-            goToNextStatus(match.getPlayers().get(0));
+            //in teoria i timer eseguono un controllo ogni secondo per vedere se i giocatori in stato di respawn hanno effettuato il respawn.
+            Timer waitForRespawn = new Timer();
+            waitForRespawn.schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            if(everybodyRespawned()) {
+                                match.setCurrentPlayer(match.getPlayers().get(0));
+                                goToNextStatus(match.getPlayers().get(0));
+                                waitForRespawn.cancel();
+                                waitForRespawn.purge();
+                            }
+                        }
+                    }, 1, 1000
+            );
         }
         else{
-            match.setCurrentPlayer(match.getPlayers().get(idCurrentPlayer + 1));
-            goToNextStatus(match.getPlayers().get(idCurrentPlayer + 1));
+            Timer waitForRespawn = new Timer();
+            waitForRespawn.schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            if(everybodyRespawned()) {
+                                match.setCurrentPlayer(match.getPlayers().get(idCurrentPlayer + 1));
+                                goToNextStatus(match.getPlayers().get(idCurrentPlayer + 1));
+                                waitForRespawn.cancel();
+                                waitForRespawn.purge();
+                            }
+                        }
+                    }, 1, 1000
+            );
         }
 
     }
+
+    private boolean everybodyRespawned(){
+        for(Player p: match.getPlayers())
+            if(p.isInStatusRespawn())
+                return false;
+
+        return true;
+    }
+    /*
+                Timer waitForRespawn = new Timer();
+                waitForRespawn.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                try {
+                                    //startGame is called later, the first action should be calling a client to ask for the map
+                                    //startGame();
+                                    askMap();
+                                }catch (RemoteException e){
+                                    e.printStackTrace();
+                                }
+                                catch (Exception e){
+                                    System.out.println("[ERROR]: Error launching the chooseMap window");
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 1, 1000
+                );
+
+     */
 
 
     //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
@@ -555,8 +610,8 @@ public class MatchController{
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
     public void skipAction(Player p) throws WrongStatusException{
         if(checkIfCanSkipAction(p)) {
-            goToNextStatus(p);
             System.out.println("[TURN]: The player " + p.getNickname() + " skipped an action");
+            goToNextStatus(p);
             printPlayerStatuses();
         }
         else

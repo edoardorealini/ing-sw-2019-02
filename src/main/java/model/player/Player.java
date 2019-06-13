@@ -166,7 +166,7 @@ public class Player implements Serializable{
     // servirà per l'inzio del gioco nel quale i giocatori pescano i powerUps
     public void addPowerUpsHaphazard() { // pesco casualmente un PowerUp
         for (int i=0; i<3; i++){
-            if (powerUps[i]==null) {
+            if (powerUps[i] == null) {
                 powerUps[i] = match.getPowerUpDeck().pickFirstCard();
                 return;
             }
@@ -177,10 +177,12 @@ public class Player implements Serializable{
 
     public void removePowerUps(PowerUp powerUp) {
         for (int i=0; i<3;i++){
-            if (powerUp.equals(powerUps[i])){
-                match.getPowerUpDeck().addPowerUps(powerUp);
-                powerUps[i]=null;
-                return;
+            if(powerUps[i] != null) {
+                if (powerUp.equals(powerUps[i])) {
+                    match.getPowerUpDeck().addPowerUps(powerUp);
+                    powerUps[i] = null;
+                    return;
+                }
             }
         }
     }
@@ -227,8 +229,10 @@ public class Player implements Serializable{
 
     public boolean hasPowerUp( PowerUp card){
         for (int i = 0; i < 3; i++){
-            if(powerUps[i].equals(card)){
-                return true;
+            if(powerUps[i] != null) {
+                if (powerUps[i].equals(card)) {
+                    return true;
+                }
             }
         }
 
