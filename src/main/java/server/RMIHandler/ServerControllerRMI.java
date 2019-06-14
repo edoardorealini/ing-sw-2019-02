@@ -346,6 +346,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
     }
 
+    @Override
+    public void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException {
+        matchController.usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPow, matchController.getMatch().getCurrentPlayer()));
+        pushMatchToAllPlayers();
+    }
+
+    @Override
+    public void askForPowerUpAsAmmo() throws RemoteException {
+        for (InterfaceClientControllerRMI clientController : clientControllers) {
+            if (clientController.getNickname().equals(matchController.getMatch().getCurrentPlayer().getNickname())) {
+                 clientController.askForPowerUpAsAmmo();
+                 pushMatchToAllPlayers();
+            }
+        }
+    }
 
     // Methods for shoot controller
     @Override

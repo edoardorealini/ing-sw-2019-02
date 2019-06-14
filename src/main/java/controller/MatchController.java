@@ -238,7 +238,7 @@ public class MatchController{
     }
 
     //metodi di powerUpController
-    private   synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
+    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
             if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
                 powerUpController.usePowerUpAsAmmo(powerUp);
             } else
@@ -740,7 +740,7 @@ public class MatchController{
 
         Color firstColor = weapon.getCost().get(0);
 
-        int r = 0;
+        int r = 0;             //cost of the weapon
         int b = 0;
         int y = 0;
         int actualRedAmmo;    //ammo already owned by the current player
@@ -779,32 +779,78 @@ public class MatchController{
                     break;
             }
 
-        do {
             actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
             actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
             actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
 
             if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
                 if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-                    /*
-                    System.out.println("Do you want to use a powerUp? \n");
-                    String in = new Scanner(System.in).nextLine();
-                    if (in.equals("yes")) {
-                        System.out.println(match.getCurrentPlayer().getAmmo().toString());
-                        System.out.println(match.getCurrentPlayer().printPowerUps());
-                        System.out.println("Choose the powerUp you want to use as Ammo:");
-                        int n = new Scanner(System.in).nextInt();
-                        PowerUp pow = match.getCurrentPlayer().getPowerUps()[n];
-                        try {
-                            usePowerUpAsAmmo(pow);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    */
+                    Timer waitForWeaponLoaded = new Timer();
+                    waitForWeaponLoaded.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
 
-                    //PowerUp power = TODO insert ask if the user wants to use a power up as an ammo
-                    usePowerUpAsAmmo(power);
+                                    Color firstColor = weapon.getCost().get(0);
+
+                                    int r = 0;             //cost of the weapon
+                                    int b = 0;
+                                    int y = 0;
+                                    int actualRedAmmo;    //ammo already owned by the current player
+                                    int actualBlueAmmo;
+                                    int actualYellowAmmo;
+
+
+                                    for (Color color : weapon.getCost()) {
+                                        switch (color) {
+                                            case RED:
+                                                r++;
+                                                break;
+                                            case BLUE:
+                                                b++;
+                                                break;
+                                            case YELLOW:
+                                                y++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+
+                                    if (weapon.getWeaponStatus() == WeaponAmmoStatus.PARTIALLYLOADED)
+                                        switch (firstColor) {
+                                            case RED:
+                                                r--;
+                                                break;
+                                            case BLUE:
+                                                b--;
+                                                break;
+                                            case YELLOW:
+                                                y--;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                    actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                                    actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                                    actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                                    if(actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+                                        try {
+                                            serverControllerRMI.askForPowerUpAsAmmo();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        match.getCurrentPlayer().removeAmmo(r, b, y);
+                                        weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                                        waitForWeaponLoaded.cancel();
+                                        waitForWeaponLoaded.purge();
+                                    }
+                                }
+                            }, 1, 5000
+                    );
                 } else {
                     throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
@@ -812,7 +858,6 @@ public class MatchController{
                 match.getCurrentPlayer().removeAmmo(r, b, y);
                 weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
             }
-        } while (weapon.getWeaponStatus() != WeaponAmmoStatus.LOADED);
 
     }
 

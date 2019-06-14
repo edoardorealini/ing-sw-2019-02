@@ -20,8 +20,10 @@ import java.util.*;
 import static model.map.SquareType.*;
 
 public class MainPage extends Application {
+
     private Match match;
     SenderClientRemoteController remoteController;
+    private boolean powerUpAsAmmoActive = false;
 
     Label labelpos1;
     Label labelpos2;
@@ -255,8 +257,12 @@ public class MainPage extends Application {
         });
 
         Button reloadWeapons = new Button("Reload Weapons");
-        //TODO charge wepons
-
+        reloadWeapons.setOnAction(event -> {
+           /* try {
+               //TODO remoteController.
+            } catch {
+            } */
+        });
         hBoxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
 
         SplitPane vSplitPane = new SplitPane();
@@ -616,12 +622,15 @@ public class MainPage extends Application {
     }
 
 
-    public int askForPowerUpAsAmmo() {
+    public void askForPowerUpAsAmmo() {
 
         Stage powAsAmmoStage = new Stage();
+        powerUpAsAmmoActive = true;
+
         int a = 0;
         int b = 0;
         int c = 0;
+        int returnValue = 0;
 
         powAsAmmoStage.initModality(Modality.APPLICATION_MODAL);
         powAsAmmoStage.setTitle("Use Power Up as Ammo");
@@ -646,38 +655,41 @@ public class MainPage extends Application {
 
         pow1.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(0);
+                remoteController.usePowerUpAsAmmo(0);
                 powAsAmmoStage.close();
-            } catch (Exception e) {
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException e) {
                 e.printStackTrace();
-                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+                PopUpSceneMethod.display("ERROR", e.getMessage());
             }
         });
 
         pow2.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(1);
+                remoteController.usePowerUpAsAmmo(1);
                 powAsAmmoStage.close();
-            } catch (Exception e) {
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException e) {
                 e.printStackTrace();
-                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+                PopUpSceneMethod.display("ERROR", e.getMessage());
             }
         });
 
         pow3.setOnAction(event -> {
             try {
-                senderRemoteController.spawn(2);
+                remoteController.usePowerUpAsAmmo(2);
                 powAsAmmoStage.close();
-            } catch (Exception e) {
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException e) {
                 e.printStackTrace();
-                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+                PopUpSceneMethod.display("ERROR", e.getMessage());
             }
         });
 
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0]!=null){
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0]!=null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
@@ -688,9 +700,9 @@ public class MainPage extends Application {
             a = 1;
         }
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1]!=null){
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1]!=null){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
@@ -701,9 +713,9 @@ public class MainPage extends Application {
             b = 1;
         }
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2]!=null){
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2]!=null){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
@@ -714,22 +726,21 @@ public class MainPage extends Application {
             c = 1;
         }
 
-        // splitPane.setMinHeight(300);
-        // splitPane.setMinWidth(250);
 
         Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
         powAsAmmoStage.setScene(scene);
 
         powAsAmmoStage.setOnCloseRequest(event -> {
             powAsAmmoStage.close();
-            return int i = askForPowerUpAsAmmo();
+            askForPowerUpAsAmmo();
         });
 
         powAsAmmoStage.showAndWait();
-
-        return 0;
     }
 
+    public boolean isPowerUpAsAmmoActive() {
+        return powerUpAsAmmoActive;
+    }
 }
 
 

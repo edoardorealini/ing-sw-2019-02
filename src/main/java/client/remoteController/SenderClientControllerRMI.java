@@ -145,7 +145,14 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void usePowerUpAsAmmo(int indexOfPowerUp) {
+    public void usePowerUpAsAmmo(int indexOfPowerUp) throws NotInYourPossessException, RemoteException {
+        try {
+            serverController.usePowerUpAsAmmo(indexOfPowerUp);
+        } catch (RemoteException e) {
+            throw new RemoteException(e.getMessage());
+        } catch (NotInYourPossessException e) {
+            throw new NotInYourPossessException(e.getMessage());
+        }
 
     }
 

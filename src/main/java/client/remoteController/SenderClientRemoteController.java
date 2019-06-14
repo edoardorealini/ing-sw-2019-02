@@ -26,7 +26,7 @@ public abstract class SenderClientRemoteController {
     public abstract void grabWeapon(int xDestination, int yDestination, int indexOfWeapon) throws NotAllowedCallException, WrongStatusException, RemoteException, NotEnoughAmmoException, WrongPositionException, InvalidInputException, NotAllowedMoveException;
 
     //metodi di powerUpController
-    public abstract void usePowerUpAsAmmo(int indexOfPowerUp);
+    public abstract void usePowerUpAsAmmo(int indexOfPowerUp) throws NotInYourPossessException, RemoteException;
 
     public abstract void useTeleporter(PowerUp teleporter, Square destination);
 

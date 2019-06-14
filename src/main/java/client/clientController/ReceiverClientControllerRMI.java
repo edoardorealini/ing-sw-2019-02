@@ -11,11 +11,8 @@ import client.remoteController.SenderClientRemoteController;
 import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import model.Color;
 import model.Match;
 import model.player.Player;
-import model.powerup.PowerUp;
-import model.powerup.PowerUpName;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -49,12 +46,24 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         for (int i=0;i<match.getPlayers().size();i++){
             System.out.println(match.getPlayers().get(i).getNickname());
         }
-        Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Threa
+        Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Thread
     }
 
-    public int askForPowerUpAsAmmo() {
-        mainPage.ask
-        return 0;
+    public void askForPowerUpAsAmmo() {
+        mainPage.setRemoteController(senderRemoteController);
+        mainPage.setMatch(match);
+        if (!mainPage.isPowerUpAsAmmoActive()) {      //check if there is a PowerUpAsAmmo already active
+            Platform.runLater(
+                    () -> {
+                        try {
+                            mainPage.askForPowerUpAsAmmo();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+            );
+        }
+
     }
 
     public String getNickname() throws RemoteException{

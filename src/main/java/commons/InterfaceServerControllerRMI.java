@@ -33,6 +33,10 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
 
+    void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException;
+
+    void askForPowerUpAsAmmo() throws RemoteException;
+
     String RMICallTest(String message, int clientHashedID) throws RemoteException;
 
     String checkConnection(String IP, int clientHashedID) throws RemoteException;
