@@ -548,7 +548,7 @@ public class MatchController{
             waitForRespawn.schedule(
                     new TimerTask() {
                         @Override
-                        public synchronized void run() {
+                        public void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
                                 System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
@@ -565,7 +565,7 @@ public class MatchController{
                                 }
                             }
                         }
-                    }, 100, 1000
+                    }, 1, 3000
             );
         }
         else{
@@ -573,7 +573,7 @@ public class MatchController{
             waitForRespawn.schedule(
                     new TimerTask() {
                         @Override
-                        public synchronized void run() {
+                        public void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
                                 System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
@@ -590,7 +590,7 @@ public class MatchController{
                                 }
                             }
                         }
-                    }, 100, 1000
+                    }, 1, 3C000
             );
         }
 
@@ -723,8 +723,6 @@ public class MatchController{
         if (weapon.getWeaponStatus() == WeaponAmmoStatus.LOADED)
             return;
 
-        Color firstColor = weapon.getCost().get(0);
-
         int r = 0;             //cost of the weapon
         int b = 0;
         int y = 0;
@@ -735,114 +733,70 @@ public class MatchController{
 
         for (Color color : weapon.getCost()) {
             switch (color) {
-                case RED:
-                    r++;
-                    break;
-                case BLUE:
-                    b++;
-                    break;
-                case YELLOW:
-                    y++;
-                    break;
-                default:
-                    break;
+                case RED: r++; break;
+                case BLUE: b++; break;
+                case YELLOW: y++; break;
+                default: break;
             }
         }
 
-        if (weapon.getWeaponStatus() == WeaponAmmoStatus.PARTIALLYLOADED)
-            switch (firstColor) {
-                case RED:
-                    r--;
-                    break;
-                case BLUE:
-                    b--;
-                    break;
-                case YELLOW:
-                    y--;
-                    break;
-                default:
-                    break;
-            }
 
-            actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
-            actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
-            actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
+        actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+        actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
+        actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
 
-            if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
-                if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-                    Timer waitForWeaponLoaded = new Timer();
-                    waitForWeaponLoaded.schedule(
-                            new TimerTask() {
-                                @Override
-                                public void run() {
+        System.out.println("[RELOAD]: 1 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
 
-                                    Color firstColor = weapon.getCost().get(0);
-
-                                    int r = 0;             //cost of the weapon
-                                    int b = 0;
-                                    int y = 0;
-                                    int actualRedAmmo;    //ammo already owned by the current player
-                                    int actualBlueAmmo;
-                                    int actualYellowAmmo;
-
-
-                                    for (Color color : weapon.getCost()) {
-                                        switch (color) {
-                                            case RED:
-                                                r++;
-                                                break;
-                                            case BLUE:
-                                                b++;
-                                                break;
-                                            case YELLOW:
-                                                y++;
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
-
-                                    if (weapon.getWeaponStatus() == WeaponAmmoStatus.PARTIALLYLOADED)
-                                        switch (firstColor) {
-                                            case RED:
-                                                r--;
-                                                break;
-                                            case BLUE:
-                                                b--;
-                                                break;
-                                            case YELLOW:
-                                                y--;
-                                                break;
-                                            default:
-                                                break;
-                                        }
-
-                                    actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
-                                    actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
-                                    actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
-
-                                    if(actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
-                                        try {
-                                            serverControllerRMI.askForPowerUpAsAmmo();
-                                        } catch (RemoteException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        match.getCurrentPlayer().removeAmmo(r, b, y);
-                                        weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
-                                        waitForWeaponLoaded.cancel();
-                                        waitForWeaponLoaded.purge();
+        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
+                System.out.println("[RELOAD]: 2 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
+                Timer waitForWeaponLoaded = new Timer();
+                waitForWeaponLoaded.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                int r = 0;             //cost of the weapon
+                                int b = 0;
+                                int y = 0;
+                                int actualRedAmmo;    //ammo already owned by the current player
+                                int actualBlueAmmo;
+                                int actualYellowAmmo;
+                                for (Color color : weapon.getCost()) {
+                                    switch (color) {
+                                        case RED: r++; break;
+                                        case BLUE: b++; break;
+                                        case YELLOW: y++; break;
+                                        default: break;
                                     }
                                 }
-                            }, 1, 5000
-                    );
-                } else {
-                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-                }
+
+                                actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                                actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                                actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                                if(actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+                                    System.out.println("[RELOAD]: 3 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
+                                    try {
+                                        serverControllerRMI.askForPowerUpAsAmmo();
+                                        System.out.println("riga 781");
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    match.getCurrentPlayer().removeAmmo(r, b, y);
+                                    weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                                    waitForWeaponLoaded.cancel();
+                                    waitForWeaponLoaded.purge();
+                                }
+                            }}, 1, 1000
+                );
             } else {
-                match.getCurrentPlayer().removeAmmo(r, b, y);
-                weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
+        } else {
+            match.getCurrentPlayer().removeAmmo(r, b, y);
+            weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+        }
 
     }
 

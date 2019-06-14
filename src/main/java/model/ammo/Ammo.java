@@ -11,36 +11,36 @@ public class Ammo implements Serializable {
 
     public Ammo (){
         //TODO metti a 1
-        redAmmo = 3;
-        blueAmmo = 3;
-        yellowAmmo = 3;
+        redAmmo = 2;
+        blueAmmo = 2;
+        yellowAmmo = 2;
     }
 
-    public int getBlueAmmo() {
+    public synchronized int getBlueAmmo() {
         return blueAmmo;
     }
 
-    public int getRedAmmo() {
+    public synchronized int getRedAmmo() {
         return redAmmo;
     }
 
-    public int getYellowAmmo() {
+    public synchronized int getYellowAmmo() {
         return yellowAmmo;
     }
 
-    public void setBlueAmmo(int blueAmmo) {
+    public synchronized void setBlueAmmo(int blueAmmo) {
         this.blueAmmo = blueAmmo;
     }
 
-    public void setRedAmmo(int redAmmo) {
+    public synchronized void setRedAmmo(int redAmmo) {
         this.redAmmo = redAmmo;
     }
 
-    public void setYellowAmmo(int yellowAmmo) {
+    public synchronized void setYellowAmmo(int yellowAmmo) {
         this.yellowAmmo = yellowAmmo;
     }
 
-    public void addSpecificAmmo(Color color, int number){
+    public synchronized void addSpecificAmmo(Color color, int number){
         switch (color){
             case BLUE:
                 if ((this.getBlueAmmo()+number)>=3){
@@ -69,7 +69,7 @@ public class Ammo implements Serializable {
 
     //for tests
     @Override
-    public String toString() {
+    public synchronized String toString() {
         String information;
         information = "Blue Ammo: " +getBlueAmmo()+ "\nRed Ammo: " +getRedAmmo()+ "\nYellow Ammo: " +getYellowAmmo();
         return information;
