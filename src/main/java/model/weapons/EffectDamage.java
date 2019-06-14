@@ -54,18 +54,20 @@ public class EffectDamage extends Effect  implements Serializable {
 					player.getStatus().setSpecialAbilityAdrenalineShoot();
 			}
 		} else {
-			Player target = input.getTargets().get(getSameTarget());
-			int transferringMarks = target.getBoard().getSpecificMarks(currentPlayer.getId());
+			if (input.getTargets().size() > getSameTarget()) {
+				Player target = input.getTargets().get(getSameTarget());
+				int transferringMarks = target.getBoard().getSpecificMarks(currentPlayer.getId());
 
-			target.getBoard().updateLife(this.getDamage(), currentPlayer.getId(), target.getId());                    //updating life points of the target
-			while (transferringMarks > 0 && !target.getBoard().isOverKilled()) {
-				target.getBoard().updateLife(1, currentPlayer.getId(), target.getId());                        //converting marks to life points
-				target.getBoard().removeMarks(1, currentPlayer.getId());           //removing the converted mark
-				transferringMarks--;
+				target.getBoard().updateLife(this.getDamage(), currentPlayer.getId(), target.getId());                    //updating life points of the target
+				while (transferringMarks > 0 && !target.getBoard().isOverKilled()) {
+					target.getBoard().updateLife(1, currentPlayer.getId(), target.getId());                        //converting marks to life points
+					target.getBoard().removeMarks(1, currentPlayer.getId());           //removing the converted mark
+					transferringMarks--;
+				}
+
+				if (target.getBoard().isDead())                                                            //check if the target is dead
+					target.trueDead();
 			}
-
-			if (target.getBoard().isDead())                                                            //check if the target is dead
-				target.trueDead();
 		}
 	}
 }

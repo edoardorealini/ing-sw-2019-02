@@ -238,9 +238,13 @@ public class MatchController{
     }
 
     //metodi di powerUpController
-    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
+    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException, NotAllowedCallException {
             if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
-                powerUpController.usePowerUpAsAmmo(powerUp);
+                try {
+                    powerUpController.usePowerUpAsAmmo(powerUp);
+                } catch (NotAllowedCallException e) {
+                    throw new NotAllowedCallException(e.getMessage());
+                }
             } else
                 throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }

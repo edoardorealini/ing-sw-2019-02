@@ -534,30 +534,30 @@ public class MainPage extends Application {
             pos1 = match.getMap().getIndex(match.getPlayers().get(0).getPosition());
             labelpos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + pos1 + " \n Status: " + match.getPlayers().get(0).getStatus().getTurnStatus());
         }
-        else labelpos1.setText("Not already spawned");
+        else labelpos1.setText("Not spawned yet");
         if (!match.getPlayers().get(1).isInStatusSpawn() && !match.getPlayers().get(1).isInStatusWaitFirstTurn()) {
             pos2 = match.getMap().getIndex(match.getPlayers().get(1).getPosition());
             labelpos2.setText("Position of " + match.getPlayers().get(1).getNickname() + " is X,Y :" + pos2  + " \n Status: " + match.getPlayers().get(1).getStatus().getTurnStatus());
         }
-        else labelpos2.setText("Not already spawned");
+        else labelpos2.setText("Not spawned yet");
         if (!match.getPlayers().get(2).isInStatusSpawn() && !match.getPlayers().get(2).isInStatusWaitFirstTurn()) {
             pos3 = match.getMap().getIndex(match.getPlayers().get(2).getPosition());
             labelpos3.setText("Position of " + match.getPlayers().get(2).getNickname() + " is X,Y :" + pos3  + " \n Status: " + match.getPlayers().get(2).getStatus().getTurnStatus());
         }
-        else labelpos3.setText("Not already spawned");
+        else labelpos3.setText("Not spawned yet");
         if (match.getPlayers().size()>=4) {
             if (!match.getPlayers().get(3).isInStatusSpawn() && !match.getPlayers().get(3).isInStatusWaitFirstTurn()) {
                 pos4 = match.getMap().getIndex(match.getPlayers().get(3).getPosition());
                 labelpos4.setText("Position of " + match.getPlayers().get(3).getNickname() + " is X,Y :" +pos4  + " \n Status: " + match.getPlayers().get(3).getStatus().getTurnStatus());
             }
-            else labelpos4.setText("Not already spawned");
+            else labelpos4.setText("Not spawned yet");
         }
         if (match.getPlayers().size()>=5) {
             if (!match.getPlayers().get(4).isInStatusSpawn() && !match.getPlayers().get(4).isInStatusWaitFirstTurn()) {
                 pos5 = match.getMap().getIndex(match.getPlayers().get(4).getPosition());
                 labelpos5.setText("Position of " + match.getPlayers().get(4).getNickname() + " is X,Y :" + pos5  + " \n Status: " + match.getPlayers().get(4).getStatus().getTurnStatus());
             }
-            else labelpos5.setText("Not already spawned");
+            else labelpos5.setText("Not spawned yet");
         }
     }
 
@@ -573,38 +573,109 @@ public class MainPage extends Application {
         // BLUE AMMO
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "B.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(60);
-        iv0.setFitWidth(60);
-        iv0.setPreserveRatio(true);
+        Image blueAmmoImage1 = new Image(file0.toURI().toString());
+        Image blueAmmoImage2 = new Image(file0.toURI().toString());
+        Image blueAmmoImage3 = new Image(file0.toURI().toString());
+        ImageView blueView1 = new ImageView(blueAmmoImage1);
+        ImageView blueView2 = new ImageView(blueAmmoImage2);
+        ImageView blueView3 = new ImageView(blueAmmoImage3);
+        blueView1.setFitHeight(60);
+        blueView1.setFitWidth(60);
+        blueView1.setPreserveRatio(true);
+        blueView2.setFitHeight(60);
+        blueView2.setFitWidth(60);
+        blueView2.setPreserveRatio(true);
+        blueView3.setFitHeight(60);
+        blueView3.setFitWidth(60);
+        blueView3.setPreserveRatio(true);
 
-        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getBlueAmmo();i++){
-            hBox1.getChildren().add(iv0);
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getBlueAmmo()) {
+            case 1:
+                hBox1.getChildren().add(blueView1);
+                 break;
+            case 2:
+                hBox1.getChildren().add(blueView1);
+                hBox1.getChildren().add(blueView2);
+                break;
+            case 3:
+                hBox1.getChildren().add(blueView1);
+                hBox1.getChildren().add(blueView2);
+                hBox1.getChildren().add(blueView3);
+                break;
+            default:
+                    break;
         }
 
+        // RED AMMO
         File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "R.png");
-        Image image1 = new Image(file1.toURI().toString());
-        ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(60);
-        iv1.setFitWidth(60);
-        iv1.setPreserveRatio(true);
+        Image redAmmoImage1 = new Image(file1.toURI().toString());
+        Image redAmmoImage2 = new Image(file1.toURI().toString());
+        Image redAmmoImage3 = new Image(file1.toURI().toString());
+        ImageView redView1 = new ImageView(redAmmoImage1);
+        ImageView redView2 = new ImageView(redAmmoImage2);
+        ImageView redView3 = new ImageView(redAmmoImage3);
+        redView1.setFitHeight(60);
+        redView1.setFitWidth(60);
+        redView1.setPreserveRatio(true);
+        redView2.setFitHeight(60);
+        redView2.setFitWidth(60);
+        redView2.setPreserveRatio(true);
+        redView3.setFitHeight(60);
+        redView3.setFitWidth(60);
+        redView3.setPreserveRatio(true);
 
-        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo();i++){
-            hBox2.getChildren().add(iv1);
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo()) {
+            case 1:
+                hBox2.getChildren().add(redView1);
+                break;
+            case 2:
+                hBox2.getChildren().add(redView1);
+                hBox2.getChildren().add(redView2);
+                break;
+            case 3:
+                hBox2.getChildren().add(redView1);
+                hBox2.getChildren().add(redView2);
+                hBox2.getChildren().add(redView3);
+                break;
+            default:
+                break;
         }
 
+        // YELLOW AMMO
         File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Y.png");
-        Image image2 = new Image(file2.toURI().toString());
-        ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(60);
-        iv2.setFitWidth(60);
-        iv2.setPreserveRatio(true);
+        Image yellowAmmoImage1 = new Image(file2.toURI().toString());
+        Image yellowAmmoImage2 = new Image(file2.toURI().toString());
+        Image yellowAmmoImage3 = new Image(file2.toURI().toString());
+        ImageView yellowView1 = new ImageView(yellowAmmoImage1);
+        ImageView yellowView2 = new ImageView(yellowAmmoImage2);
+        ImageView yellowView3 = new ImageView(yellowAmmoImage3);
+        yellowView1.setFitHeight(60);
+        yellowView1.setFitWidth(60);
+        yellowView1.setPreserveRatio(true);
+        yellowView2.setFitHeight(60);
+        yellowView2.setFitWidth(60);
+        yellowView2.setPreserveRatio(true);
+        yellowView3.setFitHeight(60);
+        yellowView3.setFitWidth(60);
+        yellowView3.setPreserveRatio(true);
 
-        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getYellowAmmo();i++){
-            hBox3.getChildren().add(iv2);
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getYellowAmmo()) {
+            case 1:
+                hBox3.getChildren().add(yellowView1);
+                break;
+            case 2:
+                hBox3.getChildren().add(yellowView1);
+                hBox3.getChildren().add(yellowView2);
+                break;
+            case 3:
+                hBox3.getChildren().add(yellowView1);
+                hBox3.getChildren().add(yellowView2);
+                hBox3.getChildren().add(yellowView3);
+                break;
+            default:
+                break;
         }
 
         vBox.getChildren().addAll(hBox1,hBox2,hBox3);
@@ -612,6 +683,7 @@ public class MainPage extends Application {
         hBox2.setAlignment(Pos.CENTER);
         hBox3.setAlignment(Pos.CENTER);
         vBox.setStyle("-fx-background-color: #191a17");
+        vBox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(vBox,(400),(400));
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -654,7 +726,7 @@ public class MainPage extends Application {
                 remoteController.usePowerUpAsAmmo(0);
                 powAsAmmoStage.close();
                 powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException e) {
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("ERROR", e.getMessage());
             }
@@ -665,7 +737,7 @@ public class MainPage extends Application {
                 remoteController.usePowerUpAsAmmo(1);
                 powAsAmmoStage.close();
                 powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException e) {
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("ERROR", e.getMessage());
             }
@@ -676,7 +748,7 @@ public class MainPage extends Application {
                 remoteController.usePowerUpAsAmmo(2);
                 powAsAmmoStage.close();
                 powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException e) {
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("ERROR", e.getMessage());
             }
@@ -731,7 +803,7 @@ public class MainPage extends Application {
             askForPowerUpAsAmmo();
         });
 
-        powAsAmmoStage.showAndWait();
+        powAsAmmoStage.show();
     }
 
     public boolean isPowerUpAsAmmoActive() {

@@ -1,5 +1,6 @@
 package controller;
 
+import exception.NotAllowedCallException;
 import exception.NotAllowedMoveException;
 import exception.NotAllowedTargetException;
 import model.Match;
@@ -33,12 +34,12 @@ public class PowerUpController{
         //fatto lato johnny, invocare quel metodo. - me pias no
         //fornire metodo lo stesso, devo effettuarei i controlli! (lanciare eccezioni eventualmente)
     */
-    public void usePowerUpAsAmmo(PowerUp powerUp) throws IllegalArgumentException{
-        //TODO bisogna gestire il fatto che si puo usare solo per pagare un costo
+    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotAllowedCallException{
         for(int i = 0; i < 3; i++){
             if(match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
                 match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
-            else throw new IllegalArgumentException("Not a valid powerUp to be converted to ammo");
+            else
+                throw new NotAllowedCallException("Not a valid powerUp to be converted to ammo");
         }
 
     }

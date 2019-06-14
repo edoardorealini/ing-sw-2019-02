@@ -347,7 +347,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     @Override
-    public void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException {
+    public void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException, NotAllowedCallException {
         matchController.usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPow, matchController.getMatch().getCurrentPlayer()));
         pushMatchToAllPlayers();
     }
