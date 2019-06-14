@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
@@ -257,12 +258,7 @@ public class MainPage extends Application {
         });
 
         Button reloadWeapons = new Button("Reload Weapons");
-        reloadWeapons.setOnAction(event -> {
-           /* try {
-               //TODO remoteController.
-            } catch {
-            } */
-        });
+        reloadWeapons.setOnAction(event -> reloadPopup());
         hBoxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
 
         SplitPane vSplitPane = new SplitPane();
@@ -740,6 +736,124 @@ public class MainPage extends Application {
 
     public boolean isPowerUpAsAmmoActive() {
         return powerUpAsAmmoActive;
+    }
+
+    public void reloadPopup() {
+
+        short a = 0;
+        short b = 0;
+        short c = 0;
+
+        Stage reloadStage = new Stage();
+
+        reloadStage.initModality(Modality.APPLICATION_MODAL);
+        reloadStage.setTitle("Owned weapons");
+        Label text = new Label("Choose the weapon you want to reload:");
+        HBox hBoxWeapon = new HBox();
+        HBox hBoxButtons = new HBox();
+        VBox vBox = new VBox();
+        Button reloadWeapon1 = new Button();
+        Button reloadWeapon2 = new Button();
+        Button reloadWeapon3 = new Button();
+        reloadWeapon1.setTextFill(Color.CADETBLUE);
+        reloadWeapon2.setTextFill(Color.CADETBLUE);
+        reloadWeapon3.setTextFill(Color.CADETBLUE);
+        reloadWeapon1.setAlignment(Pos.CENTER);
+        reloadWeapon2.setAlignment(Pos.CENTER);
+        reloadWeapon3.setAlignment(Pos.CENTER);
+
+
+        if (match.getCurrentPlayer().getWeapons()[0]  != null){
+            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[0].getName() + ".png");
+            Image image0 = new Image(file0.toURI().toString());
+            ImageView iv0 = new ImageView(image0);
+            iv0.setFitHeight(350);
+            iv0.setFitWidth(300);
+            iv0.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv0);
+            reloadWeapon1.setText("Reload " + match.getCurrentPlayer().getWeapons()[0].getName());
+            hBoxButtons.getChildren().add(reloadWeapon1);
+            a = 1;
+        }
+
+        if (match.getCurrentPlayer().getWeapons()[1] != null){
+            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[1].getName() + ".png");
+            Image image1 = new Image(file1.toURI().toString());
+            ImageView iv1 = new ImageView(image1);
+            iv1.setFitHeight(350);
+            iv1.setFitWidth(300);
+            iv1.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv1);
+            reloadWeapon2.setText("Reload " + match.getCurrentPlayer().getWeapons()[1].getName());
+            hBoxButtons.getChildren().add(reloadWeapon2);
+            b = 1;
+        }
+
+        if (match.getCurrentPlayer().getWeapons()[2] != null){
+            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[2].getName() + ".png");
+            Image image2 = new Image(file2.toURI().toString());
+            ImageView iv2 = new ImageView(image2);
+            iv2.setFitHeight(350);
+            iv2.setFitWidth(300);
+            iv2.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv2);
+            reloadWeapon3.setText("Reload " + match.getCurrentPlayer().getWeapons()[2].getName());
+            hBoxButtons.getChildren().add(reloadWeapon3);
+            c = 1;
+        }
+
+        hBoxWeapon.setMinHeight(350);
+        hBoxWeapon.setMinWidth(300);
+        hBoxButtons.setMinHeight(80);
+        hBoxButtons.setMinWidth(100);
+        hBoxWeapon.setAlignment(Pos.CENTER);
+        hBoxWeapon.setSpacing(8);
+        hBoxButtons.setAlignment(Pos.CENTER);
+        hBoxButtons.setSpacing(250);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(8);
+
+        //setting the action linked to the button
+        reloadWeapon1.setOnAction(event -> {
+            try {
+                remoteController.reload(0);
+                reloadStage.close();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        reloadWeapon2.setOnAction(event -> {
+            try {
+                remoteController.reload(1);
+                reloadStage.close();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        reloadWeapon3.setOnAction(event -> {
+            try {
+                remoteController.reload(2);
+                reloadStage.close();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
+
+
+        Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
+        reloadStage.setScene(scene);
+        reloadStage.showAndWait();
+
     }
 }
 

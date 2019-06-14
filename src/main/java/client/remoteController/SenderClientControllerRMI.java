@@ -280,4 +280,16 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
     }
 
+    @Override
+    public void reload(int indexOfPowerUp) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException {
+        try {
+            serverController.reload(indexOfPowerUp, hashedNickname);
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException(e.getMessage());
+        } catch (NotAllowedCallException e) {
+            throw new NotAllowedCallException(e.getMessage());
+        } catch (WrongStatusException e) {
+            throw new WrongStatusException(e.getMessage());
+        }
+    }
 }

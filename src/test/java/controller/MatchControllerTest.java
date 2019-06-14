@@ -1,6 +1,7 @@
 package controller;
 
 import exception.NotEnoughAmmoException;
+import exception.WrongStatusException;
 import model.Color;
 import model.ShootMode;
 import model.ShootingParametersInput;
@@ -93,7 +94,11 @@ class MatchControllerTest {
         try {
             Weapon weap = matchController.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE);
             weap.setWeaponStatus(WeaponAmmoStatus.UNLOADED);
-            matchController.reloadWeapon(weap);
+            try {
+                matchController.reloadWeapon(weap);
+            } catch (WrongStatusException e) {
+                e.printStackTrace();
+            }
         } catch (NotEnoughAmmoException e) {
             e.printStackTrace();
         }

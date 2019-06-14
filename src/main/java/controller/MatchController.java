@@ -733,7 +733,10 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
 
-    public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException {
+    public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException, WrongStatusException {
+
+        if (!match.getCurrentPlayer().isInStatusReloading())
+            throw new WrongStatusException("You cannot reload now");
 
         if (weapon.getWeaponStatus() == WeaponAmmoStatus.LOADED)
             return;

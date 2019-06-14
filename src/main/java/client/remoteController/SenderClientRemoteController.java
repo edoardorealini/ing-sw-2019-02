@@ -57,4 +57,6 @@ public abstract class SenderClientRemoteController {
     public abstract void shoot(ShootingParametersClient input) throws RemoteException, NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException;
 
     public abstract void skipAction() throws RemoteException, WrongStatusException;
+
+    public abstract void reload(int indexOfPowerUp) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException;
 }

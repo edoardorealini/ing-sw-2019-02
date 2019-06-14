@@ -420,10 +420,24 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return parameters;
     }
 
+    @Override
+    public void reload(int indexOfWeapon, int clientHashedID) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException {
+        if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            try {
+                matchController.reloadWeapon(converter.intToWeapon(indexOfWeapon));
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException(e.getMessage());
+            } catch (WrongStatusException e) {
+                throw new WrongStatusException(e.getMessage());
+            }
+        } else {
+            throw new NotAllowedCallException("Wait for your turn");
+        }
+    }
 
     /*
-        Update methods
-    */
+            Update methods
+        */
     private synchronized void updateAllPlayersStatus(){
         for(Player p: matchController.getMatch().getPlayers())
             matchController.goToNextStatus(p);
