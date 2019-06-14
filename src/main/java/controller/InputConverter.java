@@ -33,6 +33,11 @@ public class InputConverter {
        return match.getCurrentPlayer().getPosition().getAvailableWeapons().get(numberOfWeapon);
     }
 
+    public Weapon intToWeaponInHand(int numberOfWeapon){
+        return match.getCurrentPlayer().getWeapons()[numberOfWeapon];
+    }
+
+
     // metodo che riceve una stringa che indica il movimento voluto e lo trasforma
     public Directions stringToDirections (String movement){
         // TODO da cambiare assolutamente questi input

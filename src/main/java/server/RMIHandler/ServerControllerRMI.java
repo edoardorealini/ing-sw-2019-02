@@ -424,7 +424,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public void reload(int indexOfWeapon, int clientHashedID) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException {
         if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {
-                matchController.reloadWeapon(converter.intToWeapon(indexOfWeapon));
+                matchController.reloadWeapon(converter.intToWeaponInHand(indexOfWeapon));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException(e.getMessage());
             } catch (WrongStatusException e) {
