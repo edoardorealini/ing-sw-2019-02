@@ -51,8 +51,8 @@ public class InputConverter {
     }
 
     // restituisce il powerUp del giocatore in posizione indexOfPowerUp
-    public PowerUp indexToPowerUp(int indexOfPowerUp){
-        return match.getCurrentPlayer().getPowerUps()[indexOfPowerUp];
+    public PowerUp indexToPowerUp(int indexOfPowerUp, Player user){
+        return user.getPowerUps()[indexOfPowerUp];
     }
 
 

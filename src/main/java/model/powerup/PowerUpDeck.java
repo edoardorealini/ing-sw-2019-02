@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.*;
 
 public class PowerUpDeck  implements Serializable {
-    private LinkedList<PowerUp> powerUpDeck;
+    private List<PowerUp> powerUpDeck;
 
     public PowerUpDeck(){
 
-        powerUpDeck = new LinkedList<>();
+        powerUpDeck = new ArrayList<>();
 
         powerUpDeck.add(new TagbackGrenade(Color.BLUE));
         powerUpDeck.add(new TagbackGrenade(Color.BLUE));
@@ -48,14 +48,17 @@ public class PowerUpDeck  implements Serializable {
 
 
     public PowerUp pickFirstCard(){
+        /*
          PowerUp powerUpTemp;
          powerUpTemp = powerUpDeck.getFirst();
          powerUpDeck.removeFirst();
          return powerUpTemp;
+         */
+        return powerUpDeck.remove(0);
     }
 
     public void addPowerUps(PowerUp powerUp){
-        powerUpDeck.addLast(powerUp);
+        powerUpDeck.add(powerUp);
     }
 
 }

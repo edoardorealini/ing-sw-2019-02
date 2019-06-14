@@ -545,14 +545,22 @@ public class MatchController{
                     new TimerTask() {
                         @Override
                         public void run() {
+                            Match model = getMatch();
                             if(everybodyRespawned()) {
-                                match.setCurrentPlayer(match.getPlayers().get(0));
-                                goToNextStatus(match.getPlayers().get(0));
-                                waitForRespawn.cancel();
-                                waitForRespawn.purge();
+                                model.setCurrentPlayer(model.getPlayers().get(0));
+                                goToNextStatus(model.getPlayers().get(0));
+                                try {
+                                    serverControllerRMI.pushMatchToAllPlayers();
+                                }catch (RemoteException e){
+                                    e.printStackTrace();
+                                }
+                                finally {
+                                    waitForRespawn.cancel();
+                                    waitForRespawn.purge();
+                                }
                             }
                         }
-                    }, 1, 1000
+                    }, 1, 5000
             );
         }
         else{
@@ -561,14 +569,22 @@ public class MatchController{
                     new TimerTask() {
                         @Override
                         public void run() {
+                            Match model = getMatch();
                             if(everybodyRespawned()) {
-                                match.setCurrentPlayer(match.getPlayers().get(idCurrentPlayer + 1));
-                                goToNextStatus(match.getPlayers().get(idCurrentPlayer + 1));
-                                waitForRespawn.cancel();
-                                waitForRespawn.purge();
+                                model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
+                                goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
+                                try {
+                                    serverControllerRMI.pushMatchToAllPlayers();
+                                }catch (RemoteException e){
+                                    e.printStackTrace();
+                                }
+                                finally {
+                                    waitForRespawn.cancel();
+                                    waitForRespawn.purge();
+                                }
                             }
                         }
-                    }, 1, 1000
+                    }, 1, 5000
             );
         }
 
