@@ -100,7 +100,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(5).setOptionalModeOne(new EffectMoveYourself(2));
         weaponDeck.get(5).setOptionalModeTwo(new EffectDamage(1, 1, 0, true, 0));  //same target
         weaponDeck.get(5).setAlternateMode(null);
-        weaponDeck.get(5).setRequiredParameters(4, 1, 0, false, false);
+        weaponDeck.get(5).setRequiredParameters(4, 1, 1, false, false);
 
 
         //WHISPER

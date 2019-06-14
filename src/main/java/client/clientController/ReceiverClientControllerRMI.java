@@ -52,9 +52,9 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Threa
     }
 
-    public PowerUp askForPowerUpAsAmmo() {
-        //TODO per johnny, scegli se chiamare un popup
-        return new PowerUp(Color.RED, PowerUpName.TELEPORTER);
+    public int askForPowerUpAsAmmo() {
+        mainPage.ask
+        return 0;
     }
 
     public String getNickname() throws RemoteException{

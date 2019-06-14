@@ -37,19 +37,15 @@ public class RespawnPopUp extends Application {
         //TODO uncomment the following line
         //primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.setTitle("Respawn");
-        primaryStage.setOnCloseRequest(event -> {});
-       // SplitPane splitPane = new SplitPane();
         HBox hBoxImages = new HBox();
         VBox vBoxPage = new VBox();
         HBox hBoxButtons = new HBox();
-      //  splitPane.setOrientation(Orientation.VERTICAL);
 
         Label text = new Label("Choose one power up to discard, you will spawn on the square with the same color");
         Button pow1 = new Button("DISCARD THIS");
         Button pow2 = new Button("DISCARD THIS");
         Button pow3 = new Button("DISCARD THIS");
 
-        //splitPane.getItems().addAll(hBoxImages, vBoxPage);
 
         vBoxPage.getChildren().setAll(hBoxImages, text, hBoxButtons);
 
@@ -148,11 +144,6 @@ public class RespawnPopUp extends Application {
         });
         primaryStage.showAndWait();
     }
-
-  //  public void setMatch(Match match) {
-  //      this.match = match;
-  //  }
-
 
     public void setMatch(Match match) {
         this.match = match;

@@ -31,7 +31,7 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage mainStage) throws Exception {
-        mainStage.setTitle("Adrenaline "+remoteController.getNickname());
+        mainStage.setTitle("Adrenaline " +remoteController.getNickname());
         SplitPane splitPane = new SplitPane();
         //left (life)
         VBox vBoxLife = new VBox();
@@ -100,7 +100,7 @@ public class MainPage extends Application {
         vBoxLife.getChildren().addAll(labelpos1,labelpos2,labelpos3,labelpos4,labelpos5);
 
         Button buttonLife1 = new Button();
-        buttonLife1.setText(" Show "+match.getPlayers().get(0).getNickname()+"'s life ");
+        buttonLife1.setText(" Show " + match.getPlayers().get(0).getNickname() + "'s life ");
         buttonLife1.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
@@ -112,8 +112,9 @@ public class MainPage extends Application {
             }
         });
         vBoxLife.getChildren().add(buttonLife1);
+
         Button buttonLife2 = new Button();
-        buttonLife2.setText(" Show "+match.getPlayers().get(1).getNickname()+"'s life ");
+        buttonLife2.setText(" Show " + match.getPlayers().get(1).getNickname() + "'s life ");
         buttonLife2.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
@@ -125,8 +126,9 @@ public class MainPage extends Application {
             }
         });
         vBoxLife.getChildren().add(buttonLife2);
+
         Button buttonLife3 = new Button();
-        buttonLife3.setText(" Show "+match.getPlayers().get(2).getNickname()+"'s life ");
+        buttonLife3.setText(" Show " + match.getPlayers().get(2).getNickname() + "'s life ");
         buttonLife3.setOnAction(e -> {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
@@ -138,6 +140,7 @@ public class MainPage extends Application {
             }
         });
         vBoxLife.getChildren().add(buttonLife3);
+
         if (match.getPlayers().size()>=4){
             Button buttonLife4 = new Button();
             buttonLife4.setText(" Show "+match.getPlayers().get(3).getNickname()+"'s life ");
@@ -153,6 +156,7 @@ public class MainPage extends Application {
             });
             vBoxLife.getChildren().add(buttonLife4);
         }
+
         if (match.getPlayers().size()>=5){
             Button buttonLife5 = new Button();
             buttonLife5.setText(" Show "+match.getPlayers().get(4).getNickname()+"'s life ");
@@ -170,7 +174,7 @@ public class MainPage extends Application {
         }
 
         Button myAmmo = new Button(" Show My Ammo");
-        myAmmo.setOnAction(e -> ShowMyAmmo());
+        myAmmo.setOnAction(e -> showMyAmmo());
         vBoxLife.getChildren().add(myAmmo);
 
         splitPane.getItems().add(vBoxLife);
@@ -204,6 +208,7 @@ public class MainPage extends Application {
                 ex.printStackTrace();
             }
         });
+
         Button showMyPowerUps = new Button(" Show My PowerUps");
         showMyPowerUps.setOnAction(e -> {
             try {
@@ -215,6 +220,7 @@ public class MainPage extends Application {
                 ex.printStackTrace();
             }
         });
+
         Button skipTurn = new Button(" Skip Action ");
         skipTurn.setOnAction(e -> {
             try {
@@ -225,12 +231,16 @@ public class MainPage extends Application {
                 PopUpSceneMethod.display(" Status Error ", ex.getMessage());
             }
         });
+
         Label empty1 = new Label("                 ");
         Label empty2 = new Label("                 ");
+
         Button moveButton = new Button(" MOVE ");
         moveButton.setOnAction(e -> moveButton());
+
         Button grabButton = new Button(" GRAB ");
         grabButton.setOnAction(e -> grab());
+
         Button shootButton = new Button(" SHOOT ");
         shootButton.setOnAction(event -> {
             try {
@@ -243,10 +253,11 @@ public class MainPage extends Application {
                 //TODO errore che dice che hbox è già settata e non può essere usata come root
             }
         });
-        Button chargeWeapons = new Button(" Charge Weapons");
+
+        Button reloadWeapons = new Button("Reload Weapons");
         //TODO charge wepons
 
-        hBoxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,chargeWeapons);
+        hBoxTop.getChildren().addAll(points,showGoodsInPlace,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
 
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);
@@ -410,19 +421,7 @@ public class MainPage extends Application {
                 try {
                     remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
                     stage.close();
-                } catch (NotAllowedCallException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (WrongStatusException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (RemoteException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (NotEnoughAmmoException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (WrongPositionException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (InvalidInputException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                } catch (NotAllowedMoveException ex) {
+                } catch (NotAllowedCallException | WrongStatusException |RemoteException |NotEnoughAmmoException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
                     PopUpSceneMethod.display("Error", ex.getMessage());
                 }
             }
@@ -560,7 +559,7 @@ public class MainPage extends Application {
         }
     }
 
-    public void ShowMyAmmo(){
+    public void showMyAmmo(){
         Stage primaryStage = new Stage();
         primaryStage.setTitle("My Ammo");
 
@@ -615,6 +614,122 @@ public class MainPage extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
+    public int askForPowerUpAsAmmo() {
+
+        Stage powAsAmmoStage = new Stage();
+        int a = 0;
+        int b = 0;
+        int c = 0;
+
+        powAsAmmoStage.initModality(Modality.APPLICATION_MODAL);
+        powAsAmmoStage.setTitle("Use Power Up as Ammo");
+        HBox hBoxImages = new HBox();
+        VBox vBoxPage = new VBox();
+        HBox hBoxButtons = new HBox();
+
+        Label text = new Label("Choose one power up to use as ammo:");
+        Button pow1 = new Button("PAY WITH THIS");
+        Button pow2 = new Button("PAY WITH THIS");
+        Button pow3 = new Button("PAY WITH THIS");
+
+
+        vBoxPage.getChildren().setAll(hBoxImages, text, hBoxButtons);
+
+        vBoxPage.setAlignment(Pos.CENTER);
+        hBoxButtons.setAlignment(Pos.CENTER);
+        hBoxImages.setAlignment(Pos.CENTER);
+        vBoxPage.setSpacing(8);
+        hBoxImages.setSpacing(10);
+        hBoxButtons.setSpacing(100);
+
+        pow1.setOnAction(event -> {
+            try {
+                senderRemoteController.spawn(0);
+                powAsAmmoStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+            }
+        });
+
+        pow2.setOnAction(event -> {
+            try {
+                senderRemoteController.spawn(1);
+                powAsAmmoStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+            }
+        });
+
+        pow3.setOnAction(event -> {
+            try {
+                senderRemoteController.spawn(2);
+                powAsAmmoStage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
+            }
+        });
+
+
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0]!=null){
+            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(file0.toURI().toString());
+            ImageView iv0 = new ImageView(image0);
+            iv0.setFitHeight(300);
+            iv0.setFitWidth(250);
+            iv0.setPreserveRatio(true);
+            hBoxButtons.getChildren().add(pow1);
+            hBoxImages.getChildren().add(iv0);
+            a = 1;
+        }
+
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1]!=null){
+            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(file1.toURI().toString());
+            ImageView iv1 = new ImageView(image1);
+            iv1.setFitHeight(300);
+            iv1.setFitWidth(250);
+            iv1.setPreserveRatio(true);
+            hBoxButtons.getChildren().add(pow2);
+            hBoxImages.getChildren().add(iv1);
+            b = 1;
+        }
+
+        if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2]!=null){
+            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(file2.toURI().toString());
+            ImageView iv2 = new ImageView(image2);
+            iv2.setFitHeight(300);
+            iv2.setFitWidth(250);
+            iv2.setPreserveRatio(true);
+            hBoxButtons.getChildren().add(pow3);
+            hBoxImages.getChildren().add(iv2);
+            c = 1;
+        }
+
+        // splitPane.setMinHeight(300);
+        // splitPane.setMinWidth(250);
+
+        Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
+        powAsAmmoStage.setScene(scene);
+
+        powAsAmmoStage.setOnCloseRequest(event -> {
+            powAsAmmoStage.close();
+            return int i = askForPowerUpAsAmmo();
+        });
+
+        powAsAmmoStage.showAndWait();
+
+        return 0;
+    }
+
 }
 
 

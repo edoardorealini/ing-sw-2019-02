@@ -762,6 +762,7 @@ public class MatchController{
                 default:
                     break;
             }
+
         do {
             actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
             actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
@@ -787,7 +788,7 @@ public class MatchController{
                     */
 
                     //PowerUp power = TODO insert ask if the user wants to use a power up as an ammo
-                    //usePowerUpAsAmmo(power);
+                    usePowerUpAsAmmo(power);
                 } else {
                     throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }

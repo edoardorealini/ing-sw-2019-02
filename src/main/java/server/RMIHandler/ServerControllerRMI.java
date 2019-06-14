@@ -192,6 +192,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 }
             }
 
+            matchController.getMatch().setMatchIsActive(true);
+
         }catch(RemoteException e){
             //exception thrown in case of connection error with client!
             e.printStackTrace();
