@@ -516,7 +516,7 @@ public class MatchController{
                 try {
                     serverControllerRMI.askRespawn();
                     //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
-                }catch(RemoteException e){
+                }catch(Exception e){
                     e.printStackTrace();
                 }
 
@@ -691,6 +691,9 @@ public class MatchController{
             }  catch (NotAllowedMoveException e) {
                 throw new  NotAllowedMoveException();
             } catch (NotEnoughAmmoException e) {
+
+                //TODO pay with powerups
+
                 throw new NotEnoughAmmoException("It seems you do not have enough ammo");
             } catch (NotAllowedTargetException e) {
                 throw new NotAllowedTargetException();

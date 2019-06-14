@@ -35,11 +35,13 @@ public class PowerUpController{
         //fornire metodo lo stesso, devo effettuarei i controlli! (lanciare eccezioni eventualmente)
     */
     public void usePowerUpAsAmmo(PowerUp powerUp) throws NotAllowedCallException{
-        for(int i = 0; i < 3; i++){
-            if(match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
-                match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
-            else
-                throw new NotAllowedCallException("Not a valid powerUp to be converted to ammo");
+        for(int i = 0; i < 3; i++) {
+            if (match.getCurrentPlayer().getPowerUps()[i] != null) {
+                if (match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
+                    match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
+                else
+                    throw new NotAllowedCallException("Not a valid powerUp to be converted to ammo");
+            }
         }
 
     }
