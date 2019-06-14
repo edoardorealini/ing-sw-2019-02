@@ -551,6 +551,7 @@ public class MatchController{
                         public synchronized void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
+                                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
                                 model.setCurrentPlayer(model.getPlayers().get(0));
                                 goToNextStatus(model.getPlayers().get(0));
                                 try {
@@ -564,7 +565,7 @@ public class MatchController{
                                 }
                             }
                         }
-                    }, 1, 5000
+                    }, 100, 1000
             );
         }
         else{
@@ -575,6 +576,7 @@ public class MatchController{
                         public synchronized void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
+                                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
                                 model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
                                 goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
                                 try {
@@ -588,7 +590,7 @@ public class MatchController{
                                 }
                             }
                         }
-                    }, 1, 5000
+                    }, 100, 1000
             );
         }
 
@@ -601,30 +603,6 @@ public class MatchController{
 
         return true;
     }
-    /*
-                Timer waitForRespawn = new Timer();
-                waitForRespawn.schedule(
-                        new TimerTask() {
-                            @Override
-                            public void run() {
-                                try {
-                                    //startGame is called later, the first action should be calling a client to ask for the map
-                                    //startGame();
-                                    askMap();
-                                }catch (RemoteException e){
-                                    e.printStackTrace();
-                                }
-                                catch (Exception e){
-                                    System.out.println("[ERROR]: Error launching the chooseMap window");
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, 1, 1000
-                );
-
-     */
-
-
     //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
