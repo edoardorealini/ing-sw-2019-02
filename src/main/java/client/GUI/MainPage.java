@@ -603,7 +603,7 @@ public class MainPage extends Application {
         iv2.setFitWidth(60);
         iv2.setPreserveRatio(true);
 
-        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo();i++){
+        for (int i=0; i<match.getPlayer(remoteController.getNickname()).getAmmo().getYellowAmmo();i++){
             hBox3.getChildren().add(iv2);
         }
 
