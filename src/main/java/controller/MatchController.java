@@ -536,8 +536,8 @@ public class MatchController{
                 break;
         }
     }
-
-    public void setNewCurrentPlayer(){
+    //nel dubbio metti synchronized un po' ovunque e dovrebbe andare a posto  ;)
+    public synchronized void setNewCurrentPlayer(){
         //TODO controllo su giocatori disconnessi
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
@@ -548,7 +548,7 @@ public class MatchController{
             waitForRespawn.schedule(
                     new TimerTask() {
                         @Override
-                        public void run() {
+                        public synchronized void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
                                 model.setCurrentPlayer(model.getPlayers().get(0));
@@ -572,7 +572,7 @@ public class MatchController{
             waitForRespawn.schedule(
                     new TimerTask() {
                         @Override
-                        public void run() {
+                        public synchronized void run() {
                             Match model = getMatch();
                             if(everybodyRespawned()) {
                                 model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
