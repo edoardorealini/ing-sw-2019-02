@@ -590,7 +590,7 @@ public class MatchController{
                                 }
                             }
                         }
-                    }, 1, 3C000
+                    }, 1, 3000
             );
         }
 
