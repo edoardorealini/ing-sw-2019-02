@@ -145,7 +145,7 @@ public class MatchController{
         return 0;
     }
 
-    //this method doesn't need the player. the first spawn always occurs when a pleyer is the current player.
+    //the first spawn always occurs when a pleyer is the current player.
     public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException{
         if(!user.hasPowerUp(powerUpChosen))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
@@ -500,19 +500,11 @@ public class MatchController{
                 //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
                 endOfTurn(); // manages the points to the players
 
-                /*
-                try {
-                    serverControllerRMI.askRespawn();
-                    //qui chiedo a tutti quelli che sono in  Respawn, se c'è qualcuno in spawn qui non lo vedo! (la set new current player non l'ha ancora messo!)
-                }catch(RemoteException e){
-                    e.printStackTrace();
-                }
-
-                 */
+                //qui aggiungo qualcosa che manda avanti lo stato del primo giocatore dell'elenco che è in wait first turn (dandogli il diritto di essere chiamato per spawnare)
+                //putWaitFirstTurnInSpawn();
 
                 setNewCurrentPlayer();
                 //in set current player in teoria attendo che quelli in respawn abbiano effettuato il loro respawn.
-
                 try {
                     serverControllerRMI.askRespawn();
                     //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
@@ -541,58 +533,87 @@ public class MatchController{
         //TODO controllo su giocatori disconnessi
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
-        if(idCurrentPlayer == match.getPlayers().size() - 1) {
-            //TODO prova a implementare attesa con timer
-            //in teoria i timer eseguono un controllo ogni secondo per vedere se i giocatori in stato di respawn hanno effettuato il respawn.
-            Timer waitForRespawn = new Timer();
-            waitForRespawn.schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            Match model = getMatch();
-                            if(everybodyRespawned()) {
-                                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
-                                model.setCurrentPlayer(model.getPlayers().get(0));
-                                goToNextStatus(model.getPlayers().get(0));
-                                try {
-                                    serverControllerRMI.pushMatchToAllPlayers();
-                                }catch (RemoteException e){
-                                    e.printStackTrace();
-                                }
-                                finally {
-                                    waitForRespawn.cancel();
-                                    waitForRespawn.purge();
+        if(!everybodyRespawned()) {
+            if (idCurrentPlayer == match.getPlayers().size() - 1) {
+                //TODO prova a implementare attesa con timer
+                //in teoria i timer eseguono un controllo ogni secondo per vedere se i giocatori in stato di respawn hanno effettuato il respawn.
+                Timer waitForRespawn = new Timer();
+                waitForRespawn.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                Match model = getMatch();
+                                if (everybodyRespawned()) {
+                                    System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
+                                    model.setCurrentPlayer(model.getPlayers().get(0));
+                                    goToNextStatus(model.getPlayers().get(0));
+                                    try {
+                                        serverControllerRMI.pushMatchToAllPlayers();
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        waitForRespawn.cancel();
+                                        waitForRespawn.purge();
+                                    }
                                 }
                             }
-                        }
-                    }, 1, 3000
-            );
+                        }, 1, 3000
+                );
+            } else {
+                Timer waitForRespawn = new Timer();
+                waitForRespawn.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                Match model = getMatch();
+                                if (everybodyRespawned()) {
+                                    System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
+                                    model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
+                                    goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
+                                    try {
+                                        serverControllerRMI.pushMatchToAllPlayers();
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        waitForRespawn.cancel();
+                                        waitForRespawn.purge();
+                                    }
+                                }
+                            }
+                        }, 1, 3000
+                );
+            }
         }
         else{
-            Timer waitForRespawn = new Timer();
-            waitForRespawn.schedule(
-                    new TimerTask() {
-                        @Override
-                        public void run() {
-                            Match model = getMatch();
-                            if(everybodyRespawned()) {
-                                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
-                                model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
-                                goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
-                                try {
-                                    serverControllerRMI.pushMatchToAllPlayers();
-                                }catch (RemoteException e){
-                                    e.printStackTrace();
-                                }
-                                finally {
-                                    waitForRespawn.cancel();
-                                    waitForRespawn.purge();
-                                }
-                            }
-                        }
-                    }, 1, 3000
-            );
+            if (idCurrentPlayer == match.getPlayers().size() - 1) {
+
+                Match model = getMatch();
+                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
+                model.setCurrentPlayer(model.getPlayers().get(0));
+                goToNextStatus(model.getPlayers().get(0));
+                try {
+                    serverControllerRMI.pushMatchToAllPlayers();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else{
+
+                Match model = getMatch();
+                System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
+                model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
+                goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
+                try {
+                    serverControllerRMI.pushMatchToAllPlayers();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
         }
+
 
     }
 
@@ -603,6 +624,23 @@ public class MatchController{
 
         return true;
     }
+
+    private void putWaitFirstTurnInSpawn(){
+        for(Player p: match.getPlayers()) {
+            if (p.isInStatusWaitFirstTurn()) {
+                goToNextStatus(p);
+                try {
+                    serverControllerRMI.pushMatchToAllPlayers();
+                }catch(RemoteException e){
+                    e.printStackTrace();
+                }
+                return;
+            }
+        }
+
+
+    }
+
     //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)

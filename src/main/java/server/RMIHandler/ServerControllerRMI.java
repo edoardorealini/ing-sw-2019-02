@@ -425,6 +425,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {
                 matchController.reloadWeapon(converter.intToWeaponInHand(indexOfWeapon));
+                pushMatchToAllPlayers();
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException(e.getMessage());
             } catch (WrongStatusException e) {
