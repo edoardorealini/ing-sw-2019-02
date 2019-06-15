@@ -61,44 +61,44 @@ public class GeneralWeaponPopUp extends Application {
         useWeapon3.setAlignment(Pos.CENTER);
 
 
-        if (match.getCurrentPlayer().getWeapons()[0]  != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0]  != null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[0].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(350);
             iv0.setFitWidth(300);
             iv0.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv0);
-            useWeapon1.setText("Use " + match.getCurrentPlayer().getWeapons()[0].getName());
+            useWeapon1.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName());
             hBoxButtons.getChildren().add(useWeapon1);
             a = 1;
         }
 
-        if (match.getCurrentPlayer().getWeapons()[1] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[1].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(350);
             iv1.setFitWidth(300);
             iv1.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv1);
-            useWeapon2.setText("Use " + match.getCurrentPlayer().getWeapons()[1].getName());
+            useWeapon2.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName());
             hBoxButtons.getChildren().add(useWeapon2);
             b = 1;
         }
 
-        if (match.getCurrentPlayer().getWeapons()[2] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[2].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(350);
             iv2.setFitWidth(300);
             iv2.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv2);
-            useWeapon3.setText("Use " + match.getCurrentPlayer().getWeapons()[2].getName());
+            useWeapon3.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName());
             hBoxButtons.getChildren().add(useWeapon3);
             c = 1;
         }
@@ -116,19 +116,19 @@ public class GeneralWeaponPopUp extends Application {
 
         //setting the action linked to the button
         useWeapon1.setOnAction(event -> {
-                this.weapon = match.getCurrentPlayer().getWeapons()[0];
+                this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0];
                 shoot(new Stage());
                 primaryStage.close();
                 });
 
         useWeapon2.setOnAction(event -> {
-                this.weapon = match.getCurrentPlayer().getWeapons()[1];
+                this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1];
                 shoot(new Stage());
                 primaryStage.close();
                 });
 
         useWeapon3.setOnAction(event -> {
-                this.weapon = match.getCurrentPlayer().getWeapons()[2];
+                this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2];
                 shoot(new Stage());
                 primaryStage.close();
                 });
@@ -380,7 +380,7 @@ public class GeneralWeaponPopUp extends Application {
 
     private void fillChoiceBoxName(ChoiceBox<String> choiceBoxName){
         for (Player p: match.getPlayers()) {
-            if (! p.getNickname().equals(match.getCurrentPlayer().getNickname())) {
+            if (! p.getNickname().equals(match.getPlayer(senderRemoteController.getNickname()).getNickname())) {
                 choiceBoxName.getItems().add(p.getNickname());
             }
         }
@@ -433,7 +433,7 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         for (ChoiceBox<String> choiceBox : targetPlayers) {
-            if (!match.getCurrentPlayer().getNickname().equals(choiceBox.getValue()) && choiceBox.getValue() != null)
+            if (!match.getPlayer(senderRemoteController.getNickname()).getNickname().equals(choiceBox.getValue()) && choiceBox.getValue() != null)
                 input.setTargetPlayers(choiceBox.getValue());
         }
 
