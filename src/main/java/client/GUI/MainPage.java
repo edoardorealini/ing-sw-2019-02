@@ -192,6 +192,65 @@ public class MainPage extends Application {
         iv.setFitHeight(875);
         iv.setFitWidth(750);
         iv.setPreserveRatio(true);
+
+        iv.setOnMouseClicked(mouseClicked -> {
+                    System.out.println("Click at X = " + mouseClicked.getX());
+                    System.out.println("Click at Y = " + mouseClicked.getY());
+                    double x = mouseClicked.getX();
+                    double y = mouseClicked.getY();
+
+                    double x0 = 122;
+                    double x1 = 237;
+                    double x2 = 376;
+                    double x3 = 509;
+                    double x4 = 626;
+
+                    double y0 = 127;
+                    double y1 = 253;
+                    double y2 = 372;
+                    double y3 = 501;
+
+                    if (x >= x0 && x <= x1 && y >= y0 && y <= y1) {
+                        if (match.getMap().getSquareFromIndex(0, 2) != null) {
+                            if (match.getMap().getSquareFromIndex(0, 2).getType() == SPAWN) {
+                                showWeaponsGoods(0, 2);
+                            } else {
+                                showAmmoGoods(0, 2);
+                            }
+                        }
+                    }
+                    if (x > x1 && x <= x2 && y >= y0 && y <= y1) {
+                        if (match.getMap().getSquareFromIndex(1, 2) != null) {
+                            if (match.getMap().getSquareFromIndex(1, 2).getType() == SPAWN) {
+                                showWeaponsGoods(1, 2);
+                            } else {
+                                showAmmoGoods(1, 2);
+                            }
+                        }
+                    }
+                    if (x > x2 && x <= x3 && y >= y0 && y <= y1) {
+                        if (match.getMap().getSquareFromIndex(2, 2) != null) {
+                            if (match.getMap().getSquareFromIndex(2, 2).getType() == SPAWN) {
+                                showWeaponsGoods(2, 2);
+                            } else {
+                                showAmmoGoods(2, 2);
+                            }
+                        }
+                    }
+                    if (x > x3 && x <= x4 && y >= y0 && y <= y1) {
+                        if (match.getMap().getSquareFromIndex(3, 2) != null) {
+                            if (match.getMap().getSquareFromIndex(3, 2).getType() == SPAWN) {
+                                showWeaponsGoods(3, 2);
+                            } else {
+                                showAmmoGoods(3, 2);
+                            }
+                        }
+                    }
+
+                    //TODO ricopiare mettendo le coordinate giuste...
+                }
+            );
+
         splitPane.getItems().add(iv);
 
         // Top (buttons)
