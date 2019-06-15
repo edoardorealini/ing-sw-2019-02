@@ -25,6 +25,7 @@ class BoardTest {
         for (int i=0; i<11; i++) {
             assertEquals(9, b1.getLifePoints()[i]);
         }
+
     }
 
     @Test

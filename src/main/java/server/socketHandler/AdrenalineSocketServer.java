@@ -37,6 +37,15 @@ public class AdrenalineSocketServer implements Runnable{
             } catch(IOException e) {
                 break; // entrerei qui se serverSocket venisse chiuso
             }
+            finally {
+                try {
+                    serverSocket.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+            if(serverSocket.isClosed())
+                break;
         }
         executor.shutdown();
     }

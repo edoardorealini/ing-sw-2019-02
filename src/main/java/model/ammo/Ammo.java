@@ -10,10 +10,17 @@ public class Ammo implements Serializable {
     private int yellowAmmo;
 
     public Ammo (){
+        redAmmo = 1;
+        blueAmmo = 1;
+        yellowAmmo = 1;
+
         //TODO metti a 1
-        redAmmo = 2;
-        blueAmmo = 2;
-        yellowAmmo = 2;
+
+        /*  TEST ONLY
+            redAmmo = 2;
+            blueAmmo = 2;
+            yellowAmmo = 2;
+        */
     }
 
     public synchronized int getBlueAmmo() {
