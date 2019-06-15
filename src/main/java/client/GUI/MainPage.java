@@ -350,6 +350,9 @@ public class MainPage extends Application {
 
     private void showGoodsInCoordinates(double x, double y){
         //origine presa in alto a sx
+        //non modificare MAI questi valori, servono per separare gli square nell'immagine
+        //NB i valori DIPENDONO dalla dimensione che si imposta della mappa nella vista della GUI
+        //se per caso dovessimo modificarla, andrebbero modificati solo queste costanti.
         double x0 = 122;
         double x1 = 237;
         double x2 = 376;
