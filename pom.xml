@@ -107,7 +107,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.2</version>
                 <configuration>
-                    <mainClass>client.GUI.Action2Boosted</mainClass>
+                    <mainClass>client.GUI.Action3Boosted</mainClass>
                 </configuration>
             </plugin>
 
