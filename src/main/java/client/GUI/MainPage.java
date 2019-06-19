@@ -42,57 +42,7 @@ public class MainPage extends Application {
         vBoxLife.setSpacing(3);
         vBoxLife.setMaxWidth(250);
         vBoxLife.setAlignment(Pos.CENTER);
-        /*
-        //prima board
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "0.png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(200);
-        iv0.setFitWidth(400);
-        iv0.setPreserveRatio(true);
-        vBoxLife.getChildren().add(iv0);
-        // seconda board
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "1.png");
-        Image image1 = new Image(file1.toURI().toString());
-        ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(200);
-        iv1.setFitWidth(400);
-        iv1.setPreserveRatio(true);
-        vBoxLife.getChildren().add(iv1);
-        // terza board
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "2.png");
-        Image image2 = new Image(file2.toURI().toString());
-        ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(200);
-        iv2.setFitWidth(400);
-        iv2.setPreserveRatio(true);
-        vBoxLife.getChildren().add(iv2);
-        // quarta board
-        if (match.getPlayers().size()>=4){
-            File file3 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "4.png");
-            Image image3 = new Image(file3.toURI().toString());
-            ImageView iv3 = new ImageView(image3);
-            iv3.setFitHeight(200);
-            iv3.setFitWidth(400);
-            iv3.setPreserveRatio(true);
-            vBoxLife.getChildren().add(iv3);
-        }
-        // quinta board
-        if (match.getPlayers().size()>=5){
-            File file4 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + "3.png");
-            Image image4 = new Image(file4.toURI().toString());
-            ImageView iv4 = new ImageView(image4);
-            iv4.setFitHeight(200);
-            iv4.setFitWidth(400);
-            iv4.setPreserveRatio(true);
-            vBoxLife.getChildren().add(iv4);
-        }
-        */
+
         // inserisco le posizioni sotto
         labelpos1 = new Label("");
         labelpos2 = new Label("");
