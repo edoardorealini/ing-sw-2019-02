@@ -48,7 +48,7 @@ public class AdrenalineServer {
 
     public static void main(String[] args) { //La porta si può chiedere come parametro di input in args
 
-        AdrenalineServer mainServer = new AdrenalineServer(1337, 1338);
+        AdrenalineServer mainServer = new AdrenalineServer(1337, Integer.parseInt(args[0]));
 
         try {
             //mainServer.launchSocketServer();
@@ -60,7 +60,8 @@ public class AdrenalineServer {
             System.out.println("All rights reserved, 2019\n\n");
 
 
-            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on default port " + mainServer.getRmiPort() + ", waiting for connections");
+            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getRmiPort() + ", waiting for connections");
+
             mainServer.launchRMIServer();
 
         }catch (Exception e){
