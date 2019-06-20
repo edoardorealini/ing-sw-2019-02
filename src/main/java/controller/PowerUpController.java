@@ -119,9 +119,8 @@ public class PowerUpController{
 
     }
 
-    private void metodoCheFaQualcosa(String test){
-        System.out.println("Questo metodo è inutile, serve per fare un test di merge con ricks.");
+    private void bellaTestBranch (int sferaebbasta) {
+        System.out.println("TRAPBOY Trap king");
+        System.out.println("STO GIOCO MI FA MEGA INCAZZARE!!!");
     }
-
-
 }
