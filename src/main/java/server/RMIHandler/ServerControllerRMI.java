@@ -561,22 +561,35 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     // FRENZY METHODS
 
-    public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException{
+    public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedCallException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {
                 matchController.makeAction1Frenzy(matchController.getMap().getSquareFromIndex(posX,posY), parseInput(input),matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
+                throw new NotAllowedTargetException(e.getMessage());
             } catch (NotAllowedShootingModeException e) {
                 e.printStackTrace();
+                throw new NotAllowedShootingModeException(e.getMessage());
             } catch (InvalidInputException e) {
                 e.printStackTrace();
+                throw new InvalidInputException(e.getMessage());
+            } catch (WrongStatusException e) {
+                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
+            } catch (NotEnoughAmmoException e) {
+                e.printStackTrace();
+                throw new NotEnoughAmmoException(e.getMessage());
             }
             try {
                 pushMatchToAllPlayers();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                throw new RemoteException(e.getMessage());
             }
         }
         else
@@ -584,26 +597,40 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
             } catch (NotAllowedCallException e) {
                 e.printStackTrace();
+                throw new NotAllowedCallException(e.getMessage());
             }
 
     }
 
-    public void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID){
+    public void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, RemoteException, NotAllowedCallException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {
                 matchController.makeAction1FrenzyLower(matchController.getMap().getSquareFromIndex(posX,posY), parseInput(input),matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
+                throw new NotAllowedTargetException(e.getMessage());
             } catch (NotAllowedShootingModeException e) {
                 e.printStackTrace();
+                throw new NotAllowedShootingModeException(e.getMessage());
             } catch (InvalidInputException e) {
                 e.printStackTrace();
+                throw new InvalidInputException(e.getMessage());
+            } catch (WrongStatusException e) {
+                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
+            } catch (NotEnoughAmmoException e) {
+                e.printStackTrace();
+                throw new NotEnoughAmmoException(e.getMessage());
             }
             try {
                 pushMatchToAllPlayers();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                throw new RemoteException(e.getMessage());
             }
         }
         else
@@ -611,26 +638,30 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
             } catch (NotAllowedCallException e) {
                 e.printStackTrace();
+                throw new NotAllowedCallException(e.getMessage());
             }
 
     }
 
-    public void makeAction2Frenzy(int posX, int posY, int clientHashedID){
+    public void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.makeAction2Frenzy(matchController.getMap().getSquareFromIndex(posX,posY), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            matchController.makeAction2Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
             try {
                 pushMatchToAllPlayers();
             } catch (RemoteException e) {
                 e.printStackTrace();
+                throw new RemoteException(e.getMessage());
             }
         }
-        else
+        else{
             try {
                 throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
             } catch (NotAllowedCallException e) {
                 e.printStackTrace();
+                throw new NotAllowedCallException(e.getMessage());
             }
+        }
 
     }
 

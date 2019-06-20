@@ -1102,52 +1102,53 @@ public class MatchController{
 
     }
 
-    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player){
+    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
         try {
             moveController.move(player,destination,1);
             try {
                 shootFrenzy(input);
                 //TODO cambia il turno al player
             } catch (WrongStatusException e) {
-                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
             } catch (NotAllowedTargetException e) {
-                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
             } catch (NotEnoughAmmoException e) {
-                e.printStackTrace();
+                throw new NotEnoughAmmoException(e.getMessage());
             } catch (NotAllowedShootingModeException e) {
-                e.printStackTrace();
+                throw new NotAllowedShootingModeException(e.getMessage());
             }
         } catch (NotAllowedMoveException e) {
-            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
         }
     }
 
-    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player){
+    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
         try {
             moveController.move(player,destination,2);
             try {
                 shootFrenzy(input);
                 //TODO cambia il turno al player
             } catch (WrongStatusException e) {
-                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
             } catch (NotAllowedTargetException e) {
-                e.printStackTrace();
+                throw new WrongStatusException(e.getMessage());
             } catch (NotEnoughAmmoException e) {
-                e.printStackTrace();
+                throw new NotEnoughAmmoException(e.getMessage());
             } catch (NotAllowedShootingModeException e) {
-                e.printStackTrace();
+                throw new NotAllowedShootingModeException(e.getMessage());
             }
         } catch (NotAllowedMoveException e) {
-            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
         }
     }
 
-    public void makeAction2Frenzy(Square destination, Player player){
+    public void makeAction2Frenzy(Square destination, Player player) throws NotAllowedMoveException {
         try {
             moveController.move(player,destination,4);
             //TODO cambia il turno al player
         } catch (NotAllowedMoveException e) {
             e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
         }
     }
 

@@ -60,9 +60,9 @@ public abstract class SenderClientRemoteController {
 
     public abstract void reload(int indexOfPowerUp) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException;
 
-    public abstract void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException;
+    public abstract void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException, WrongStatusException, NotAllowedTargetException, InvalidInputException, NotAllowedCallException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException;
 
-    public abstract void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input) throws RemoteException;
+    public abstract void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input) throws RemoteException, WrongStatusException, NotAllowedTargetException, InvalidInputException, NotAllowedCallException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException;
 
-    public abstract void makeAction2Frenzy(int posX,int posY) throws RemoteException;
+    public abstract void makeAction2Frenzy(int posX,int posY) throws RemoteException, NotAllowedMoveException, NotAllowedCallException;
 }

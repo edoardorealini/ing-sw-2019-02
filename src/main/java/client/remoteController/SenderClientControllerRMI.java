@@ -312,15 +312,15 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     // FRENZY METHODS
 
-    public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException {
+    public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException, WrongStatusException, NotAllowedTargetException, InvalidInputException, NotAllowedCallException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
         serverController.makeAction1Frenzy(posX,posY,input, this.hashedNickname);
     }
 
-    public void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input) throws RemoteException{
+    public void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input) throws RemoteException, WrongStatusException, NotAllowedTargetException, InvalidInputException, NotAllowedCallException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
         serverController.makeAction1FrenzyLower(posX,posY,input, this.hashedNickname);
     }
 
-    public void makeAction2Frenzy(int posX,int posY) throws RemoteException{
+    public void makeAction2Frenzy(int posX,int posY) throws RemoteException, NotAllowedMoveException, NotAllowedCallException {
         serverController.makeAction2Frenzy(posX,posY, this.hashedNickname);
     }
 }
