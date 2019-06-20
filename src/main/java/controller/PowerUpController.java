@@ -118,9 +118,4 @@ public class PowerUpController{
         }
 
     }
-
-    private void bellaTestBranch (int sferaebbasta) {
-        System.out.println("TRAPBOY Trap king");
-        System.out.println("STO GIOCO MI FA MEGA INCAZZARE!!!");
-    }
 }
