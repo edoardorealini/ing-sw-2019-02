@@ -36,6 +36,8 @@ public class AdrenalineServer {
 
     public void launchRMIServer() throws RemoteException {
         executor.submit(new AdrenalineRMIServer(matchController, rmiPort));
+        //TODO EDO qui devo creare l'oggetto connectionHandler che si preoccupa di creare i nuovi match e bindare i controller corretti sul registry.
+
     }
 
     public int getSocketPort() {
@@ -60,7 +62,7 @@ public class AdrenalineServer {
             System.out.println("All rights reserved, 2019\n\n");
 
 
-            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getRmiPort() + ", waiting for connections");
+            System.out.println("Launched RMIServer  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + mainServer.getRmiPort() + ", waiting for connection requests");
 
             mainServer.launchRMIServer();
 

@@ -11,7 +11,7 @@ public class AdrenalineRMIServer implements Runnable{
     //private MatchController matchController; IL MATCHCONTROLLER NON SERVE CHE CE L'ABBIA QUESTA CLASSE
     private int port;
     private ServerControllerRMI remoteObjectRMI;
-
+    //TODO EDO qui devo aggiungere un campo che contiene l'ID del match da generare (parte da zero e cresce) DA PASSARE AL COSTRUTTORE (in modo che il connectionHandler possa settarli)
     public AdrenalineRMIServer(MatchController controller, int port) throws RemoteException {
        // matchController = controller;
         this.port = port;
@@ -22,7 +22,6 @@ public class AdrenalineRMIServer implements Runnable{
     //il metodo run è come se fosse il main
     public void run(){
         try {
-            //TODO EDO qui devo creare l'oggetto connectionHandler che si preoccupa di creare i nuovi match e bindare i controller corretti sul registry.
             //Il codice qui sotto diventa obsoleto.
             Registry registry = LocateRegistry.createRegistry(port);
             registry.bind("remoteController", remoteObjectRMI);
