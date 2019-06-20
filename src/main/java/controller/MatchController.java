@@ -38,6 +38,7 @@ public class MatchController{
     private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"
             + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
     private int turnDuration;
+    private boolean turnTimerStatus = false;
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
 
@@ -500,23 +501,27 @@ public class MatchController{
             case SPAWN:
                 p.getStatus().setTurnStatusFirstAction();
                 turnTimer = new Timer();
-                turnTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        //if i enter this timer it means that the player who launched it hasn't finished his turn
-                        System.out.println("[GAMEHANDLER]: The player " + p.getNickname() + "has expired his time to complete the turn, skipping his turn . . .");
-                        p.getStatus().setTurnStatusWaitTurn();
-                        setNewCurrentPlayer();
-                        try {
-                            serverControllerRMI.askRespawn();
-                            //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }
+                if(!turnTimerStatus) {
+                    turnTimer.schedule(new TimerTask() {
+                        @Override
+                        public synchronized void run() {
+                            turnTimerStatus = false;
+                            //if i enter this timer it means that the player who launched it hasn't finished his turn
+                            System.out.println("[TURNTIMER]: The player " + p.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                            p.getStatus().setTurnStatusWaitTurn();
+                            setNewCurrentPlayer();
 
-                    }
-                }, turnDuration);
-                System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
+                            try {
+                                serverControllerRMI.askRespawn();
+                                //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, turnDuration);
+                    turnTimerStatus = true;
+                    System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
+                }
                 break;
 
             case FIRST_ACTION:
@@ -534,6 +539,7 @@ public class MatchController{
                 p.getStatus().setTurnStatusEndTurn();
                 turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
                 turnTimer.purge();
+                turnTimerStatus = false;
                 goToNextStatus(p);
                 break;
 
@@ -541,6 +547,7 @@ public class MatchController{
                 p.getStatus().setTurnStatusEndTurn();
                 turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
                 turnTimer.purge();
+                turnTimerStatus = false;
                 goToNextStatus(p);
                 break;
 
@@ -569,16 +576,20 @@ public class MatchController{
                 if(!p.isDead()) {
                     p.getStatus().setTurnStatusFirstAction();
                     turnTimer = new Timer();
-                    turnTimer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            //if i enter this timer it means that the player who launched it hasn't finished his turn
-                            System.out.println("[GAMEHANDLER]: The player " + p.getNickname() + "has expired his time to complete the turn, skipping his turn . . .");
-                            p.getStatus().setTurnStatusWaitTurn();
-                            setNewCurrentPlayer();
-                        }
-                    }, turnDuration);
-                    System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
+                    if(!turnTimerStatus) {
+                        turnTimer.schedule(new TimerTask() {
+                            @Override
+                            public synchronized void run() {
+                                turnTimerStatus = false;
+                                //if i enter this timer it means that the player who launched it hasn't finished his turn
+                                System.out.println("[TURNTIMER]: The player " + p.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                                p.getStatus().setTurnStatusWaitTurn();
+                                setNewCurrentPlayer();
+                            }
+                        }, turnDuration);
+                        turnTimerStatus = true;
+                        System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
+                    }
                 }
 
                 else
@@ -742,6 +753,7 @@ public class MatchController{
              */
 
             //qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
+
         }
     }
 

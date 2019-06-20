@@ -260,7 +260,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
-        matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
         try {
             /*
         for (InterfaceClientControllerRMI c : clientControllers)
@@ -268,6 +267,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 clientControllers.remove(c);
 
              */
+            matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
+
             clientControllers.removeIf(c -> {
                 try {
                     return hashNicknameID.get(clientHashedID).equals(c.getNickname());
@@ -281,6 +282,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 System.out.println("[INFO]: Timeout killed");
                 timeout.cancel();
                 timeout.purge();
+                timerStatus = false;
+
             }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
