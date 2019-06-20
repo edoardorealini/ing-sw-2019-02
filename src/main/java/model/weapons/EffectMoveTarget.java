@@ -32,13 +32,15 @@ public class EffectMoveTarget extends Effect  implements Serializable {
 
 	@Override
 	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) throws NotAllowedMoveException {
-		Player target = input.getTargets().get(getSameTarget());
-		Square destination = input.getSquares().get(0);
+		if (input.getTargets().size() > getSameTarget() && input.getSquares().get(0) != null) {
+			Player target = input.getTargets().get(getSameTarget());
+			Square destination = input.getSquares().get(0);
 
-		try {
-			ctrl.move(target, destination, getMoveTarget());
-		} catch (Exception e){
-			throw new NotAllowedMoveException();
+			try {
+				ctrl.move(target, destination, getMoveTarget());
+			} catch (Exception e) {
+				throw new NotAllowedMoveException();
+			}
 		}
 	}
 

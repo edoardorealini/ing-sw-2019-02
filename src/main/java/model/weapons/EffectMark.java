@@ -35,8 +35,10 @@ public class EffectMark extends Effect implements Serializable {
 				player.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId(), player.getId());              //updating marks of the target
 			}
 		} else {
-		Player target = input.getTargets().get(getSameTarget());
-		target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId(), target.getId());              //updating marks of the target
+			if (input.getTargets().size() > getSameTarget()) {
+				Player target = input.getTargets().get(getSameTarget());
+				target.getBoard().updateMarks(this.getMark(), match.getCurrentPlayer().getId(), target.getId());              //updating marks of the target
+			}
 		}
 	}
 }

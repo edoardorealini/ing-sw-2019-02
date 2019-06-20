@@ -492,19 +492,32 @@ public class ShootController extends ActionController {
         Square tempSquare2 = input.getTargets().get(1).getPosition();
         Square tempSquare3 = input.getTargets().get(2).getPosition();
 
+        if (input.getTargets().get(0) != null)
+            moveController.move(input.getTargets().get(0), input.getSquares().get(0), 1);
+        if (input.getTargets().get(1) != null)
+            moveController.move(input.getTargets().get(1), input.getSquares().get(0), 1);
+        if (input.getTargets().get(2) != null)
+            moveController.move(input.getTargets().get(2), input.getSquares().get(0), 1);
+
         //TODO aggiusta movimento prima di controlli anche in effectmove, mark, ecc
 
 
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
-                if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
+                if (eff.getSameTarget() < input.getTargets().size()) {	//check if the user has set more than one target
                     try {
                         checkMaximumDistance(eff, input.getTargets().get(eff.getSameTarget()), input.getSquares().get(0), eff.getMoveTarget());
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                         checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     } catch (NotAllowedTargetException e) {
+                        input.getTargets().get(0).setPosition(tempSquare1);
+                        input.getTargets().get(1).setPosition(tempSquare2);
+                        input.getTargets().get(2).setPosition(tempSquare3);
                         throw new NotAllowedTargetException("Not valid target");
                     } catch (NotAllowedMoveException e) {
+                        input.getTargets().get(0).setPosition(tempSquare1);
+                        input.getTargets().get(1).setPosition(tempSquare2);
+                        input.getTargets().get(2).setPosition(tempSquare3);
                         throw new NotAllowedMoveException();
                     }
                 }
@@ -516,6 +529,9 @@ public class ShootController extends ActionController {
                 try {
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
+                    input.getTargets().get(0).setPosition(tempSquare1);
+                    input.getTargets().get(1).setPosition(tempSquare2);
+                    input.getTargets().get(2).setPosition(tempSquare3);
                     throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
             }
@@ -526,6 +542,9 @@ public class ShootController extends ActionController {
                 try {
                     eff.executeEffect(match, moveController, input);
                 } catch (Exception e){
+                    input.getTargets().get(0).setPosition(tempSquare1);
+                    input.getTargets().get(1).setPosition(tempSquare2);
+                    input.getTargets().get(2).setPosition(tempSquare3);
                     e.printStackTrace();
                 }
             }
