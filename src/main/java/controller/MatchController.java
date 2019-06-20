@@ -1020,8 +1020,82 @@ public class MatchController{
 
 
     // FRENZY METHODS
-    public void makeAction1Frenzy(Square destination, ShootingParametersInput input){
+    public synchronized void shootFrenzy(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
 
+            if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
+                throw new NotEnoughAmmoException("You are trying to shoot with an unloaded weapon, nice shot!");
+
+            if (!(input.getShootModes().contains(ShootMode.BASIC) || input.getShootModes().contains(ShootMode.ALTERNATE)))
+                throw new NotAllowedShootingModeException();
+
+            if (input.getShootModes().contains(ShootMode.BASIC) && input.getShootModes().contains(ShootMode.ALTERNATE))
+                throw new NotAllowedShootingModeException();
+
+            try {       //switch that choose the right method for the right weapon
+
+                switch (input.getWeapon().getName()) {
+                    case ZX_2: shootController.shootZX2(); break;
+                    case THOR: shootController.shootTHOR(); break;
+                    case FURNACE: shootController.shootFurnace(); break;
+                    case HELLION: shootController.shootHellion(); break;
+                    case RAILGUN: shootController.shootRailGun(); break;
+                    case SHOTGUN: shootController.shootShotgun(); break;
+                    case WHISPER: shootController.shootWhisper(); break;
+                    case PLASMA_GUN: shootController.shootPlasmaGun(); break;
+                    case LOCK_RIFLE: shootController.shootLockRifle(); break;
+                    case CYBERBLADE: shootController.shootCyberblade(); break;
+                    case HEATSEEKER: shootController.shootHeatseeker(); break;
+                    case SCHOCKWAVE: shootController.shootSchockWave(); break;
+                    case POWER_GLOVE: shootController.shootPowerGlove(); break;
+                    case MACHINE_GUN: shootController.shootMachineGun(); break;
+                    case TRACTOR_BEAM: shootController.shootTractorBeam(); break;
+                    case FLAMETHROWER: shootController.shootFlameThrower(); break;
+                    case SLEDGEHAMMER: shootController.shootSledgehammer(); break;
+                    case VORTEX_CANNON: shootController.shootCannonVortex(); break;
+                    case ELECTROSCYTHE: shootController.shootElectroScythe(); break;
+                    case ROCKET_LAUNCHER: shootController.shootRocketLauncher(); break;
+                    case GRENADE_LAUNCHER: shootController.shootGrenadeLauncher(); break;
+                }
+
+            } catch (NotEnoughAmmoException e) {
+
+                //TODO pay with powerups
+                e.printStackTrace();
+                throw new NotEnoughAmmoException("It seems you do not have enough ammo");
+            }
+
+            input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
+
+            System.out.println("[INFO]: Updated lives of all player \n");
+
+            for (Player p : match.getPlayers()) {
+                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringLP());
+                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringMarks());
+                System.out.println("\n");
+            }
+
+            printPlayerStatuses();
+
+    }
+
+    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player){
+        try {
+            moveController.move(player,destination,1);
+            try {
+                shootFrenzy(input);
+                //TODO cambia il turno al player
+            } catch (WrongStatusException e) {
+                e.printStackTrace();
+            } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
+            } catch (NotEnoughAmmoException e) {
+                e.printStackTrace();
+            } catch (NotAllowedShootingModeException e) {
+                e.printStackTrace();
+            }
+        } catch (NotAllowedMoveException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -312,6 +312,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     // FRENZY METHODS
 
     public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input){
-        serverController.makeAction1Frenzy(posX,posY,input);
+        serverController.makeAction1Frenzy(posX,posY,input, this.hashedNickname);
     }
 }
