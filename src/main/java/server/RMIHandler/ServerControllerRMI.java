@@ -617,12 +617,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
 
@@ -658,12 +653,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
 
@@ -679,12 +669,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else{
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
         }
 
     }
@@ -701,12 +686,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else{
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
         }
 
     }
@@ -723,12 +703,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else{
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
         }
 
     }
