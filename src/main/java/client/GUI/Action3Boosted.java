@@ -61,17 +61,20 @@ public class Action3Boosted extends Application {
                     choseWeaponGood(posX.getValue(),posY.getValue());
                     try {
                         senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp);
+                        primaryStage.close();
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     }
-                    primaryStage.close();
                 }
                 else {
                     try {
@@ -79,14 +82,16 @@ public class Action3Boosted extends Application {
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
                     }
-                    primaryStage.close();
                 }
 
             }
