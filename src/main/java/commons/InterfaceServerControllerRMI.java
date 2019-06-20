@@ -60,4 +60,6 @@ public interface InterfaceServerControllerRMI extends Remote {
     void skipAction(int clientHashedID) throws RemoteException, WrongStatusException;
 
     void reload(int indexOfWeapon, int clientHashedID) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException;
+
+    void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input);
 }

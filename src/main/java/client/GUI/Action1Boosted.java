@@ -2,9 +2,7 @@ package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
 import commons.ShootingParametersClient;
-import exception.NotAllowedCallException;
-import exception.NotEnoughAmmoException;
-import exception.WrongStatusException;
+import exception.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,6 +28,7 @@ public class Action1Boosted extends Application {
     private Match match;
     private Weapon weapon;
     private SenderClientRemoteController senderRemoteController;
+    private ShootingParametersClient input;
     //TODO private Whole action input;
 
     public static void main(String[] args) {
@@ -147,7 +146,7 @@ public class Action1Boosted extends Application {
         wholeStage.setTitle("Frenzy Action");
         VBox vbox = new VBox(5);
 
-        // move
+//+++++++++++// move
         Label title1 = new Label(" Move Section ");
         HBox hBox1 = new HBox(5);
         Label label1 = new Label();
@@ -166,13 +165,14 @@ public class Action1Boosted extends Application {
         hBox2.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(title1,hBox1,hBox2);
 
-        // Reload
+
+//+++++++++++// reload
         Label title2 = new Label(" Reload Section ");
         Button reloadButton = new Button(" Reload ");
         reloadButton.setOnAction(e -> reloadPopup());
         vbox.getChildren().addAll(title2,reloadButton);
 
-        // Shoot
+//+++++++++++// Shoot
         //******************************************************
 
         SplitPane splitPane = new SplitPane();
@@ -388,6 +388,20 @@ public class Action1Boosted extends Application {
         //******************************************************
         vbox.getChildren().addAll(splitPane);
 
+        Button makeActionButton = new Button(" Make Action ");
+        makeActionButton.setOnAction(e -> {
+            try {
+                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
+                fillWholeInput(posX.getValue(),posY.getValue());
+                wholeStage.close();
+            } catch (Exception ei) {
+                ei.printStackTrace();
+                PopUpSceneMethod.display("SHOOTING ERROR", ei.getMessage());
+                wholeStage.close();
+            }
+        });
+
+        vbox.getChildren().add(makeActionButton);
         vbox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(vbox,500,600);
         wholeStage.setScene(scene);
@@ -528,5 +542,70 @@ public class Action1Boosted extends Application {
         reloadStage.setScene(scene);
         reloadStage.showAndWait();
 
+    }
+
+    private void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
+                           ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMoveBox) throws NotAllowedShootingModeException, NotAllowedTargetException {
+
+        input.setName(weapon.getName());
+
+        boolean basicModeChosen = false;
+        boolean alternateModeChosen = false;
+
+        for (ChoiceBox<ShootMode> choiceBox : modes) {
+            if (choiceBox.getValue() == ShootMode.BASIC)
+                basicModeChosen = true;
+            if (choiceBox.getValue() == ShootMode.ALTERNATE)
+                alternateModeChosen = true;
+        }
+
+        if (! (basicModeChosen || alternateModeChosen))
+            throw new NotAllowedShootingModeException("Not allowed shooting mode, please try again");
+
+        //setting shooting modes
+        for (ChoiceBox<ShootMode> choiceBox : modes) {
+            if (choiceBox.getValue() != null)
+                input.setShootModes(choiceBox.getValue());
+        }
+
+        for (ChoiceBox<String> choiceBox : targetPlayers) {
+            if (!match.getPlayer(senderRemoteController.getNickname()).getNickname().equals(choiceBox.getValue()) && choiceBox.getValue() != null)
+                input.setTargetPlayers(choiceBox.getValue());
+        }
+
+        //checking no duplication in targets
+        for (int i = 0; i < input.getTargetPlayers().size() - 1; i++) {
+            for (int j = i + 1; j < input.getTargetPlayers().size(); j++)
+                if (input.getTargetPlayers().get(i).equals(input.getTargetPlayers().get(j)))
+                    throw new NotAllowedTargetException("You selected the same target more than once");
+        }
+
+        int x = 0;
+        int y = 0;
+
+        if (! arraySquares.isEmpty()) {
+            x = arraySquares.get(0).getValue();
+            y = arraySquares.get(1).getValue();
+            input.setSquaresCoordinates(x, y);
+        }
+
+        if (arraySquares.size() > 2) {
+            x = arraySquares.get(2).getValue();
+            y = arraySquares.get(3).getValue();
+            input.setSquaresCoordinates(x, y);
+        }
+
+        if(direction != null)
+            input.setDirection(direction.getValue());
+
+        if(damageBeforeMoveBox != null && input != null)
+            input.setMakeDamageBeforeMove(damageBeforeMoveBox.getValue());
+
+    }
+
+    private void fillWholeInput(int posX, int posY){
+        // input per la shoot già inpacchettato
+        // e li passo direttamente le coordinate per la move
+        senderRemoteController.makeAction1Frenzy(posX,posY,input);
     }
 }

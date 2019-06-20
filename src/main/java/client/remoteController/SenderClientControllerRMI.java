@@ -308,4 +308,10 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             throw new WrongStatusException(e.getMessage());
         }
     }
+
+    // FRENZY METHODS
+
+    public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input){
+        serverController.makeAction1Frenzy(posX,posY,input);
+    }
 }

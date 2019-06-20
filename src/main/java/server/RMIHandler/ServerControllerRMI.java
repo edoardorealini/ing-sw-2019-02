@@ -6,6 +6,7 @@ import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
+import javafx.scene.control.CheckBox;
 import model.ShootMode;
 import model.ShootingParametersInput;
 import model.map.Square;
@@ -556,6 +557,20 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }catch (WrongStatusException e){
             e.printStackTrace();
             throw new  WrongStatusException(e.getMessage());
+        }
+    }
+
+    // FRENZY METHODS
+
+    public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input){
+        try {
+            matchController.makeAction1Frenzy(matchController.getMap().getSquareFromIndex(posX,posY), parseInput(input));
+        } catch (NotAllowedTargetException e) {
+            e.printStackTrace();
+        } catch (NotAllowedShootingModeException e) {
+            e.printStackTrace();
+        } catch (InvalidInputException e) {
+            e.printStackTrace();
         }
     }
 
