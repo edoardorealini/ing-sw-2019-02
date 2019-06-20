@@ -46,12 +46,19 @@ public class Action2Boosted extends Application {
         move.setOnAction(e -> {
             try {
                 senderRemoteController.makeAction2Frenzy(posX.getValue(),posY.getValue());
+                primaryStage.close();
             } catch (RemoteException ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                primaryStage.close();
             } catch (NotAllowedMoveException ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                primaryStage.close();
             } catch (NotAllowedCallException ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                primaryStage.close();
             }
         });
         vbox.getChildren().add(move);

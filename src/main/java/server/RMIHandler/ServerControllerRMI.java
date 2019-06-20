@@ -259,7 +259,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
-        matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
         try {
             /*
         for (InterfaceClientControllerRMI c : clientControllers)
@@ -267,6 +266,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 clientControllers.remove(c);
 
              */
+            matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
+
             clientControllers.removeIf(c -> {
                 try {
                     return hashNicknameID.get(clientHashedID).equals(c.getNickname());
@@ -280,6 +281,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 System.out.println("[INFO]: Timeout killed");
                 timeout.cancel();
                 timeout.purge();
+                timerStatus = false;
+
             }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
@@ -622,12 +625,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
 
@@ -663,12 +661,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
 
@@ -684,15 +677,46 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
         }
         else{
-            try {
-                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-            } catch (NotAllowedCallException e) {
-                e.printStackTrace();
-                throw new NotAllowedCallException(e.getMessage());
-            }
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
         }
 
     }
+
+    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.makeAction3Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            try {
+                pushMatchToAllPlayers();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RemoteException(e.getMessage());
+            }
+        }
+        else{
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+        }
+
+    }
+
+    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.makeAction2FrenzyLower(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            try {
+                pushMatchToAllPlayers();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RemoteException(e.getMessage());
+            }
+        }
+        else{
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+        }
+
+    }
+
+
 
     @Override
     public void askForTagBackGrenade(String nickname) throws RemoteException {
