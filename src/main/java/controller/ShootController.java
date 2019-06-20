@@ -12,7 +12,7 @@ import model.powerup.PowerUp;
 import model.weapons.Effect;
 import java.util.*;
 
-public class ShootController extends ActionController {
+public class ShootController{
 
     //attributes
 

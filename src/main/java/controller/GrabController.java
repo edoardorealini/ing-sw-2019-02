@@ -11,7 +11,7 @@ import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
 import java.util.*;
-public class GrabController extends ActionController {
+public class GrabController{
 
     private Match match;
     private MoveController moveController;
