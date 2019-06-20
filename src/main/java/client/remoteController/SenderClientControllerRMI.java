@@ -32,6 +32,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         try {
             this.match = match;
             this.firstPage = fp;
+            //TODO EDO qui devo chidere all'oggetto connectionHandler su che partita loggarmi, ergo su che oggetto remoto bindarmi.
+            //TODO do not HARCODE the port!
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");

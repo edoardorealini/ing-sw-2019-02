@@ -22,6 +22,8 @@ public class AdrenalineRMIServer implements Runnable{
     //il metodo run è come se fosse il main
     public void run(){
         try {
+            //TODO EDO qui devo creare l'oggetto connectionHandler che si preoccupa di creare i nuovi match e bindare i controller corretti sul registry.
+            //Il codice qui sotto diventa obsoleto.
             Registry registry = LocateRegistry.createRegistry(port);
             registry.bind("remoteController", remoteObjectRMI);
         }
