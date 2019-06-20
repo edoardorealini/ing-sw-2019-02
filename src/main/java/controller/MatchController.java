@@ -516,6 +516,7 @@ public class MatchController{
 
                     }
                 }, turnDuration);
+                System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
                 break;
 
             case FIRST_ACTION:
@@ -577,6 +578,7 @@ public class MatchController{
                             setNewCurrentPlayer();
                         }
                     }, turnDuration);
+                    System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
                 }
 
                 else
