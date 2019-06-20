@@ -607,7 +607,7 @@ public class Action1Lower extends Application {
 
     }
 
-    private void fillWholeInput(int posX, int posY) throws RemoteException {
+    private void fillWholeInput(int posX, int posY) throws RemoteException, WrongStatusException, NotAllowedTargetException, InvalidInputException, NotAllowedCallException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
         // input per la shoot già inpacchettato
         // e li passo direttamente le coordinate per la move
         senderRemoteController.makeAction1FrenzyLower(posX,posY,input);

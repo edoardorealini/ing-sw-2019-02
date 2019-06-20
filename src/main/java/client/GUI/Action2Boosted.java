@@ -1,6 +1,8 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import exception.NotAllowedCallException;
+import exception.NotAllowedMoveException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -45,6 +47,10 @@ public class Action2Boosted extends Application {
             try {
                 senderRemoteController.makeAction2Frenzy(posX.getValue(),posY.getValue());
             } catch (RemoteException ex) {
+                ex.printStackTrace();
+            } catch (NotAllowedMoveException ex) {
+                ex.printStackTrace();
+            } catch (NotAllowedCallException ex) {
                 ex.printStackTrace();
             }
         });
