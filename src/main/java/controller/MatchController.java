@@ -455,6 +455,9 @@ public class MatchController{
 
 
     public void goToNextStatus(Player p){
+        final int turnDuration = 3000; //turn duration todo impostare paramentro da file di properties
+        Timer turnTimer = new Timer();
+
         switch(p.getStatus().getTurnStatus()){
             case LOBBY_MASTER:
                 p.getStatus().setTurnStatusMaster();
@@ -494,6 +497,8 @@ public class MatchController{
 
             case RELOADING:
                 p.getStatus().setTurnStatusEndTurn();
+                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.purge();
                 goToNextStatus(p);
                 break;
 
@@ -522,8 +527,21 @@ public class MatchController{
                 break;
 
             case WAIT_TURN:
-                if(!p.isDead())
+                if(!p.isDead()) {
                     p.getStatus().setTurnStatusFirstAction();
+                    //TODO qui devo lanciare il timer.
+
+                    turnTimer = new Timer();
+                    turnTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            //if i enter this timer it means that the player who launched it hasn't finished his turn
+                            p.getStatus().setTurnStatusWaitTurn();
+                            setNewCurrentPlayer();
+                        }
+                    }, turnDuration);
+                }
+
                 else
                     p.getStatus().setTurnStatusSpawn();
                 break;

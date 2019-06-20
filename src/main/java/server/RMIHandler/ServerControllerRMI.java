@@ -561,7 +561,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     // FRENZY METHODS
 
-    public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID){
+    public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException{
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {

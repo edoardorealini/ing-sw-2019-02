@@ -15,6 +15,7 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -311,7 +312,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     // FRENZY METHODS
 
-    public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input){
+    public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException {
         serverController.makeAction1Frenzy(posX,posY,input, this.hashedNickname);
     }
 }

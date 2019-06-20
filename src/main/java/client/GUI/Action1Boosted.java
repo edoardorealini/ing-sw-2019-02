@@ -603,7 +603,7 @@ public class Action1Boosted extends Application {
 
     }
 
-    private void fillWholeInput(int posX, int posY){
+    private void fillWholeInput(int posX, int posY) throws RemoteException{
         // input per la shoot già inpacchettato
         // e li passo direttamente le coordinate per la move
         senderRemoteController.makeAction1Frenzy(posX,posY,input);
