@@ -28,15 +28,14 @@ public class RespawnPopUp extends Application {
     private SenderClientRemoteController senderRemoteController;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
 
         int a = 0;
         int b = 0;
         int c = 0;
 
-        //TODO uncomment the following line
-        //primaryStage.initModality(Modality.APPLICATION_MODAL);
-        primaryStage.setTitle("Respawn");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Respawn");
         HBox hBoxImages = new HBox();
         VBox vBoxPage = new VBox();
         HBox hBoxButtons = new HBox();
@@ -59,7 +58,7 @@ public class RespawnPopUp extends Application {
         pow1.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(0);
-                primaryStage.close();
+                stage.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
@@ -69,7 +68,7 @@ public class RespawnPopUp extends Application {
         pow2.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(1);
-                primaryStage.close();
+                stage.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
@@ -79,7 +78,7 @@ public class RespawnPopUp extends Application {
         pow3.setOnAction(event -> {
             try {
                 senderRemoteController.spawn(2);
-                primaryStage.close();
+                stage.close();
             } catch (Exception e) {
                 e.printStackTrace();
                 PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
@@ -126,23 +125,24 @@ public class RespawnPopUp extends Application {
             c = 1;
         }
 
-       // splitPane.setMinHeight(300);
-       // splitPane.setMinWidth(250);
 
         Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e -> {
-            RespawnPopUp newRespawn = new RespawnPopUp();
-            newRespawn.setMatch(this.match);
-            newRespawn.setSenderRemoteController(this.senderRemoteController);
+        stage.setScene(scene);
+        stage.setOnCloseRequest(event -> {
+            int i = 0;
+            for (i = 0; i < 3; i++) {
+                if (match.getCurrentPlayer().getPowerUps()[i] != null)
+                    break;
+            }
             try {
-                primaryStage.close(); // TODO questo .close l'ho aggiunto ma non ancora testato
-                newRespawn.start(new Stage());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                senderRemoteController.spawn(i);
+                stage.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("RESPAWN ERROR", e.getMessage());
             }
         });
-        primaryStage.showAndWait();
+        stage.showAndWait();
     }
 
     public void setMatch(Match match) {
