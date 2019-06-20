@@ -1122,4 +1122,33 @@ public class MatchController{
         }
     }
 
+    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player){
+        try {
+            moveController.move(player,destination,2);
+            try {
+                shootFrenzy(input);
+                //TODO cambia il turno al player
+            } catch (WrongStatusException e) {
+                e.printStackTrace();
+            } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
+            } catch (NotEnoughAmmoException e) {
+                e.printStackTrace();
+            } catch (NotAllowedShootingModeException e) {
+                e.printStackTrace();
+            }
+        } catch (NotAllowedMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void makeAction2Frenzy(Square destination, Player player){
+        try {
+            moveController.move(player,destination,4);
+            //TODO cambia il turno al player
+        } catch (NotAllowedMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

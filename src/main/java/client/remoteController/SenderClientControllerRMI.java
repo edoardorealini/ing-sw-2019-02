@@ -315,4 +315,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     public void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input) throws RemoteException {
         serverController.makeAction1Frenzy(posX,posY,input, this.hashedNickname);
     }
+
+    public void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input){
+        serverController.makeAction1FrenzyLower(posX,posY,input, this.hashedNickname);
+    }
+
+    public void makeAction2Frenzy(int posX,int posY){
+        serverController.makeAction2Frenzy(posX,posY, this.hashedNickname);
+    }
 }

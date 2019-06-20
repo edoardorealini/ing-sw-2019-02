@@ -1,5 +1,6 @@
 package client.GUI;
 
+import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,9 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.Match;
 
 public class Action2Boosted extends Application {
-
+    private Match match;
+    private SenderClientRemoteController senderRemoteController;
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Frenzy Action");
@@ -36,7 +39,7 @@ public class Action2Boosted extends Application {
         vbox.getChildren().addAll(title1,hBox1,hBox2);
 
         Button move = new Button(" Move ");
-        //TODO setOnAction
+        move.setOnAction(e -> senderRemoteController.makeAction2Frenzy(posX.getValue(),posY.getValue()));
         vbox.getChildren().add(move);
 
         vbox.setAlignment(Pos.CENTER);
