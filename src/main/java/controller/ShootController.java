@@ -244,6 +244,7 @@ public class ShootController extends ActionController {
                 try {
                     checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 } catch (NotAllowedTargetException e) {
+                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
             }
@@ -309,6 +310,7 @@ public class ShootController extends ActionController {
                     try {
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     } catch (NotAllowedTargetException e) {
+                        e.printStackTrace();
                         throw new NotAllowedTargetException("Not valid target");
                     }
                 }
@@ -357,6 +359,7 @@ public class ShootController extends ActionController {
             try {
                 checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             }
         }
@@ -399,6 +402,7 @@ public class ShootController extends ActionController {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
@@ -458,6 +462,7 @@ public class ShootController extends ActionController {
                 if (eff.getDamage() == 0)
                     eff.executeEffect(match, moveController, input);
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 input.getTargets().get(0).setPosition(squareTemp);
                 throw new NotAllowedTargetException("Not valid target");
             }  catch (NotAllowedMoveException e) {
@@ -510,6 +515,7 @@ public class ShootController extends ActionController {
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                         checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     } catch (NotAllowedTargetException e) {
+                        e.printStackTrace();
                         input.getTargets().get(0).setPosition(tempSquare1);
                         input.getTargets().get(1).setPosition(tempSquare2);
                         input.getTargets().get(2).setPosition(tempSquare3);
@@ -573,6 +579,7 @@ public class ShootController extends ActionController {
                 try {
                     checkDifferentRoom(getCurrPlayer().getPosition(), input.getSquares().get(0));
                 } catch (NotAllowedTargetException e) {
+                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
 
@@ -648,6 +655,7 @@ public class ShootController extends ActionController {
                     checkCorrectVisibility(eff, getCurrPlayer(), player);
                     checkAllowedDistance(eff, getCurrPlayer(), player);
                 } catch (NotAllowedTargetException e) {
+                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
             }
@@ -693,9 +701,11 @@ public class ShootController extends ActionController {
 
             case BASIC:
                 for (Effect eff : input.getWeapon().getMode(mode)) {
-                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                    if (!input.getSquares().contains(input.getTargets().get(eff.getSameTarget()).getPosition()))
-                        throw new NotAllowedTargetException("Not valid target");
+                    if (input.getTargets().size() < eff.getSameTarget()) {
+                        checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                        if (!input.getSquares().contains(input.getTargets().get(eff.getSameTarget()).getPosition()))
+                            throw new NotAllowedTargetException("Not valid target");
+                    }
                 }
                 for (Effect eff : input.getWeapon().getMode(mode)) {
                     try {
@@ -773,6 +783,7 @@ public class ShootController extends ActionController {
                 } catch (NotAllowedMoveException e) {
                     throw new  NotAllowedMoveException();
                 } catch (NotAllowedTargetException e) {
+                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
             }
@@ -846,6 +857,7 @@ public class ShootController extends ActionController {
                      if (mode.equals(ShootMode.OPTIONAL1))
                         checkMaximumDistance(effect, getCurrPlayer(), moveYourselfHere, effect.getMoveYourself());
                  } catch (NotAllowedTargetException e) {
+                     e.printStackTrace();
                      getCurrPlayer().setPosition(squareTemp);
                      throw new NotAllowedTargetException("Not valid target");
                  } catch (NotAllowedMoveException e) {
@@ -902,6 +914,7 @@ public class ShootController extends ActionController {
             try {
                 checkSameDirectionThroughWalls(getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             }
         }
@@ -931,6 +944,7 @@ public class ShootController extends ActionController {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
@@ -970,6 +984,7 @@ public class ShootController extends ActionController {
             try {
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             }
         }
@@ -995,6 +1010,7 @@ public class ShootController extends ActionController {
                 checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
                 throw new NotAllowedMoveException();
@@ -1050,6 +1066,7 @@ public class ShootController extends ActionController {
                 }
                 i++;
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
@@ -1101,6 +1118,7 @@ public class ShootController extends ActionController {
                     checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 } catch (NotAllowedTargetException e) {
+                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
             }
@@ -1117,7 +1135,7 @@ public class ShootController extends ActionController {
         if (mode == ShootMode.BASIC) {
             for (int i = 0; i < input.getTargets().size() - 1; i++) {
                 if (input.getTargets().get(i).getPosition() == input.getTargets().get(i + 1).getPosition())
-                    throw new NotAllowedTargetException();
+                    throw new NotAllowedTargetException("Not valid target");
             }
             if (input.getTargets().size() == 3 && input.getTargets().get(0).getPosition() == input.getTargets().get(2).getPosition())
                 throw new NotAllowedTargetException("Not valid target");
@@ -1146,6 +1164,7 @@ public class ShootController extends ActionController {
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
                 checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveTarget());
             } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
                 throw new NotAllowedMoveException();

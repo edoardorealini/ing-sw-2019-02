@@ -20,7 +20,7 @@ public interface InterfaceServerControllerRMI extends Remote {
     void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException;
 
     //metodi da grabController
-    void grabAmmoCard(int clientHashedID) throws  WrongStatusException, WrongPositionException, NotAllowedCallException , RemoteException;
+    void grabAmmoCard(int xDestination, int yDestination, int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException, InvalidInputException, NotAllowedMoveException;
 
     void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException , RemoteException, InvalidInputException, NotAllowedMoveException;
 

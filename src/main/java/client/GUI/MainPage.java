@@ -516,7 +516,14 @@ public class MainPage extends Application {
                     PopUpSceneMethod.display("Error", ex.getMessage());
                 }
             }
-            else ;//TODO grab ammo card in x,y
+            else {
+                try {
+                    remoteController.grabAmmoCard(posX.getValue(), posY.getValue());
+                    stage.close();
+                } catch (NotAllowedCallException | WrongStatusException |RemoteException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
+                    PopUpSceneMethod.display("Error", ex.getMessage());
+                }
+            }
         } );
 
 
@@ -787,7 +794,6 @@ public class MainPage extends Application {
         int a = 0;
         int b = 0;
         int c = 0;
-        int returnValue = 0;
 
         powAsAmmoStage.initModality(Modality.APPLICATION_MODAL);
         powAsAmmoStage.setTitle("Use Power Up as Ammo");

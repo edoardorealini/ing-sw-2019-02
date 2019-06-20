@@ -118,8 +118,22 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void grabAmmoCard(){
-
+    public void grabAmmoCard(int xDestination, int yDestination) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException, InvalidInputException, NotAllowedMoveException {
+        try {
+            serverController.grabAmmoCard(xDestination, yDestination, this.hashedNickname);
+        } catch (WrongStatusException e) {
+            throw new WrongStatusException(e.getMessage());
+        } catch (WrongPositionException e) {
+            throw new WrongPositionException(e.getMessage());
+        } catch (NotAllowedCallException e) {
+            throw new NotAllowedCallException(e.getMessage());
+        } catch (RemoteException e) {
+            throw new RemoteException(e.getMessage());
+        } catch (InvalidInputException e) {
+            throw new InvalidInputException(e.getMessage());
+        } catch (NotAllowedMoveException e) {
+            throw new NotAllowedMoveException(e.getMessage());
+        }
     }
 
     @Override

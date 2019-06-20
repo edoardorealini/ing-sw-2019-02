@@ -13,6 +13,7 @@ import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
+import model.weapons.WeaponName;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.RemoteException;
@@ -294,21 +295,24 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /*
         methods from grabController class
      */
-    public synchronized void grabAmmoCard(int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
+    public synchronized void grabAmmoCard(int xDestination, int yDestination, int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException, InvalidInputException, NotAllowedMoveException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.grabMove(converter.indexToSquare(xDestination, yDestination));
             matchController.grabAmmoCard();
-        else
+            System.out.println("[GRABAMMO]: The player " + hashNicknameID.get(clientHashedID) + " grabbed the ammo card from position X,Y = [" + xDestination + "," + yDestination + "]");
+            pushMatchToAllPlayers();
+        } else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
     //lets the current player grab a weapon
     public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
             //TODO add check on move and eventully move. Call method from matchcontroller.
             matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
             matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
-            //TODO correggere log
-            System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + converter.intToWeapon(indexOfWeapon).getName() + " from position X,Y = ["+xDestination+","+yDestination+"]");
+            System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();
         }
         else

@@ -198,10 +198,10 @@ public class MatchController{
         if(canDoAction()) {
             try {
                 grabController.grabAmmoCard();
-            }catch(WrongPositionException e){
+            } catch(WrongPositionException e){
                 throw new WrongPositionException(e.getMessage());
             }
-            // OLD : match.getCurrentPlayer().goToNextStatus();
+
             goToNextStatus(match.getCurrentPlayer());
         }
         else
@@ -215,8 +215,8 @@ public class MatchController{
                 goToNextStatus(match.getCurrentPlayer());
             } catch (WrongPositionException e) {
                 throw new WrongPositionException(e.getMessage());
-            } catch (NotEnoughAmmoException e2) {
-                throw new NotEnoughAmmoException(e2.getMessage());
+            } catch (NotEnoughAmmoException e) {
+                throw new NotEnoughAmmoException(e.getMessage());
             }
         }
         else
@@ -726,18 +726,13 @@ public class MatchController{
                     case GRENADE_LAUNCHER: shootController.shootGrenadeLauncher(); break;
                 }
 
-            }  catch (NotAllowedMoveException e) {
-                throw new  NotAllowedMoveException();
             } catch (NotEnoughAmmoException e) {
 
                 //TODO pay with powerups
-
+                e.printStackTrace();
                 throw new NotEnoughAmmoException("It seems you do not have enough ammo");
-            } catch (NotAllowedTargetException e) {
-                throw new NotAllowedTargetException();
-            } catch (NotAllowedShootingModeException e) {
-                throw new NotAllowedShootingModeException();
             }
+
             input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
 
             System.out.println("[INFO]: Updated lives of all player \n");
