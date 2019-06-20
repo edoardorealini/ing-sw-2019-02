@@ -17,6 +17,10 @@ import model.weapons.*;
 import server.RMIHandler.ServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,7 +35,9 @@ public class MatchController{
     private MoveController moveController;
     // private HashMap<WeaponName, String> weaponHashMap;
     private ServerControllerRMI serverControllerRMI;
-
+    private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"
+            + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
+    private int turnDuration;
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
 
@@ -47,6 +53,7 @@ public class MatchController{
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController);
+        getValuesFromProperties();
     }
 
     /*
@@ -59,7 +66,24 @@ public class MatchController{
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
+        getValuesFromProperties();
+    }
 
+    private void getValuesFromProperties(){
+
+        Properties propertyLoader = new Properties();
+        try{
+            propertyLoader.load(new FileInputStream(propertyPath));
+            this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("[ERROR]: Failed loading info from properties file, setting the turnDuration to 2 minutes as default value");
+            turnDuration = 120000; //default value for turn duration set to 2 minutes
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("[ERROR]: Failed loading info from properties file, setting the turnDuration to 2 minutes as default value");
+            turnDuration = 120000; //default value for turn duration set to 2 minutes
+        }
     }
 
     public void setServerControllerRMI(ServerControllerRMI controller){
@@ -454,7 +478,6 @@ public class MatchController{
 
 
     public void goToNextStatus(Player p){
-        final int turnDuration = 3000; //turn duration todo impostare paramentro da file di properties
         Timer turnTimer = new Timer();
 
         switch(p.getStatus().getTurnStatus()){
@@ -481,6 +504,7 @@ public class MatchController{
                     @Override
                     public void run() {
                         //if i enter this timer it means that the player who launched it hasn't finished his turn
+                        System.out.println("[GAMEHANDLER]: The player " + p.getNickname() + "has expired his time to complete the turn, skipping his turn . . .");
                         p.getStatus().setTurnStatusWaitTurn();
                         setNewCurrentPlayer();
                         try {
@@ -492,7 +516,6 @@ public class MatchController{
 
                     }
                 }, turnDuration);
-
                 break;
 
             case FIRST_ACTION:
@@ -544,13 +567,12 @@ public class MatchController{
             case WAIT_TURN:
                 if(!p.isDead()) {
                     p.getStatus().setTurnStatusFirstAction();
-                    //TODO qui devo lanciare il timer.
-
                     turnTimer = new Timer();
                     turnTimer.schedule(new TimerTask() {
                         @Override
                         public void run() {
                             //if i enter this timer it means that the player who launched it hasn't finished his turn
+                            System.out.println("[GAMEHANDLER]: The player " + p.getNickname() + "has expired his time to complete the turn, skipping his turn . . .");
                             p.getStatus().setTurnStatusWaitTurn();
                             setNewCurrentPlayer();
                         }

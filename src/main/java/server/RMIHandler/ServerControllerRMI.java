@@ -16,6 +16,10 @@ import model.weapons.Weapon;
 import model.weapons.WeaponName;
 
 import javax.security.auth.login.FailedLoginException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
@@ -32,6 +36,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
     private Timer timeout;
     private boolean timerStatus = false;
+    private int lobbyDuration;
+    private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"
+            + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
+
 
     /*
         Builder
@@ -42,8 +50,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         this.clientControllers = new ArrayList<>(5);
         this.hashNicknameID = new HashMap<>();
         matchController.setServerControllerRMI(this);
+        getValuesFromProperties();
     }
 
+    private void getValuesFromProperties(){
+        Properties propertyLoader = new Properties();
+
+        try{
+            propertyLoader.load(new FileInputStream(propertyPath));
+            this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
+        }catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("[ERROR]: Failed loading info from properties file, setting the lobbyDuration to 30 seconds as default value");
+            lobbyDuration = 30000; //default value for turn duration set to 30 seconds
+        }
+    }
     /*
         LOGIN METHODS
         with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
@@ -107,7 +128,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                     e.printStackTrace();
                                 }
                             }
-                        }, 10
+                        }, lobbyDuration
                 );
                 timerStatus = true;
             } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
