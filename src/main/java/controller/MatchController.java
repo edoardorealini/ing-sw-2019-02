@@ -477,6 +477,23 @@ public class MatchController{
 
             case SPAWN:
                 p.getStatus().setTurnStatusFirstAction();
+                turnTimer = new Timer();
+                turnTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        //if i enter this timer it means that the player who launched it hasn't finished his turn
+                        p.getStatus().setTurnStatusWaitTurn();
+                        setNewCurrentPlayer();
+                        try {
+                            serverControllerRMI.askRespawn();
+                            //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, turnDuration);
+
                 break;
 
             case FIRST_ACTION:
@@ -492,6 +509,8 @@ public class MatchController{
                         }
                     }
                 p.getStatus().setTurnStatusEndTurn();
+                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.purge();
                 goToNextStatus(p);
                 break;
 
@@ -503,12 +522,9 @@ public class MatchController{
                 break;
 
             case END_TURN:
-                //TODO RICKY qui chiamiamo la routine di end_turn!! (ora possiamo siamo entro il match controller)
                 endOfTurn(); // manages the points to the players
-
                 //qui aggiungo qualcosa che manda avanti lo stato del primo giocatore dell'elenco che è in wait first turn (dandogli il diritto di essere chiamato per spawnare)
                 //putWaitFirstTurnInSpawn();
-
                 setNewCurrentPlayer();
                 //in set current player in teoria attendo che quelli in respawn abbiano effettuato il loro respawn.
                 try {
