@@ -1025,7 +1025,7 @@ public class MainPage extends Application {
 
     }
 
-    public void askForTagBack() {
+    public void askForTagBackPopup() {
 
         Stage tagBackStage = new Stage();
         tagBackStage.initModality(Modality.APPLICATION_MODAL);
@@ -1098,7 +1098,7 @@ public class MainPage extends Application {
             first = 1;
         }
 
-        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() == TAGBACK_GRENADE){
             File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(secondFile.toURI().toString());
@@ -1111,7 +1111,7 @@ public class MainPage extends Application {
             second = 1;
         }
 
-        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() == TAGBACK_GRENADE){
             File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(thirdFile.toURI().toString());

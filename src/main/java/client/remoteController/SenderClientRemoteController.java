@@ -13,7 +13,9 @@ import java.rmi.RemoteException;
 
 public abstract class SenderClientRemoteController {
 
-    abstract Match getMatch();
+    public abstract Match getMatch();
+
+    public abstract void setMatch(Match match);
 
     public abstract void buildMap(int mapID) throws Exception;
 

@@ -59,9 +59,13 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
     }
 
+    @Override
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 
     @Override
-    Match getMatch() {
+    public Match getMatch() {
         return null;
     }
 

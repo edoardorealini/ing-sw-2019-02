@@ -95,6 +95,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
                 mainPage.refreshPlayersPosition();
+                senderRemoteController.setMatch(match);
                 //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA LA VISTA!
             });
         }
@@ -151,7 +152,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         Platform.runLater(
                     () -> {
                         try {
-                            //TODO metodo ask for tagback     mainPage.();
+                            mainPage.askForTagBackPopup();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
