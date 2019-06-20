@@ -1,6 +1,8 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import exception.NotAllowedCallException;
+import exception.NotAllowedMoveException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +19,7 @@ import model.Match;
 import model.weapons.Weapon;
 
 import java.io.File;
+import java.rmi.RemoteException;
 
 import static model.map.SquareType.SPAWN;
 
@@ -56,12 +59,39 @@ public class Action3Boosted extends Application {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue())!=null){
                 if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType()==SPAWN){
                     choseWeaponGood(posX.getValue(),posY.getValue());
-                    //TODO chiama metodo sendercontroller
-                    primaryStage.close();
+                    try {
+                        senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp);
+                        primaryStage.close();
+                    } catch (NotAllowedMoveException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    } catch (NotAllowedCallException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    }
                 }
                 else {
-                    //TODO chiama metodo sendercontroller
-                    primaryStage.close();
+                    try {
+                        senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp);
+                    } catch (NotAllowedMoveException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    } catch (NotAllowedCallException ex) {
+                        ex.printStackTrace();
+                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    }
                 }
 
             }
