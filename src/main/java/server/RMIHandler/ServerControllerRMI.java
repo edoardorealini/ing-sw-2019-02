@@ -615,4 +615,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    public void makeAction2Frenzy(int posX, int posY, int clientHashedID){
+
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.makeAction2Frenzy(matchController.getMap().getSquareFromIndex(posX,posY), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            try {
+                pushMatchToAllPlayers();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+            try {
+                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+            } catch (NotAllowedCallException e) {
+                e.printStackTrace();
+            }
+
+    }
+
 }

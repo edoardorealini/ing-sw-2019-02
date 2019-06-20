@@ -64,4 +64,6 @@ public interface InterfaceServerControllerRMI extends Remote {
     void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID);
 
     void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID);
+
+    void makeAction2Frenzy(int posX, int posY, int clientHashedID);
 }

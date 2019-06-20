@@ -1124,4 +1124,13 @@ public class MatchController{
         }
     }
 
+    public void makeAction2Frenzy(Square destination, Player player){
+        try {
+            moveController.move(player,destination,4);
+            //TODO cambia il turno al player
+        } catch (NotAllowedMoveException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
