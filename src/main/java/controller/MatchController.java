@@ -1,7 +1,6 @@
 package controller;
 
 import exception.*;
-import javafx.scene.control.CheckBox;
 import model.Color;
 import model.Match;
 import model.ShootMode;
@@ -770,7 +769,11 @@ public class MatchController{
 
             for (Player player : match.getPlayers()) {
                 if (player.isAskForTagBackGrenade()) {
-                //    serverControllerRMI.askForTagBackGrenade();
+                    try {
+                        serverControllerRMI.askForTagBackGrenade(player.getNickname());
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

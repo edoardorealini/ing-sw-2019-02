@@ -665,4 +665,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    @Override
+    public void askForTagBackGrenade(String nickname) throws RemoteException {
+        //nickname is the name of the player whom I am asking to use the tagBack Grenade
+        for (InterfaceClientControllerRMI clientController : clientControllers) {
+            if (clientController.getNickname().equals(nickname)) {
+                clientController.askForTagBackGrenade();
+                pushMatchToAllPlayers();
+            }
+        }
+    }
 }

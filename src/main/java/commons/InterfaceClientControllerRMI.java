@@ -18,4 +18,5 @@ public interface InterfaceClientControllerRMI extends Remote {
     void waitForMap() throws RemoteException;
     void updateMatch(Match match) throws RemoteException;
     void askForPowerUpAsAmmo() throws RemoteException;
+    void askForTagBackGrenade() throws RemoteException;
 }

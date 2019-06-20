@@ -141,7 +141,20 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     }
 
     public void waitForMap(){
-
+        //TODO notifica ai giocatori in lobby che il game è startato e che il master sta scegliendo la mappa
     }
 
+    @Override
+    public void askForTagBackGrenade() throws RemoteException {
+        mainPage.setRemoteController(senderRemoteController);
+        mainPage.setMatch(match);
+        Platform.runLater(
+                    () -> {
+                        try {
+                            //TODO metodo ask for tagback     mainPage.();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+    }
 }
