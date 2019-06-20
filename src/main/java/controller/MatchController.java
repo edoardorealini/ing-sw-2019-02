@@ -1,6 +1,7 @@
 package controller;
 
 import exception.*;
+import javafx.scene.control.CheckBox;
 import model.Color;
 import model.Match;
 import model.ShootMode;
@@ -1016,5 +1017,11 @@ public class MatchController{
     }
 
      */
+
+
+    // FRENZY METHODS
+    public void makeAction1Frenzy(Square destination, ShootingParametersInput input){
+
+    }
 
 }
