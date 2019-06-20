@@ -651,7 +651,6 @@ public class MatchController{
 
         if(!everybodyRespawned()) {
             if (idCurrentPlayer == match.getPlayers().size() - 1) {
-                //TODO prova a implementare attesa con timer
                 //in teoria i timer eseguono un controllo ogni secondo per vedere se i giocatori in stato di respawn hanno effettuato il respawn.
                 Timer waitForRespawn = new Timer();
                 waitForRespawn.schedule(
