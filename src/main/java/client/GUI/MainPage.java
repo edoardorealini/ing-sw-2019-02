@@ -14,11 +14,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
 import javafx.scene.image.ImageView;
+import model.powerup.PowerUpName;
 
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.*;
 import static model.map.SquareType.*;
+import static model.powerup.PowerUpName.TAGBACK_GRENADE;
 
 public class MainPage extends Application {
 
@@ -1021,6 +1023,114 @@ public class MainPage extends Application {
         reloadStage.setScene(scene);
         reloadStage.showAndWait();
 
+    }
+
+    public void askForTagBack() {
+
+        Stage tagBackStage = new Stage();
+        tagBackStage.initModality(Modality.APPLICATION_MODAL);
+        tagBackStage.setTitle("TagBack Grenade use");
+
+        int first = 0;
+        int second = 0;
+        int third = 0;
+
+        HBox imagesHBox = new HBox();
+        VBox vBoxPage = new VBox();
+        HBox buttons = new HBox();
+        Label text = new Label("You have been hit by " + match.getCurrentPlayer().getNickname() + ", do you want revenge?");
+        Button button1 = new Button("YEAH!");
+        Button button2 = new Button("YEAH!");
+        Button button3 = new Button("YEAH!");
+
+        button1.setOnAction(event -> {
+            try {
+                remoteController.useTagBackGrenade(0);
+                tagBackStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException  e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        button2.setOnAction(event -> {
+            try {
+                remoteController.useTagBackGrenade(1);
+                tagBackStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        button3.setOnAction(event -> {
+            try {
+                remoteController.useTagBackGrenade(2);
+                tagBackStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException  e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        vBoxPage.getChildren().setAll(imagesHBox, text, buttons);
+
+        vBoxPage.setAlignment(Pos.CENTER);
+        vBoxPage.setSpacing(8);
+
+        imagesHBox.setAlignment(Pos.CENTER);
+        imagesHBox.setSpacing(10);
+
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(100);
+
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
+            File firstFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(firstFile.toURI().toString());
+            ImageView iv0 = new ImageView(image0);
+            iv0.setFitHeight(300);
+            iv0.setFitWidth(250);
+            iv0.setPreserveRatio(true);
+            buttons.getChildren().add(button1);
+            imagesHBox.getChildren().add(iv0);
+            first = 1;
+        }
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
+            File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(secondFile.toURI().toString());
+            ImageView iv1 = new ImageView(image1);
+            iv1.setFitHeight(300);
+            iv1.setFitWidth(250);
+            iv1.setPreserveRatio(true);
+            buttons.getChildren().add(button2);
+            imagesHBox.getChildren().add(iv1);
+            second = 1;
+        }
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
+            File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(thirdFile.toURI().toString());
+            ImageView iv2 = new ImageView(image2);
+            iv2.setFitHeight(300);
+            iv2.setFitWidth(250);
+            iv2.setPreserveRatio(true);
+            buttons.getChildren().add(button3);
+            imagesHBox.getChildren().add(iv2);
+            third = 1;
+        }
+
+
+        Scene scene = new Scene(vBoxPage, (300*(first+second+third)), 400);
+        tagBackStage.setScene(scene);
+
+        tagBackStage.setOnCloseRequest(event -> tagBackStage.close());
+
+        tagBackStage.show();
     }
 }
 

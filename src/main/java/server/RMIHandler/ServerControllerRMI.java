@@ -18,7 +18,6 @@ import model.weapons.WeaponName;
 import javax.security.auth.login.FailedLoginException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -366,9 +365,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException , RemoteException {
-        //TODO gestire controlli di permissions per chiamare questo metodo!
-        matchController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
+    @Override
+    public synchronized void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException , RemoteException {
+        Player userPlayer =  matchController.getMatch().getPlayer(user);
+        if (! userPlayer.getNickname().equals(hashNicknameID.get(clientHashedID)))
+            throw new WrongStatusException("You can't use a Tagback Grenade now!");
+        Player tagBackedPlayer = matchController.getMatch().getPlayer(affectedPlayer);
+        PowerUp pow = converter.indexToPowerUp(indexOfTagBackGrenade, userPlayer);
+        if (userPlayer.isAskForTagBackGrenade()) {
+            matchController.useTagbackGrenade(pow, userPlayer, tagBackedPlayer);
+            pushMatchToAllPlayers();
+        } else
+            throw new WrongStatusException("You can't use a Tagback Grenade now!");
     }
 
     @Override
