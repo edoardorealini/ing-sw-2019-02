@@ -588,4 +588,31 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    public void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID){
+
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            try {
+                matchController.makeAction1FrenzyLower(matchController.getMap().getSquareFromIndex(posX,posY), parseInput(input),matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            } catch (NotAllowedTargetException e) {
+                e.printStackTrace();
+            } catch (NotAllowedShootingModeException e) {
+                e.printStackTrace();
+            } catch (InvalidInputException e) {
+                e.printStackTrace();
+            }
+            try {
+                pushMatchToAllPlayers();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+            try {
+                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+            } catch (NotAllowedCallException e) {
+                e.printStackTrace();
+            }
+
+    }
+
 }

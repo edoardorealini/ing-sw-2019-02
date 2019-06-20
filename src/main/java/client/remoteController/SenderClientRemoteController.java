@@ -61,4 +61,6 @@ public abstract class SenderClientRemoteController {
     public abstract void reload(int indexOfPowerUp) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException;
 
     public abstract void makeAction1Frenzy(int posX,int posY,ShootingParametersClient input);
+
+    public abstract void makeAction1FrenzyLower(int posX,int posY,ShootingParametersClient input);
 }
