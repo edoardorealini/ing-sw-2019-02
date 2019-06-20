@@ -9,7 +9,6 @@ import model.Match;
 import model.powerup.*;
 import model.weapons.Weapon;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public abstract class SenderClientRemoteController {
@@ -33,7 +32,7 @@ public abstract class SenderClientRemoteController {
 
     public abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination);
 
-    public  abstract void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer);
+    public abstract void useTagBackGrenade(int indexOfTagBackGrenade) throws RemoteException, NotAllowedTargetException, WrongStatusException, NotInYourPossessException;
 
     public abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
 

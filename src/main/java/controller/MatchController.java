@@ -200,21 +200,21 @@ public class MatchController{
         }
     }
 
-    public  synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
+    public synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
         return moveController.isAllowedMove(startingPoint, destination, maxDistance);
     }
 
     @Deprecated
-    public synchronized  void moveOneSquare(Directions direction) throws Exception {
+    public synchronized void moveOneSquare(Directions direction) throws Exception {
         moveController.moveOneSquare(direction);
     }
 
     @Deprecated
-    public  synchronized void moveOneSquare(Directions direction, Player player) throws Exception {
+    public synchronized void moveOneSquare(Directions direction, Player player) throws Exception {
         moveController.moveOneSquare(direction, player);
     }
 
-    public  synchronized int minDistBetweenSquares(Square startingPoint, Square destination) {
+    public synchronized int minDistBetweenSquares(Square startingPoint, Square destination) {
         return moveController.minDistBetweenSquares(startingPoint, destination);
     }
 
@@ -233,7 +233,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
-    public  synchronized void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException {
+    public synchronized void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException {
         if(canDoAction()) {
             try {
                 grabController.grabWeapon(weapon);
@@ -274,7 +274,7 @@ public class MatchController{
                 throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
 
-    public  synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException {
+    public synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
                 powerUpController.useTeleporter(teleporter, destination);
@@ -285,7 +285,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
-    public  synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException {
+    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(newton)) {
                 powerUpController.useNewton(newton, affectedPlayer, destination);
@@ -296,7 +296,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
-    public  synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException, WrongStatusException {
+    public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException, WrongStatusException {
         if(canUseTagbackGrenade(user)) {
             if (user.hasPowerUp(tagbackGrenade)) {
                 powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
@@ -470,11 +470,8 @@ public class MatchController{
         return false;
     }
 
-    private boolean canUseTagbackGrenade(Player p){ //TODO aggiungere la gestione del fatto che devo aver subito danno !
-        if(p.isInStatusWaitTurn())
-            return true;
-
-        return false;
+    private boolean canUseTagbackGrenade(Player p){
+        return p.isInStatusWaitTurn();
     }
 
 
