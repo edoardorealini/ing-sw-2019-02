@@ -14,15 +14,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
 import javafx.scene.image.ImageView;
-import model.powerup.PowerUpName;
 
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.*;
 import static model.map.SquareType.*;
-import static model.powerup.PowerUpName.TAGBACK_GRENADE;
 
-public class MainPage extends Application {
+public class MainPageFrenzy extends Application {
 
     private Match match;
     SenderClientRemoteController remoteController;
@@ -36,7 +34,7 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage mainStage) throws Exception {
-        mainStage.setTitle("Adrenaline " +remoteController.getNickname());
+        mainStage.setTitle("Adrenaline Frenzy " +remoteController.getNickname());
         SplitPane splitPane = new SplitPane();
         //left (life)
         VBox vBoxLife = new VBox();
@@ -150,7 +148,7 @@ public class MainPage extends Application {
                     System.out.println("Click at Y = " + mouseClicked.getY());
                     showGoodsInCoordinates(mouseClicked.getX(), mouseClicked.getY());
                 }
-            );
+        );
 
         splitPane.getItems().add(iv);
 
@@ -195,31 +193,7 @@ public class MainPage extends Application {
             }
         });
 
-        Label empty1 = new Label("                 ");
-        Label empty2 = new Label("                 ");
-
-        Button moveButton = new Button(" MOVE ");
-        moveButton.setOnAction(e -> moveButton());
-
-        Button grabButton = new Button(" GRAB ");
-        grabButton.setOnAction(e -> grab());
-
-        Button shootButton = new Button(" SHOOT ");
-        shootButton.setOnAction(event -> {
-            try {
-                GeneralWeaponPopUp shootPopUp = new GeneralWeaponPopUp();
-                shootPopUp.setMatch(match);
-                shootPopUp.setSenderRemoteController(remoteController);
-                shootPopUp.start(new Stage());
-            } catch (Exception e) {
-                PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
-                //TODO errore che dice che hbox è già settata e non può essere usata come root
-            }
-        });
-
-        Button reloadWeapons = new Button("Reload Weapons");
-        reloadWeapons.setOnAction(event -> reloadPopup());
-        hBoxTop.getChildren().addAll(points,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
+        hBoxTop.getChildren().addAll(points,showMyWeapons,showMyPowerUps,skipTurn);
 
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);
@@ -245,59 +219,6 @@ public class MainPage extends Application {
 
     public void setRemoteController(SenderClientRemoteController remoteController) {
         this.remoteController = remoteController;
-    }
-
-    public void moveButton(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Move");
-        stage.setMinWidth(250);
-        stage.setMinHeight(150);
-        VBox vBoxMove = new VBox(10);
-
-        HBox hBox1 = new HBox(5);
-        Label label1 = new Label();
-        label1.setText("X : ");
-        ChoiceBox<Integer> posX = new ChoiceBox<>();
-        posX.getItems().addAll(0,1,2,3);
-        hBox1.getChildren().addAll(label1,posX);
-
-        HBox hBox2 = new HBox(5);
-        Label label2 = new Label();
-        label2.setText("Y : ");
-        ChoiceBox<Integer> posY = new ChoiceBox<>();
-        posY.getItems().addAll(0,1,2);
-        hBox2.getChildren().addAll(label2,posY);
-
-        Button move = new Button(" Move ");
-        move.setOnAction(e -> {
-            try {
-                remoteController.move(posX.getValue(),posY.getValue());
-            } catch (NotAllowedMoveException ex) {
-                PopUpSceneMethod.display("Move Error", ex.getMessage());
-            } catch (RemoteException ex) {
-                PopUpSceneMethod.display("Network Error", ex.getMessage());
-            } catch (InvalidInputException ex) {
-                PopUpSceneMethod.display("Invalid Input Error", ex.getMessage());
-            } catch (WrongStatusException ex) {
-                PopUpSceneMethod.display("Wrong Status Error", ex.getMessage());
-            } catch (NotAllowedCallException ex) {
-                PopUpSceneMethod.display("Not Allowed Call Error", ex.getMessage());
-            }
-            stage.close();
-        } );
-
-
-        vBoxMove.getChildren().addAll(hBox1,hBox2,move);
-        vBoxMove.setAlignment(Pos.CENTER);
-        hBox1.setAlignment(Pos.CENTER);
-        hBox2.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(vBoxMove);
-
-        stage.setScene(scene);
-        stage.showAndWait();
     }
 
     private void showGoodsInCoordinates(double x, double y){
@@ -431,6 +352,47 @@ public class MainPage extends Application {
         }
     }
 
+    public void showWeaponsGoods(int x,int y){
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("Goods In Place");
+        SplitPane splitPane = new SplitPane();
+
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
+        Image image0 = new Image(file0.toURI().toString());
+        ImageView iv0 = new ImageView(image0);
+        iv0.setFitHeight(350);
+        iv0.setFitWidth(300);
+        iv0.setPreserveRatio(true);
+        splitPane.getItems().add(iv0);
+
+        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
+        Image image1 = new Image(file1.toURI().toString());
+        ImageView iv1 = new ImageView(image1);
+        iv1.setFitHeight(350);
+        iv1.setFitWidth(300);
+        iv1.setPreserveRatio(true);
+        splitPane.getItems().add(iv1);
+
+        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
+        Image image2 = new Image(file2.toURI().toString());
+        ImageView iv2 = new ImageView(image2);
+        iv2.setFitHeight(350);
+        iv2.setFitWidth(300);
+        iv2.setPreserveRatio(true);
+        splitPane.getItems().add(iv2);
+
+
+        splitPane.setMinHeight(350);
+        splitPane.setMinWidth(300);
+        splitPane.setStyle("-fx-background-color: #191a17");
+        Scene scene= new Scene(splitPane,670,350);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
     public void showGoods(){
         Stage stage = new Stage();
 
@@ -478,107 +440,6 @@ public class MainPage extends Application {
 
         stage.setScene(scene);
         stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
-    }
-
-    public void grab(){
-        Stage stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
-        stage.setTitle("Grab");
-        stage.setMinWidth(250);
-        stage.setMinHeight(250);
-        VBox vBoxGrab = new VBox(10);
-
-        HBox hBox1 = new HBox(5);
-        Label label1 = new Label();
-        label1.setText("X : ");
-        ChoiceBox<Integer> posX = new ChoiceBox<>();
-        posX.getItems().addAll(0,1,2,3);
-        hBox1.getChildren().addAll(label1,posX);
-
-        HBox hBox2 = new HBox(5);
-        Label label2 = new Label();
-        label2.setText("Y : ");
-        ChoiceBox<Integer> posY = new ChoiceBox<>();
-        posY.getItems().addAll(0,1,2);
-        hBox2.getChildren().addAll(label2,posY);
-
-        Label titlePosition = new Label(" Choose where you want to grab : ");
-        Label titleWhichWeapon = new Label(" Choose which weapon (1,2,3 or empty) : ");
-        ChoiceBox<Integer> numberWeapon = new ChoiceBox<>();
-        numberWeapon.getItems().addAll(1,2,3);
-
-        Button grab = new Button(" Grab ");
-        grab.setOnAction(e -> {
-            if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
-                try {
-                    remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
-                    stage.close();
-                } catch (NotAllowedCallException | WrongStatusException |RemoteException |NotEnoughAmmoException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                }
-            }
-            else {
-                try {
-                    remoteController.grabAmmoCard(posX.getValue(), posY.getValue());
-                    stage.close();
-                } catch (NotAllowedCallException | WrongStatusException |RemoteException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
-                    PopUpSceneMethod.display("Error", ex.getMessage());
-                }
-            }
-        } );
-
-
-        vBoxGrab.getChildren().addAll(titlePosition,hBox1,hBox2,titleWhichWeapon,numberWeapon,grab);
-        vBoxGrab.setAlignment(Pos.CENTER);
-        hBox1.setAlignment(Pos.CENTER);
-        hBox2.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(vBoxGrab);
-
-        stage.setScene(scene);
-        stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
-    }
-
-    public void showWeaponsGoods(int x,int y){
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("Goods In Place");
-        SplitPane splitPane = new SplitPane();
-
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
-        Image image0 = new Image(file0.toURI().toString());
-        ImageView iv0 = new ImageView(image0);
-        iv0.setFitHeight(350);
-        iv0.setFitWidth(300);
-        iv0.setPreserveRatio(true);
-        splitPane.getItems().add(iv0);
-
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
-        Image image1 = new Image(file1.toURI().toString());
-        ImageView iv1 = new ImageView(image1);
-        iv1.setFitHeight(350);
-        iv1.setFitWidth(300);
-        iv1.setPreserveRatio(true);
-        splitPane.getItems().add(iv1);
-
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
-        Image image2 = new Image(file2.toURI().toString());
-        ImageView iv2 = new ImageView(image2);
-        iv2.setFitHeight(350);
-        iv2.setFitWidth(300);
-        iv2.setPreserveRatio(true);
-        splitPane.getItems().add(iv2);
-
-
-        splitPane.setMinHeight(350);
-        splitPane.setMinWidth(300);
-        splitPane.setStyle("-fx-background-color: #191a17");
-        Scene scene= new Scene(splitPane,670,350);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     public void showAmmoGoods(int x,int y){
@@ -658,135 +519,6 @@ public class MainPage extends Application {
             else labelpos5.setText("Not spawned yet");
         }
     }
-
-    public void showMyAmmo(){
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("My Ammo");
-
-        VBox vBox = new VBox(10);
-        HBox hBox1 = new HBox(5);
-        HBox hBox2 = new HBox(5);
-        HBox hBox3 = new HBox(5);
-
-        // BLUE AMMO
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "B.png");
-        Image blueAmmoImage1 = new Image(file0.toURI().toString());
-        Image blueAmmoImage2 = new Image(file0.toURI().toString());
-        Image blueAmmoImage3 = new Image(file0.toURI().toString());
-        ImageView blueView1 = new ImageView(blueAmmoImage1);
-        ImageView blueView2 = new ImageView(blueAmmoImage2);
-        ImageView blueView3 = new ImageView(blueAmmoImage3);
-        blueView1.setFitHeight(60);
-        blueView1.setFitWidth(60);
-        blueView1.setPreserveRatio(true);
-        blueView2.setFitHeight(60);
-        blueView2.setFitWidth(60);
-        blueView2.setPreserveRatio(true);
-        blueView3.setFitHeight(60);
-        blueView3.setFitWidth(60);
-        blueView3.setPreserveRatio(true);
-
-        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getBlueAmmo()) {
-            case 1:
-                hBox1.getChildren().add(blueView1);
-                 break;
-            case 2:
-                hBox1.getChildren().add(blueView1);
-                hBox1.getChildren().add(blueView2);
-                break;
-            case 3:
-                hBox1.getChildren().add(blueView1);
-                hBox1.getChildren().add(blueView2);
-                hBox1.getChildren().add(blueView3);
-                break;
-            default:
-                    break;
-        }
-
-        // RED AMMO
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "R.png");
-        Image redAmmoImage1 = new Image(file1.toURI().toString());
-        Image redAmmoImage2 = new Image(file1.toURI().toString());
-        Image redAmmoImage3 = new Image(file1.toURI().toString());
-        ImageView redView1 = new ImageView(redAmmoImage1);
-        ImageView redView2 = new ImageView(redAmmoImage2);
-        ImageView redView3 = new ImageView(redAmmoImage3);
-        redView1.setFitHeight(60);
-        redView1.setFitWidth(60);
-        redView1.setPreserveRatio(true);
-        redView2.setFitHeight(60);
-        redView2.setFitWidth(60);
-        redView2.setPreserveRatio(true);
-        redView3.setFitHeight(60);
-        redView3.setFitWidth(60);
-        redView3.setPreserveRatio(true);
-
-        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo()) {
-            case 1:
-                hBox2.getChildren().add(redView1);
-                break;
-            case 2:
-                hBox2.getChildren().add(redView1);
-                hBox2.getChildren().add(redView2);
-                break;
-            case 3:
-                hBox2.getChildren().add(redView1);
-                hBox2.getChildren().add(redView2);
-                hBox2.getChildren().add(redView3);
-                break;
-            default:
-                break;
-        }
-
-        // YELLOW AMMO
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Y.png");
-        Image yellowAmmoImage1 = new Image(file2.toURI().toString());
-        Image yellowAmmoImage2 = new Image(file2.toURI().toString());
-        Image yellowAmmoImage3 = new Image(file2.toURI().toString());
-        ImageView yellowView1 = new ImageView(yellowAmmoImage1);
-        ImageView yellowView2 = new ImageView(yellowAmmoImage2);
-        ImageView yellowView3 = new ImageView(yellowAmmoImage3);
-        yellowView1.setFitHeight(60);
-        yellowView1.setFitWidth(60);
-        yellowView1.setPreserveRatio(true);
-        yellowView2.setFitHeight(60);
-        yellowView2.setFitWidth(60);
-        yellowView2.setPreserveRatio(true);
-        yellowView3.setFitHeight(60);
-        yellowView3.setFitWidth(60);
-        yellowView3.setPreserveRatio(true);
-
-        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getYellowAmmo()) {
-            case 1:
-                hBox3.getChildren().add(yellowView1);
-                break;
-            case 2:
-                hBox3.getChildren().add(yellowView1);
-                hBox3.getChildren().add(yellowView2);
-                break;
-            case 3:
-                hBox3.getChildren().add(yellowView1);
-                hBox3.getChildren().add(yellowView2);
-                hBox3.getChildren().add(yellowView3);
-                break;
-            default:
-                break;
-        }
-
-        vBox.getChildren().addAll(hBox1,hBox2,hBox3);
-        hBox1.setAlignment(Pos.CENTER);
-        hBox2.setAlignment(Pos.CENTER);
-        hBox3.setAlignment(Pos.CENTER);
-        vBox.setStyle("-fx-background-color: #191a17");
-        vBox.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(vBox,(400),(400));
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
 
     public void askForPowerUpAsAmmo() {
 
@@ -1025,113 +757,134 @@ public class MainPage extends Application {
 
     }
 
-    public void askForTagBack() {
+    public void showMyAmmo(){
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("My Ammo");
 
-        Stage tagBackStage = new Stage();
-        tagBackStage.initModality(Modality.APPLICATION_MODAL);
-        tagBackStage.setTitle("TagBack Grenade use");
+        VBox vBox = new VBox(10);
+        HBox hBox1 = new HBox(5);
+        HBox hBox2 = new HBox(5);
+        HBox hBox3 = new HBox(5);
 
-        int first = 0;
-        int second = 0;
-        int third = 0;
+        // BLUE AMMO
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "B.png");
+        Image blueAmmoImage1 = new Image(file0.toURI().toString());
+        Image blueAmmoImage2 = new Image(file0.toURI().toString());
+        Image blueAmmoImage3 = new Image(file0.toURI().toString());
+        ImageView blueView1 = new ImageView(blueAmmoImage1);
+        ImageView blueView2 = new ImageView(blueAmmoImage2);
+        ImageView blueView3 = new ImageView(blueAmmoImage3);
+        blueView1.setFitHeight(60);
+        blueView1.setFitWidth(60);
+        blueView1.setPreserveRatio(true);
+        blueView2.setFitHeight(60);
+        blueView2.setFitWidth(60);
+        blueView2.setPreserveRatio(true);
+        blueView3.setFitHeight(60);
+        blueView3.setFitWidth(60);
+        blueView3.setPreserveRatio(true);
 
-        HBox imagesHBox = new HBox();
-        VBox vBoxPage = new VBox();
-        HBox buttons = new HBox();
-        Label text = new Label("You have been hit by " + match.getCurrentPlayer().getNickname() + ", do you want revenge?");
-        Button button1 = new Button("YEAH!");
-        Button button2 = new Button("YEAH!");
-        Button button3 = new Button("YEAH!");
-
-        button1.setOnAction(event -> {
-            try {
-                remoteController.useTagBackGrenade(0);
-                tagBackStage.close();
-            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException  e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        button2.setOnAction(event -> {
-            try {
-                remoteController.useTagBackGrenade(1);
-                tagBackStage.close();
-            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        button3.setOnAction(event -> {
-            try {
-                remoteController.useTagBackGrenade(2);
-                tagBackStage.close();
-            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotAllowedTargetException  e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        vBoxPage.getChildren().setAll(imagesHBox, text, buttons);
-
-        vBoxPage.setAlignment(Pos.CENTER);
-        vBoxPage.setSpacing(8);
-
-        imagesHBox.setAlignment(Pos.CENTER);
-        imagesHBox.setSpacing(10);
-
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setSpacing(100);
-
-
-        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
-            File firstFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
-            Image image0 = new Image(firstFile.toURI().toString());
-            ImageView iv0 = new ImageView(image0);
-            iv0.setFitHeight(300);
-            iv0.setFitWidth(250);
-            iv0.setPreserveRatio(true);
-            buttons.getChildren().add(button1);
-            imagesHBox.getChildren().add(iv0);
-            first = 1;
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getBlueAmmo()) {
+            case 1:
+                hBox1.getChildren().add(blueView1);
+                break;
+            case 2:
+                hBox1.getChildren().add(blueView1);
+                hBox1.getChildren().add(blueView2);
+                break;
+            case 3:
+                hBox1.getChildren().add(blueView1);
+                hBox1.getChildren().add(blueView2);
+                hBox1.getChildren().add(blueView3);
+                break;
+            default:
+                break;
         }
 
-        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
-            File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
-            Image image1 = new Image(secondFile.toURI().toString());
-            ImageView iv1 = new ImageView(image1);
-            iv1.setFitHeight(300);
-            iv1.setFitWidth(250);
-            iv1.setPreserveRatio(true);
-            buttons.getChildren().add(button2);
-            imagesHBox.getChildren().add(iv1);
-            second = 1;
+        // RED AMMO
+        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "R.png");
+        Image redAmmoImage1 = new Image(file1.toURI().toString());
+        Image redAmmoImage2 = new Image(file1.toURI().toString());
+        Image redAmmoImage3 = new Image(file1.toURI().toString());
+        ImageView redView1 = new ImageView(redAmmoImage1);
+        ImageView redView2 = new ImageView(redAmmoImage2);
+        ImageView redView3 = new ImageView(redAmmoImage3);
+        redView1.setFitHeight(60);
+        redView1.setFitWidth(60);
+        redView1.setPreserveRatio(true);
+        redView2.setFitHeight(60);
+        redView2.setFitWidth(60);
+        redView2.setPreserveRatio(true);
+        redView3.setFitHeight(60);
+        redView3.setFitWidth(60);
+        redView3.setPreserveRatio(true);
+
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getRedAmmo()) {
+            case 1:
+                hBox2.getChildren().add(redView1);
+                break;
+            case 2:
+                hBox2.getChildren().add(redView1);
+                hBox2.getChildren().add(redView2);
+                break;
+            case 3:
+                hBox2.getChildren().add(redView1);
+                hBox2.getChildren().add(redView2);
+                hBox2.getChildren().add(redView3);
+                break;
+            default:
+                break;
         }
 
-        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
-            File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
-            Image image2 = new Image(thirdFile.toURI().toString());
-            ImageView iv2 = new ImageView(image2);
-            iv2.setFitHeight(300);
-            iv2.setFitWidth(250);
-            iv2.setPreserveRatio(true);
-            buttons.getChildren().add(button3);
-            imagesHBox.getChildren().add(iv2);
-            third = 1;
+        // YELLOW AMMO
+        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Y.png");
+        Image yellowAmmoImage1 = new Image(file2.toURI().toString());
+        Image yellowAmmoImage2 = new Image(file2.toURI().toString());
+        Image yellowAmmoImage3 = new Image(file2.toURI().toString());
+        ImageView yellowView1 = new ImageView(yellowAmmoImage1);
+        ImageView yellowView2 = new ImageView(yellowAmmoImage2);
+        ImageView yellowView3 = new ImageView(yellowAmmoImage3);
+        yellowView1.setFitHeight(60);
+        yellowView1.setFitWidth(60);
+        yellowView1.setPreserveRatio(true);
+        yellowView2.setFitHeight(60);
+        yellowView2.setFitWidth(60);
+        yellowView2.setPreserveRatio(true);
+        yellowView3.setFitHeight(60);
+        yellowView3.setFitWidth(60);
+        yellowView3.setPreserveRatio(true);
+
+        switch (match.getPlayer(remoteController.getNickname()).getAmmo().getYellowAmmo()) {
+            case 1:
+                hBox3.getChildren().add(yellowView1);
+                break;
+            case 2:
+                hBox3.getChildren().add(yellowView1);
+                hBox3.getChildren().add(yellowView2);
+                break;
+            case 3:
+                hBox3.getChildren().add(yellowView1);
+                hBox3.getChildren().add(yellowView2);
+                hBox3.getChildren().add(yellowView3);
+                break;
+            default:
+                break;
         }
 
-
-        Scene scene = new Scene(vBoxPage, (300*(first+second+third)), 400);
-        tagBackStage.setScene(scene);
-
-        tagBackStage.setOnCloseRequest(event -> tagBackStage.close());
-
-        tagBackStage.show();
+        vBox.getChildren().addAll(hBox1,hBox2,hBox3);
+        hBox1.setAlignment(Pos.CENTER);
+        hBox2.setAlignment(Pos.CENTER);
+        hBox3.setAlignment(Pos.CENTER);
+        vBox.setStyle("-fx-background-color: #191a17");
+        vBox.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(vBox,(400),(400));
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
+
 }
 
 
