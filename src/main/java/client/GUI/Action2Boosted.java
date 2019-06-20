@@ -12,11 +12,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Match;
 
+import java.rmi.RemoteException;
+
 public class Action2Boosted extends Application {
     private Match match;
     private SenderClientRemoteController senderRemoteController;
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Frenzy Action");
         VBox vbox = new VBox(5);
 
@@ -39,7 +41,13 @@ public class Action2Boosted extends Application {
         vbox.getChildren().addAll(title1,hBox1,hBox2);
 
         Button move = new Button(" Move ");
-        move.setOnAction(e -> senderRemoteController.makeAction2Frenzy(posX.getValue(),posY.getValue()));
+        move.setOnAction(e -> {
+            try {
+                senderRemoteController.makeAction2Frenzy(posX.getValue(),posY.getValue());
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
+        });
         vbox.getChildren().add(move);
 
         vbox.setAlignment(Pos.CENTER);
