@@ -733,6 +733,12 @@ public class MatchController{
                 throw new NotEnoughAmmoException("It seems you do not have enough ammo");
             }
 
+            for (Player player : match.getPlayers()) {
+                if (player.isAskForTagBackGrenade()) {
+                //    serverControllerRMI.askForTagBackGrenade();
+                }
+            }
+
             input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
 
             System.out.println("[INFO]: Updated lives of all player \n");

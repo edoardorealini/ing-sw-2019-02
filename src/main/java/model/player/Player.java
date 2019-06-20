@@ -1,17 +1,13 @@
 package model.player;
 
-import model.Color;
 import model.Match;
 import model.ammo.AmmoCard;
-import model.powerup.PowerUpDeck;
-import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.map.Square;
 import model.ammo.Ammo;
 import model.powerup.PowerUp;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 public class Player implements Serializable{
@@ -27,29 +23,28 @@ public class Player implements Serializable{
     private PlayerStatusHandler status;
     private RoundStatus roundStatus;
     private AbilityStatus abilityStatus;
+    private boolean askForTagBackGrenade;
     private boolean dead;
     private Match match;
 
     public Player (String nickname, int id, Match match){
-        this.nickname=nickname;
-        this.id=id;
-        this.position=null;
-        this.board=new Board();
-        ammo = new Ammo();
-        points=0;
-        status = new PlayerStatusHandler();
+        this.nickname = nickname;
+        this.id = id;
+        this.position = null;
+        this.askForTagBackGrenade = false;
+        this.board = new Board();
+        this.ammo = new Ammo();
+        this.points = 0;
+        this.status = new PlayerStatusHandler();
+        dead = false;
+        this.match = match;
+        powerUps[0] = match.getPowerUpDeck().pickFirstCard();   //the player has a power up at the start of the game
 
         this.status.setTurnStatusLobby();
 
         if(this.id == 0){
             this.status.setTurnStatusLobbyMaster();
         }
-
-        dead=false;
-        this.match=match;
-
-        //metto nella mano del player gia due power up per inizio della partita.
-        powerUps[0] = match.getPowerUpDeck().pickFirstCard();
 
     }
 
@@ -102,6 +97,13 @@ public class Player implements Serializable{
         return ammo;
     }
 
+    public boolean isAskForTagBackGrenade() {
+        return askForTagBackGrenade;
+    }
+
+    public void setAskForTagBackGrenade(boolean askForTagBackGrenade) {
+        this.askForTagBackGrenade = askForTagBackGrenade;
+    }
 
     public void addAmmoCard(AmmoCard ammoCard) {
         if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>=3){

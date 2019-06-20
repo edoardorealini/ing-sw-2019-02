@@ -4,6 +4,8 @@ import controller.MoveController;
 import model.ShootingParametersInput;
 import model.Match;
 import model.player.Player;
+import model.powerup.PowerUp;
+import model.powerup.PowerUpName;
 
 import java.io.Serializable;
 
@@ -52,6 +54,12 @@ public class EffectDamage extends Effect  implements Serializable {
 
 				if (player.getBoard().getTotalNumberOfDamages() > 5)
 					player.getStatus().setSpecialAbilityAdrenalineShoot();
+
+				for (PowerUp pow : player.getPowerUps()) {
+					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE) {
+						player.setAskForTagBackGrenade(true);
+					}
+				}
 			}
 		} else {
 			if (input.getTargets().size() > getSameTarget()) {
@@ -67,6 +75,12 @@ public class EffectDamage extends Effect  implements Serializable {
 
 				if (target.getBoard().isDead())                                                            //check if the target is dead
 					target.trueDead();
+
+				for (PowerUp pow : target.getPowerUps()) {
+					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE) {
+						target.setAskForTagBackGrenade(true);
+					}
+				}
 			}
 		}
 	}
