@@ -503,9 +503,10 @@ public class MatchController{
                         @Override
                         public synchronized void run() {
                             turnTimerStatus = false;
+                            Player player = match.getCurrentPlayer();
                             //if i enter this timer it means that the player who launched it hasn't finished his turn
-                            System.out.println("[TURNTIMER]: The player " + p.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
-                            p.getStatus().setTurnStatusWaitTurn();
+                            System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                            player.getStatus().setTurnStatusWaitTurn();
                             setNewCurrentPlayer();
 
                             try {
@@ -549,6 +550,9 @@ public class MatchController{
                 break;
 
             case END_TURN:
+                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.purge();
+
                 endOfTurn(); // manages the points to the players
                 //qui aggiungo qualcosa che manda avanti lo stato del primo giocatore dell'elenco che è in wait first turn (dandogli il diritto di essere chiamato per spawnare)
                 //putWaitFirstTurnInSpawn();
@@ -577,10 +581,11 @@ public class MatchController{
                         turnTimer.schedule(new TimerTask() {
                             @Override
                             public synchronized void run() {
+                                Player player = match.getCurrentPlayer();
                                 turnTimerStatus = false;
                                 //if i enter this timer it means that the player who launched it hasn't finished his turn
-                                System.out.println("[TURNTIMER]: The player " + p.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
-                                p.getStatus().setTurnStatusWaitTurn();
+                                System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                                player.getStatus().setTurnStatusWaitTurn();
                                 setNewCurrentPlayer();
                             }
                         }, turnDuration);
