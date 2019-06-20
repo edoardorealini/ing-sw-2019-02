@@ -24,6 +24,7 @@ import model.player.Player;
 import model.weapons.Weapon;
 
 import java.io.File;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -606,7 +607,7 @@ public class Action1Lower extends Application {
 
     }
 
-    private void fillWholeInput(int posX, int posY){
+    private void fillWholeInput(int posX, int posY) throws RemoteException {
         // input per la shoot già inpacchettato
         // e li passo direttamente le coordinate per la move
         senderRemoteController.makeAction1FrenzyLower(posX,posY,input);
