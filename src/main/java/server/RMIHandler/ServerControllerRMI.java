@@ -686,6 +686,30 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.makeAction3Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            try {
+                pushMatchToAllPlayers();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                throw new RemoteException(e.getMessage());
+            }
+        }
+        else{
+            try {
+                throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+            } catch (NotAllowedCallException e) {
+                e.printStackTrace();
+                throw new NotAllowedCallException(e.getMessage());
+            }
+        }
+
+    }
+
+
+
     @Override
     public void askForTagBackGrenade(String nickname) throws RemoteException {
         //nickname is the name of the player whom I am asking to use the tagBack Grenade

@@ -5,6 +5,7 @@ import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
+import model.weapons.Weapon;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.Remote;
@@ -66,6 +67,8 @@ public interface InterfaceServerControllerRMI extends Remote {
     void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedCallException;
 
     void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws RemoteException, NotAllowedMoveException, NotAllowedCallException;
+
+    void makeAction3Frenzy(int posX, int posY, Weapon wp, int clientHashedID) throws RemoteException, NotAllowedMoveException, NotAllowedCallException;
 
     void askForTagBackGrenade(String nickname) throws RemoteException;
 }

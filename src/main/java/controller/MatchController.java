@@ -1193,4 +1193,15 @@ public class MatchController{
         }
     }
 
+    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException {
+        try {
+            moveController.move(player,destination,2);
+            grabController.grabWeapon(wp);
+            //TODO cambia il turno al player
+        } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
+        }
+    }
+
 }
