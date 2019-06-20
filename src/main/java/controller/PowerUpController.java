@@ -119,4 +119,9 @@ public class PowerUpController{
 
     }
 
+    private void metodoCheFaQualcosa(String test){
+        System.out.println("Questo metodo è inutile, serve per fare un test di merge con ricks.");
+    }
+
+
 }
