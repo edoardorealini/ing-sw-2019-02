@@ -474,9 +474,29 @@ public class MatchController{
         return p.isInStatusWaitTurn();
     }
 
+    private Timer turnTimer = new Timer();
+    private TimerTask turnTimerTask = new TimerTask(){
+    @Override
+    public synchronized void run() {
+        turnTimerStatus = false;
+        Player player = match.getCurrentPlayer();
+        //if i enter this timer it means that the player who launched it hasn't finished his turn
+        System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+        player.getStatus().setTurnStatusWaitTurn();
+        setNewCurrentPlayer();
+
+        try {
+            serverControllerRMI.askRespawn();
+            //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        }
+    };
 
     public void goToNextStatus(Player p){
-        Timer turnTimer = new Timer();
 
         switch(p.getStatus().getTurnStatus()){
             case LOBBY_MASTER:
@@ -497,9 +517,13 @@ public class MatchController{
 
             case SPAWN:
                 p.getStatus().setTurnStatusFirstAction();
+                turnTimerTask.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.cancel();
+                turnTimer.purge();
                 turnTimer = new Timer();
                 if(!turnTimerStatus) {
-                    turnTimer.schedule(new TimerTask() {
+                    turnTimer = new Timer();
+                    turnTimerTask = new TimerTask(){
                         @Override
                         public synchronized void run() {
                             turnTimerStatus = false;
@@ -515,8 +539,11 @@ public class MatchController{
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+
+
                         }
-                    }, turnDuration);
+                    };
+                    turnTimer.schedule(turnTimerTask, turnDuration);
                     turnTimerStatus = true;
                     System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
                 }
@@ -535,22 +562,27 @@ public class MatchController{
                         }
                     }
                 p.getStatus().setTurnStatusEndTurn();
-                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimerTask.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.cancel();
                 turnTimer.purge();
                 turnTimerStatus = false;
+                System.out.println("[TURNTIMER]: KILLED");
                 goToNextStatus(p);
                 break;
 
             case RELOADING:
                 p.getStatus().setTurnStatusEndTurn();
-                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimerTask.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.cancel();
                 turnTimer.purge();
                 turnTimerStatus = false;
+                System.out.println("[TURNTIMER]: KILLED");
                 goToNextStatus(p);
                 break;
 
             case END_TURN:
-                turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimerTask.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                turnTimer.cancel();
                 turnTimer.purge();
 
                 endOfTurn(); // manages the points to the players
@@ -576,19 +608,32 @@ public class MatchController{
             case WAIT_TURN:
                 if(!p.isDead()) {
                     p.getStatus().setTurnStatusFirstAction();
+                    turnTimer.cancel(); //cancel the timer if i arrive here, else automatically the player is sent to the next status.
+                    turnTimer.purge();
                     turnTimer = new Timer();
                     if(!turnTimerStatus) {
-                        turnTimer.schedule(new TimerTask() {
+                        turnTimer =  new Timer();
+                        turnTimerTask = new TimerTask(){
                             @Override
                             public synchronized void run() {
-                                Player player = match.getCurrentPlayer();
                                 turnTimerStatus = false;
+                                Player player = match.getCurrentPlayer();
                                 //if i enter this timer it means that the player who launched it hasn't finished his turn
                                 System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
                                 player.getStatus().setTurnStatusWaitTurn();
                                 setNewCurrentPlayer();
+
+                                try {
+                                    serverControllerRMI.askRespawn();
+                                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
-                        }, turnDuration);
+                        };
+                        turnTimer.schedule(turnTimerTask, turnDuration);
                         turnTimerStatus = true;
                         System.out.println("[TURNTIMER]: Setted turn timer for " + turnDuration/1000 + " seconds.");
                     }
