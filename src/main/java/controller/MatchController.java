@@ -1206,4 +1206,16 @@ public class MatchController{
         }
     }
 
+    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException {
+        try {
+            moveController.move(player,destination,3);
+            grabController.grabWeapon(wp);
+            //TODO cambia il turno al player
+        } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+            e.printStackTrace();
+            throw new NotAllowedMoveException(e.getMessage());
+        }
+    }
+
+
 }

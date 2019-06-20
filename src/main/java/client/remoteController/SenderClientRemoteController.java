@@ -68,4 +68,6 @@ public abstract class SenderClientRemoteController {
     public abstract void makeAction2Frenzy(int posX,int posY) throws RemoteException, NotAllowedMoveException, NotAllowedCallException;
 
     public abstract void makeAction3Frenzy(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException;
+
+    public abstract void makeAction2FrenzyLower(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException;
 }

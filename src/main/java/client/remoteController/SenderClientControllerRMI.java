@@ -328,4 +328,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     public void makeAction3Frenzy(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
         serverController.makeAction3Frenzy(posX,posY, wp, this.hashedNickname);
     }
+
+    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp)  throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+        serverController.makeAction2FrenzyLower(posX,posY,wp, this.hashedNickname);
+    }
 }
