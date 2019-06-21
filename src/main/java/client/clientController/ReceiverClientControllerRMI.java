@@ -96,6 +96,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 mainPage.setMatch(match);
                 mainPage.refreshPlayersPosition();
                 senderRemoteController.setMatch(match);
+                this.match = match;
                 //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA LA VISTA!
             });
         }
