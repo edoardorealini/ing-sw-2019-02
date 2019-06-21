@@ -31,6 +31,10 @@ public class PlayerStatusHandler  implements Serializable {
         this.specialAbility = AbilityStatus.FRENZY;
     }
 
+    public void setSpecialAbilityFrenzyLower() {
+        this.specialAbility = AbilityStatus.FRENZY_LOWER;
+    }
+
     public void setSpecialAbilityAdrenalineShoot() {
         this.specialAbility = AbilityStatus.ADRENALINE_SHOOT;
     }
@@ -84,6 +88,27 @@ public class PlayerStatusHandler  implements Serializable {
     }
 
     public void setTurnStatusRespawn(){ this.turnStatus = RoundStatus.RESPAWN; }
+
+    public void setTurnStatusWaitTurnFrenzy(){
+        this.turnStatus = RoundStatus.WAIT_TURN_FRENZY;
+    }
+
+    public void setTurnStatusFirstActionFrenzy(){
+        this.turnStatus = RoundStatus.FIRST_ACTION_FRENZY;
+    }
+
+    public void setTurnStatusSecondActionFrenzy(){
+        this.turnStatus = RoundStatus.SECOND_ACTION_FRENZY;
+    }
+
+    public void setTurnStatusFirstActionLowerFrenzy(){
+        this.turnStatus = RoundStatus.FIRST_ACTION_LOWER_FRENZY;
+    }
+
+    public void setTurnStatusEndGame(){
+        this.turnStatus = RoundStatus.END_GAME;
+    }
+
 
 //metodi isInStatus ...
 

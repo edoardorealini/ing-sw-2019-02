@@ -28,12 +28,15 @@ public class MainPage extends Application {
     private Match match;
     SenderClientRemoteController remoteController;
     private boolean powerUpAsAmmoActive = false;
+    private boolean frenzyMode = false;
 
     Label labelpos1;
     Label labelpos2;
     Label labelpos3;
     Label labelpos4;
     Label labelpos5;
+
+    int points = 0;
 
     @Override
     public void start(Stage mainStage) throws Exception {
@@ -61,6 +64,9 @@ public class MainPage extends Application {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(0));
+            if (frenzyMode){
+                life.setFrenzyActive(true);
+            }
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -75,6 +81,9 @@ public class MainPage extends Application {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(1));
+            if (frenzyMode){
+                life.setFrenzyActive(true);
+            }
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -89,6 +98,9 @@ public class MainPage extends Application {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(2));
+            if (frenzyMode){
+                life.setFrenzyActive(true);
+            }
             try {
                 life.start(new Stage());
             } catch (Exception ex) {
@@ -104,6 +116,9 @@ public class MainPage extends Application {
                 LifeBoard life = new LifeBoard();
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(3));
+                if (frenzyMode){
+                    life.setFrenzyActive(true);
+                }
                 try {
                     life.start(new Stage());
                 } catch (Exception ex) {
@@ -120,6 +135,9 @@ public class MainPage extends Application {
                 LifeBoard life = new LifeBoard();
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(4));
+                if (frenzyMode){
+                    life.setFrenzyActive(true);
+                }
                 try {
                     life.start(new Stage());
                 } catch (Exception ex) {
@@ -158,7 +176,7 @@ public class MainPage extends Application {
         // Top (buttons)
         HBox hBoxTop = new HBox();
         hBoxTop.setMaxHeight(15);
-        Label points = new Label("My Points : "+match.getPlayer(remoteController.getNickname()).getPoints()+" ");
+        Label point = new Label("My Points : "+points+" ");
         Button showGoodsInPlace = new Button(" Show Goods In Place ");
         showGoodsInPlace.setOnAction(e -> showGoods() );
         Button showMyWeapons = new Button(" Show My Weapons ");
@@ -220,7 +238,7 @@ public class MainPage extends Application {
 
         Button reloadWeapons = new Button("Reload Weapons");
         reloadWeapons.setOnAction(event -> reloadPopup());
-        hBoxTop.getChildren().addAll(points,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
+        hBoxTop.getChildren().addAll(point,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
 
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);
@@ -246,6 +264,10 @@ public class MainPage extends Application {
 
     public void setRemoteController(SenderClientRemoteController remoteController) {
         this.remoteController = remoteController;
+    }
+
+    public void setFrenzyMode(boolean mode){
+        this.frenzyMode = mode;
     }
 
     public void moveButton(){
@@ -620,6 +642,10 @@ public class MainPage extends Application {
         Scene scene = new Scene(hBox,(220),(100));
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public void refreshPoints(){
+        points = match.getPlayer(remoteController.getNickname()).getPoints();
     }
 
     public void refreshPlayersPosition(){

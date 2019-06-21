@@ -15,5 +15,11 @@ public enum RoundStatus implements Serializable{
     RELOADING,		// il giocatore ha terminato la sua seconda azione e deve ricaricare le armi (se può); //TODO chiedere a riccky di implementare ill metodo per 					il reload delle armi da esporre sul matchController.
     END_TURN,		// serve per sapere che il giocatore ha finito il turno, centra con quello che diceva ricky sulla gestione dei punti e dei morti !!
     DISCONNECTED,	// stato in cui il giocatore si è disconnesso dal server, significa che ha iniziato la partita ma ha staccato, può riconnettersi con lo stesso 						Nickname ed essere messo in waitTurn
-    RESPAWN         //il giocatore deve respawnare, significa che è morto. Hai permessi per scegliere un nuovo punto di respawn (avrà la vita piena).
+    RESPAWN,         //il giocatore deve respawnare, significa che è morto. Hai permessi per scegliere un nuovo punto di respawn (avrà la vita piena).
+
+    WAIT_TURN_FRENZY,           //stati per modalità frenzy.
+    FIRST_ACTION_FRENZY,
+    FIRST_ACTION_LOWER_FRENZY,
+    SECOND_ACTION_FRENZY,
+    END_GAME
 }

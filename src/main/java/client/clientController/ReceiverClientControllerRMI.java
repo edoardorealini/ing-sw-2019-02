@@ -12,6 +12,7 @@ import commons.InterfaceClientControllerRMI;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import model.Match;
+import model.player.AbilityStatus;
 import model.player.Player;
 
 import java.rmi.RemoteException;
@@ -95,9 +96,13 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
                 mainPage.refreshPlayersPosition();
+                mainPage.refreshPoints();
                 senderRemoteController.setMatch(match);
+                if(match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY_LOWER))
+                    mainPage.setFrenzyMode(true);
+
                 this.match = match;
-                //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA LA VISTA!
+                //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA I PUNTI
             });
         }
         //questo metodo viene chiamato piu volte.
