@@ -6,6 +6,7 @@ import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
+import model.Match;
 import model.ShootMode;
 import model.ShootingParametersInput;
 import model.map.Square;
@@ -484,8 +485,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     public synchronized void pushMatchToAllPlayers() throws RemoteException{
+        Match sharedMatch = new Match(matchController.getMatch());
+
         for(InterfaceClientControllerRMI controller: clientControllers)
-            controller.updateMatch(matchController.getMatch());
+            controller.updateMatch(sharedMatch);
 
         System.out.println("[INFO]: Pushing the updated match to all the players ");
 
