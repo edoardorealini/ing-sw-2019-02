@@ -96,6 +96,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
                 mainPage.refreshPlayersPosition();
+                mainPage.refreshPoints();
                 senderRemoteController.setMatch(match);
                 if(match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY_LOWER))
                     mainPage.setFrenzyMode(true);
