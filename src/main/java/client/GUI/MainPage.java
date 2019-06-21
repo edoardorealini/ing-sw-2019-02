@@ -28,6 +28,7 @@ public class MainPage extends Application {
     private Match match;
     SenderClientRemoteController remoteController;
     private boolean powerUpAsAmmoActive = false;
+    private boolean frenzyMode = false;
 
     Label labelpos1;
     Label labelpos2;
@@ -246,6 +247,10 @@ public class MainPage extends Application {
 
     public void setRemoteController(SenderClientRemoteController remoteController) {
         this.remoteController = remoteController;
+    }
+
+    public void setFrenzyMode(boolean mode){
+        this.frenzyMode = mode;
     }
 
     public void moveButton(){

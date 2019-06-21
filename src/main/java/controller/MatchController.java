@@ -156,7 +156,6 @@ public class MatchController{
         }
         else
             throw new WrongStatusException("You are not allowed to execute a move action now, you must wait for your turn");
-
     }
 
 
@@ -661,14 +660,27 @@ public class MatchController{
                                 if (everybodyRespawned()) {
                                     System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
                                     model.setCurrentPlayer(model.getPlayers().get(0));
-                                    goToNextStatus(model.getPlayers().get(0));
-                                    try {
-                                        serverControllerRMI.pushMatchToAllPlayers();
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        waitForRespawn.cancel();
-                                        waitForRespawn.purge();
+                                    if(match.getKillShotTrack().getSkulls() == 0){
+                                        startFrenzyMode();
+                                        try {
+                                            serverControllerRMI.pushMatchToAllPlayers();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            waitForRespawn.cancel();
+                                            waitForRespawn.purge();
+                                        }
+                                    }
+                                    else {
+                                        goToNextStatus(model.getPlayers().get(0));
+                                        try {
+                                            serverControllerRMI.pushMatchToAllPlayers();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            waitForRespawn.cancel();
+                                            waitForRespawn.purge();
+                                        }
                                     }
                                 }
                             }
@@ -684,14 +696,27 @@ public class MatchController{
                                 if (everybodyRespawned()) {
                                     System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
                                     model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
-                                    goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
-                                    try {
-                                        serverControllerRMI.pushMatchToAllPlayers();
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
-                                    } finally {
-                                        waitForRespawn.cancel();
-                                        waitForRespawn.purge();
+                                    if(match.getKillShotTrack().getSkulls() == 0){
+                                        startFrenzyMode();
+                                        try {
+                                            serverControllerRMI.pushMatchToAllPlayers();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            waitForRespawn.cancel();
+                                            waitForRespawn.purge();
+                                        }
+                                    }
+                                    else {
+                                        goToNextStatus(model.getPlayers().get(idCurrentPlayer + 1));
+                                        try {
+                                            serverControllerRMI.pushMatchToAllPlayers();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        } finally {
+                                            waitForRespawn.cancel();
+                                            waitForRespawn.purge();
+                                        }
                                     }
                                 }
                             }
@@ -700,7 +725,7 @@ public class MatchController{
             }
         }
         else{
-            if (idCurrentPlayer == match.getPlayers().size() - 1) {
+            if (idCurrentPlayer == match.getPlayers().size() - 1){
 
                 Match model = getMatch();
                 System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
@@ -730,6 +755,57 @@ public class MatchController{
         }
 
 
+    }
+    //setta i nuovi permessi per la frenzy
+    //setta il current player in first action (in base al tipo )
+    //setta tutti gli altri in wait turn frenzy
+    private void startFrenzyMode(){
+
+        if(match.getCurrentPlayer().getId() == 0) {
+            for (int i = match.getCurrentPlayer().getId(); i < match.getPlayers().size(); i++)
+                match.getPlayers().get(i).getStatus().setSpecialAbilityFrenzyLower();
+        }
+
+        else{
+            for (int i = match.getCurrentPlayer().getId(); i < match.getPlayers().size(); i++)
+                match.getPlayers().get(i).getStatus().setSpecialAbilityFrenzy();
+            for (int i = 0; i < match.getCurrentPlayer().getId(); i++)
+                match.getPlayers().get(i).getStatus().setSpecialAbilityFrenzyLower();
+        }
+        for(Player p: match.getPlayers()){
+            p.getStatus().setTurnStatusWaitTurnFrenzy();
+            if(p.getBoard().getTotalNumberOfDamages() == 0)
+                p.setPlayerMoodFrenzy(true);
+        }
+
+        if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY))
+            match.getCurrentPlayer().getStatus().setTurnStatusFirstActionFrenzy();
+        if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
+            match.getCurrentPlayer().getStatus().setTurnStatusFirstActionLowerFrenzy();
+    }
+
+    private void goToNextStatusFrenzy(Player p){
+        switch(p.getStatus().getTurnStatus()){
+            case WAIT_TURN_FRENZY:
+                if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY))
+                    p.getStatus().setTurnStatusFirstActionFrenzy();
+                if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
+                    p.getStatus().setTurnStatusFirstActionLowerFrenzy();
+                break;
+
+            case FIRST_ACTION_FRENZY:
+                p.getStatus().setTurnStatusSecondActionFrenzy();
+                break;
+
+            case SECOND_ACTION_FRENZY:
+                p.getStatus().setTurnStatusEndGame();
+                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
+                break;
+
+            case FIRST_ACTION_LOWER_FRENZY:
+                p.getStatus().setTurnStatusEndGame();
+                break;
+        }
     }
 
     private boolean everybodyRespawned(){
@@ -1004,8 +1080,6 @@ public class MatchController{
 
                 match.getKillShotTrack().decreaseSkulls();      //remove just one skull
 
-                //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status) - GOOD IDEA MANN e.
-
                 board.initializeBoard();    //resetting the board of th killed player
                 board.increaseNumberOfDeaths();
 
@@ -1013,6 +1087,14 @@ public class MatchController{
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
+
+
+                if(match.getKillShotTrack().getSkulls() == 0){
+                    //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status) - GOOD IDEA MANN e.
+
+                }
+
+
             }
         }
 
