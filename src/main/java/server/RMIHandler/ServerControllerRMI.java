@@ -332,9 +332,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     //lets the current player grab a weapon
     public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
-            //TODO add check on move and eventully move. Call method from matchcontroller.
             matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
+            WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
             matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
             System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();
