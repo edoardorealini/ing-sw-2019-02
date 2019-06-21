@@ -22,7 +22,8 @@ import java.lang.reflect.Array;
 
 public class LifeBoard extends Application {
     private Match match;
-    Player playerClicked;
+    private Player playerClicked;
+    private Boolean frenzyActive;
 
 
     /*
@@ -33,14 +34,16 @@ public class LifeBoard extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
+        frenzyActive = false;
 
-         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Life Player '"+playerClicked.getNickname()+"'");
         stage.setMinWidth(410);
         stage.setMinHeight(210);
 
         StackPane stackPane = new StackPane();
-
+        
+        // normal board
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
         Image image0 = new Image(file0.toURI().toString());
@@ -48,6 +51,16 @@ public class LifeBoard extends Application {
         iv0.setFitHeight(200);
         iv0.setFitWidth(400);
         iv0.setPreserveRatio(true);
+
+                // frenzy board
+                File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                        + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + "F" + ".png");
+                Image image1 = new Image(file1.toURI().toString());
+                ImageView iv1 = new ImageView(image1);
+                iv1.setFitHeight(200);
+                iv1.setFitWidth(400);
+                iv1.setPreserveRatio(true);
+
 
         stackPane.setAlignment(Pos.CENTER);
 
@@ -193,7 +206,12 @@ public class LifeBoard extends Application {
         markHbox.setAlignment(Pos.TOP_LEFT);
         markHbox.setPadding(new Insets(50, 0, 0, 200));
         stackPane.setStyle("-fx-background-color: #191a17");
-        stackPane.getChildren().addAll(iv0, lifeHbox,markHbox);
+        if (frenzyActive && (match.getPlayer(playerClicked.getNickname()).getPlayerMoodFrenzy())){
+            stackPane.getChildren().add(iv1);
+        }
+        else stackPane.getChildren().add(iv0);
+
+        stackPane.getChildren().addAll(lifeHbox,markHbox);
 
         Scene scene = new Scene(stackPane);
         stage.setMaxHeight(210);
@@ -201,6 +219,10 @@ public class LifeBoard extends Application {
         stage.setScene(scene);
         stage.showAndWait();
 
+    }
+
+    public void setFrenzyActive(Boolean frenzyActive) {
+        this.frenzyActive = frenzyActive;
     }
 
     public void setPlayerClicked(Player playerClicked) {

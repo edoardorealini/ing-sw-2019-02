@@ -26,6 +26,7 @@ public class Player implements Serializable{
     private boolean askForTagBackGrenade;
     private boolean dead;
     private Match match;
+    private Boolean playerMoodFrenzy = false; // only for the lifeboard GUI
 
     public Player (String nickname, int id, Match match){
         this.nickname = nickname;
@@ -343,4 +344,11 @@ public class Player implements Serializable{
         return string.toString();
     }
 
+    public void setPlayerMoodFrenzy(Boolean playerMoodFrenzy) {
+        this.playerMoodFrenzy = playerMoodFrenzy;
+    }
+
+    public Boolean getPlayerMoodFrenzy() {
+        return playerMoodFrenzy;
+    }
 }
