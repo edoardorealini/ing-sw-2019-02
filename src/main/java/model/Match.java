@@ -35,6 +35,18 @@ public class Match implements Serializable {
         this.killShotTrack = new KillShotTrack();
     }
 
+    public Match(Match another){
+        this.players = another.players;
+        this.currentPlayer = another.currentPlayer;
+        this.map = another.map;
+        this.matchIsActive = another.matchIsActive;
+        this.killShotTrack = another.killShotTrack;
+        this.weaponDeck = null;
+        this.ammoDeck = null;
+        this.powerUpDeck = null;
+    }
+
+
     public boolean getActiveStatusMatch(){
         return matchIsActive;
     }
