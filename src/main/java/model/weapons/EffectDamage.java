@@ -42,7 +42,7 @@ public class EffectDamage extends Effect  implements Serializable {
 				player.getBoard().updateLife(this.getDamage(), currentPlayer.getId(), player.getId());                    //updating life points of the target
 				while (transferringMarks > 0 && !player.getBoard().isOverKilled()) {
 					player.getBoard().updateLife(1, currentPlayer.getId(),  player.getId());                        //converting marks to life points
-					player.getBoard().removeMarks(1, currentPlayer.getId());           //removing the converted mark
+					player.getBoard().removeMarks(1, currentPlayer.getId());           					//removing the converted mark
 					transferringMarks--;
 				}
 
@@ -56,7 +56,7 @@ public class EffectDamage extends Effect  implements Serializable {
 					player.getStatus().setSpecialAbilityAdrenalineShoot();
 
 				for (PowerUp pow : player.getPowerUps()) {
-					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE) {
+					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE && match.getMap().getVisibileRooms(player.getPosition()).contains(match.getCurrentPlayer().getPosition().getColor())) {
 						player.setAskForTagBackGrenade(true);
 					}
 				}
@@ -77,7 +77,7 @@ public class EffectDamage extends Effect  implements Serializable {
 					target.trueDead();
 
 				for (PowerUp pow : target.getPowerUps()) {
-					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE) {
+					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE && match.getMap().getVisibileRooms(target.getPosition()).contains(match.getCurrentPlayer().getPosition().getColor())) {
 						target.setAskForTagBackGrenade(true);
 					}
 				}

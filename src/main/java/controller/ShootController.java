@@ -736,19 +736,21 @@ public class ShootController{
                 //checks
                 input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in first square)
                 for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(0).equals(player.getPosition()))
+                    if (input.getSquares().get(0).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
                         input.setTargets(player);
                 }
+
+
                 input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in second square)
                 for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(1).equals(player.getPosition()))
+                    if (input.getSquares().get(1).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
                         input.setTargets(player);
                 }
 
                 //execution code
                 input.getTargets().clear();
                 for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(0).equals(player.getPosition()))
+                    if (input.getSquares().get(0).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
                         input.setTargets(player);
                 }
                 try {
@@ -759,7 +761,7 @@ public class ShootController{
 
                 input.getTargets().clear();
                 for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(1).equals(player.getPosition()))
+                    if (input.getSquares().get(1).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
                         input.setTargets(player);
                 }
                 try {
