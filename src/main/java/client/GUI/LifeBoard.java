@@ -41,8 +41,8 @@ public class LifeBoard extends Application {
         stage.setMinWidth(410);
         stage.setMinHeight(210);
 
-        StackPane stackPane = new StackPane();
         
+        StackPane stackPane = new StackPane();
         // normal board
         File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
