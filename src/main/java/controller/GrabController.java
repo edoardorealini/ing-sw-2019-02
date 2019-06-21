@@ -11,40 +11,20 @@ import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
 import java.util.*;
+
 public class GrabController{
 
     private Match match;
-    private MoveController moveController;
 
     public GrabController(Match match, MoveController moveCtrl){
         this.match = match;
-        this.moveController = moveCtrl;
     }
 
-    /*
-        implementazione del metodo astratto dalla classe abstract.
-    */
-    public Match getMatch() {
-        return match;
-    }
 
     public void setMatch(Match match) {
         this.match = match;
     }
 
-    /* classi già presenti in MoveController
-    public boolean moveAdmitted(Directions direction){
-        return((match.getMap().getAllowedMoves(match.getCurrentPlayer().getPosition())).contains(direction));
-
-    }
-
-    public void moveOneSquare(Directions direction){
-        match.getCurrentPlayer().setPosition(match.getMap().getSquare(direction, match.getCurrentPlayer().getPosition()));
-    }
-
-    */
-
-    /*TODO NB. sia nella grabAmmo che grabWeapon dopo aver raccolto la carta io la rimpiazzo subito, sarà da mettere un controller che impedisce di raccogliere di nuovo dallo stesso square (es di grabAmmo) */
 
     public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){

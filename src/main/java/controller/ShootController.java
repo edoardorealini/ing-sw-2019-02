@@ -10,6 +10,8 @@ import model.map.Square;
 import model.player.Player;
 import model.powerup.PowerUp;
 import model.weapons.Effect;
+import model.weapons.Weapon;
+
 import java.util.*;
 
 public class ShootController{
@@ -44,10 +46,43 @@ public class ShootController{
         //this method returns true if player2 can be seen by player1
 
         return match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor());
+    }
+
+    public void checkPayAmmo(Weapon weapon, List<ShootMode> shootingModes) throws NotEnoughAmmoException {
+        //this method check if the player can pay ammo for the optional effects
+
+        int r = 0;
+        int b = 0;
+        int y = 0;
+        int actualRedAmmo = getCurrPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
+        int actualBlueAmmo = getCurrPlayer().getAmmo().getBlueAmmo();
+        int actualYellowAmmo = getCurrPlayer().getAmmo().getYellowAmmo();
+
+        for (ShootMode mode : shootingModes) {
+            for (Color color : weapon.getModeCost(mode)) {
+                switch (color) {
+                    case RED:
+                        r++;
+                        break;
+                    case BLUE:
+                        b++;
+                        break;
+                    case YELLOW:
+                        y++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0)
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
 
     }
 
-    public void payAmmo(List<Color> cost) throws NotEnoughAmmoException {
+    public void payAmmo(List<Color> cost) {
         //this method makes the player pay ammo for the optional effects
 
         if (cost.isEmpty())
@@ -56,9 +91,6 @@ public class ShootController{
         int r = 0;
         int b = 0;
         int y = 0;
-        int actualRedAmmo = getCurrPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
-        int actualBlueAmmo = getCurrPlayer().getAmmo().getBlueAmmo();
-        int actualYellowAmmo = getCurrPlayer().getAmmo().getYellowAmmo();
 
         for (Color color : cost) {
             switch (color) {
@@ -76,15 +108,7 @@ public class ShootController{
             }
         }
 
-        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
-            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-                //TODO ask GUI
-            } else {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
-        } else {
-            getCurrPlayer().removeAmmo(r, b, y);
-        }
+        getCurrPlayer().removeAmmo(r, b, y);
     }
 
     private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
@@ -238,6 +262,13 @@ public class ShootController{
     public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for LOCK RIFLE
 
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
+
         //the first cycle check if the effects can be applied
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
@@ -251,12 +282,7 @@ public class ShootController{
         }
 
         for (ShootMode mode : input.getShootModes()) {
-            if (mode.equals(ShootMode.OPTIONAL1))
-                try {
-                    payAmmo(input.getWeapon().getModeCost(mode));
-                } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-                }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
         //execution cycle
@@ -288,6 +314,7 @@ public class ShootController{
 
         if (mode.equals(ShootMode.ALTERNATE))
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");
@@ -304,6 +331,13 @@ public class ShootController{
     public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for MACHINE GUN
 
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
+
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
@@ -318,12 +352,7 @@ public class ShootController{
         }
 
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -364,13 +393,15 @@ public class ShootController{
             }
         }
 
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
+
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
 
@@ -411,14 +442,17 @@ public class ShootController{
             }
         }
 
+
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            getCurrPlayer().setPosition(squareTemp);
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
+
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -426,7 +460,7 @@ public class ShootController{
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     }
@@ -473,6 +507,7 @@ public class ShootController{
 
         if (mode.equals(ShootMode.ALTERNATE)) {
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
@@ -496,6 +531,7 @@ public class ShootController{
         Square tempSquare1 = input.getTargets().get(0).getPosition();
         Square tempSquare2 = null;
         Square tempSquare3 = null;
+
         if (input.getTargets().size() > 1)
             tempSquare2 = input.getTargets().get(1).getPosition();
         if (input.getTargets().size() > 2)
@@ -517,7 +553,6 @@ public class ShootController{
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                         checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     } catch (NotAllowedTargetException e) {
-                        e.printStackTrace();
                         input.getTargets().get(0).setPosition(tempSquare1);
                         if (input.getTargets().size() > 1)
                             input.getTargets().get(1).setPosition(tempSquare2);
@@ -536,19 +571,20 @@ public class ShootController{
             }
         }
 
+
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            input.getTargets().get(0).setPosition(tempSquare1);
+            if (input.getTargets().size() > 1)
+                input.getTargets().get(1).setPosition(tempSquare2);
+            if (input.getTargets().size() > 2)
+                input.getTargets().get(2).setPosition(tempSquare3);
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
         for (ShootMode mode : input.getShootModes()) {
-            if (mode.equals(ShootMode.OPTIONAL1)) {
-                try {
-                    payAmmo(input.getWeapon().getModeCost(mode));
-                } catch (NotEnoughAmmoException e) {
-                    input.getTargets().get(0).setPosition(tempSquare1);
-                    if (input.getTargets().size() > 1)
-                        input.getTargets().get(1).setPosition(tempSquare2);
-                    if (input.getTargets().size() > 2)
-                        input.getTargets().get(2).setPosition(tempSquare3);
-                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-                }
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -561,7 +597,6 @@ public class ShootController{
                         input.getTargets().get(1).setPosition(tempSquare2);
                     if (input.getTargets().size() > 2)
                         input.getTargets().get(2).setPosition(tempSquare3);
-                    e.printStackTrace();
                 }
             }
         }
@@ -580,6 +615,7 @@ public class ShootController{
         switch (mode) {
 
             case BASIC:
+
                 for (Player player : match.getPlayers()) { 				//here the correct targets are set
                     if (player.getId() != getCurrPlayer().getId() && player.getPosition().getColor() == input.getSquares().get(0).getColor()) {
                         input.getTargets().add(player);
@@ -589,7 +625,6 @@ public class ShootController{
                 try {
                     checkDifferentRoom(getCurrPlayer().getPosition(), input.getSquares().get(0));
                 } catch (NotAllowedTargetException e) {
-                    e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
                 }
 
@@ -604,6 +639,7 @@ public class ShootController{
                 break;
 
             case ALTERNATE:
+
                 for (Player player : match.getPlayers()) { 				//here the correct targets are set
                     if (player.getId() != getCurrPlayer().getId() && player.getPosition() == input.getSquares().get(0)) {
                         input.getTargets().add(player);
@@ -674,6 +710,7 @@ public class ShootController{
 
         if (mode.equals(ShootMode.ALTERNATE)) {
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");
@@ -710,6 +747,7 @@ public class ShootController{
         switch (mode) {
 
             case BASIC:
+
                 for (Effect eff : input.getWeapon().getMode(mode)) {
                     if (input.getTargets().size() < eff.getSameTarget()) {
                         checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
@@ -727,7 +765,9 @@ public class ShootController{
                 break;
 
             case ALTERNATE:
+
                 try {
+                    checkPayAmmo(input.getWeapon(), input.getShootModes());
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
                     throw new NotEnoughAmmoException("It seems you don't have enough ammo");
@@ -801,13 +841,14 @@ public class ShootController{
             }
         }
 
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                 if (mode == ShootMode.OPTIONAL1)
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
 
@@ -880,14 +921,17 @@ public class ShootController{
 
          }
 
+
+         try {
+             checkPayAmmo(input.getWeapon(), input.getShootModes());
+         } catch (NotEnoughAmmoException e) {
+             getCurrPlayer().setPosition(squareTemp);
+             throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+         }
+
+
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL1) || mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
          if (input.getShootModes().contains(ShootMode.OPTIONAL2)) {   //Adding the players that have to be damaged by optional 2 effect
@@ -965,14 +1009,15 @@ public class ShootController{
             }
         }
 
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            getCurrPlayer().setPosition(squareTemp);
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
         for (ShootMode mode : input.getShootModes()) {
-            try {
-                if (mode.equals(ShootMode.OPTIONAL2))
-                    payAmmo(input.getWeapon().getModeCost(mode));
-            } catch (NotEnoughAmmoException e) {
-                getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
+            payAmmo(input.getWeapon().getModeCost(mode));
         }
 
 
@@ -1089,6 +1134,7 @@ public class ShootController{
 
         if (mode == ShootMode.ALTERNATE) {
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
@@ -1100,7 +1146,7 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                if ((k == 1 || input.getTargets().size()<2) && i == 3)
+                if ((k == 1 || input.getTargets().size() < 2) && i == 3)
                     return;
                 if (eff.getMoveYourself() == 0)
                     eff.executeEffect(match, moveController, input);
@@ -1138,6 +1184,7 @@ public class ShootController{
 
         if (mode == ShootMode.ALTERNATE) {
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");
@@ -1192,6 +1239,7 @@ public class ShootController{
 
         if (mode == ShootMode.ALTERNATE) {
             try {
+                checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");

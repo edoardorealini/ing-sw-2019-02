@@ -39,6 +39,7 @@ public class MatchController{
             + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
     private int turnDuration;
     private boolean turnTimerStatus = false;
+    private Timer waitForPayment = new Timer();
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
 
@@ -476,6 +477,7 @@ public class MatchController{
 
     private Timer turnTimer = new Timer();
     private TimerTask turnTimerTask = new TimerTask(){
+
     @Override
     public synchronized void run() {
         turnTimerStatus = false;
@@ -816,6 +818,7 @@ public class MatchController{
             if (input.getShootModes().contains(ShootMode.BASIC) && input.getShootModes().contains(ShootMode.ALTERNATE))
                 throw new NotAllowedShootingModeException();
 
+
             try {       //switch that chooses the right method for the right weapon
 
                 switch (input.getWeapon().getName()) {
@@ -844,9 +847,9 @@ public class MatchController{
 
             } catch (NotEnoughAmmoException e) {
 
-                //TODO pay with powerups
-                e.printStackTrace();
-                throw new NotEnoughAmmoException("It seems you do not have enough ammo");
+                for (ShootMode mode : input.getShootModes()) {
+                    //TODO crea dei metodi per ridurre la complessità, usa quelli già sotto
+                }
             }
 
             for (Player player : match.getPlayers()) {
@@ -877,6 +880,24 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
 
+    private synchronized int[] getWeaponCost(List<Color> cost) {
+        //this method returns an array with the cost of weapon divided per colors
+        // red, blue, yellow (order)
+        int[] array = {0, 0, 0};
+
+        for (Color color : cost) {
+            switch (color) {
+                case RED: array[0]++; break;
+                case BLUE: array[1]++; break;
+                case YELLOW: array[2]++; break;
+                default: break;
+            }
+        }
+
+        return array;
+
+    }
+
     public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException, WrongStatusException {
 
         if (!match.getCurrentPlayer().isInStatusReloading())
@@ -885,23 +906,12 @@ public class MatchController{
         if (weapon.getWeaponStatus() == WeaponAmmoStatus.LOADED)
             return;
 
-        int r = 0;             //cost of the weapon
-        int b = 0;
-        int y = 0;
+        int r = getWeaponCost(weapon.getCost())[0];             //cost of the weapon
+        int b = getWeaponCost(weapon.getCost())[1];
+        int y = getWeaponCost(weapon.getCost())[2];
         int actualRedAmmo;    //ammo already owned by the current player
         int actualBlueAmmo;
         int actualYellowAmmo;
-
-
-        for (Color color : weapon.getCost()) {
-            switch (color) {
-                case RED: r++; break;
-                case BLUE: b++; break;
-                case YELLOW: y++; break;
-                default: break;
-            }
-        }
-
 
         actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
         actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
@@ -914,20 +924,12 @@ public class MatchController{
                         new TimerTask() {
                             @Override
                             public void run() {
-                                int r = 0;             //cost of the weapon
-                                int b = 0;
-                                int y = 0;
                                 int actualRedAmmo;    //ammo already owned by the current player
                                 int actualBlueAmmo;
                                 int actualYellowAmmo;
-                                for (Color color : weapon.getCost()) {
-                                    switch (color) {
-                                        case RED: r++; break;
-                                        case BLUE: b++; break;
-                                        case YELLOW: y++; break;
-                                        default: break;
-                                    }
-                                }
+                                int r = getWeaponCost(weapon.getCost())[0];             //cost of the weapon
+                                int b = getWeaponCost(weapon.getCost())[1];
+                                int y = getWeaponCost(weapon.getCost())[2];
 
                                 actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
                                 actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
@@ -956,6 +958,45 @@ public class MatchController{
             weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
         }
 
+    }
+
+    private void payAmmo(List<Color> cost) throws NotEnoughAmmoException {
+        //this method makes the player pay ammo for the optional effects
+
+        if (cost.isEmpty())
+            return;
+
+        int r = 0;
+        int b = 0;
+        int y = 0;
+        int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
+        int actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
+        int actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+        for (Color color : cost) {
+            switch (color) {
+                case RED:
+                    r++;
+                    break;
+                case BLUE:
+                    b++;
+                    break;
+                case YELLOW:
+                    y++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
+            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
+            } else {
+                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            }
+        } else {
+            match.getCurrentPlayer().removeAmmo(r, b, y);
+        }
     }
 
     private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
@@ -1020,7 +1061,6 @@ public class MatchController{
             match.getKillShotTrack().setDoubleKill(match.getCurrentPlayer().getId());
     }
 
-
     private void scoreBoard(Board board) {
         //this method score the board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rank = new HashMap<>();
@@ -1079,51 +1119,6 @@ public class MatchController{
 
         return rank;
     }
-
-
-//here there is the code of the hashmap, it doesn't work well
-/*
-    private void setWeaponMap() {
-        //this method sets the HashMap that is used to map the weapon selected by the client with its method of ShootController
-
-        this.weaponHashMap.put(WeaponName.LOCK_RIFLE, "shootLockRifle");
-
-    }
-
-    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException {
-        if(canDoAction()){
-
-            try {
-                executeShoot(input.getWeapon().getName());
-            } catch (NotAllowedTargetException e) {
-                throw new NotAllowedTargetException();
-            }
-
-            match.getCurrentPlayer().goToNextStatus(); //non toccare
-        }
-        else
-            throw new WrongStatusException("You are not allowed to shoot now!");
-    }
-
-    private void executeShoot(WeaponName name) throws NotAllowedMoveException, NotEnoughAmmoException, NotAllowedTargetException {
-        try {
-            Method method = shootController.getClass().getDeclaredMethod(this.weaponHashMap.get(name));
-            method.invoke(this);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }  catch (NotAllowedTargetException e) {
-            throw new NotAllowedTargetException();
-        } catch (NotAllowedMoveException e) {
-            throw new NotAllowedMoveException();
-        } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("Not enough ammo");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-*/
 
     /*
     public void loginPlayer(String nickname) {
@@ -1271,5 +1266,6 @@ public class MatchController{
         }
     }
 
+    //TODO close timer
 
 }

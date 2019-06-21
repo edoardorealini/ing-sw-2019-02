@@ -71,4 +71,6 @@ public abstract class SenderClientRemoteController {
     public abstract void makeAction3Frenzy(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException;
 
     public abstract void makeAction2FrenzyLower(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException;
+
+    //TODO public abstract void closeTimer(String timerName)
 }

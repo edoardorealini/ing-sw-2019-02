@@ -1019,6 +1019,8 @@ public class MainPage extends Application {
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
+        //TODO reloadStage.setOnCloseRequest(event -> );
+
 
         Scene scene = new Scene(vBox, (300*(first+second+third) + 100), 450);
         reloadStage.setScene(scene);
