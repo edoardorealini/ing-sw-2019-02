@@ -22,6 +22,7 @@ import model.Match;
 import model.map.Directions;
 import model.player.Player;
 import model.weapons.Weapon;
+import model.weapons.WeaponAmmoStatus;
 
 import java.io.File;
 import java.rmi.RemoteException;
@@ -39,9 +40,9 @@ public class GeneralWeaponPopUp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        short a = 0;
-        short b = 0;
-        short c = 0;
+        int a = 0;
+        int b = 0;
+        int c = 0;
 
 
         primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -61,7 +62,7 @@ public class GeneralWeaponPopUp extends Application {
         useWeapon3.setAlignment(Pos.CENTER);
 
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0]  != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getWeaponStatus() == WeaponAmmoStatus.LOADED){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
@@ -75,7 +76,7 @@ public class GeneralWeaponPopUp extends Application {
             a = 1;
         }
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getWeaponStatus() == WeaponAmmoStatus.LOADED){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
@@ -89,7 +90,7 @@ public class GeneralWeaponPopUp extends Application {
             b = 1;
         }
 
-        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getWeaponStatus() == WeaponAmmoStatus.LOADED){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());

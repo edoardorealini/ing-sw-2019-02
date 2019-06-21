@@ -816,7 +816,7 @@ public class MatchController{
             if (input.getShootModes().contains(ShootMode.BASIC) && input.getShootModes().contains(ShootMode.ALTERNATE))
                 throw new NotAllowedShootingModeException();
 
-            try {       //switch that choose the right method for the right weapon
+            try {       //switch that chooses the right method for the right weapon
 
                 switch (input.getWeapon().getName()) {
                     case ZX_2: shootController.shootZX2(); break;
@@ -907,11 +907,8 @@ public class MatchController{
         actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
         actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
 
-        System.out.println("[RELOAD]: 1 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
-
         if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
             if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-                System.out.println("[RELOAD]: 2 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
                 Timer waitForWeaponLoaded = new Timer();
                 waitForWeaponLoaded.schedule(
                         new TimerTask() {
@@ -937,10 +934,9 @@ public class MatchController{
                                 actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
 
                                 if(actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
-                                    System.out.println("[RELOAD]: 3 " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
+                                    System.out.println("[RELOAD]: " + match.getCurrentPlayer().getNickname() + " is reloading " + weapon.getName());
                                     try {
                                         serverControllerRMI.askForPowerUpAsAmmo();
-                                        System.out.println("riga 781");
                                     } catch (RemoteException e) {
                                         e.printStackTrace();
                                     }
