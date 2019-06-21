@@ -511,7 +511,7 @@ public class ShootController{
 
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
-                if (eff.getSameTarget() < input.getTargets().size()) {r	//check if the user has set more than one target
+                if (eff.getSameTarget() < input.getTargets().size()) {	//check if the user has set more than one target
                     try {
                         checkMaximumDistance(eff, input.getTargets().get(eff.getSameTarget()), input.getSquares().get(0), eff.getMoveTarget());
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
