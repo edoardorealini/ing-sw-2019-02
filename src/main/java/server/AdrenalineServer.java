@@ -60,6 +60,7 @@ public class AdrenalineServer {
             //Il codice qui sotto diventa obsoleto.
             Registry registry = LocateRegistry.createRegistry(port);
             registry.bind("connectionHandler", connectionHandler);
+            System.out.println("Launched Server  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + port + ", waiting for connection requests");
             System.out.println("[SERVER]: Connection handler launched and registered, ready to receive connections");
         }
         catch (Exception e){

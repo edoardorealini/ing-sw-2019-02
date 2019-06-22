@@ -1018,7 +1018,7 @@ public class MainPage extends Application {
                 remoteController.reload(0);
                 reloadStage.close();
             } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 PopUpSceneMethod.display("ERROR", e.getMessage());
             }
         });

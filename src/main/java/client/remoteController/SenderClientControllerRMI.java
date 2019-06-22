@@ -1,6 +1,7 @@
 package client.remoteController;
 
 import client.GUI.FirstPage;
+import commons.InterfaceConnectionHandler;
 import commons.ShootingParametersClient;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
@@ -25,11 +26,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private Match match;
     private InterfaceServerControllerRMI serverController;
     private InterfaceClientControllerRMI clientController;
+    private InterfaceConnectionHandler connectionHandler;
     private FirstPage firstPage;
     private String nickname;
     private int hashedNickname;
 
-    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException{
+    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException, InvalidInputException {
         try {
             this.match = match;
             this.firstPage = fp;
@@ -37,10 +39,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             //TODO do not HARCODE the port ask it to the user (coglione lui se la mette sbagliata)!
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
-            serverController = (InterfaceServerControllerRMI) registry.lookup("remoteController");
-            System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
-            //UnicastRemoteObject.exportObject(clientController, 0);
             clientController = new ReceiverClientControllerRMI(match, nickname, fp, this);
+
+            connectionHandler = (InterfaceConnectionHandler) registry.lookup("connectionHandler");
+            serverController = connectionHandler.askForConnection(clientController, nickname);
+
+            System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
             this.hashedNickname = serverController.register(clientController, nickname); //the server now has a controller to call methods on the client and return to the client his hashed nickname
             this.nickname = nickname;
         } catch (RemoteException e) {

@@ -65,6 +65,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    public ArrayList<Player> getPlayers(){
+        return matchController.getMatch().getPlayers();
+    }
+
     /*
         LOGIN METHODS
         with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
