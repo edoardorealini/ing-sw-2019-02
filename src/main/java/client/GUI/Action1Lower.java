@@ -612,4 +612,14 @@ public class Action1Lower extends Application {
         // e li passo direttamente le coordinate per la move
         senderRemoteController.makeAction1FrenzyLower(posX,posY,input);
     }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
+        this.senderRemoteController = senderRemoteController;
+    }
+
+
 }

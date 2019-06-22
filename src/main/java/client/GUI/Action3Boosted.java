@@ -173,4 +173,12 @@ public class Action3Boosted extends Application {
     public Weapon getWp() {
         return wp;
     }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
+        this.senderRemoteController = senderRemoteController;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 }

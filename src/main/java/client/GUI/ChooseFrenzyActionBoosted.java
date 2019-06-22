@@ -19,7 +19,7 @@ public class ChooseFrenzyActionBoosted extends Application {
     @Override
     public void start(Stage mainStage) throws Exception {
         mainStage.setTitle("Frenzy Action");
-        //mainStage.initModality(Modality.APPLICATION_MODAL);
+        mainStage.initModality(Modality.APPLICATION_MODAL);
         SplitPane splitPane = new SplitPane();
         VBox vbox1= new VBox(6);
 
@@ -29,8 +29,7 @@ public class ChooseFrenzyActionBoosted extends Application {
         Label actionMove1 = new Label("  Move ");
         Label actionReload1 = new Label("  Reload  ");
         Label actionShoot1 = new Label("  Shoot ");
-        Button buttonAction1 = new Button(" Choose this ");
-        vbox1.getChildren().addAll(actionMove1,plus1,actionReload1,plus2,actionShoot1,buttonAction1);
+        vbox1.getChildren().addAll(actionMove1,plus1,actionReload1,plus2,actionShoot1);
         vbox1.setAlignment(Pos.CENTER);
         splitPane.getItems().addAll(vbox1);
 
@@ -39,12 +38,11 @@ public class ChooseFrenzyActionBoosted extends Application {
         Label plus3 = new Label("    +    ");
         Label plus4 = new Label("    +    ");
         Label plus5 = new Label("    +    ");
-        Button buttonAction2 = new Button(" Choose this ");
         Label actionMove2 = new Label("  Move ");
         Label actionMove3 = new Label("  Move ");
         Label actionMove4 = new Label("  Move ");
         Label actionMove5 = new Label("  Move ");
-        vbox2.getChildren().addAll(actionMove2,plus3,actionMove3,plus4,actionMove4,plus5,actionMove5,buttonAction2);
+        vbox2.getChildren().addAll(actionMove2,plus3,actionMove3,plus4,actionMove4,plus5,actionMove5);
         vbox2.setAlignment(Pos.CENTER);
         splitPane.getItems().addAll(vbox2);
 
@@ -55,8 +53,7 @@ public class ChooseFrenzyActionBoosted extends Application {
         Label actionMove6 = new Label("  Move ");
         Label actionMove7 = new Label("  Move ");
         Label actionGrab = new Label("  Grab  ");
-        Button buttonAction3 = new Button(" Choose this ");
-        vbox3.getChildren().addAll(actionMove6,plus6,actionMove7,plus7,actionGrab,buttonAction3);
+        vbox3.getChildren().addAll(actionMove6,plus6,actionMove7,plus7,actionGrab);
         vbox3.setAlignment(Pos.CENTER);
         splitPane.getItems().addAll(vbox3);
 
@@ -64,7 +61,6 @@ public class ChooseFrenzyActionBoosted extends Application {
 
         Scene scene = new Scene(splitPane,600,370);
         mainStage.setScene(scene);
-       // mainStage.showAndWait();
-        mainStage.show();
+        mainStage.showAndWait();
     }
 }

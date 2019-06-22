@@ -175,4 +175,12 @@ public class Action2Lower extends Application {
     public Weapon getWp() {
         return wp;
     }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
+        this.senderRemoteController = senderRemoteController;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 }
