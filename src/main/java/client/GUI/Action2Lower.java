@@ -3,6 +3,7 @@ package client.GUI;
 import client.remoteController.SenderClientRemoteController;
 import exception.NotAllowedCallException;
 import exception.NotAllowedMoveException;
+import exception.WrongStatusException;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -76,6 +77,9 @@ public class Action2Lower extends Application {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
                         primaryStage.close();
+                    } catch (WrongStatusException ex) {
+                        ex.printStackTrace();
+                        primaryStage.close();
                     }
                 }
                 else {
@@ -92,6 +96,9 @@ public class Action2Lower extends Application {
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
                         PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        primaryStage.close();
+                    } catch (WrongStatusException ex) {
+                        ex.printStackTrace();
                         primaryStage.close();
                     }
                 }
