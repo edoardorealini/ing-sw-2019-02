@@ -173,7 +173,7 @@ public class GeneralWeaponPopUp extends Application {
 
         Label shootingMode = new Label("Select the shooting modes: ");
         Label targets = new Label("Select the targets: ");
-        Label squares = new Label("Select the squares by indexes (in case of more than one, the first is where you want to move the target): ");
+        Label squares = new Label("Select the squares by indexes (NB: in case of more than one, the first is where you want to move the target): ");
         Label direction = new Label("Select the direction: ");
         Label damageBeforeMove = new Label("Do you want to execute the optional effect before moving the target? ");
         Label x = new Label("X: ");
@@ -401,12 +401,12 @@ public class GeneralWeaponPopUp extends Application {
 
     private void setX(ChoiceBox<Integer> xChoiceBox) {
         xChoiceBox.getItems().addAll(0, 1, 2, 3);
-        xChoiceBox.setValue(0);
+        xChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(0));  //x of the current square
     }
 
     private void setY(ChoiceBox<Integer> yChoiceBox) {
         yChoiceBox.getItems().addAll(0, 1, 2);
-        yChoiceBox.setValue(0);
+        yChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(1));   //y of the current square
     }
 
     private void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,

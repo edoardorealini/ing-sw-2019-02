@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import model.Match;
 import javafx.scene.image.ImageView;
 import model.player.AbilityStatus;
-import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
@@ -604,8 +603,8 @@ public class MainPage extends Application {
 
         stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
         stage.setTitle("Grab");
-        stage.setMinWidth(250);
-        stage.setMinHeight(250);
+        stage.setMinWidth(270);
+        stage.setMinHeight(300);
         VBox vBoxGrab = new VBox(10);
 
         HBox hBox1 = new HBox(5);
@@ -613,6 +612,7 @@ public class MainPage extends Application {
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
+        posX.setValue(match.getMap().getIndex(match.getPlayer(remoteController.getNickname()).getPosition()).get(0));
         hBox1.getChildren().addAll(label1,posX);
 
         HBox hBox2 = new HBox(5);
@@ -620,6 +620,7 @@ public class MainPage extends Application {
         label2.setText("Y : ");
         ChoiceBox<Integer> posY = new ChoiceBox<>();
         posY.getItems().addAll(0,1,2);
+        posY.setValue(match.getMap().getIndex(match.getPlayer(remoteController.getNickname()).getPosition()).get(1));
         hBox2.getChildren().addAll(label2,posY);
 
         Label titlePosition = new Label(" Choose where you want to grab : ");
@@ -628,16 +629,14 @@ public class MainPage extends Application {
         ChoiceBox<Integer> weaponToSwap = new ChoiceBox<>();
         ChoiceBox<Integer> numberWeapon = new ChoiceBox<>();
         weaponToSwap.getItems().addAll(1,2,3);
+        weaponToSwap.setValue(1);
         numberWeapon.getItems().addAll(1,2,3);
 
         Button grab = new Button("GRAB");
         grab.setOnAction(e -> {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
                 try {
-
-                    //TODO finisci il giro di RMI per mettere i valori -1 o quelli giusti
-
-                    remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
+                    remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1, weaponToSwap.getValue() -1);
                     stage.close();
                 } catch (NotAllowedCallException | WrongStatusException |RemoteException |NotEnoughAmmoException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
                     PopUpSceneMethod.display("Error", ex.getMessage());

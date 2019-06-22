@@ -334,19 +334,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
     //lets the current player grab a weapon
-    public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
+    public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
             WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
+
             int numberOfOwnedWeapons = 0;
             for (Weapon weapon : matchController.getMatch().getCurrentPlayer().getWeapons()) {
                 if (weapon != null)
                     numberOfOwnedWeapons++;
             }
 
-            //TODO finisci il giro di RMI per mettere i valori -1 o quelli giusti
-
-            matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
+            if (numberOfOwnedWeapons == 3)
+                matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), indexOfWeaponToSwap);
+            else
+                matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
 
             System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();

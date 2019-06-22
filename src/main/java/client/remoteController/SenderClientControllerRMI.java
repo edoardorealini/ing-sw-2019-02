@@ -148,9 +148,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void grabWeapon(int xDestination, int yDestination, int indexOfWeapon) throws NotAllowedCallException, WrongStatusException, RemoteException, NotEnoughAmmoException, WrongPositionException, InvalidInputException, NotAllowedMoveException {
+    public void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int indexOfWeaponToSwap) throws NotAllowedCallException, WrongStatusException, RemoteException, NotEnoughAmmoException, WrongPositionException, InvalidInputException, NotAllowedMoveException {
         try{
-            serverController.grabWeapon(xDestination, yDestination, indexOfWeapon, this.hashedNickname);
+            serverController.grabWeapon(xDestination, yDestination, indexOfWeapon, this.hashedNickname, indexOfWeaponToSwap);
         }catch (NotAllowedCallException e) {
             throw new NotAllowedCallException(e.getMessage());
         } catch (WrongStatusException e) {
