@@ -41,6 +41,7 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         for(InterfaceServerControllerRMI server: serverControllers){
             if(!server.getMatchStatus()){
                 //if there is, i return this instance of the remote object (containing all the match information!) Useless to start a new thread here!
+                System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches in this server"));
                 return server;
             }
         }
@@ -49,6 +50,7 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         InterfaceServerControllerRMI tmpServer = new ServerControllerRMI(new MatchController());
         serverControllers.add(tmpServer);
         connectedPlayers.put(nickname, tmpServer);
+        System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches in this server"));
         return tmpServer;
         //se sono qui significa che non ci sono partite già iniziate.
     }

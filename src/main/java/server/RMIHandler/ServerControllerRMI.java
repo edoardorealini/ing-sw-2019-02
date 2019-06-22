@@ -154,6 +154,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     //this method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
     //from buildmap --> call startGame() that has to be changed
     private synchronized void askMap() throws RemoteException, Exception{
+        matchController.getMatch().setMatchIsActive(true);
         //this code is useful for having the master always in first position (he doesn't know lol)
         int master = 0;
         for(int i = 0; i < matchController.getMatch().getPlayers().size(); i++)
