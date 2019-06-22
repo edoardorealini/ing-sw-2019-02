@@ -275,18 +275,18 @@ public class MatchController{
                 throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
 
-    public synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException {
+    public synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException, NotAllowedMoveException, WrongPowerUpException {
         if(canUsePowerUp()) {
-            if (match.getCurrentPlayer().hasPowerUp(teleporter)) {
+            if (match.getCurrentPlayer().hasPowerUp(teleporter)){
                 powerUpController.useTeleporter(teleporter, destination);
             } else
                 throw new NotInYourPossessException("The powerUp" + teleporter.getName() + "is not in your hand");
         }
         else
-            throw new WrongStatusException("You cannot use a PowerUp now!");
+            throw new WrongStatusException("You cannot use a PowerUp now, wait for your turn!");
     }
 
-    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException {
+    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException, WrongPowerUpException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(newton)) {
                 powerUpController.useNewton(newton, affectedPlayer, destination);

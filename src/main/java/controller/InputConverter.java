@@ -1,6 +1,8 @@
 package controller;
 
 import exception.InvalidInputException;
+import exception.NotInYourPossessException;
+import exception.WrongValueException;
 import model.Match;
 import model.map.Directions;
 import model.map.Square;
@@ -56,8 +58,11 @@ public class InputConverter {
     }
 
     // restituisce il powerUp del giocatore in posizione indexOfPowerUp
-    public PowerUp indexToPowerUp(int indexOfPowerUp, Player user){
-        return user.getPowerUps()[indexOfPowerUp];
+    public PowerUp indexToPowerUp(int indexOfPowerUp, Player user) throws NotInYourPossessException {
+        if(user.getPowerUps()[indexOfPowerUp] != null)
+            return user.getPowerUps()[indexOfPowerUp];
+        else
+            throw new NotInYourPossessException("The powerUp you selected is not in your hand");
     }
 
 
@@ -70,5 +75,12 @@ public class InputConverter {
         return null;
     }
 
+    public Player nameToPlayer(String name) throws WrongValueException {
+        for(Player p: match.getPlayers()){
+            if(p.getNickname().equals(name))
+                return p;
+        }
+        throw new WrongValueException("The player you are searching for does not exist in this match");
+    }
 
 }

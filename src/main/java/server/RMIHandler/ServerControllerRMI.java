@@ -9,7 +9,6 @@ import exception.*;
 import model.Match;
 import model.ShootMode;
 import model.ShootingParametersInput;
-import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -345,21 +344,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /*
         methods from powerup controller
      */
-    public synchronized void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws NotInYourPossessException, WrongStatusException , RemoteException , NotAllowedCallException{
+    //NB  x = i /  y = j !!
+    public synchronized void useTeleporter(int indexOfPowerUp, int xDest, int yDest, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException, NotAllowedCallException, NotAllowedMoveException, WrongPowerUpException, InvalidInputException {
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.useTeleporter(converter.indexToPowerUp(indexOfPowerUp, matchController.getMatch().getCurrentPlayer()), converter.indexToSquare(xDest, yDest));
+        }
+        else
+            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
+    }
+    //NB  x = i /  y = j !!
+    public synchronized void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, WrongValueException, InvalidInputException, WrongPowerUpException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useTeleporter(teleporter, destination);
+            matchController.useNewton(converter.indexToPowerUp(indexOfPowerUp,matchController.getMatch().getCurrentPlayer()), converter.nameToPlayer(affectedPlayer), converter.indexToSquare(xDest, yDest));
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
-    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException , RemoteException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useNewton(newton, affectedPlayer, destination);
-        else
-            throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
-
-    }
-
+    //TODO TARGETING SCOPE
     public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException , RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID))
             matchController.useTargetingScope(targetingScope, affectedPlayer);

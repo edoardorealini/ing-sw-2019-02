@@ -1,7 +1,6 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
 import exception.*;
-import model.map.Square;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -26,9 +25,9 @@ public interface InterfaceServerControllerRMI extends Remote {
     void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException , RemoteException, InvalidInputException, NotAllowedMoveException;
 
     //metodi di powerUpController
-    void useTeleporter(PowerUp teleporter, Square destination, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
+    void useTeleporter(int indexOfPowerUp, int xDest, int yDest, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, NotAllowedMoveException, WrongPowerUpException, InvalidInputException;
 
-    void useNewton(PowerUp newton, Player affectedPlayer, Square destination, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
+    void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, WrongValueException, InvalidInputException, WrongPowerUpException;
 
     void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotInYourPossessException, WrongStatusException;
 

@@ -178,6 +178,7 @@ public class Player implements Serializable{
         //return "spazio model.powerup esaurito";
     }
 
+    //null pointer safe
     public void removePowerUps(PowerUp powerUp) {
         for (int i=0; i<3;i++){
             if(powerUps[i] != null) {
@@ -230,7 +231,8 @@ public class Player implements Serializable{
         return string.toString();
     }
 
-    public boolean hasPowerUp( PowerUp card){
+    //null pointer safe
+    public boolean hasPowerUp(PowerUp card){
         for (int i = 0; i < 3; i++){
             if(powerUps[i] != null) {
                 if (powerUps[i].equals(card)) {
@@ -238,7 +240,6 @@ public class Player implements Serializable{
                 }
             }
         }
-
         return false;
     }
 

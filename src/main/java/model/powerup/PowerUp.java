@@ -1,7 +1,6 @@
 package model.powerup;
 
 import model.Color;
-
 import java.io.Serializable;
 
 public class PowerUp  implements Serializable {
