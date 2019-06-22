@@ -27,7 +27,7 @@ public interface InterfaceServerControllerRMI extends Remote {
     //metodi di powerUpController
     void useTeleporter(int indexOfPowerUp, int xDest, int yDest, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, NotAllowedMoveException, WrongPowerUpException, InvalidInputException;
 
-    void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, WrongValueException, InvalidInputException;
+    void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, WrongValueException, InvalidInputException, WrongPowerUpException;
 
     void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotInYourPossessException, WrongStatusException;
 

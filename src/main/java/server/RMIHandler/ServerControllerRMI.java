@@ -353,7 +353,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
     //NB  x = i /  y = j !!
-    public synchronized void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, WrongValueException, InvalidInputException {
+    public synchronized void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, WrongValueException, InvalidInputException, WrongPowerUpException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID))
             matchController.useNewton(converter.indexToPowerUp(indexOfPowerUp,matchController.getMatch().getCurrentPlayer()), converter.nameToPlayer(affectedPlayer), converter.indexToSquare(xDest, yDest));
         else

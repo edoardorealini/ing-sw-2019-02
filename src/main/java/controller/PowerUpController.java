@@ -1,9 +1,6 @@
 package controller;
 
-import exception.NotAllowedCallException;
-import exception.NotAllowedMoveException;
-import exception.NotAllowedTargetException;
-import exception.WrongPowerUpException;
+import exception.*;
 import model.Match;
 import model.powerup.PowerUp;
 import model.map.*;
@@ -15,7 +12,7 @@ import model.powerup.PowerUpName;
     in the basic implementation of PowerUpCard there is no logic
 
     here i want to give game logic to each card based on its name
- */
+*/
 
 public class PowerUpController{
     private Match match;
@@ -63,22 +60,30 @@ public class PowerUpController{
     /*
         Use of newton powerup
     */
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException{
-        if(newton.getName().equals(PowerUpName.NEWTON)) {
-            for (Directions d : affectedPlayer.getPosition().getAllowedMoves()) {
-                if (match.getMap().getAllowedSquaresInDirection(d, affectedPlayer.getPosition()).contains(destination)) { //controllo che lo spostamento avvenga in una sola direzione
-                    try {
-                        moveController.move(affectedPlayer, destination, 2); //effettuo spostamento con max distance 2 (da regolamento)
-                        match.getCurrentPlayer().removePowerUps(newton);
-                        //aggiunta gestione della rimozione del powerup quando viene utilizzato
-                    } catch (NotAllowedMoveException e) {
-                        e.printStackTrace();
-                    }
-                } else
-                    throw new NotAllowedMoveException("Not allowed to move in more than one direction with Newton");
+    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws NotAllowedMoveException, NotInYourPossessException, WrongPowerUpException {
+        if(newton.getName().equals(PowerUpName.NEWTON)) { //control that the powerup is correct
+            if (checkSingleDirectionMove(affectedPlayer, destination)) { //controllo che lo spostamento avvenga in una sola direzione
+                try {
+                    moveController.move(affectedPlayer, destination, 2); //effettuo spostamento con max distance 2 (da regolamento)
+                    match.getCurrentPlayer().removePowerUps(newton);
+                    return;
+                    //aggiunta gestione della rimozione del powerup quando viene utilizzato
+                } catch (NotAllowedMoveException e){
+                    e.printStackTrace();
+                }
+            }else
+                throw new NotAllowedMoveException("Not allowed to move in more than one direction with Newton");
+        }else
+            throw new WrongPowerUpException("Not valid PowerUp, you want to use another powerUp as a Newton");
+    }
+
+    public boolean checkSingleDirectionMove(Player affectedPlayer, Square destination){
+        for(Directions d: affectedPlayer.getPosition().getAllowedMoves()){
+            if(match.getMap().getAllowedSquaresInDirection(d, affectedPlayer.getPosition()).contains(destination)){
+                return true;
             }
-            throw new IllegalArgumentException("Not a valid PowerUp, not in your hand");
-        }else throw new IllegalArgumentException("Not valid PowerUp");
+        }
+        return false;
     }
 
     /*

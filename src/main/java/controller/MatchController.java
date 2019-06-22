@@ -285,7 +285,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot use a PowerUp now, wait for your turn!");
     }
 
-    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException {
+    public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException, WrongPowerUpException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(newton)) {
                 powerUpController.useNewton(newton, affectedPlayer, destination);
