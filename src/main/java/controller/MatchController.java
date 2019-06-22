@@ -39,7 +39,8 @@ public class MatchController{
             + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
     private int turnDuration;
     private boolean turnTimerStatus = false;
-    private Timer waitForPayment = new Timer();
+    private Timer waitForPayment;
+    private Timer waitForWeaponLoaded;
     // ci sono altri attributi da mettere qui? in teoria no
     // pensare a tutta la logica di setup della partita. fornire metodi
 
@@ -882,6 +883,9 @@ public class MatchController{
     }
 
     public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+
+        boolean shootCompleted = false;
+
         if(canDoAction()) {
             shootController.setInput(input);
 
@@ -921,36 +925,101 @@ public class MatchController{
                     case GRENADE_LAUNCHER: shootController.shootGrenadeLauncher(); break;
                 }
 
+                shootCompleted = true;      //if everything has worked in shoot method
+
             } catch (NotEnoughAmmoException e) {
 
-                for (ShootMode mode : input.getShootModes()) {
-                    //TODO crea dei metodi per ridurre la complessità, usa quelli già sotto
-                }
-            }
+                int redAmmoToPay = 0;           //all the ammo that need to be paid
+                int blueAmmoToPay = 0;
+                int yellowAmmoToPay = 0;
 
-            for (Player player : match.getPlayers()) {
-                if (player.isAskForTagBackGrenade()) {
-                    try {
-                        serverControllerRMI.askForTagBackGrenade(player.getNickname());
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
+                for (ShootMode mode : input.getShootModes()) {
+                    redAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[0];
+                    blueAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[1];
+                    yellowAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[2];
+                }
+
+                int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                int actualBlueAmmo =  match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                int actualYellowAmmo =  match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                if (checkForPowerUpsAsAmmo(redAmmoToPay - actualRedAmmo, blueAmmoToPay - actualBlueAmmo, yellowAmmoToPay- actualYellowAmmo)) {
+                    waitForPayment = new Timer();
+                    waitForPayment.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+
+                                    int redAmmoToPay = 0;           //all the ammo that need to be paid
+                                    int blueAmmoToPay = 0;
+                                    int yellowAmmoToPay = 0;
+
+                                    int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                                    int actualBlueAmmo =  match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                                    int actualYellowAmmo =  match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                                    for (ShootMode mode : input.getShootModes()) {
+                                        redAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[0];
+                                        blueAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[1];
+                                        yellowAmmoToPay += getWeaponCost(input.getWeapon().getModeCost(mode))[2];
+                                    }
+
+
+                                if(actualRedAmmo - redAmmoToPay < 0 || actualBlueAmmo - blueAmmoToPay < 0 || actualYellowAmmo - yellowAmmoToPay < 0) {
+                                    System.out.println("[SHOOT]: " + match.getCurrentPlayer().getNickname() + " is trying to pay with a power up.");
+                                    try {
+                                        serverControllerRMI.askForPowerUpAsAmmo();
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        shoot(input);
+                                    } catch (WrongStatusException | NotAllowedTargetException | NotAllowedMoveException | NotEnoughAmmoException | NotAllowedShootingModeException ex) {
+                                        System.out.println("[INFO]: Error in timer");
+                                        ex.printStackTrace();
+                                    }
+                                    //TODO qui sotto lancia la nullpointer
+                                    waitForWeaponLoaded.cancel();
+                                    waitForWeaponLoaded.purge();
+                                }
+                                }
+                            }, 1, 4000
+                    );
+                } else {
+                    throw new NotEnoughAmmoException(e.getMessage());
+                }
+
+            }   //end of catch NotEnoughAmmoException
+
+            if (shootCompleted) {       //enter here if the shooting process has really terminated (no more timer waiting for powerup as ammo)
+
+                for (Player player : match.getPlayers()) {
+                    if (player.isAskForTagBackGrenade()) {
+                        try {
+                            serverControllerRMI.askForTagBackGrenade(player.getNickname());
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+
+                input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
+
+                System.out.println("[INFO]: Weapon" + input.getWeapon().getName() + " is " + input.getWeapon().getWeaponStatus());
+
+                System.out.println("[INFO]: Updated lives of all player \n");
+
+                for (Player p : match.getPlayers()) {
+                    System.out.println("[SHOOT]: " + p.getNickname() + "'s " + p.getBoard().toStringLP());
+                    System.out.println("[SHOOT]: " + p.getNickname() + "'s " + p.getBoard().toStringMarks());
+                    System.out.println("\n");
+                }
+
+                goToNextStatus(match.getCurrentPlayer());
+
+                printPlayerStatuses();
             }
-
-            input.getWeapon().setWeaponStatus(WeaponAmmoStatus.UNLOADED);
-
-            System.out.println("[INFO]: Updated lives of all player \n");
-
-            for (Player p : match.getPlayers()) {
-                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringLP());
-                System.out.println("[SHOOT]: " + p.getNickname()+ "'s " + p.getBoard().toStringMarks());
-                System.out.println("\n");
-            }
-
-            goToNextStatus(match.getCurrentPlayer());
-
-            printPlayerStatuses();
         }
         else
             throw new WrongStatusException("You are not allowed to shoot now!");
@@ -995,7 +1064,7 @@ public class MatchController{
 
         if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
             if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-                Timer waitForWeaponLoaded = new Timer();
+                waitForWeaponLoaded = new Timer();
                 waitForWeaponLoaded.schedule(
                         new TimerTask() {
                             @Override
@@ -1024,7 +1093,7 @@ public class MatchController{
                                     waitForWeaponLoaded.cancel();
                                     waitForWeaponLoaded.purge();
                                 }
-                            }}, 1, 1000
+                            }}, 1, 4000
                 );
             } else {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");
@@ -1034,45 +1103,6 @@ public class MatchController{
             weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
         }
 
-    }
-
-    private void payAmmo(List<Color> cost) throws NotEnoughAmmoException {
-        //this method makes the player pay ammo for the optional effects
-
-        if (cost.isEmpty())
-            return;
-
-        int r = 0;
-        int b = 0;
-        int y = 0;
-        int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();           //ammo already owned by the current player
-        int actualBlueAmmo = match.getCurrentPlayer().getAmmo().getBlueAmmo();
-        int actualYellowAmmo = match.getCurrentPlayer().getAmmo().getYellowAmmo();
-
-        for (Color color : cost) {
-            switch (color) {
-                case RED:
-                    r++;
-                    break;
-                case BLUE:
-                    b++;
-                    break;
-                case YELLOW:
-                    y++;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0) {
-            if (checkForPowerUpsAsAmmo(r - actualRedAmmo, b - actualBlueAmmo, y - actualYellowAmmo)) {
-            } else {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-            }
-        } else {
-            match.getCurrentPlayer().removeAmmo(r, b, y);
-        }
     }
 
     private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {

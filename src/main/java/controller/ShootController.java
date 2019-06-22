@@ -262,13 +262,6 @@ public class ShootController{
     public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for LOCK RIFLE
 
-        try {
-            checkPayAmmo(input.getWeapon(), input.getShootModes());
-        } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-        }
-
-
         //the first cycle check if the effects can be applied
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
@@ -280,6 +273,13 @@ public class ShootController{
                 }
             }
         }
+
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+        }
+
 
         for (ShootMode mode : input.getShootModes()) {
             payAmmo(input.getWeapon().getModeCost(mode));
@@ -331,13 +331,6 @@ public class ShootController{
     public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for MACHINE GUN
 
-        try {
-            checkPayAmmo(input.getWeapon(), input.getShootModes());
-        } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
-        }
-
-
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
@@ -349,6 +342,12 @@ public class ShootController{
                     }
                 }
             }
+        }
+
+        try {
+            checkPayAmmo(input.getWeapon(), input.getShootModes());
+        } catch (NotEnoughAmmoException e) {
+            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -773,20 +772,6 @@ public class ShootController{
                     throw new NotEnoughAmmoException("It seems you don't have enough ammo");
                 }
 
-                //checks
-                input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in first square)
-                for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(0).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
-                        input.setTargets(player);
-                }
-
-
-                input.getTargets().clear();  //clear all the targets in order to rebuild the correct target list (people in second square)
-                for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(1).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
-                        input.setTargets(player);
-                }
-
                 //execution code
                 input.getTargets().clear();
                 for (Player player : match.getPlayers()) {
@@ -850,7 +835,6 @@ public class ShootController{
         for (ShootMode mode : input.getShootModes()) {
             payAmmo(input.getWeapon().getModeCost(mode));
         }
-
 
 
         if (input.getMakeDamageBeforeMove()) {  //if the player wants to hit every player in the square before moving the target
@@ -929,17 +913,16 @@ public class ShootController{
              throw new NotEnoughAmmoException("It seems you don't have enough ammo");
          }
 
-
         for (ShootMode mode : input.getShootModes()) {
             payAmmo(input.getWeapon().getModeCost(mode));
         }
 
-         if (input.getShootModes().contains(ShootMode.OPTIONAL2)) {   //Adding the players that have to be damaged by optional 2 effect
-             for (Player player : match.getPlayers()) {
-                 if (player.getId() != getCurrPlayer().getId() && player.getId() != input.getTargets().get(0).getId() && player.getPosition() == input.getTargets().get(0).getPosition())
-                     input.setTargets(player);
-             }
-         }
+        if (input.getShootModes().contains(ShootMode.OPTIONAL2)) {   //Adding the players that have to be damaged by optional 2 effect
+            for (Player player : match.getPlayers()) {
+                if (player.getId() != getCurrPlayer().getId() && player.getId() != input.getTargets().get(0).getId() && player.getPosition() == input.getTargets().get(0).getPosition())
+                    input.setTargets(player);
+            }
+        }
 
          for (ShootMode mode : input.getShootModes()) {
              for (Effect effect : input.getWeapon().getMode(mode)) {
@@ -1019,7 +1002,6 @@ public class ShootController{
         for (ShootMode mode : input.getShootModes()) {
             payAmmo(input.getWeapon().getModeCost(mode));
         }
-
 
         getCurrPlayer().setPosition(squareTemp);      //reset the player to his initial posisition
 
