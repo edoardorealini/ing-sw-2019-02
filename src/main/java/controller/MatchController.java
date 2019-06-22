@@ -8,10 +8,7 @@ import model.ShootingParametersInput;
 import model.map.*;
 import model.map.Map;
 import model.map.MapBuilder;
-import model.player.AbilityStatus;
-import model.player.Board;
-import model.player.Player;
-import model.player.PlayerStatusHandler;
+import model.player.*;
 import model.powerup.PowerUp;
 import model.weapons.*;
 import server.RMIHandler.ServerControllerRMI;
@@ -1307,76 +1304,113 @@ public class MatchController{
     }
 
     public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
-        try {
-            moveController.move(player,destination,1);
+        if (canDoActionFrenzyBoosted()){
             try {
-                shootFrenzy(input);
-                //TODO cambia il turno al player
-            } catch (WrongStatusException e) {
-                throw new WrongStatusException(e.getMessage());
-            } catch (NotAllowedTargetException e) {
-                throw new WrongStatusException(e.getMessage());
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException(e.getMessage());
-            } catch (NotAllowedShootingModeException e) {
-                throw new NotAllowedShootingModeException(e.getMessage());
+                moveController.move(player,destination,1);
+                try {
+                    shootFrenzy(input);
+                    goToNextStatusFrenzy(player);
+                } catch (WrongStatusException e) {
+                    throw new WrongStatusException(e.getMessage());
+                } catch (NotAllowedTargetException e) {
+                    throw new WrongStatusException(e.getMessage());
+                } catch (NotEnoughAmmoException e) {
+                    throw new NotEnoughAmmoException(e.getMessage());
+                } catch (NotAllowedShootingModeException e) {
+                    throw new NotAllowedShootingModeException(e.getMessage());
+                }
+            } catch (NotAllowedMoveException e) {
+                throw new NotAllowedMoveException(e.getMessage());
             }
-        } catch (NotAllowedMoveException e) {
-            throw new NotAllowedMoveException(e.getMessage());
         }
+        else
+            throw new WrongStatusException("You are not allowed to execute Action 1 now, you must wait for your turn");
+
+
     }
 
     public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
-        try {
-            moveController.move(player,destination,2);
+       if (canDoActionFrenzyLower()){
+           try {
+               moveController.move(player,destination,2);
+               try {
+                   shootFrenzy(input);
+                   goToNextStatusFrenzy(player);
+               } catch (WrongStatusException e) {
+                   throw new WrongStatusException(e.getMessage());
+               } catch (NotAllowedTargetException e) {
+                   throw new WrongStatusException(e.getMessage());
+               } catch (NotEnoughAmmoException e) {
+                   throw new NotEnoughAmmoException(e.getMessage());
+               } catch (NotAllowedShootingModeException e) {
+                   throw new NotAllowedShootingModeException(e.getMessage());
+               }
+           } catch (NotAllowedMoveException e) {
+               throw new NotAllowedMoveException(e.getMessage());
+           }
+       }
+       else
+           throw new WrongStatusException("You are not allowed to execute Action 1 now, you must wait for your turn");
+
+    }
+
+    public void makeAction2Frenzy(Square destination, Player player) throws NotAllowedMoveException, WrongStatusException {
+        if (canDoActionFrenzyBoosted()){
             try {
-                shootFrenzy(input);
-                //TODO cambia il turno al player
-            } catch (WrongStatusException e) {
-                throw new WrongStatusException(e.getMessage());
-            } catch (NotAllowedTargetException e) {
-                throw new WrongStatusException(e.getMessage());
-            } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException(e.getMessage());
-            } catch (NotAllowedShootingModeException e) {
-                throw new NotAllowedShootingModeException(e.getMessage());
+                moveController.move(player,destination,4);
+                goToNextStatusFrenzy(player);
+            } catch (NotAllowedMoveException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
             }
-        } catch (NotAllowedMoveException e) {
-            throw new NotAllowedMoveException(e.getMessage());
         }
+        else
+            throw new WrongStatusException("You are not allowed to execute Action 2 now, you must wait for your turn");
+
     }
 
-    public void makeAction2Frenzy(Square destination, Player player) throws NotAllowedMoveException {
-        try {
-            moveController.move(player,destination,4);
-            //TODO cambia il turno al player
-        } catch (NotAllowedMoveException e) {
-            e.printStackTrace();
-            throw new NotAllowedMoveException(e.getMessage());
+    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+        if (canDoActionFrenzyBoosted()){
+            try {
+                moveController.move(player,destination,2);
+                grabController.grabWeapon(wp);
+                goToNextStatusFrenzy(player);
+            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
+            }
         }
+        else
+            throw new WrongStatusException("You are not allowed to execute Action 3 now, you must wait for your turn");
     }
 
-    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException {
-        try {
-            moveController.move(player,destination,2);
-            grabController.grabWeapon(wp);
-            //TODO cambia il turno al player
-        } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
-            e.printStackTrace();
-            throw new NotAllowedMoveException(e.getMessage());
+    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+        if (canDoActionFrenzyLower()){
+            try {
+                moveController.move(player,destination,3);
+                grabController.grabWeapon(wp);
+                goToNextStatusFrenzy(player);
+            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+                e.printStackTrace();
+                throw new NotAllowedMoveException(e.getMessage());
+            }
         }
+        else
+            throw new WrongStatusException("You are not allowed to execute Action 2 now, you must wait for your turn");
+
     }
 
-    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException {
-        try {
-            moveController.move(player,destination,3);
-            grabController.grabWeapon(wp);
-            //TODO cambia il turno al player
-        } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
-            e.printStackTrace();
-            throw new NotAllowedMoveException(e.getMessage());
-        }
+    public Boolean canDoActionFrenzyBoosted(){
+        if (match.getCurrentPlayer().getRoundStatus()== RoundStatus.FIRST_ACTION_FRENZY || match.getCurrentPlayer().getRoundStatus()== RoundStatus.SECOND_ACTION_FRENZY) return true;
+        else return false;
     }
+
+    public Boolean canDoActionFrenzyLower(){
+        if (match.getCurrentPlayer().getRoundStatus()== RoundStatus.FIRST_ACTION_LOWER_FRENZY ) return true;
+        else return false;
+    }
+
+
 
     //TODO close timer
 

@@ -356,4 +356,9 @@ public class Player implements Serializable{
     public AbilityStatus getAbilityStatus() {
         return abilityStatus;
     }
+
+    public RoundStatus getRoundStatus() {
+        return roundStatus;
+    }
+
 }

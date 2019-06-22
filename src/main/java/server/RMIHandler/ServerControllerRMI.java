@@ -668,7 +668,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+    public void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.makeAction2Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -685,7 +685,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.makeAction3Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -702,7 +702,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException {
+    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.makeAction2FrenzyLower(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
