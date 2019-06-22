@@ -2,12 +2,8 @@ package controller;
 
 import java.util.*;
 import model.Color;
-import model.player.Player;
-import model.powerup.PowerUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Array;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,7 +87,7 @@ class GrabControllerTest {
         weaponCost =  matchController.getMatch().getCurrentPlayer().getPosition().getAvailableWeapons().get(0).getCost();
 
         try{
-            matchController.grabWeapon(matchController.getMatch().getCurrentPlayer().getPosition().getAvailableWeapons().get(0));
+            matchController.grabWeapon(matchController.getMatch().getCurrentPlayer().getPosition().getAvailableWeapons().get(0), -1);
         }
         catch (Exception e){
             e.printStackTrace();

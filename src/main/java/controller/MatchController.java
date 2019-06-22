@@ -231,15 +231,24 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
-    public synchronized void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException {
+    public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException {
         if(canDoAction()) {
             try {
-                grabController.grabWeapon(weapon);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
+                    grabController.grabWeapon(weapon, indexOfWeaponToSwap);
+                else
+                    grabController.grabWeapon(weapon, -1);
+
                 goToNextStatus(match.getCurrentPlayer());
             } catch (WrongPositionException e) {
+                e.printStackTrace();
                 throw new WrongPositionException(e.getMessage());
             } catch (NotEnoughAmmoException e) {
+                e.printStackTrace();
                 throw new NotEnoughAmmoException(e.getMessage());
+            } catch (NotAllowedCallException e) {
+                e.printStackTrace();
+                throw new NotAllowedCallException(e.getMessage());
             }
         }
         else
@@ -1283,8 +1292,6 @@ public class MatchController{
                 }
 
             } catch (NotEnoughAmmoException e) {
-
-                //TODO pay with powerups
                 e.printStackTrace();
                 throw new NotEnoughAmmoException("It seems you do not have enough ammo");
             }
@@ -1373,9 +1380,9 @@ public class MatchController{
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,2);
-                grabController.grabWeapon(wp);
+                grabController.grabWeapon(wp, -1);
                 goToNextStatusFrenzy(player);
-            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();
                 throw new NotAllowedMoveException(e.getMessage());
             }
@@ -1388,9 +1395,9 @@ public class MatchController{
         if (canDoActionFrenzyLower()){
             try {
                 moveController.move(player,destination,3);
-                grabController.grabWeapon(wp);
+                grabController.grabWeapon(wp, -1);
                 goToNextStatusFrenzy(player);
-            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException e) {
+            } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();
                 throw new NotAllowedMoveException(e.getMessage());
             }

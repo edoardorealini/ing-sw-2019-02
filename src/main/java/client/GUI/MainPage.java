@@ -16,6 +16,7 @@ import model.Match;
 import javafx.scene.image.ImageView;
 import model.player.AbilityStatus;
 import model.powerup.PowerUpName;
+import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
 import java.io.File;
@@ -623,13 +624,19 @@ public class MainPage extends Application {
 
         Label titlePosition = new Label(" Choose where you want to grab : ");
         Label titleWhichWeapon = new Label(" Choose which weapon (1,2,3 or empty) : ");
+        Label swapWeapon = new Label("Choose the weapon to swap :");
+        ChoiceBox<Integer> weaponToSwap = new ChoiceBox<>();
         ChoiceBox<Integer> numberWeapon = new ChoiceBox<>();
+        weaponToSwap.getItems().addAll(1,2,3);
         numberWeapon.getItems().addAll(1,2,3);
 
-        Button grab = new Button(" Grab ");
+        Button grab = new Button("GRAB");
         grab.setOnAction(e -> {
             if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType() == SPAWN) {
                 try {
+
+                    //TODO finisci il giro di RMI per mettere i valori -1 o quelli giusti
+
                     remoteController.grabWeapon(posX.getValue(), posY.getValue(), numberWeapon.getValue() - 1);
                     stage.close();
                 } catch (NotAllowedCallException | WrongStatusException |RemoteException |NotEnoughAmmoException | WrongPositionException | InvalidInputException | NotAllowedMoveException ex) {
@@ -646,8 +653,18 @@ public class MainPage extends Application {
             }
         } );
 
+        int numberOfOwnedWeapons = 0;  //local variable
 
-        vBoxGrab.getChildren().addAll(titlePosition,hBox1,hBox2,titleWhichWeapon,numberWeapon,grab);
+        for (Weapon weapon : match.getPlayer(remoteController.getNickname()).getWeapons()) {
+            if (weapon != null)
+                numberOfOwnedWeapons++;
+        }
+
+        if (numberOfOwnedWeapons == 3)
+            vBoxGrab.getChildren().addAll(titlePosition, hBox1, hBox2, titleWhichWeapon, numberWeapon, swapWeapon, weaponToSwap, grab);
+        else
+            vBoxGrab.getChildren().addAll(titlePosition, hBox1, hBox2, titleWhichWeapon, numberWeapon, grab);
+
         vBoxGrab.setAlignment(Pos.CENTER);
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);

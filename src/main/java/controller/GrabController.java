@@ -1,12 +1,11 @@
 package controller;
 
+import exception.NotAllowedCallException;
 import exception.NotEnoughAmmoException;
 import exception.WrongPositionException;
 import model.Color;
 import model.map.SquareType;
 import model.Match;
-import model.player.Player;
-import model.map.Directions;
 import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
@@ -35,42 +34,51 @@ public class GrabController{
         else throw new WrongPositionException("Square is not type NOSPAWN");
     }
 
-    public void grabWeapon(Weapon weapon) throws WrongPositionException, NotEnoughAmmoException {
+    public void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, NotAllowedCallException {
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
+
                 // inizio controllo munizioni disponibili
                 if (match.getCurrentPlayer().getPosition().getAvailableWeapons().contains(weapon)){
                     List <Color> weaponCost = weapon.getCost();
                     int redTmp=0, blueTemp=0, yelloTmp=0;
-                    for (int i = 1; i < weaponCost.size(); i++){
-                        switch (weaponCost.get(i)){
+                    for (int i = 1; i < weaponCost.size(); i++) {       //starting from i = 1 because the first is free
+                        switch (weaponCost.get(i)) {
+                            case YELLOW:
+                                yelloTmp++;
+                                break;
                             case BLUE:
                                 blueTemp++;
                                 break;
                             case RED:
                                 redTmp++;
                                 break;
-                            case YELLOW:
-                                yelloTmp++;
+                            default:
                                 break;
                         }
                     }
 
-                    if (    ((match.getCurrentPlayer().getAmmo().getRedAmmo()-redTmp)>=0)
-                            && ((match.getCurrentPlayer().getAmmo().getBlueAmmo()-blueTemp)>=0)
-                            && ((match.getCurrentPlayer().getAmmo().getYellowAmmo()-yelloTmp)>=0)) {
-                        // fine controllo munizioni disponibili
-                        match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp); // il giocatore paga l'arma
-                        match.getCurrentPlayer().addWeapons(weapon); // arma aggiunta al giocatore
-                        weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
-                        match.getCurrentPlayer().getPosition().removeWeapon(weapon); // rimuovo arma dallo square
-                        match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); // aggiungo un'arma allo square
-                    }
-                    else throw new NotEnoughAmmoException("Not enough ammo to buy this weapon");
+                    if (match.getCurrentPlayer().getAmmo().getRedAmmo()-redTmp >= 0 && match.getCurrentPlayer().getAmmo().getBlueAmmo()-blueTemp >=0 && match.getCurrentPlayer().getAmmo().getYellowAmmo()-yelloTmp >=0) {
+                        match.getCurrentPlayer().removeAmmo(redTmp, blueTemp, yelloTmp);       //pays the cost
 
-                }
-                else throw new IllegalArgumentException("No such a weapon in weaponBox");
-            }
-            else throw new WrongPositionException("Square is not type SPAWN");
+                        if (indexOfWeaponToSwap == -1) {        //if the player has enough room in hand for another weapon
+                            match.getCurrentPlayer().addWeapons(weapon);
+                            weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                            match.getCurrentPlayer().getPosition().removeWeapon(weapon); //remove weapon from the square
+                            match.getCurrentPlayer().getPosition().addWeapon(match.getWeaponDeck().pickFirstCard()); //replace the weapon in the square
+                        } else {
+                            Weapon temp = match.getCurrentPlayer().getWeapons()[indexOfWeaponToSwap];
+                            temp.setWeaponStatus(WeaponAmmoStatus.PARTIALLYLOADED);
+                            match.getCurrentPlayer().getWeapons()[indexOfWeaponToSwap] = null;
+                            match.getCurrentPlayer().addWeapons(weapon);
+                            weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                            match.getCurrentPlayer().getPosition().removeWeapon(weapon); //remove weapon from the square
+                            match.getCurrentPlayer().getPosition().addWeapon(temp); //replace the weapon in the square with the one that was in the hand of the player
+                        }
+                    } else throw new NotEnoughAmmoException("Not enough ammo to buy this weapon");
+
+                } else throw new NotAllowedCallException("No such a weapon in weaponBox");
+
+            } else throw new WrongPositionException("Square is not type SPAWN");
     }
 
 }

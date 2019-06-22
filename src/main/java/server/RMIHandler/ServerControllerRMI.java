@@ -338,7 +338,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
             WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
-            matchController.grabWeapon(converter.intToWeapon(indexOfWeapon));
+            int numberOfOwnedWeapons = 0;
+            for (Weapon weapon : matchController.getMatch().getCurrentPlayer().getWeapons()) {
+                if (weapon != null)
+                    numberOfOwnedWeapons++;
+            }
+
+            //TODO finisci il giro di RMI per mettere i valori -1 o quelli giusti
+
+            matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
+
             System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();
         }

@@ -84,6 +84,9 @@ public class Player implements Serializable{
                 return;
             }
         }
+
+        //the next lines are executed only if the player has already three weapons
+        //TODO switch weapon
     }
 
     public void removeWeapons(int i){
