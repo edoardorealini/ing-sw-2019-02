@@ -352,4 +352,8 @@ public class Player implements Serializable{
     public Boolean getPlayerMoodFrenzy() {
         return playerMoodFrenzy;
     }
+
+    public AbilityStatus getAbilityStatus() {
+        return abilityStatus;
+    }
 }

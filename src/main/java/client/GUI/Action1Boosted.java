@@ -29,7 +29,6 @@ public class Action1Boosted extends Application {
     private Weapon weapon;
     private SenderClientRemoteController senderRemoteController;
     private ShootingParametersClient input;
-    //TODO private Whole action input;
 
     public static void main(String[] args) {
         launch(args);
@@ -608,4 +607,13 @@ public class Action1Boosted extends Application {
         // e li passo direttamente le coordinate per la move
         senderRemoteController.makeAction1Frenzy(posX,posY,input);
     }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
+        this.senderRemoteController = senderRemoteController;
+    }
+
 }

@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
 import javafx.scene.image.ImageView;
+import model.player.AbilityStatus;
 import model.powerup.PowerUpName;
 import model.weapons.WeaponAmmoStatus;
 
@@ -217,28 +218,122 @@ public class MainPage extends Application {
         Label empty1 = new Label("                 ");
         Label empty2 = new Label("                 ");
 
-        Button moveButton = new Button(" MOVE ");
-        moveButton.setOnAction(e -> moveButton());
+        hBoxTop.getChildren().addAll(point,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2);
 
-        Button grabButton = new Button(" GRAB ");
-        grabButton.setOnAction(e -> grab());
+        if (frenzyMode == false){ // normal Mode
+            Button moveButton = new Button(" MOVE ");
+            moveButton.setOnAction(e -> moveButton());
 
-        Button shootButton = new Button(" SHOOT ");
-        shootButton.setOnAction(event -> {
-            try {
-                GeneralWeaponPopUp shootPopUp = new GeneralWeaponPopUp();
-                shootPopUp.setMatch(match);
-                shootPopUp.setSenderRemoteController(remoteController);
-                shootPopUp.start(new Stage());
-            } catch (Exception e) {
-                PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
-                //TODO errore che dice che hbox è già settata e non può essere usata come root
+            Button grabButton = new Button(" GRAB ");
+            grabButton.setOnAction(e -> grab());
+
+            Button shootButton = new Button(" SHOOT ");
+            shootButton.setOnAction(event -> {
+                try {
+                    GeneralWeaponPopUp shootPopUp = new GeneralWeaponPopUp();
+                    shootPopUp.setMatch(match);
+                    shootPopUp.setSenderRemoteController(remoteController);
+                    shootPopUp.start(new Stage());
+                } catch (Exception e) {
+                    PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
+                    //TODO errore che dice che hbox è già settata e non può essere usata come root
+                }
+            });
+            Button reloadWeapons = new Button("Reload Weapons");
+            reloadWeapons.setOnAction(event -> reloadPopup());
+
+            hBoxTop.getChildren().addAll(moveButton,grabButton,shootButton,reloadWeapons);
+        }
+        else { // frenzy Mode
+            if (match.getPlayer(remoteController.getNickname()).getAbilityStatus()== AbilityStatus.FRENZY){
+                Button showFrenzyAction = new Button(" Show Frenzy Action ");
+                showFrenzyAction.setOnAction(e -> {
+                    ChooseFrenzyActionBoosted choseAction = new ChooseFrenzyActionBoosted();
+                    try {
+                        choseAction.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                Button action1Frenzy = new Button(" Do action 1 ");
+                action1Frenzy.setOnAction(e -> {
+                    Action1Boosted action1Boosted = new Action1Boosted();
+                    action1Boosted.setMatch(this.match);
+                    action1Boosted.setSenderRemoteController(this.remoteController);
+                    try {
+                        action1Boosted.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                Button action2Frenzy = new Button(" Do action 2 ");
+                action2Frenzy.setOnAction(e -> {
+                    Action2Boosted action2Boosted = new Action2Boosted();
+                    action2Boosted.setSenderRemoteController(this.remoteController);
+                    action2Boosted.setMatch(this.match);
+                    try {
+                        action2Boosted.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                Button action3Frenzy = new Button(" Do action 3 ");
+                action3Frenzy.setOnAction(e -> {
+                    Action3Boosted action3Boosted = new Action3Boosted();
+                    action3Boosted.setMatch(this.match);
+                    action3Boosted.setSenderRemoteController(this.remoteController);
+                    try {
+                        action3Boosted.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                hBoxTop.getChildren().addAll(showFrenzyAction,action1Frenzy,action2Frenzy,action3Frenzy);
             }
-        });
+            if (match.getPlayer(remoteController.getNickname()).getAbilityStatus()== AbilityStatus.FRENZY_LOWER){
+                Button showLowerFrenzyAction = new Button(" Show Frenzy Action ");
+                showLowerFrenzyAction.setOnAction(e -> {
+                    ChooseFrenzyActionLower choseAction = new ChooseFrenzyActionLower();
+                    try {
+                        choseAction.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
 
-        Button reloadWeapons = new Button("Reload Weapons");
-        reloadWeapons.setOnAction(event -> reloadPopup());
-        hBoxTop.getChildren().addAll(point,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2,moveButton,grabButton,shootButton,reloadWeapons);
+                Button action1FrenzyLower = new Button(" Do action 1 ");
+                action1FrenzyLower.setOnAction(e -> {
+                    Action1Lower action1Lower = new Action1Lower();
+                    action1Lower.setMatch(this.match);
+                    action1Lower.setSenderRemoteController(this.remoteController);
+                    try {
+                        action1Lower.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                });
+
+                Button action2FrenzyLower = new Button(" Do action 2 ");
+                action2FrenzyLower.setOnAction(e -> {
+                    Action2Lower action2Lower = new Action2Lower();
+                    action2Lower.setMatch(this.match);
+                    action2Lower.setSenderRemoteController(this.remoteController);
+                    try {
+                        action2Lower.start(new Stage());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                hBoxTop.getChildren().addAll(showLowerFrenzyAction,action1FrenzyLower,action2FrenzyLower);
+            }
+        }
+
 
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);

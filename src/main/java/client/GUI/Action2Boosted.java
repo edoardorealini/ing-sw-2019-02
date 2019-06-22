@@ -68,4 +68,12 @@ public class Action2Boosted extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    public void setSenderRemoteController(SenderClientRemoteController senderRemoteController) {
+        this.senderRemoteController = senderRemoteController;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 }
