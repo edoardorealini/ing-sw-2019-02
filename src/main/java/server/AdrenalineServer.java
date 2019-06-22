@@ -3,23 +3,26 @@ package server;
 import controller.MatchController;
 import model.Match;
 import server.RMIHandler.AdrenalineRMIServer;
+import server.RMIHandler.ConnectionHandler;
 import server.socketHandler.AdrenalineSocketServer;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-
 
 public class AdrenalineServer {
 
     private Match match;
     private MatchController matchController;
+    private ConnectionHandler connectionHandler;
     private int socketPort;
     private int rmiPort;
     private ExecutorService executor;
@@ -28,6 +31,7 @@ public class AdrenalineServer {
         try {
             match = new Match();
             matchController = new MatchController(match);
+            this.connectionHandler = new ConnectionHandler();
             this.socketPort = socketPort;
             this.rmiPort = rmiPort;
             executor = Executors.newCachedThreadPool();
@@ -47,8 +51,20 @@ public class AdrenalineServer {
         }catch(Exception e){
             e.printStackTrace();
         }
-
         //TODO EDO qui devo creare l'oggetto connectionHandler che si preoccupa di creare i nuovi match e bindare i controller corretti sul registry.
+    }
+
+    public void launchRMIConnectionHandler(int port){
+        //qui devo istanziare un connectionHandler e pubblicarlo sul registry.
+        try {
+            //Il codice qui sotto diventa obsoleto.
+            Registry registry = LocateRegistry.createRegistry(port);
+            registry.bind("connectionHandler", connectionHandler);
+            System.out.println("[SERVER]: Connection handler launched and registered, ready to receive connections");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -73,7 +89,8 @@ public class AdrenalineServer {
                 System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
                 System.out.println("All rights reserved, 2019\n\n");
                 System.out.println("Starting server on the command line specified port ");
-                mainServer.launchRMIServer(Integer.parseInt(args[0]));
+                //mainServer.launchRMIServer(Integer.parseInt(args[0]));
+                mainServer.launchRMIConnectionHandler(Integer.parseInt(args[0]));
             }catch (Exception e1){
                 e1.printStackTrace();
             }
@@ -88,11 +105,12 @@ public class AdrenalineServer {
                 AdrenalineServer mainServer = new AdrenalineServer(RMIPort);
 
                 try {
-                    System.out.println("WELCOME TO ADRENALINE MAIN SERVER v1.0.0");
+                    System.out.println("WELCOME TO ADRENALINE MAIN SERVER v3.0.0");
                     System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
                     System.out.println("All rights reserved, 2019\n\n");
                     System.out.println("Default port value loaded from properties file: adrenaline.properties");
-                    mainServer.launchRMIServer(RMIPort);
+                    //mainServer.launchRMIServer(RMIPort);
+                    mainServer.launchRMIConnectionHandler(RMIPort);
                 }catch (Exception e1){
                     e1.printStackTrace();
                 }
@@ -106,8 +124,8 @@ public class AdrenalineServer {
                     System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
                     System.out.println("All rights reserved, 2019\n\n");
                     System.out.println("adrenaline.properties file not found, starting server on default 1338 port");
-                    mainServer.launchRMIServer(1338);
-
+                    //mainServer.launchRMIServer(1338);
+                    mainServer.launchRMIConnectionHandler(1338);
                 }catch (Exception e1){
                     e1.printStackTrace();
                 }

@@ -64,6 +64,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             lobbyDuration = 30000; //default value for turn duration set to 30 seconds
         }
     }
+
     /*
         LOGIN METHODS
         with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
@@ -199,7 +200,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             pushMatchToAllPlayers();
 
             System.out.println("[INFO]: S T A R T I N G   A   N E W   G A M E  . . .");
-
             printPlayerStatuses();
 
             //notifying all the clients that the match is starting !
