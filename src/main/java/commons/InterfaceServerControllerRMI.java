@@ -9,8 +9,11 @@ import model.weapons.Weapon;
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface InterfaceServerControllerRMI extends Remote {
+
+    ArrayList<Player> getPlayers() throws RemoteException;
 
     int register(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, FailedLoginException;
 
