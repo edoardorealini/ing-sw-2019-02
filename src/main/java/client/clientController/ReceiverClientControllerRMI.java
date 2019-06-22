@@ -100,9 +100,9 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 senderRemoteController.setMatch(match);
                 if(match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(AbilityStatus.FRENZY_LOWER))
                     mainPage.setFrenzyMode(true);
-
+                    //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE ?
                 this.match = match;
-                //TODO QUI CHIAMARE METODI DELLA GUI CHE AGGIORNA I PUNTI
+                mainPage.refreshPoints();
             });
         }
         //questo metodo viene chiamato piu volte.
