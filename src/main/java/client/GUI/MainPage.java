@@ -1233,6 +1233,7 @@ public class MainPage extends Application {
                 action1Boosted.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
 
@@ -1245,6 +1246,7 @@ public class MainPage extends Application {
                 action2Boosted.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
 
@@ -1257,6 +1259,7 @@ public class MainPage extends Application {
                 action3Boosted.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
 
@@ -1267,6 +1270,7 @@ public class MainPage extends Application {
                 choseAction.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
     }
@@ -1281,6 +1285,7 @@ public class MainPage extends Application {
                 action1Lower.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
 
         });
@@ -1294,6 +1299,7 @@ public class MainPage extends Application {
                 action2Lower.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
 
@@ -1306,6 +1312,7 @@ public class MainPage extends Application {
                 choseAction.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
+                PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
     }
