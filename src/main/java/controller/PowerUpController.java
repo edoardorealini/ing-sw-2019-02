@@ -29,17 +29,12 @@ public class PowerUpController{
         and the update of the powerup card position (returning to deck)
 
         it can only be used when the player has to pay a cost (picking a weapon)
-        //fatto lato johnny, invocare quel metodo. - me pias no
         //fornire metodo lo stesso, devo effettuarei i controlli! (lanciare eccezioni eventualmente)
     */
-    public void usePowerUpAsAmmo(PowerUp powerUp) throws NotAllowedCallException{
+    public void usePowerUpAsAmmo(PowerUp powerUp) {
         for(int i = 0; i < 3; i++) {
-            if (match.getCurrentPlayer().getPowerUps()[i] != null) {
-                if (match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
-                    match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
-                else
-                    throw new NotAllowedCallException("Not a valid powerUp to be converted to ammo");
-            }
+            if (match.getCurrentPlayer().getPowerUps()[i] != null && match.getCurrentPlayer().getPowerUps()[i].equals(powerUp))
+                match.getCurrentPlayer().transformPowerUpToAmmo(powerUp);
         }
 
     }

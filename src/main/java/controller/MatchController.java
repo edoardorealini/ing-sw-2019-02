@@ -244,8 +244,81 @@ public class MatchController{
                 e.printStackTrace();
                 throw new WrongPositionException(e.getMessage());
             } catch (NotEnoughAmmoException e) {
-                e.printStackTrace();
-                throw new NotEnoughAmmoException(e.getMessage());
+
+                int redCost = getWeaponCost(weapon.getCost())[0];           //all the ammo that need to be paid
+                int blueCost = getWeaponCost(weapon.getCost())[1];
+                int yellowCost = getWeaponCost(weapon.getCost())[2];
+
+                switch (weapon.getCost().get(0)) {
+                    case YELLOW:
+                        yellowCost--;
+                        break;
+                    case BLUE:
+                        blueCost--;
+                        break;
+                    case RED:
+                        redCost--;
+                        break;
+                    default:
+                        break;
+                }
+
+                int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                int actualBlueAmmo =  match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                int actualYellowAmmo =  match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                if (checkForPowerUpsAsAmmo(redCost - actualRedAmmo, blueCost - actualBlueAmmo, yellowCost- actualYellowAmmo)) {
+                    waitForPayment = new Timer();
+                    waitForPayment.schedule(
+                            new TimerTask() {
+                                @Override
+                                public void run() {
+
+                                    int redCost = getWeaponCost(weapon.getCost())[0];           //all the ammo that need to be paid
+                                    int blueCost = getWeaponCost(weapon.getCost())[1];
+                                    int yellowCost = getWeaponCost(weapon.getCost())[2];
+
+                                    switch (weapon.getCost().get(0)) {
+                                        case YELLOW:
+                                            yellowCost--;
+                                            break;
+                                        case BLUE:
+                                            blueCost--;
+                                            break;
+                                        case RED:
+                                            redCost--;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    int actualRedAmmo = match.getCurrentPlayer().getAmmo().getRedAmmo();
+                                    int actualBlueAmmo =  match.getCurrentPlayer().getAmmo().getBlueAmmo();
+                                    int actualYellowAmmo =  match.getCurrentPlayer().getAmmo().getYellowAmmo();
+
+                                    if(actualRedAmmo - redCost < 0 || actualBlueAmmo - blueCost < 0 || actualYellowAmmo - yellowCost < 0) {
+                                        System.out.println("[GRAB]: " + match.getCurrentPlayer().getNickname() + " is trying to pay with a power up.");
+                                        try {
+                                            serverControllerRMI.askForPowerUpAsAmmo();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        try {
+                                            grabWeapon(weapon, indexOfWeaponToSwap);
+                                        } catch (WrongStatusException | NotAllowedCallException | WrongPositionException | NotEnoughAmmoException ex) {
+                                            System.out.println("[INFO]: Error in timer");
+                                            ex.printStackTrace();
+                                        }
+                                        waitForPayment.cancel();
+                                        waitForPayment.purge();
+                                    }
+                                }
+                            }, 1, 4000
+                    );
+                } else {
+                    throw new NotEnoughAmmoException(e.getMessage());
+                }
             } catch (NotAllowedCallException e) {
                 e.printStackTrace();
                 throw new NotAllowedCallException(e.getMessage());
@@ -985,9 +1058,8 @@ public class MatchController{
                                         System.out.println("[INFO]: Error in timer");
                                         ex.printStackTrace();
                                     }
-                                    //TODO qui sotto lancia la nullpointer
-                                    waitForWeaponLoaded.cancel();
-                                    waitForWeaponLoaded.purge();
+                                    waitForPayment.cancel();
+                                    waitForPayment.purge();
                                 }
                                 }
                             }, 1, 4000
