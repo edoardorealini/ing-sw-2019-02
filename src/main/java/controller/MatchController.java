@@ -958,7 +958,7 @@ public class MatchController{
         }
     }
 
-    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException {
 
         boolean shootCompleted = false;
 
@@ -1051,7 +1051,7 @@ public class MatchController{
                                 } else {
                                     try {
                                         shoot(input);
-                                    } catch (WrongStatusException | NotAllowedTargetException | NotAllowedMoveException | NotEnoughAmmoException | NotAllowedShootingModeException ex) {
+                                    } catch (WrongStatusException | NotAllowedTargetException | NotAllowedMoveException | NotEnoughAmmoException | RemoteException | NotAllowedShootingModeException ex) {
                                         System.out.println("[INFO]: Error in timer");
                                         ex.printStackTrace();
                                     }
@@ -1094,6 +1094,8 @@ public class MatchController{
                 goToNextStatus(match.getCurrentPlayer());
 
                 printPlayerStatuses();
+
+                serverControllerRMI.pushMatchToAllPlayers();
             }
         }
         else
@@ -1283,9 +1285,9 @@ public class MatchController{
                     arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
                 }
                 do {
-                    int IDPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                    int idPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
                     int points = board.getPoints()[deaths];
-                    match.getPlayers().get(IDPlayer).addPoints(points);
+                    match.getPlayers().get(idPlayer).addPoints(points);
                     deaths++;
                     arrayIDPlayersSameDamage.remove(0);     //TODO maybe it doesn't work for concurrent access
                 } while (!arrayIDPlayersSameDamage.isEmpty());
@@ -1486,8 +1488,17 @@ public class MatchController{
         else return false;
     }
 
-
-
-    //TODO close timer
-
+    public void closeTimer(String timerName) {
+        switch (timerName) {
+            case "WaitForPayment":
+                this.waitForPayment.cancel();
+                this.waitForPayment.purge();
+                break;
+            case "WaitForWeaponLoaded":
+                this.waitForWeaponLoaded.cancel();
+                this.waitForWeaponLoaded.purge();
+                break;
+            default: break;
+        }
+    }
 }
