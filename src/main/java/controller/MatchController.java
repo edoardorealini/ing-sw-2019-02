@@ -231,7 +231,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
-    public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException {
+    public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(canDoAction()) {
             try {
                 if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
@@ -240,6 +240,7 @@ public class MatchController{
                     grabController.grabWeapon(weapon, -1);
 
                 goToNextStatus(match.getCurrentPlayer());
+                serverControllerRMI.pushMatchToAllPlayers();
             } catch (WrongPositionException e) {
                 e.printStackTrace();
                 throw new WrongPositionException(e.getMessage());
@@ -306,7 +307,7 @@ public class MatchController{
                                     } else {
                                         try {
                                             grabWeapon(weapon, indexOfWeaponToSwap);
-                                        } catch (WrongStatusException | NotAllowedCallException | WrongPositionException | NotEnoughAmmoException ex) {
+                                        } catch (WrongStatusException | NotAllowedCallException | WrongPositionException | NotEnoughAmmoException | RemoteException ex) {
                                             System.out.println("[INFO]: Error in timer");
                                             ex.printStackTrace();
                                         }
@@ -343,7 +344,7 @@ public class MatchController{
     }
 
     //metodi di powerUpController
-    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException, NotAllowedCallException {
+    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
             if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
                 powerUpController.usePowerUpAsAmmo(powerUp);
             } else
