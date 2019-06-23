@@ -71,6 +71,7 @@ public class MainPage extends Application {
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(0));
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -88,6 +89,7 @@ public class MainPage extends Application {
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(1));
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -105,6 +107,7 @@ public class MainPage extends Application {
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(2));
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -123,6 +126,7 @@ public class MainPage extends Application {
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(3));
                 if (frenzyMode){
+                    System.out.println("frenzy mode life");
                     life.setFrenzyActive(true);
                 }
                 try {
@@ -142,6 +146,7 @@ public class MainPage extends Application {
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(4));
                 if (frenzyMode){
+                    System.out.println("frenzy mode life");
                     life.setFrenzyActive(true);
                 }
                 try {
