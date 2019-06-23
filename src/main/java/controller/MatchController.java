@@ -739,7 +739,7 @@ public class MatchController{
                                 if (everybodyRespawned()) {
                                     System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(0).getNickname() + " is the current player now.");
                                     model.setCurrentPlayer(model.getPlayers().get(0));
-                                    if(match.getKillShotTrack().getSkulls() == 0){
+                                    if(match.getKillShotTrack().getSkulls() <= 0){
                                         startFrenzyMode();
                                         try {
                                             serverControllerRMI.pushMatchToAllPlayers();
@@ -775,7 +775,7 @@ public class MatchController{
                                 if (everybodyRespawned()) {
                                     System.out.println("[GAME] : Setting new current player, " + model.getPlayers().get(idCurrentPlayer + 1).getNickname() + " is the current player now.");
                                     model.setCurrentPlayer(model.getPlayers().get(idCurrentPlayer + 1));
-                                    if(match.getKillShotTrack().getSkulls() == 0){
+                                    if(match.getKillShotTrack().getSkulls() <= 0){
                                         startFrenzyMode();
                                         try {
                                             serverControllerRMI.pushMatchToAllPlayers();
@@ -1238,13 +1238,6 @@ public class MatchController{
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
-
-
-                if(match.getKillShotTrack().getSkulls() == 0){
-                    //TODO if the number of skull is 0, frenzy mode should start (IDEA: set every player to frenzy status) - GOOD IDEA MANN e.
-
-                }
-
 
             }
         }
