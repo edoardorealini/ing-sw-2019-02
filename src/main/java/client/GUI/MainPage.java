@@ -36,6 +36,7 @@ public class MainPage extends Application {
     Label labelpos3;
     Label labelpos4;
     Label labelpos5;
+    Label point;
 
     int points = 0;
 
@@ -166,8 +167,8 @@ public class MainPage extends Application {
         iv.setPreserveRatio(true);
 
         iv.setOnMouseClicked(mouseClicked -> {
-                    System.out.println("Click at X = " + mouseClicked.getX());
-                    System.out.println("Click at Y = " + mouseClicked.getY());
+                    //System.out.println("Click at X = " + mouseClicked.getX());
+                    //(System.out.println("Click at Y = " + mouseClicked.getY());
                     showGoodsInCoordinates(mouseClicked.getX(), mouseClicked.getY());
                 }
             );
@@ -177,7 +178,7 @@ public class MainPage extends Application {
         // Top (buttons)
         HBox hBoxTop = new HBox();
         hBoxTop.setMaxHeight(15);
-        Label point = new Label("My Points : "+points+" ");
+        point = new Label("My Points : "+points+" ");
         Button showGoodsInPlace = new Button(" Show Goods In Place ");
         showGoodsInPlace.setOnAction(e -> showGoods() );
         Button showMyWeapons = new Button(" Show My Weapons ");
@@ -757,6 +758,7 @@ public class MainPage extends Application {
 
     public void refreshPoints(){
         points = match.getPlayer(remoteController.getNickname()).getPoints();
+        point.setText("My Points : " + points + " ");
     }
 
     public void refreshPlayersPosition(){
