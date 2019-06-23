@@ -67,11 +67,9 @@ public class FirstPage extends Application implements Runnable{
         grid.setHgap(8); // spazio orizzontale tra boxes
 
         // Imposto immagine background
-        //File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-        //        + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
+        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
 
-        URL res = getClass().getClassLoader().getResource("AdrenalineBackground.png");
-        File file = Paths.get(res.toURI()).toFile();
 
         BackgroundImage myBI= new BackgroundImage(new Image(file.toURI().toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
