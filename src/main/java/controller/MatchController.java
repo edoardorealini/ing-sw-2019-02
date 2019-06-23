@@ -231,7 +231,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
 
-    public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException {
+    public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(canDoAction()) {
             try {
                 if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
@@ -240,6 +240,7 @@ public class MatchController{
                     grabController.grabWeapon(weapon, -1);
 
                 goToNextStatus(match.getCurrentPlayer());
+                serverControllerRMI.pushMatchToAllPlayers();
             } catch (WrongPositionException e) {
                 e.printStackTrace();
                 throw new WrongPositionException(e.getMessage());
@@ -306,7 +307,7 @@ public class MatchController{
                                     } else {
                                         try {
                                             grabWeapon(weapon, indexOfWeaponToSwap);
-                                        } catch (WrongStatusException | NotAllowedCallException | WrongPositionException | NotEnoughAmmoException ex) {
+                                        } catch (WrongStatusException | NotAllowedCallException | WrongPositionException | NotEnoughAmmoException | RemoteException ex) {
                                             System.out.println("[INFO]: Error in timer");
                                             ex.printStackTrace();
                                         }
@@ -343,7 +344,7 @@ public class MatchController{
     }
 
     //metodi di powerUpController
-    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException, NotAllowedCallException {
+    public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
             if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
                 powerUpController.usePowerUpAsAmmo(powerUp);
             } else
@@ -957,7 +958,7 @@ public class MatchController{
         }
     }
 
-    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException {
 
         boolean shootCompleted = false;
 
@@ -1050,7 +1051,7 @@ public class MatchController{
                                 } else {
                                     try {
                                         shoot(input);
-                                    } catch (WrongStatusException | NotAllowedTargetException | NotAllowedMoveException | NotEnoughAmmoException | NotAllowedShootingModeException ex) {
+                                    } catch (WrongStatusException | NotAllowedTargetException | NotAllowedMoveException | NotEnoughAmmoException | RemoteException | NotAllowedShootingModeException ex) {
                                         System.out.println("[INFO]: Error in timer");
                                         ex.printStackTrace();
                                     }
@@ -1093,6 +1094,8 @@ public class MatchController{
                 goToNextStatus(match.getCurrentPlayer());
 
                 printPlayerStatuses();
+
+                serverControllerRMI.pushMatchToAllPlayers();
             }
         }
         else
@@ -1282,9 +1285,9 @@ public class MatchController{
                     arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
                 }
                 do {
-                    int IDPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                    int idPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
                     int points = board.getPoints()[deaths];
-                    match.getPlayers().get(IDPlayer).addPoints(points);
+                    match.getPlayers().get(idPlayer).addPoints(points);
                     deaths++;
                     arrayIDPlayersSameDamage.remove(0);     //TODO maybe it doesn't work for concurrent access
                 } while (!arrayIDPlayersSameDamage.isEmpty());
@@ -1485,8 +1488,17 @@ public class MatchController{
         else return false;
     }
 
-
-
-    //TODO close timer
-
+    public void closeTimer(String timerName) {
+        switch (timerName) {
+            case "WaitForPayment":
+                this.waitForPayment.cancel();
+                this.waitForPayment.purge();
+                break;
+            case "WaitForWeaponLoaded":
+                this.waitForWeaponLoaded.cancel();
+                this.waitForWeaponLoaded.purge();
+                break;
+            default: break;
+        }
+    }
 }

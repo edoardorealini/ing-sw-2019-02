@@ -75,4 +75,6 @@ public interface InterfaceServerControllerRMI extends Remote {
     void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int clientHashedID) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
 
     void askForTagBackGrenade(String nickname) throws RemoteException;
+
+    void closeTimer(String timerName, int clientHashedID) throws RemoteException;
 }
