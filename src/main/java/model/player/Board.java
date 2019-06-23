@@ -15,7 +15,7 @@ public class Board  implements Serializable {
     public Board(){
         lifePoints = new int[12];
 
-        for (int i=0; i<11; i++){//TODO solo per test
+        for (int i = 0; i<= 11; i++){//TODO solo per test
             lifePoints[i]=9;
         }
 
@@ -25,7 +25,7 @@ public class Board  implements Serializable {
         for (int i=0; i<10; i++){
             lifePoints[i]=2;
         }
-        
+
 
 
 
