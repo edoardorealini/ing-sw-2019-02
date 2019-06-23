@@ -38,6 +38,11 @@ public class MainPage extends Application {
     Label labelpos5;
     Label point;
 
+    Button button1;
+    Button button2;
+    Button button3;
+    Button button4;
+
     int points = 0;
 
     @Override
@@ -227,14 +232,17 @@ public class MainPage extends Application {
 
         hBoxTop.getChildren().addAll(point,showMyWeapons,showMyPowerUps,empty1,skipTurn,empty2);
 
-        if (frenzyMode == false){ // normal Mode
+        // normal Mode
             Button moveButton = new Button(" MOVE ");
+            setButton1(moveButton);
             moveButton.setOnAction(e -> moveButton());
 
             Button grabButton = new Button(" GRAB ");
+            setButton2(grabButton);
             grabButton.setOnAction(e -> grab());
 
             Button shootButton = new Button(" SHOOT ");
+            setButton3(shootButton);
             shootButton.setOnAction(event -> {
                 try {
                     GeneralWeaponPopUp shootPopUp = new GeneralWeaponPopUp();
@@ -247,100 +255,10 @@ public class MainPage extends Application {
                 }
             });
             Button reloadWeapons = new Button("Reload Weapons");
+            setButton4(reloadWeapons);
             reloadWeapons.setOnAction(event -> reloadPopup());
 
             hBoxTop.getChildren().addAll(moveButton,grabButton,shootButton,reloadWeapons);
-        }
-        else { // frenzy Mode
-            if (match.getPlayer(remoteController.getNickname()).getAbilityStatus()== AbilityStatus.FRENZY){
-                Button showFrenzyAction = new Button(" Show Frenzy Action ");
-                showFrenzyAction.setOnAction(e -> {
-                    ChooseFrenzyActionBoosted choseAction = new ChooseFrenzyActionBoosted();
-                    try {
-                        choseAction.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                Button action1Frenzy = new Button(" Do action 1 ");
-                action1Frenzy.setOnAction(e -> {
-                    Action1Boosted action1Boosted = new Action1Boosted();
-                    action1Boosted.setMatch(this.match);
-                    action1Boosted.setSenderRemoteController(this.remoteController);
-                    try {
-                        action1Boosted.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                Button action2Frenzy = new Button(" Do action 2 ");
-                action2Frenzy.setOnAction(e -> {
-                    Action2Boosted action2Boosted = new Action2Boosted();
-                    action2Boosted.setSenderRemoteController(this.remoteController);
-                    action2Boosted.setMatch(this.match);
-                    try {
-                        action2Boosted.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                Button action3Frenzy = new Button(" Do action 3 ");
-                action3Frenzy.setOnAction(e -> {
-                    Action3Boosted action3Boosted = new Action3Boosted();
-                    action3Boosted.setMatch(this.match);
-                    action3Boosted.setSenderRemoteController(this.remoteController);
-                    try {
-                        action3Boosted.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                hBoxTop.getChildren().addAll(showFrenzyAction,action1Frenzy,action2Frenzy,action3Frenzy);
-            }
-            if (match.getPlayer(remoteController.getNickname()).getAbilityStatus()== AbilityStatus.FRENZY_LOWER){
-                Button showLowerFrenzyAction = new Button(" Show Frenzy Action ");
-                showLowerFrenzyAction.setOnAction(e -> {
-                    ChooseFrenzyActionLower choseAction = new ChooseFrenzyActionLower();
-                    try {
-                        choseAction.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                Button action1FrenzyLower = new Button(" Do action 1 ");
-                action1FrenzyLower.setOnAction(e -> {
-                    Action1Lower action1Lower = new Action1Lower();
-                    action1Lower.setMatch(this.match);
-                    action1Lower.setSenderRemoteController(this.remoteController);
-                    try {
-                        action1Lower.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-                });
-
-                Button action2FrenzyLower = new Button(" Do action 2 ");
-                action2FrenzyLower.setOnAction(e -> {
-                    Action2Lower action2Lower = new Action2Lower();
-                    action2Lower.setMatch(this.match);
-                    action2Lower.setSenderRemoteController(this.remoteController);
-                    try {
-                        action2Lower.start(new Stage());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                });
-
-                hBoxTop.getChildren().addAll(showLowerFrenzyAction,action1FrenzyLower,action2FrenzyLower);
-            }
-        }
-
 
         SplitPane vSplitPane = new SplitPane();
         vSplitPane.setOrientation(Orientation.VERTICAL);
@@ -1289,6 +1207,108 @@ public class MainPage extends Application {
         tagBackStage.show();
     }
 
+    public void setButton1(Button button1) {
+        this.button1 = button1;
+    }
+
+    public void setButton2(Button button2) {
+        this.button2 = button2;
+    }
+
+    public void setButton3(Button button3) {
+        this.button3 = button3;
+    }
+
+    public void setButton4(Button button4) {
+        this.button4 = button4;
+    }
+
+    public void frenzyButtonBoosted(){
+        button1.setText(" Action 1 Frenzy ");
+        button1.setOnAction(e -> {
+            Action1Boosted action1Boosted = new Action1Boosted();
+            action1Boosted.setMatch(this.match);
+            action1Boosted.setSenderRemoteController(this.remoteController);
+            try {
+                action1Boosted.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        button2.setText(" Action 2 Frenzy ");
+        button2.setOnAction(e -> {
+            Action2Boosted action2Boosted = new Action2Boosted();
+            action2Boosted.setSenderRemoteController(this.remoteController);
+            action2Boosted.setMatch(this.match);
+            try {
+                action2Boosted.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        button3.setText(" Action 3 Frenzy ");
+        button3.setOnAction(e -> {
+            Action3Boosted action3Boosted = new Action3Boosted();
+            action3Boosted.setMatch(this.match);
+            action3Boosted.setSenderRemoteController(this.remoteController);
+            try {
+                action3Boosted.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        button4.setText(" Show Frenzy Actions ");
+        button4.setOnAction(e -> {
+            ChooseFrenzyActionBoosted choseAction = new ChooseFrenzyActionBoosted();
+            try {
+                choseAction.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void frenzyButtonLower(){
+        button1.setText(" Action 1 Frenzy ");
+        button1.setOnAction(e -> {
+            Action1Lower action1Lower = new Action1Lower();
+            action1Lower.setMatch(this.match);
+            action1Lower.setSenderRemoteController(this.remoteController);
+            try {
+                action1Lower.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        });
+
+        button2.setText(" Action 2 Frenzy ");
+        button2.setOnAction(e -> {
+            Action2Lower action2Lower = new Action2Lower();
+            action2Lower.setMatch(this.match);
+            action2Lower.setSenderRemoteController(this.remoteController);
+            try {
+                action2Lower.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        button3.setVisible(false);
+
+        button4.setText(" Show Frenzy Actions ");
+        button4.setOnAction(e -> {
+            ChooseFrenzyActionLower choseAction = new ChooseFrenzyActionLower();
+            try {
+                choseAction.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
 }
 
 
