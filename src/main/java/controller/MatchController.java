@@ -853,8 +853,11 @@ public class MatchController{
         }
         for(Player p: match.getPlayers()){
             p.getStatus().setTurnStatusWaitTurnFrenzy();
+            System.out.println("palyer "+p.getNickname());
             if(p.getBoard().getTotalNumberOfDamages() == 0)
                 p.setPlayerMoodFrenzy(true);
+            System.out.println(p.getPlayerMoodFrenzy());
+
         }
 
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY))
