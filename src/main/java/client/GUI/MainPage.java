@@ -1040,8 +1040,15 @@ public class MainPage extends Application {
         powAsAmmoStage.setScene(scene);
 
         powAsAmmoStage.setOnCloseRequest(event -> {
+            try {
+                if (match.getPlayer(remoteController.getNickname()).isInStatusReloading())
+                     remoteController.closeTimer("WaitForWeaponLoaded");
+                else
+                    remoteController.closeTimer("WaitForPayment");
+            } catch (RemoteException e) {
+                PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
+            }
             powAsAmmoStage.close();
-            askForPowerUpAsAmmo();
         });
 
         powAsAmmoStage.show();
