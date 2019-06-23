@@ -591,7 +591,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     @Override
     public void setSkulls(int nSkulls, int clientHashedID) throws RemoteException, NotAllowedCallException {
-        if (nSkulls < 5 || nSkulls > 8)
+        if (nSkulls < 0 || nSkulls > 8) // TODo non dir cazzate
             throw new NotAllowedCallException("The chosen number for skulls is not allowed");
 
         if (checkHashedIDAsCurrentPlayer(clientHashedID))
