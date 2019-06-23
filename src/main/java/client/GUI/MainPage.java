@@ -38,16 +38,12 @@ public class MainPage extends Application {
     Label labelpos5;
     Label point;
 
-    Stage mStage;
-    Stage stageFrenzy;
-
     int points = 0;
 
     @Override
     public void start(Stage mainStage) throws Exception {
         mainStage.setTitle("Adrenaline " +remoteController.getNickname());
         SplitPane splitPane = new SplitPane();
-        setmStage(mainStage);
         //left (life)
         VBox vBoxLife = new VBox();
         vBoxLife.setMinWidth(Region.USE_PREF_SIZE);
@@ -70,7 +66,9 @@ public class MainPage extends Application {
             LifeBoard life = new LifeBoard();
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(0));
+            System.out.println("Show life "+frenzyMode);
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -88,6 +86,7 @@ public class MainPage extends Application {
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(1));
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -105,6 +104,7 @@ public class MainPage extends Application {
             life.setMatch(this.match);
             life.setPlayerClicked(match.getPlayers().get(2));
             if (frenzyMode){
+                System.out.println("frenzy mode life");
                 life.setFrenzyActive(true);
             }
             try {
@@ -123,6 +123,7 @@ public class MainPage extends Application {
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(3));
                 if (frenzyMode){
+                    System.out.println("frenzy mode life");
                     life.setFrenzyActive(true);
                 }
                 try {
@@ -142,6 +143,7 @@ public class MainPage extends Application {
                 life.setMatch(this.match);
                 life.setPlayerClicked(match.getPlayers().get(4));
                 if (frenzyMode){
+                    System.out.println("frenzy mode life");
                     life.setFrenzyActive(true);
                 }
                 try {
@@ -1287,19 +1289,6 @@ public class MainPage extends Application {
         tagBackStage.show();
     }
 
-    public void refreshMainPage(Stage mStage) throws Exception {
-        mStage.close();
-        Stage stageFrenzy = new Stage();
-        start(stageFrenzy);
-    }
-
-    public void setmStage(Stage mStage) {
-        this.mStage = mStage;
-    }
-
-    public Stage getmStage() {
-        return mStage;
-    }
 }
 
 

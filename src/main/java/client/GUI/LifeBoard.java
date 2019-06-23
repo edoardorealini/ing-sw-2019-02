@@ -23,7 +23,7 @@ import java.lang.reflect.Array;
 public class LifeBoard extends Application {
     private Match match;
     private Player playerClicked;
-    private Boolean frenzyActive;
+    private Boolean frenzyActive = false;
 
 
     /*
@@ -34,7 +34,6 @@ public class LifeBoard extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        frenzyActive = false;
 
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Life Player '"+playerClicked.getNickname()+"'");
@@ -52,14 +51,14 @@ public class LifeBoard extends Application {
         iv0.setFitWidth(400);
         iv0.setPreserveRatio(true);
 
-                // frenzy board
-                File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                        + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + "F" + ".png");
-                Image image1 = new Image(file1.toURI().toString());
-                ImageView iv1 = new ImageView(image1);
-                iv1.setFitHeight(200);
-                iv1.setFitWidth(400);
-                iv1.setPreserveRatio(true);
+        // frenzy board
+        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                        + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+        Image image1 = new Image(file1.toURI().toString());
+        ImageView iv1 = new ImageView(image1);
+        iv1.setFitHeight(200);
+        iv1.setFitWidth(400);
+        iv1.setPreserveRatio(true);
 
 
         stackPane.setAlignment(Pos.CENTER);
