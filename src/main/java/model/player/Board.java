@@ -16,18 +16,16 @@ public class Board  implements Serializable {
         lifePoints = new int[12];
 
         for (int i=0; i<11; i++){//TODO solo per test
-            lifePoints[i]=1;
+            lifePoints[i]=9;
         }
-        lifePoints[11]=9;
 
         //todo rimuovere!!!
 
-        /*
-        for (int i=0; i<10; i++){
-            lifePoints[i]=1;
-        }
 
-         */
+        for (int i=0; i<10; i++){
+            lifePoints[i]=2;
+        }
+        
 
 
 
