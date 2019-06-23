@@ -265,14 +265,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
         try {
-            /*
-        for (InterfaceClientControllerRMI c : clientControllers)
-            if (hashNicknameID.get(clientHashedID).equals(c.getNickname()))
-                clientControllers.remove(c);
 
-             */
             matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
-
+            System.out.println("[DISCONNECT]: Disconnected Player: " + hashNicknameID.get(clientHashedID));
             clientControllers.removeIf(c -> {
                 try {
                     return hashNicknameID.get(clientHashedID).equals(c.getNickname());
@@ -281,6 +276,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                     return false;
                 }
             });
+            //TODO qui fare controllo per terminare la partita se il numero di giocatori scende sotto il 3 durante una partita attiva.
 
             if (connectedPlayers() < 3 && timeout != null) {
                 System.out.println("[INFO]: Timeout killed");
