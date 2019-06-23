@@ -339,4 +339,14 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     public void makeAction2FrenzyLower(int posX, int posY, Weapon wp) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
         serverController.makeAction2FrenzyLower(posX,posY,wp, this.hashedNickname);
     }
+
+    @Override
+    public void closeTimer(String timerName) throws RemoteException {
+        try {
+            serverController.closeTimer(timerName, hashedNickname);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RemoteException(e.getMessage());
+        }
+    }
 }

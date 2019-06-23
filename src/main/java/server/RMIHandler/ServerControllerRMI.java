@@ -713,7 +713,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
+    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.makeAction2FrenzyLower(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -730,8 +730,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-
-
     @Override
     public void askForTagBackGrenade(String nickname) throws RemoteException {
         //nickname is the name of the player whom I am asking to use the tagBack Grenade
@@ -741,5 +739,13 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 pushMatchToAllPlayers();
             }
         }
+    }
+
+    @Override
+    public void closeTimer(String timerName, int clientHashedID) throws RemoteException {
+        if (checkHashedIDAsCurrentPlayer(clientHashedID))
+            matchController.closeTimer(timerName);
+        else
+            throw new RemoteException("You cannot close a timer");
     }
 }
