@@ -153,7 +153,7 @@ public class MainPage extends Application {
             vBoxLife.getChildren().add(buttonLife5);
         }
 
-        Button myAmmo = new Button(" Show My Ammo");
+        Button myAmmo = new Button("Show My Ammo");
         myAmmo.setOnAction(e -> showMyAmmo());
         vBoxLife.getChildren().add(myAmmo);
 
@@ -1045,6 +1045,7 @@ public class MainPage extends Application {
                      remoteController.closeTimer("WaitForWeaponLoaded");
                 else
                     remoteController.closeTimer("WaitForPayment");
+                powerUpAsAmmoActive = false;
             } catch (RemoteException e) {
                 PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
             }
