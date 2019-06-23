@@ -162,12 +162,12 @@ public class MatchController{
 
     public synchronized int getMaxDistanceAllowed(Player player){
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
-        if(abilityStatus.equals(AbilityStatus.NORMAL))
+        if(abilityStatus.equals(AbilityStatus.NORMAL) || abilityStatus.equals(AbilityStatus.ADRENALINE_PICK) || abilityStatus.equals(AbilityStatus.ADRENALINE_SHOOT))
             return 3;
         //TODO controllare qui AbiltyStatus di due tipi in FRENZY.
         if(abilityStatus.equals(AbilityStatus.FRENZY))
             return 4;
-        return 0;
+        return 3;
     }
 
     //the first spawn always occurs when a pleyer is the current player.
@@ -326,13 +326,12 @@ public class MatchController{
     }
 
     public synchronized void grabMove(Square destination) throws NotAllowedMoveException{
-        try{
+        try {
             if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.NORMAL))
                 moveController.move(match.getCurrentPlayer(), destination, 1);
 
             if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK))
                 moveController.move(match.getCurrentPlayer(), destination, 2);
-
         } catch (NotAllowedMoveException e) {
             e.printStackTrace();
             throw new NotAllowedMoveException(e.getMessage());

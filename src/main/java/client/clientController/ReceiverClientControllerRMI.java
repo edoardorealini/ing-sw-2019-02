@@ -95,16 +95,15 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         if(mainPage != null) {
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
+                senderRemoteController.setMatch(match);
+                this.match = match;
                 mainPage.refreshPlayersPosition();
                 mainPage.refreshPoints();
-                senderRemoteController.setMatch(match);
                 if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
                     mainPage.setFrenzyMode(true);
 
                     //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE ?
                 }
-                this.match = match;
-                mainPage.refreshPoints();
             });
         }
         //questo metodo viene chiamato piu volte.
