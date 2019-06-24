@@ -9,6 +9,8 @@ import exception.*;
 import model.Match;
 import model.ShootMode;
 import model.ShootingParametersInput;
+import model.map.Square;
+import model.player.AbilityStatus;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -321,8 +323,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
      */
     public synchronized void grabAmmoCard(int xDestination, int yDestination, int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException, InvalidInputException, NotAllowedMoveException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.grabMove(converter.indexToSquare(xDestination, yDestination));
-            matchController.grabAmmoCard();
+            Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
+            try {
+                matchController.grabMove(converter.indexToSquare(xDestination, yDestination));
+                matchController.grabAmmoCard();
+            } catch (WrongStatusException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new WrongStatusException(e.getMessage());
+            } catch (WrongPositionException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new WrongPositionException(e.getMessage());
+            } catch (NotAllowedMoveException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotAllowedMoveException(e.getMessage());
+            } catch (InvalidInputException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new InvalidInputException(e.getMessage());
+            }
             System.out.println("[GRABAMMO]: The player " + hashNicknameID.get(clientHashedID) + " grabbed the ammo card from position X,Y = [" + xDestination + "," + yDestination + "]");
             pushMatchToAllPlayers();
         } else
@@ -332,20 +349,38 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     //lets the current player grab a weapon
     public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.grabMove(converter.indexToSquare(xDestination,yDestination));
+            Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
             WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
+            try {
+                matchController.grabMove(converter.indexToSquare(xDestination, yDestination));
 
-            int numberOfOwnedWeapons = 0;
-            for (Weapon weapon : matchController.getMatch().getCurrentPlayer().getWeapons()) {
-                if (weapon != null)
-                    numberOfOwnedWeapons++;
+                int numberOfOwnedWeapons = 0;
+                for (Weapon weapon : matchController.getMatch().getCurrentPlayer().getWeapons()) {
+                    if (weapon != null)
+                        numberOfOwnedWeapons++;
+                }
+
+                if (numberOfOwnedWeapons == 3)
+                    matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), indexOfWeaponToSwap);
+                else
+                    matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
+
+            } catch (WrongStatusException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new WrongStatusException(e.getMessage());
+            } catch (WrongPositionException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new WrongPositionException(e.getMessage());
+            } catch (NotAllowedMoveException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotAllowedMoveException(e.getMessage());
+            } catch (InvalidInputException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new InvalidInputException(e.getMessage());
+            } catch (NotEnoughAmmoException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotEnoughAmmoException(e.getMessage());
             }
-
-            if (numberOfOwnedWeapons == 3)
-                matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), indexOfWeaponToSwap);
-            else
-                matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
-
             System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             pushMatchToAllPlayers();
         }
@@ -414,7 +449,38 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     @Override
     public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.shoot(parseInput(input));
+            Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
+            int x;
+            int y;
+            try {
+
+                if (matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getSpecialAbility() == AbilityStatus.ADRENALINE_SHOOT) {
+                    x = input.getAdrenalineMoveIndexes().get(0);
+                    y = input.getAdrenalineMoveIndexes().get(1);
+                    matchController.getMoveController().move(matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)), converter.indexToSquare(x, y), 1);
+                }
+                matchController.shoot(parseInput(input));
+
+            } catch (WrongStatusException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new WrongStatusException(e.getMessage());
+            } catch (NotEnoughAmmoException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotEnoughAmmoException(e.getMessage());
+            } catch (NotAllowedMoveException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotAllowedMoveException(e.getMessage());
+            } catch (InvalidInputException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new InvalidInputException(e.getMessage());
+            } catch (NotAllowedShootingModeException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotAllowedShootingModeException(e.getMessage());
+            } catch (NotAllowedTargetException e) {
+                matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
+                throw new NotAllowedTargetException(e.getMessage());
+            }
+
             pushMatchToAllPlayers();
         }
         else

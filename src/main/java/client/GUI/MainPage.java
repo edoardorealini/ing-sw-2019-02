@@ -251,7 +251,6 @@ public class MainPage extends Application {
                     shootPopUp.start(new Stage());
                 } catch (Exception e) {
                     PopUpSceneMethod.display("SOMETHING WENT WRONG", e.getMessage());
-                    //TODO errore che dice che hbox è già settata e non può essere usata come root
                 }
             });
             Button reloadWeapons = new Button("Reload Weapons");
