@@ -173,4 +173,18 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                         }
                     });
     }
+
+    @Override
+    public void askForTargetingScope() throws RemoteException {
+        mainPage.setRemoteController(senderRemoteController);
+        mainPage.setMatch(match);
+        Platform.runLater(
+                () -> {
+                    try {
+                        mainPage.askForTargetingScope();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
 }

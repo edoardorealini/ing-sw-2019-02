@@ -4,8 +4,6 @@ import exception.*;
 import model.Color;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
-import model.powerup.PowerUp;
-import model.weapons.Weapon;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.Remote;
@@ -35,7 +33,7 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID, Color ammoColorToPay) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, NotEnoughAmmoException;
+    void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, int clientHashedID, Color ammoColorToPay) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, NotEnoughAmmoException;
 
     void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException, NotAllowedCallException ;
 

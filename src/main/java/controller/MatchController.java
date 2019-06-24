@@ -311,7 +311,7 @@ public class MatchController{
                             }
                         }
                     };
-                    waitForPayment.schedule(waitForPaymentTask, 1, 4000);
+                    waitForPayment.schedule(waitForPaymentTask, 1, 2000);
                 } else {
                     throw new NotEnoughAmmoException(e.getMessage());
                 }
@@ -973,7 +973,7 @@ public class MatchController{
 
              */
 
-            //qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
+            //todo qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
 
         }
     }
@@ -1080,7 +1080,7 @@ public class MatchController{
                             }
                         }
                     };
-                    waitForPayment.schedule(waitForPaymentTask, 1, 4000);
+                    waitForPayment.schedule(waitForPaymentTask, 1, 2000);
                 } else {
                     throw new NotEnoughAmmoException(e.getMessage());
                 }
@@ -1140,7 +1140,7 @@ public class MatchController{
 
     }
 
-    public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException, WrongStatusException {
+    public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException, WrongStatusException, RemoteException {
 
         if (!match.getCurrentPlayer().isInStatusReloading())
             throw new WrongStatusException("You cannot reload now");
@@ -1186,18 +1186,24 @@ public class MatchController{
                         } else {
                             match.getCurrentPlayer().removeAmmo(r, b, y);
                             weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+                            try {
+                                serverControllerRMI.pushMatchToAllPlayers();
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
                             waitForWeaponLoadedTask.cancel();
                             waitForWeaponLoaded.cancel();
                             waitForWeaponLoaded.purge();
                         }
                     }};
-                waitForWeaponLoaded.schedule(waitForWeaponLoadedTask, 1, 4000);
+                waitForWeaponLoaded.schedule(waitForWeaponLoadedTask, 1, 2000);
             } else {
                 throw new NotEnoughAmmoException("It seems you don't have enough ammo");
             }
         } else {
             match.getCurrentPlayer().removeAmmo(r, b, y);
             weapon.setWeaponStatus(WeaponAmmoStatus.LOADED);
+            serverControllerRMI.pushMatchToAllPlayers();
         }
 
     }

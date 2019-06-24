@@ -110,6 +110,7 @@ public class PowerUpController{
                 if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 5)
                     affectedPlayer.getStatus().setSpecialAbilityAdrenalineShoot();
 
+                match.getCurrentPlayer().removePowerUps(targetingScope);
             } else throw new NotEnoughAmmoException("You don't have enough ammo to use Targeting Scope");
         } else throw new NotInYourPossessException("Not valid PowerUp");
 

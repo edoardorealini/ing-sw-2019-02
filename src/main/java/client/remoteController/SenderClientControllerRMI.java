@@ -6,6 +6,7 @@ import commons.ShootingParametersClient;
 import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
 import exception.*;
+import model.Color;
 import model.map.*;
 import model.player.*;
 import model.Match;
@@ -13,7 +14,6 @@ import model.powerup.*;
 
 //TODO vedere server http
 import commons.InterfaceServerControllerRMI;
-import model.weapons.Weapon;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
@@ -197,8 +197,10 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) {
-        //TODO
+    public void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, Color ammoColor) throws RemoteException, NotInYourPossessException, WrongStatusException, NotEnoughAmmoException, NotAllowedCallException, NotAllowedTargetException {
+        if (affectedPlayer == null)
+            throw new NotAllowedTargetException("You must select a target player");
+        else serverController.useTargetingScope(indexOfTargetingScope, affectedPlayer, this.hashedNickname, ammoColor);
     }
 
     @Override
@@ -217,7 +219,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     public int connectedPlayers() {
         try {
             return serverController.connectedPlayers();
-        }catch(RemoteException e){
+        } catch(RemoteException e){
             e.printStackTrace();
         }
 

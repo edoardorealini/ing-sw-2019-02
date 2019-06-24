@@ -3,11 +3,11 @@ package client.remoteController;
 import client.GUI.FirstPage;
 import commons.ShootingParametersClient;
 import exception.*;
+import model.Color;
 import model.map.*;
 import model.player.*;
 import model.Match;
 import model.powerup.*;
-import model.weapons.Weapon;
 
 import java.rmi.RemoteException;
 
@@ -36,7 +36,7 @@ public abstract class SenderClientRemoteController {
 
     public abstract void useTagBackGrenade(int indexOfTagBackGrenade) throws RemoteException, NotAllowedTargetException, WrongStatusException, NotInYourPossessException;
 
-    public abstract void useTargetingScope(PowerUp targetingScope, Player affectedPlayer);
+    public abstract void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, Color ammoColor) throws RemoteException, NotInYourPossessException, WrongStatusException, NotEnoughAmmoException, NotAllowedCallException, NotAllowedTargetException;
 
     public abstract String checkConnection(String IP);
 

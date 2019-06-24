@@ -14,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Match;
 import javafx.scene.image.ImageView;
-import model.player.AbilityStatus;
+import model.player.Player;
 import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
 
@@ -23,6 +23,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 import static model.map.SquareType.*;
 import static model.powerup.PowerUpName.TAGBACK_GRENADE;
+import static model.powerup.PowerUpName.TARGETING_SCOPE;
 
 public class MainPage extends Application {
 
@@ -1112,11 +1113,11 @@ public class MainPage extends Application {
         VBox vBoxPage = new VBox();
         HBox buttons = new HBox();
         Label text = new Label("You have been hit by " + match.getCurrentPlayer().getNickname() + ", do you want revenge?");
-        Button button1 = new Button("YEAH!");
-        Button button2 = new Button("YEAH!");
-        Button button3 = new Button("YEAH!");
+        Button buttonTagBack1 = new Button("YEAH!");
+        Button buttonTagBack2 = new Button("YEAH!");
+        Button buttonTagBack3 = new Button("YEAH!");
 
-        button1.setOnAction(event -> {
+        buttonTagBack1.setOnAction(event -> {
             try {
                 remoteController.useTagBackGrenade(0);
                 tagBackStage.close();
@@ -1126,7 +1127,7 @@ public class MainPage extends Application {
             }
         });
 
-        button2.setOnAction(event -> {
+        buttonTagBack2.setOnAction(event -> {
             try {
                 remoteController.useTagBackGrenade(1);
                 tagBackStage.close();
@@ -1136,7 +1137,7 @@ public class MainPage extends Application {
             }
         });
 
-        button3.setOnAction(event -> {
+        buttonTagBack3.setOnAction(event -> {
             try {
                 remoteController.useTagBackGrenade(2);
                 tagBackStage.close();
@@ -1166,7 +1167,7 @@ public class MainPage extends Application {
             iv0.setFitHeight(300);
             iv0.setFitWidth(250);
             iv0.setPreserveRatio(true);
-            buttons.getChildren().add(button1);
+            buttons.getChildren().add(buttonTagBack1);
             imagesHBox.getChildren().add(iv0);
             first = 1;
         }
@@ -1179,7 +1180,7 @@ public class MainPage extends Application {
             iv1.setFitHeight(300);
             iv1.setFitWidth(250);
             iv1.setPreserveRatio(true);
-            buttons.getChildren().add(button2);
+            buttons.getChildren().add(buttonTagBack2);
             imagesHBox.getChildren().add(iv1);
             second = 1;
         }
@@ -1192,7 +1193,7 @@ public class MainPage extends Application {
             iv2.setFitHeight(300);
             iv2.setFitWidth(250);
             iv2.setPreserveRatio(true);
-            buttons.getChildren().add(button3);
+            buttons.getChildren().add(buttonTagBack3);
             imagesHBox.getChildren().add(iv2);
             third = 1;
         }
@@ -1205,6 +1206,131 @@ public class MainPage extends Application {
 
         tagBackStage.show();
     }
+
+    public void askForTargetingScope() {
+
+        int first = 0;
+        int second = 0;
+        int third = 0;
+
+        Stage targetingScopeStage = new Stage();
+        targetingScopeStage.initModality(Modality.APPLICATION_MODAL);
+        targetingScopeStage.setTitle("Targeting Scope use");
+
+        HBox imagesHBox = new HBox();
+        VBox vBoxPage = new VBox();
+        HBox buttons = new HBox();
+        HBox target = new HBox();
+        HBox ammo = new HBox();
+        Button buttonTargeting1 = new Button("SELECT THIS");
+        Button buttonTargeting2 = new Button("SELECT THIS");
+        Button buttonTargeting3 = new Button("SELECT THIS");
+        Label text = new Label("Do you want to use a targeting scope?");
+        Label textTarget = new Label("Select the target you want hit: ");
+        Label textAmmo = new Label("Choose the ammo you want to convert: ");
+        ChoiceBox<String> targets = new ChoiceBox<>();
+        ChoiceBox<model.Color> ammoColor = new ChoiceBox<>();
+
+        buttonTargeting1.setOnAction(event -> {
+            try {
+                remoteController.useTargetingScope(0, targets.getValue(), ammoColor.getValue());
+                targetingScopeStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotEnoughAmmoException | NotAllowedCallException | NotAllowedTargetException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        buttonTargeting2.setOnAction(event -> {
+            try {
+                remoteController.useTargetingScope(1, targets.getValue(), ammoColor.getValue());
+                targetingScopeStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotEnoughAmmoException | NotAllowedCallException | NotAllowedTargetException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        buttonTargeting3.setOnAction(event -> {
+            try {
+                remoteController.useTargetingScope(2, targets.getValue(), ammoColor.getValue());
+                targetingScopeStage.close();
+            } catch (NotInYourPossessException | RemoteException | WrongStatusException | NotEnoughAmmoException | NotAllowedCallException | NotAllowedTargetException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        ammoColor.getItems().addAll(model.Color.RED, model.Color.BLUE, model.Color.YELLOW);
+        ammoColor.setValue(model.Color.RED);
+        for (Player p : match.getPlayers()) {       //setting the players that have been hit
+            if (p.hasBeenDamaged())
+                targets.getItems().add(p.getNickname());
+        }
+
+        vBoxPage.getChildren().setAll(imagesHBox, text, target, ammo, buttons);
+        target.getChildren().addAll(textTarget, targets);
+        ammo.getChildren().addAll(textAmmo, ammoColor);
+
+        vBoxPage.setAlignment(Pos.CENTER);
+        vBoxPage.setSpacing(8);
+        imagesHBox.setAlignment(Pos.CENTER);
+        imagesHBox.setSpacing(10);
+        target.setAlignment(Pos.CENTER);
+        target.setSpacing(10);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(100);
+        ammo.setAlignment(Pos.CENTER);
+        ammo.setSpacing(10);
+
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TARGETING_SCOPE){
+            File firstFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(firstFile.toURI().toString());
+            ImageView iv0 = new ImageView(image0);
+            first = 1;
+            iv0.setFitHeight(300);
+            iv0.setFitWidth(250);
+            iv0.setPreserveRatio(true);
+            buttons.getChildren().add(buttonTargeting1);
+            imagesHBox.getChildren().add(iv0);
+        }
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() == TARGETING_SCOPE){
+            File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(secondFile.toURI().toString());
+            ImageView iv1 = new ImageView(image1);
+            second = 1;
+            iv1.setFitHeight(300);
+            iv1.setFitWidth(250);
+            iv1.setPreserveRatio(true);
+            buttons.getChildren().add(buttonTargeting2);
+            imagesHBox.getChildren().add(iv1);
+        }
+
+        if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() == TARGETING_SCOPE){
+            File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(thirdFile.toURI().toString());
+            ImageView iv2 = new ImageView(image2);
+            third = 1;
+            iv2.setFitHeight(300);
+            iv2.setFitWidth(250);
+            iv2.setPreserveRatio(true);
+            buttons.getChildren().add(buttonTargeting3);
+            imagesHBox.getChildren().add(iv2);
+        }
+
+        Scene scene = new Scene(vBoxPage, (300 * (first + second + third)), 400);
+        targetingScopeStage.setScene(scene);
+
+        targetingScopeStage.setOnCloseRequest(event -> targetingScopeStage.close());
+
+        targetingScopeStage.show();
+    }
+
 
     public void setButton1(Button button1) {
         this.button1 = button1;

@@ -15,6 +15,8 @@ import model.weapons.WeaponName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
+
 class MatchControllerTest {
 
     private MatchController matchController;
@@ -34,8 +36,7 @@ class MatchControllerTest {
             p1 = new Player("REALNGNEER", 1, matchController.getMatch());
             p2 = new Player("JOHNNYCA$H", 2, matchController.getMatch());
             p3 = new Player("AHHHH", 3, matchController.getMatch());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -75,7 +76,7 @@ class MatchControllerTest {
             System.out.println(p2.getBoard().toStringLP());
             System.out.println(p2.getBoard().toStringMarks());
 
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("shit happened");
             e.printStackTrace();
         }
@@ -94,15 +95,12 @@ class MatchControllerTest {
         try {
             Weapon weap = matchController.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE);
             weap.setWeaponStatus(WeaponAmmoStatus.UNLOADED);
-            try {
-                matchController.reloadWeapon(weap);
-            } catch (WrongStatusException e) {
-                e.printStackTrace();
-            }
-        } catch (NotEnoughAmmoException e) {
+            matchController.reloadWeapon(weap);
+        } catch (WrongStatusException | RemoteException | NotEnoughAmmoException e) {
             e.printStackTrace();
         }
     }
+
 
     //it works, but there is a call on network that cannot be tested
 
@@ -141,5 +139,4 @@ class MatchControllerTest {
         System.out.println(p1.isDead());
     }
 */
-
 }

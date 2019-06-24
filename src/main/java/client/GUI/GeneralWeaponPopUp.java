@@ -112,7 +112,7 @@ public class GeneralWeaponPopUp extends Application {
         hBoxWeapon.setAlignment(Pos.CENTER);
         hBoxWeapon.setSpacing(8);
         hBoxButtons.setAlignment(Pos.CENTER);
-        hBoxButtons.setSpacing(250);
+        hBoxButtons.setSpacing(150);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(8);
 
@@ -138,7 +138,8 @@ public class GeneralWeaponPopUp extends Application {
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
 
-        Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
+        Scene scene = new Scene(vBox,(300*(a+b+c)),450);
+        primaryStage.setMinWidth(300);
         primaryStage.setScene(scene);
         primaryStage.showAndWait();
 

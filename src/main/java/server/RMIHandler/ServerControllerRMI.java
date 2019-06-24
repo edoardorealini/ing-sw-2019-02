@@ -15,6 +15,7 @@ import model.player.AbilityStatus;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
+import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.weapons.WeaponName;
 
@@ -351,10 +352,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
-            WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
             try {
                 matchController.grabMove(converter.indexToSquare(xDestination, yDestination));
 
+                WeaponName tempName = converter.intToWeapon(indexOfWeapon).getName();
                 int numberOfOwnedWeapons = 0;
                 for (Weapon weapon : matchController.getMatch().getCurrentPlayer().getWeapons()) {
                     if (weapon != null)
@@ -366,6 +367,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 else
                     matchController.grabWeapon(converter.intToWeapon(indexOfWeapon), -1);
 
+                System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
             } catch (WrongStatusException e) {
                 matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
                 throw new WrongStatusException(e.getMessage());
@@ -382,7 +384,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
                 throw new NotEnoughAmmoException(e.getMessage());
             }
-            System.out.println("[GRABWEAPON]: The player " + hashNicknameID.get(clientHashedID)+ " grabbed the weapon " + tempName + " from position X,Y = ["+xDestination+","+yDestination+"]");
+
             pushMatchToAllPlayers();
         }
         else
@@ -409,9 +411,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     @Override
-    public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
+    public synchronized void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useTargetingScope(targetingScope, affectedPlayer, ammoColorToPay);
+            matchController.useTargetingScope(converter.indexToPowerUp(indexOfTargetingScope, matchController.getMatch().getCurrentPlayer()) , matchController.getMatch().getPlayer(affectedPlayer), ammoColorToPay);
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
@@ -442,6 +444,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             if (clientController.getNickname().equals(matchController.getMatch().getCurrentPlayer().getNickname())) {
                  clientController.askForPowerUpAsAmmo();
                  pushMatchToAllPlayers();
+                 break;
             }
         }
     }
@@ -453,6 +456,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
             int x;
             int y;
+
+            for (Player p: matchController.getMatch().getPlayers()) {
+                p.setBeenDamaged(false);
+            }
+
             try {
 
                 if (matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getStatus().getSpecialAbility() == AbilityStatus.ADRENALINE_SHOOT) {
@@ -480,6 +488,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             } catch (NotAllowedTargetException e) {
                 matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).setPosition(temp);
                 throw new NotAllowedTargetException(e.getMessage());
+            }
+
+            for (PowerUp powerUp : matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPowerUps()) {
+                if (powerUp != null && powerUp.getName().equals(PowerUpName.TARGETING_SCOPE)) {
+                    for (InterfaceClientControllerRMI clientController : clientControllers) {
+                        if (clientController.getNickname().equals(matchController.getMatch().getCurrentPlayer().getNickname())) {
+                            clientController.askForTargetingScope();
+                            break;
+                        }
+                    }
+                }
             }
 
             pushMatchToAllPlayers();
@@ -815,4 +834,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         else
             throw new RemoteException("You cannot close a timer");
     }
+
+
 }
