@@ -95,13 +95,22 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         if(mainPage != null) {
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
-                this.match = match;
                 senderRemoteController.setMatch(match);
+                this.match = match;
                 mainPage.refreshPlayersPosition();
                 mainPage.refreshPoints();
-                if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
+                if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)){
                     mainPage.setFrenzyMode(true);
+                    mainPage.frenzyButtonBoosted();
                     //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE ?
+                    System.out.println("Frenzy iniziata\n");
+                    System.out.println("Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getRoundStatus());
+
+                }
+
+                if (match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)){
+                    mainPage.setFrenzyMode(true);
+                    mainPage.frenzyButtonLower();
                 }
             });
         }

@@ -146,14 +146,14 @@ public class Action1Boosted extends Application {
         VBox vbox = new VBox(5);
 
 //+++++++++++// move
-        Label title1 = new Label(" Move Section ");
-        HBox hBox1 = new HBox(5);
+        Label title0 = new Label(" Move Section ");
+        HBox hBox0 = new HBox(5);
         Label label1 = new Label();
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
-        hBox1.getChildren().addAll(label1,posX);
-        hBox1.setAlignment(Pos.CENTER);
+        hBox0.getChildren().addAll(label1,posX);
+        hBox0.setAlignment(Pos.CENTER);
 
         HBox hBox2 = new HBox(5);
         Label label2 = new Label();
@@ -162,7 +162,7 @@ public class Action1Boosted extends Application {
         posY.getItems().addAll(0,1,2);
         hBox2.getChildren().addAll(label2,posY);
         hBox2.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(title1,hBox1,hBox2);
+        vbox.getChildren().addAll(title0,hBox0,hBox2);
 
 
 //+++++++++++// reload
@@ -390,6 +390,8 @@ public class Action1Boosted extends Application {
         Button makeActionButton = new Button(" Make Action ");
         makeActionButton.setOnAction(e -> {
             try {
+                ShootingParametersClient in = new ShootingParametersClient();
+                setInput(in);
                 fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
                 fillWholeInput(posX.getValue(),posY.getValue());
                 wholeStage.close();
@@ -616,4 +618,7 @@ public class Action1Boosted extends Application {
         this.senderRemoteController = senderRemoteController;
     }
 
+    public void setInput(ShootingParametersClient input) {
+        this.input = input;
+    }
 }

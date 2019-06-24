@@ -395,6 +395,8 @@ public class Action1Lower extends Application {
         Button makeActionButton = new Button(" Make Action ");
         makeActionButton.setOnAction(e -> {
             try {
+                ShootingParametersClient in = new ShootingParametersClient();
+                setInput(in);
                 fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
                 fillWholeInput(posX.getValue(),posY.getValue());
                 wholeStage.close();
@@ -621,5 +623,7 @@ public class Action1Lower extends Application {
         this.senderRemoteController = senderRemoteController;
     }
 
-
+    public void setInput(ShootingParametersClient input) {
+        this.input = input;
+    }
 }
