@@ -854,7 +854,11 @@ public class MatchController{
                 p.setPlayerMoodFrenzy(true);
 
         }
+
         System.out.println("Finito di settare le abilitè dei player frenzy");
+        for (Player p: match.getPlayers()){
+            System.out.println(p.getNickname() + " status "+p.getStatus().getSpecialAbility());
+        }
 
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionFrenzy();
@@ -881,12 +885,28 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION_FRENZY:
+                if (match.getCurrentPlayer().getId()==(match.getPlayers().size()-1)){
+                    match.setCurrentPlayer(match.getPlayers().get(0));
+                }
+                else {
+                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
+                }
                 p.getStatus().setTurnStatusEndGame();
+                goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
+                if (match.getCurrentPlayer().getId()!=(match.getPlayers().size()-1)){
+                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
+
+                }
+                else {
+                    match.setCurrentPlayer(match.getPlayers().get(0));
+                }
                 p.getStatus().setTurnStatusEndGame();
+                goToNextStatusFrenzy(match.getCurrentPlayer());
+                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
     }
