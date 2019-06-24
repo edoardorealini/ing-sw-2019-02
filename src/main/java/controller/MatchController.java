@@ -1468,20 +1468,20 @@ public class MatchController{
 
     }
 
-    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction3Frenzy(Square destination,int numbOfWeaponToGrab,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,2);
                 if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
                     if (destination.getType().equals(SquareType.SPAWN)){
-                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                        grabController.grabWeapon(destination.getAvailableWeapons().get(numbOfWeaponToGrab), indexOfWeaponToSwap);
                     }
                     else grabController.grabAmmoCard();
                 }
                 else{
                     if (destination.getType().equals(SquareType.SPAWN)){
-                        grabController.grabWeapon(wp, -1);
+                        grabController.grabWeapon(destination.getAvailableWeapons().get(numbOfWeaponToGrab), -1);
                     }
                     else grabController.grabAmmoCard();
                 }
@@ -1495,20 +1495,20 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to execute Action 3 now, you must wait for your turn");
     }
 
-    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction2FrenzyLower(Square destination,int numbOfWeaponToGrab ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
             try {
                 moveController.move(player,destination,3);
                 if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
                     if (destination.getType().equals(SquareType.SPAWN)){
-                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                        grabController.grabWeapon(destination.getAvailableWeapons().get(numbOfWeaponToGrab), indexOfWeaponToSwap);
                     }
                     else grabController.grabAmmoCard();
                 }
                 else{
                     if (destination.getType().equals(SquareType.SPAWN)){
-                        grabController.grabWeapon(wp, -1);
+                        grabController.grabWeapon(destination.getAvailableWeapons().get(numbOfWeaponToGrab), -1);
                     }
                     else grabController.grabAmmoCard();
                 }

@@ -332,12 +332,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         serverController.makeAction2Frenzy(posX,posY, this.hashedNickname);
     }
 
-    public void makeAction3Frenzy(int posX, int posY, Weapon wp, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
-        serverController.makeAction3Frenzy(posX,posY, wp, this.hashedNickname, indexOfWeaponToSwap);
+    public void makeAction3Frenzy(int posX, int posY, int numbOfWeaponToGrab, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
+        serverController.makeAction3Frenzy(posX,posY, numbOfWeaponToGrab, this.hashedNickname, indexOfWeaponToSwap);
     }
 
-    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
-        serverController.makeAction2FrenzyLower(posX,posY,wp, this.hashedNickname, indexOfWeaponToSwap);
+    public void makeAction2FrenzyLower(int posX, int posY, int numbOfWeaponToGrab, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
+        serverController.makeAction2FrenzyLower(posX,posY,numbOfWeaponToGrab, this.hashedNickname, indexOfWeaponToSwap);
     }
 
     @Override
