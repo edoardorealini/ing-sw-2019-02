@@ -104,7 +104,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                     mainPage.frenzyButtonBoosted();
                     //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE ?
                     System.out.println("Frenzy iniziata\n");
-                    System.out.println("Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getRoundStatus());
+                    System.out.println("Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getStatus().getTurnStatus());
 
                 }
 
