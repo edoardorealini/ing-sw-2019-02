@@ -15,11 +15,13 @@ public class ShootingParametersClient implements Serializable {
     private ArrayList<Integer> squaresCoordinates;
     private Directions direction;
     private boolean makeDamageBeforeMove;
+    private ArrayList<Integer> adrenalineMoveIndexes;
 
     public ShootingParametersClient() {
         this.shootModes = new ArrayList<>();
         this.targetPlayers = new ArrayList<>();
         this.squaresCoordinates = new ArrayList<>();
+        this.adrenalineMoveIndexes = new ArrayList<>();
     }
 
 
@@ -71,5 +73,14 @@ public class ShootingParametersClient implements Serializable {
 
     public void setName(WeaponName name) {
         this.name = name;
+    }
+
+    public void setAdrenalineMoveIndexes(int x, int y) {
+        this.adrenalineMoveIndexes.add(x);
+        this.adrenalineMoveIndexes.add(y);
+    }
+
+    public ArrayList<Integer> getAdrenalineMoveIndexes() {
+        return adrenalineMoveIndexes;
     }
 }

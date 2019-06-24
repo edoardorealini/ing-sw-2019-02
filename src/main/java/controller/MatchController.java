@@ -115,7 +115,7 @@ public class MatchController{
                 System.out.println("[INFO]: Map filled with weapons");
 
                 match.getMap().fillAmmo(match.getAmmoDeck());
-                System.out.println("[INFO]: Map filled with ammos");
+                System.out.println("[INFO]: Map filled with ammo");
 
             } else
                 throw new WrongValueException("Not a valid mapID");
@@ -160,7 +160,7 @@ public class MatchController{
     }
 
 
-    public synchronized int getMaxDistanceAllowed(Player player){
+    public synchronized int getMaxDistanceAllowed(Player player) {
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
         if(abilityStatus.equals(AbilityStatus.NORMAL) || abilityStatus.equals(AbilityStatus.ADRENALINE_PICK) || abilityStatus.equals(AbilityStatus.ADRENALINE_SHOOT))
             return 3;
@@ -171,7 +171,7 @@ public class MatchController{
     }
 
     //the first spawn always occurs when a pleyer is the current player.
-    public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException{
+    public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException {
         if(!user.hasPowerUp(powerUpChosen))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
 
@@ -330,7 +330,7 @@ public class MatchController{
             if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.NORMAL))
                 moveController.move(match.getCurrentPlayer(), destination, 1);
 
-            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK))
+            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK) || match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_SHOOT))
                 moveController.move(match.getCurrentPlayer(), destination, 2);
         } catch (NotAllowedMoveException e) {
             e.printStackTrace();
@@ -854,7 +854,11 @@ public class MatchController{
                 p.setPlayerMoodFrenzy(true);
 
         }
+
         System.out.println("Finito di settare le abilitè dei player frenzy");
+        for (Player p: match.getPlayers()){
+            System.out.println(p.getNickname() + " status "+p.getStatus().getSpecialAbility());
+        }
 
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionFrenzy();
@@ -881,12 +885,28 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION_FRENZY:
+                if (match.getCurrentPlayer().getId()==(match.getPlayers().size()-1)){
+                    match.setCurrentPlayer(match.getPlayers().get(0));
+                }
+                else {
+                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
+                }
                 p.getStatus().setTurnStatusEndGame();
+                goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
+                if (match.getCurrentPlayer().getId()!=(match.getPlayers().size()-1)){
+                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
+
+                }
+                else {
+                    match.setCurrentPlayer(match.getPlayers().get(0));
+                }
                 p.getStatus().setTurnStatusEndGame();
+                goToNextStatusFrenzy(match.getCurrentPlayer());
+                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
     }
@@ -1236,6 +1256,7 @@ public class MatchController{
                 board.increaseNumberOfDeaths();
 
                 p.falseDead();
+                p.getStatus().setSpecialAbilityNormal();
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
@@ -1447,12 +1468,23 @@ public class MatchController{
 
     }
 
-    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,2);
-                grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                    }
+                    else grabController.grabAmmoCard();
+                }
+                else{
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, -1);
+                    }
+                    else grabController.grabAmmoCard();
+                }
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();
@@ -1463,12 +1495,23 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to execute Action 3 now, you must wait for your turn");
     }
 
-    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
             try {
                 moveController.move(player,destination,3);
-                grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                    }
+                    else grabController.grabAmmoCard();
+                }
+                else{
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, -1);
+                    }
+                    else grabController.grabAmmoCard();
+                }
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();

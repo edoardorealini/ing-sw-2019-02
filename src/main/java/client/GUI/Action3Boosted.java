@@ -26,13 +26,13 @@ import static model.map.SquareType.SPAWN;
 
 public class Action3Boosted extends Application {
     private Match match;
-    private Weapon wp;
+    private Weapon wp=null;
     private SenderClientRemoteController senderRemoteController;
+    private int numberOfWeapon=0;
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Frenzy Action");
         VBox vbox = new VBox(5);
-        setWp(null);
 
         //move
         Label title1 = new Label(" Move Section ");
@@ -53,6 +53,17 @@ public class Action3Boosted extends Application {
         hBox2.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(title1,hBox1,hBox2);
 
+        Label label3 = new Label("Chose the index of the weapon to relplace");
+        ChoiceBox<Integer> indexOfWeapon = new ChoiceBox();
+        indexOfWeapon.getItems().addAll(0,1,2);
+        indexOfWeapon.setValue(0);
+        for (int i = 0; i<3; i++){
+            if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[i]!=null) numberOfWeapon++;
+        }
+        if (numberOfWeapon==3){
+            vbox.getChildren().addAll(label3,indexOfWeapon);
+        }
+
         // grab
         Label title2 = new Label(" Grab Section ");
         Button buttonGrab = new Button(" Grab ");
@@ -61,19 +72,22 @@ public class Action3Boosted extends Application {
                 if (match.getMap().getSquareFromIndex(posX.getValue(),posY.getValue()).getType()==SPAWN){
                     choseWeaponGood(posX.getValue(),posY.getValue());
                     try {
-                        senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp);
+                        if (numberOfWeapon==3){
+                            senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp,indexOfWeapon.getValue());
+                        }
+                        else senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp,-1);
                         primaryStage.close();
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (WrongStatusException ex) {
                         ex.printStackTrace();
@@ -82,18 +96,18 @@ public class Action3Boosted extends Application {
                 }
                 else {
                     try {
-                        senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp);
+                        senderRemoteController.makeAction3Frenzy(posX.getValue(),posY.getValue(),wp,-1);
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (WrongStatusException ex) {
                         ex.printStackTrace();
@@ -113,6 +127,7 @@ public class Action3Boosted extends Application {
     }
 
     public void choseWeaponGood(int x, int y){
+        // fa scegliere l'arma della grab
         Stage stage = new Stage();
         stage.setTitle("Chose your weapon");
         SplitPane splitPane = new SplitPane();

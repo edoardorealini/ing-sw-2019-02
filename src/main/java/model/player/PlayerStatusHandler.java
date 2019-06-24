@@ -15,7 +15,7 @@ public class PlayerStatusHandler  implements Serializable {
 
 // metodi set per SpecialAbility
 
-    public AbilityStatus getSpecialAbility(){
+    public AbilityStatus getSpecialAbility() {
         return specialAbility;
     }
 
