@@ -21,8 +21,6 @@ public class Player implements Serializable{
     private PowerUp[] powerUps = {null, null, null};
     private int points;
     private PlayerStatusHandler status;
-    private RoundStatus roundStatus;
-    private AbilityStatus abilityStatus;
     private boolean askForTagBackGrenade;
     private boolean dead;
     private Match match;
@@ -356,12 +354,5 @@ public class Player implements Serializable{
         return playerMoodFrenzy;
     }
 
-    public AbilityStatus getAbilityStatus() {
-        return abilityStatus;
-    }
-
-    public RoundStatus getRoundStatus() {
-        return roundStatus;
-    }
 
 }
