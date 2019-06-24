@@ -33,11 +33,11 @@ import java.util.*;
 //this is the class that generates the remote object, called by the client!
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
 
-    private InputConverter converter;
-    private MatchController matchController;
+    private transient InputConverter converter;
+    private transient MatchController matchController;
     private ArrayList<InterfaceClientControllerRMI> clientControllers; //todo better implementation with a Map!
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
-    private Timer timeout;
+    private transient Timer timeout;
     private boolean timerStatus = false;
     private int lobbyDuration;
     private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"

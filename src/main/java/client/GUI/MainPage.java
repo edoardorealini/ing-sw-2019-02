@@ -882,39 +882,6 @@ public class MainPage extends Application {
         hBoxImages.setSpacing(10);
         hBoxButtons.setSpacing(100);
 
-        pow1.setOnAction(event -> {
-            try {
-                remoteController.usePowerUpAsAmmo(0);
-                powAsAmmoStage.close();
-                powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        pow2.setOnAction(event -> {
-            try {
-                remoteController.usePowerUpAsAmmo(1);
-                powAsAmmoStage.close();
-                powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        pow3.setOnAction(event -> {
-            try {
-                remoteController.usePowerUpAsAmmo(2);
-                powAsAmmoStage.close();
-                powerUpAsAmmoActive = false;
-            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0]!=null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
@@ -929,6 +896,17 @@ public class MainPage extends Application {
             a = 1;
         }
 
+        pow1.setOnAction(event -> {
+            try {
+                remoteController.usePowerUpAsAmmo(0);
+                powAsAmmoStage.close();
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1]!=null){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
@@ -942,6 +920,17 @@ public class MainPage extends Application {
             b = 1;
         }
 
+        pow2.setOnAction(event -> {
+            try {
+                remoteController.usePowerUpAsAmmo(1);
+                powAsAmmoStage.close();
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2]!=null){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
@@ -954,6 +943,18 @@ public class MainPage extends Application {
             hBoxImages.getChildren().add(iv2);
             c = 1;
         }
+
+        pow3.setOnAction(event -> {
+            try {
+                remoteController.usePowerUpAsAmmo(2);
+                powAsAmmoStage.close();
+                powerUpAsAmmoActive = false;
+            } catch (NotInYourPossessException | RemoteException | NotAllowedCallException e) {
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
 
 
         Scene scene = new Scene(vBoxPage, (300*(a+b+c)), 400);
@@ -1323,7 +1324,7 @@ public class MainPage extends Application {
             imagesHBox.getChildren().add(iv2);
         }
 
-        Scene scene = new Scene(vBoxPage, (300 * (first + second + third)), 400);
+        Scene scene = new Scene(vBoxPage, (300 * (first + second + third)), 550);
         targetingScopeStage.setScene(scene);
 
         targetingScopeStage.setOnCloseRequest(event -> targetingScopeStage.close());

@@ -8,11 +8,11 @@ import model.ShootingParametersInput;
 import model.map.Directions;
 import model.map.Square;
 import model.player.Player;
-import model.powerup.PowerUp;
 import model.weapons.Effect;
 import model.weapons.Weapon;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class ShootController{
 
@@ -21,6 +21,8 @@ public class ShootController{
     private Match match;
     private MoveController moveController;
     private ShootingParametersInput input;
+    private String paymentErrorMessage = "It seems you don't have enough ammo";
+    private String notValidTarget = "The selected target is not valid";
 
     //getter methods
 
@@ -78,7 +80,7 @@ public class ShootController{
 
 
         if (actualRedAmmo - r < 0 || actualBlueAmmo - b < 0 || actualYellowAmmo - y < 0)
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
 
     }
 
@@ -111,46 +113,18 @@ public class ShootController{
         getCurrPlayer().removeAmmo(r, b, y);
     }
 
-    private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
-        //this method return true if the current player can pay with power ups, so that maybe we can ask him if he wants to or not
-
-        int r = 0;
-        int b = 0;
-        int y = 0;
-
-        for (PowerUp pow : match.getCurrentPlayer().getPowerUps()) {
-            if (pow != null) {
-                switch (pow.getColor()) {
-                    case RED:
-                        r++;
-                        break;
-                    case BLUE:
-                        b++;
-                        break;
-                    case YELLOW:
-                        y++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
-    }
-
     private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
         //this method checks if the visibility required by the weapon is respected
         if (eff.getMoveTarget() != 0 || eff.getMoveYourself() != 0)
             return;
         if (eff.needVisibleTarget() != visibilityBetweenPlayers(player1, player2))
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
     }
 
     private void checkAllowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
         //this method checks if the distance required by the weapon is respected
         if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) < eff.getMinShootDistance())
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
 
     }
 
@@ -167,7 +141,7 @@ public class ShootController{
             }
 
             if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) != k)
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
 
         }
     }
@@ -187,7 +161,7 @@ public class ShootController{
             if (match.getMap().getAllowedSquaresInDirection(direction, player1.getPosition()).contains(square)) {
                 return;
             } else {
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }
         }
 
@@ -202,7 +176,7 @@ public class ShootController{
                 return;
         }
 
-        throw new NotAllowedTargetException("Not valid target");
+        throw new NotAllowedTargetException(notValidTarget);
     }
 
     private void checkSameDirectionThroughWalls(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
@@ -211,7 +185,7 @@ public class ShootController{
             if (match.getMap().getAllSquaresInDirection(direction, player1.getPosition()).contains(square)) {
                 return;
             } else {
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }
         }
 
@@ -226,12 +200,12 @@ public class ShootController{
                 return;
         }
 
-        throw new NotAllowedTargetException("Not valid target");
+        throw new NotAllowedTargetException(notValidTarget);
     }
 
     private void checkDifferentRoom(Square s1, Square s2) throws NotAllowedTargetException {
         if (s1.getColor() == s2.getColor())
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
     }
 
     public void setInput (ShootingParametersInput input1) {
@@ -269,7 +243,7 @@ public class ShootController{
                     checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 } catch (NotAllowedTargetException e) {
                     e.printStackTrace();
-                    throw new NotAllowedTargetException("Not valid target");
+                    throw new NotAllowedTargetException(notValidTarget);
                 }
             }
         }
@@ -277,7 +251,7 @@ public class ShootController{
         try {
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
 
@@ -291,7 +265,7 @@ public class ShootController{
                 try {
                     eff.executeEffect(match, moveController, input);
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -317,13 +291,13 @@ public class ShootController{
                 checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
 
         try {
             eff.executeEffect(match, moveController, input);
         } catch (Exception e){
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
         }
 
     }
@@ -338,7 +312,7 @@ public class ShootController{
                         checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                     } catch (NotAllowedTargetException e) {
                         e.printStackTrace();
-                        throw new NotAllowedTargetException("Not valid target");
+                        throw new NotAllowedTargetException(notValidTarget);
                     }
                 }
             }
@@ -347,7 +321,7 @@ public class ShootController{
         try {
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -388,14 +362,14 @@ public class ShootController{
                 checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }
         }
 
         try {
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
 
@@ -409,7 +383,7 @@ public class ShootController{
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -434,7 +408,7 @@ public class ShootController{
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException("Move error during shoot");
@@ -446,7 +420,7 @@ public class ShootController{
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
             getCurrPlayer().setPosition(squareTemp);
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
 
@@ -474,7 +448,7 @@ public class ShootController{
                 eff.executeEffect(match, moveController, input);
             }
         } catch(Exception e) {
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
         }
 
     }
@@ -497,7 +471,7 @@ public class ShootController{
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }  catch (NotAllowedMoveException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
                 throw new NotAllowedMoveException("Move error during shoot");
@@ -510,7 +484,7 @@ public class ShootController{
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
         }
 
@@ -557,7 +531,7 @@ public class ShootController{
                             input.getTargets().get(1).setPosition(tempSquare2);
                         if (input.getTargets().size() > 2)
                             input.getTargets().get(2).setPosition(tempSquare3);
-                        throw new NotAllowedTargetException("Not valid target");
+                        throw new NotAllowedTargetException(notValidTarget);
                     } catch (NotAllowedMoveException e) {
                         input.getTargets().get(0).setPosition(tempSquare1);
                         if (input.getTargets().size() > 1)
@@ -579,7 +553,7 @@ public class ShootController{
                 input.getTargets().get(1).setPosition(tempSquare2);
             if (input.getTargets().size() > 2)
                 input.getTargets().get(2).setPosition(tempSquare3);
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -624,7 +598,7 @@ public class ShootController{
                 try {
                     checkDifferentRoom(getCurrPlayer().getPosition(), input.getSquares().get(0));
                 } catch (NotAllowedTargetException e) {
-                    throw new NotAllowedTargetException("Not valid target");
+                    throw new NotAllowedTargetException(notValidTarget);
                 }
 
                 eff = input.getWeapon().getMode(mode).get(0);
@@ -651,7 +625,7 @@ public class ShootController{
                             checkExactDistance(effect, getCurrPlayer(), player);
                             checkCorrectVisibility(effect, getCurrPlayer(), player);
                         } catch (NotAllowedTargetException e){
-                            throw new NotAllowedTargetException("Not valid target");
+                            throw new NotAllowedTargetException(notValidTarget);
                         }
                     }
                 }
@@ -680,7 +654,7 @@ public class ShootController{
             checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
             eff.executeEffect(match, moveController, input);
         } catch(Exception e) {
-            throw new NotAllowedTargetException("Not valid target");
+            throw new NotAllowedTargetException(notValidTarget);
         }
 
     }
@@ -696,13 +670,8 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             for (Player player : input.getTargets()) {
-                try {
-                    checkCorrectVisibility(eff, getCurrPlayer(), player);
-                    checkAllowedDistance(eff, getCurrPlayer(), player);
-                } catch (NotAllowedTargetException e) {
-                    e.printStackTrace();
-                    throw new NotAllowedTargetException("Not valid target");
-                }
+                checkCorrectVisibility(eff, getCurrPlayer(), player);
+                checkAllowedDistance(eff, getCurrPlayer(), player);
             }
         }
 
@@ -712,7 +681,7 @@ public class ShootController{
                 checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
         }
 
@@ -751,7 +720,7 @@ public class ShootController{
                     if (input.getTargets().size() < eff.getSameTarget()) {
                         checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                         if (!input.getSquares().contains(input.getTargets().get(eff.getSameTarget()).getPosition()))
-                            throw new NotAllowedTargetException("Not valid target");
+                            throw new NotAllowedTargetException(notValidTarget);
                     }
                 }
                 for (Effect eff : input.getWeapon().getMode(mode)) {
@@ -769,7 +738,7 @@ public class ShootController{
                     checkPayAmmo(input.getWeapon(), input.getShootModes());
                     payAmmo(input.getWeapon().getModeCost(mode));
                 } catch (NotEnoughAmmoException e) {
-                    throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                    throw new NotEnoughAmmoException(paymentErrorMessage);
                 }
 
                 //execution code
@@ -816,12 +785,8 @@ public class ShootController{
                 try {
                     checkMaximumDistance(eff, mainTarget, moveHerePlayer, eff.getMoveTarget());
                     checkCorrectVisibility(eff, getCurrPlayer(), mainTarget);
-
                 } catch (NotAllowedMoveException e) {
                     throw new  NotAllowedMoveException("Move error during shoot");
-                } catch (NotAllowedTargetException e) {
-                    e.printStackTrace();
-                    throw new NotAllowedTargetException("Not valid target");
                 }
             }
         }
@@ -829,7 +794,7 @@ public class ShootController{
         try {
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -896,7 +861,7 @@ public class ShootController{
                  } catch (NotAllowedTargetException e) {
                      e.printStackTrace();
                      getCurrPlayer().setPosition(squareTemp);
-                     throw new NotAllowedTargetException("Not valid target");
+                     throw new NotAllowedTargetException(notValidTarget);
                  } catch (NotAllowedMoveException e) {
                      getCurrPlayer().setPosition(squareTemp);
                      throw new NotAllowedMoveException("Move error during shoot");
@@ -910,7 +875,7 @@ public class ShootController{
              checkPayAmmo(input.getWeapon(), input.getShootModes());
          } catch (NotEnoughAmmoException e) {
              getCurrPlayer().setPosition(squareTemp);
-             throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+             throw new NotEnoughAmmoException(paymentErrorMessage);
          }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -954,7 +919,7 @@ public class ShootController{
                 checkSameDirectionThroughWalls(getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }
         }
 
@@ -985,7 +950,7 @@ public class ShootController{
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException("Move error during shoot");
@@ -996,7 +961,7 @@ public class ShootController{
             checkPayAmmo(input.getWeapon(), input.getShootModes());
         } catch (NotEnoughAmmoException e) {
             getCurrPlayer().setPosition(squareTemp);
-            throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+            throw new NotEnoughAmmoException(paymentErrorMessage);
         }
 
         for (ShootMode mode : input.getShootModes()) {
@@ -1024,7 +989,7 @@ public class ShootController{
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             }
         }
 
@@ -1050,7 +1015,7 @@ public class ShootController{
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(0));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 throw new NotAllowedMoveException("Move error during shoot");
             }
@@ -1107,7 +1072,7 @@ public class ShootController{
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
                 throw new NotAllowedMoveException("Move error during shoot");
@@ -1120,7 +1085,7 @@ public class ShootController{
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
         }
 
@@ -1159,7 +1124,7 @@ public class ShootController{
                     checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 } catch (NotAllowedTargetException e) {
                     e.printStackTrace();
-                    throw new NotAllowedTargetException("Not valid target");
+                    throw new NotAllowedTargetException(notValidTarget);
                 }
             }
         }
@@ -1169,17 +1134,17 @@ public class ShootController{
                 checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
         }
 
         if (mode == ShootMode.BASIC) {
             for (int i = 0; i < input.getTargets().size() - 1; i++) {
                 if (input.getTargets().get(i).getPosition() == input.getTargets().get(i + 1).getPosition())
-                    throw new NotAllowedTargetException("Not valid target");
+                    throw new NotAllowedTargetException(notValidTarget);
             }
             if (input.getTargets().size() == 3 && input.getTargets().get(0).getPosition() == input.getTargets().get(2).getPosition())
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
         }
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
@@ -1206,7 +1171,7 @@ public class ShootController{
                 checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveTarget());
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
-                throw new NotAllowedTargetException("Not valid target");
+                throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 throw new NotAllowedMoveException("Move error during shoot");
             }
@@ -1224,7 +1189,7 @@ public class ShootController{
                 checkPayAmmo(input.getWeapon(), input.getShootModes());
                 payAmmo(input.getWeapon().getModeCost(mode));
             } catch (NotEnoughAmmoException e) {
-                throw new NotEnoughAmmoException("It seems you don't have enough ammo");
+                throw new NotEnoughAmmoException(paymentErrorMessage);
             }
         }
 
