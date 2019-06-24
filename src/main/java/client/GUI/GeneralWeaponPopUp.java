@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 import model.map.Directions;
+import model.player.AbilityStatus;
 import model.player.Player;
 import model.weapons.Weapon;
 import model.weapons.WeaponAmmoStatus;
@@ -166,20 +167,24 @@ public class GeneralWeaponPopUp extends Application {
         VBox vBox = new VBox();
         splitPane.getItems().addAll(iv,vBox);
 
-        HBox modesHbox = new HBox();
-        HBox targetHbox = new HBox();
-        HBox squaresHbox = new HBox();
-        HBox squaresHbox1 = new HBox();
+        HBox modesHBox = new HBox();
+        HBox targetHBox = new HBox();
+        HBox squaresHBox = new HBox();
+        HBox squaresHBox1 = new HBox();
+        HBox squaresAdrenaline = new HBox();
 
         Label shootingMode = new Label("Select the shooting modes: ");
         Label targets = new Label("Select the targets: ");
         Label squares = new Label("Select the squares by indexes (NB: in case of more than one, the first is where you want to move the target): ");
         Label direction = new Label("Select the direction: ");
         Label damageBeforeMove = new Label("Do you want to execute the optional effect before moving the target? ");
+        Label adrenalineMode = new Label("Do you want to use the adrenaline power and move before shooting? ");
         Label x = new Label("X: ");
         Label y = new Label("Y: ");
         Label x2 = new Label("X: ");
         Label y2 = new Label("Y: ");
+        Label xAdrenaline = new Label("X: ");
+        Label yAdrenaline = new Label("Y: ");
         Label emptySpace = new Label(" ");
         Label emptySpace1 = new Label(" ");
 
@@ -193,6 +198,8 @@ public class GeneralWeaponPopUp extends Application {
         ChoiceBox<Integer> xSquare2 = new ChoiceBox<>();
         ChoiceBox<Integer> ySquare1 = new ChoiceBox<>();
         ChoiceBox<Integer> ySquare2 = new ChoiceBox<>();
+        ChoiceBox<Integer> xSquareAdrenaline = new ChoiceBox<>();
+        ChoiceBox<Integer> ySquareAdrenaline = new ChoiceBox<>();
         ChoiceBox<Directions> directionBox = new ChoiceBox<>();
         ChoiceBox<Boolean> damageBeforeMoveBox = new ChoiceBox<>();
         ArrayList<ChoiceBox<ShootMode>> modes = new ArrayList<>();
@@ -208,7 +215,7 @@ public class GeneralWeaponPopUp extends Application {
             case 1:
                 choiceBoxEffect.getItems().add(ShootMode.BASIC);
                 choiceBoxEffect.setValue(ShootMode.BASIC);
-                modesHbox.getChildren().add(choiceBoxEffect);
+                modesHBox.getChildren().add(choiceBoxEffect);
                 modes.add(choiceBoxEffect);
                 break;
 
@@ -216,7 +223,7 @@ public class GeneralWeaponPopUp extends Application {
                 choiceBoxEffect.getItems().add(ShootMode.BASIC);
                 choiceBoxEffect.getItems().add(ShootMode.ALTERNATE);
                 choiceBoxEffect.setValue(ShootMode.BASIC);
-                modesHbox.getChildren().add(choiceBoxEffect);
+                modesHBox.getChildren().add(choiceBoxEffect);
                 modes.add(choiceBoxEffect);
                 break;
 
@@ -226,7 +233,7 @@ public class GeneralWeaponPopUp extends Application {
                 choiceBoxEffect.setValue(ShootMode.BASIC);
                 choiceBoxEffectOpt1.getItems().add(ShootMode.BASIC);
                 choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL1);
-                modesHbox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1);
+                modesHBox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1);
                 modes.add(choiceBoxEffect);
                 modes.add(choiceBoxEffectOpt1);
                 break;
@@ -242,7 +249,7 @@ public class GeneralWeaponPopUp extends Application {
                 choiceBoxEffectOpt2.getItems().add(ShootMode.BASIC);
                 choiceBoxEffectOpt2.getItems().add(ShootMode.OPTIONAL1);
                 choiceBoxEffectOpt2.getItems().add(ShootMode.OPTIONAL2);
-                modesHbox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1, choiceBoxEffectOpt2);
+                modesHBox.getChildren().addAll(choiceBoxEffect, choiceBoxEffectOpt1, choiceBoxEffectOpt2);
                 modes.add(choiceBoxEffect);
                 modes.add(choiceBoxEffectOpt1);
                 modes.add(choiceBoxEffectOpt2);
@@ -252,7 +259,7 @@ public class GeneralWeaponPopUp extends Application {
                 break;
         }
 
-        vBox.getChildren().add(modesHbox);
+        vBox.getChildren().add(modesHBox);
 
 
         //here it is build the hbox containing the targets
@@ -263,7 +270,7 @@ public class GeneralWeaponPopUp extends Application {
             case 1:
                 vBox.getChildren().add(targets);
                 fillChoiceBoxName(target1);
-                targetHbox.getChildren().add(target1);
+                targetHBox.getChildren().add(target1);
                 targetPlayers.add(target1);
                 break;
 
@@ -271,7 +278,7 @@ public class GeneralWeaponPopUp extends Application {
                 vBox.getChildren().add(targets);
                 fillChoiceBoxName(target1);
                 fillChoiceBoxName(target2);
-                targetHbox.getChildren().addAll(target1, target2);
+                targetHBox.getChildren().addAll(target1, target2);
                 targetPlayers.add(target1);
                 targetPlayers.add(target2);
                 break;
@@ -281,7 +288,7 @@ public class GeneralWeaponPopUp extends Application {
                 fillChoiceBoxName(target1);
                 fillChoiceBoxName(target2);
                 fillChoiceBoxName(target3);
-                targetHbox.getChildren().addAll(target1, target2, target3);
+                targetHBox.getChildren().addAll(target1, target2, target3);
                 targetPlayers.add(target1);
                 targetPlayers.add(target2);
                 targetPlayers.add(target3);
@@ -291,7 +298,7 @@ public class GeneralWeaponPopUp extends Application {
                 break;
         }
 
-        vBox.getChildren().add(targetHbox);
+        vBox.getChildren().add(targetHBox);
 
 
         //here it is build the hbox containing the squares
@@ -303,7 +310,7 @@ public class GeneralWeaponPopUp extends Application {
                 vBox.getChildren().add(squares);
                 setX(xSquare1);
                 setY(ySquare1);
-                squaresHbox.getChildren().addAll(x, xSquare1, y, ySquare1);
+                squaresHBox.getChildren().addAll(x, xSquare1, y, ySquare1);
                 arraySquares.add(xSquare1);
                 arraySquares.add(ySquare1);
                 break;
@@ -314,8 +321,8 @@ public class GeneralWeaponPopUp extends Application {
                 setY(ySquare1);
                 setX(xSquare2);
                 setY(ySquare2);
-                squaresHbox.getChildren().addAll(x, xSquare1, y, ySquare1);
-                squaresHbox1.getChildren().addAll(x2, xSquare2, y2, ySquare2);
+                squaresHBox.getChildren().addAll(x, xSquare1, y, ySquare1);
+                squaresHBox1.getChildren().addAll(x2, xSquare2, y2, ySquare2);
                 arraySquares.add(xSquare1);
                 arraySquares.add(ySquare1);
                 arraySquares.add(xSquare2);
@@ -326,10 +333,10 @@ public class GeneralWeaponPopUp extends Application {
                 break;
         }
 
-        vBox.getChildren().add(squaresHbox);
+        vBox.getChildren().add(squaresHBox);
 
         if (weapon.getRequiredParameters().getNumberOfSquares() == 2)
-            vBox.getChildren().add(squaresHbox1);
+            vBox.getChildren().add(squaresHBox1);
 
         if (weapon.getRequiredParameters().needToKnowDirection()) {
             vBox.getChildren().add(direction);
@@ -345,6 +352,14 @@ public class GeneralWeaponPopUp extends Application {
             vBox.getChildren().add(damageBeforeMoveBox);
         }
 
+        if (match.getPlayer(senderRemoteController.getNickname()).getStatus().getSpecialAbility() == AbilityStatus.ADRENALINE_SHOOT) {
+            vBox.getChildren().add(adrenalineMode);
+            setX(xSquareAdrenaline);
+            setY(ySquareAdrenaline);
+            squaresAdrenaline.getChildren().addAll(xAdrenaline, xSquareAdrenaline, yAdrenaline, ySquareAdrenaline);
+            vBox.getChildren().add(squaresAdrenaline);
+        }
+
 
         //building the button and setting the action
         Button shootButton = new Button(" SHOOT ");
@@ -352,7 +367,7 @@ public class GeneralWeaponPopUp extends Application {
         shootButton.setAlignment(Pos.CENTER);
         shootButton.setOnAction(event -> {
             try {
-                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
+                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox, xSquareAdrenaline, ySquareAdrenaline);
                 shootStage.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -364,14 +379,14 @@ public class GeneralWeaponPopUp extends Application {
         vBox.getChildren().addAll(emptySpace, emptySpace1, shootButton);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(8);
-        targetHbox.setAlignment(Pos.CENTER);
-        modesHbox.setAlignment(Pos.CENTER);
-        squaresHbox.setAlignment(Pos.CENTER);
-        squaresHbox1.setAlignment(Pos.CENTER);
-        targetHbox.setSpacing(8);
-        modesHbox.setSpacing(8);
-        squaresHbox.setSpacing(8);
-        squaresHbox1.setSpacing(8);
+        targetHBox.setAlignment(Pos.CENTER);
+        modesHBox.setAlignment(Pos.CENTER);
+        squaresHBox.setAlignment(Pos.CENTER);
+        squaresHBox1.setAlignment(Pos.CENTER);
+        targetHBox.setSpacing(8);
+        modesHBox.setSpacing(8);
+        squaresHBox.setSpacing(8);
+        squaresHBox1.setSpacing(8);
 
         Scene scene = new Scene(splitPane,700,400);
         shootStage.setScene(scene);
@@ -410,7 +425,7 @@ public class GeneralWeaponPopUp extends Application {
     }
 
     private void fillInput(ArrayList<ChoiceBox<ShootMode>> modes, ArrayList<ChoiceBox<String>> targetPlayers, ArrayList<ChoiceBox<Integer>> arraySquares,
-                          ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMoveBox) throws NotAllowedShootingModeException, NotAllowedTargetException {
+                          ChoiceBox<Directions> direction, ChoiceBox<Boolean> damageBeforeMoveBox, ChoiceBox<Integer> xSquareAdrenaline, ChoiceBox<Integer> ySquareAdrenaline) throws NotAllowedShootingModeException, NotAllowedTargetException {
 
         input.setName(weapon.getName());
 
@@ -460,11 +475,17 @@ public class GeneralWeaponPopUp extends Application {
             input.setSquaresCoordinates(x, y);
         }
 
-        if(direction != null)
+        if (direction != null)
             input.setDirection(direction.getValue());
 
-        if(damageBeforeMoveBox != null && input != null)
+        if (damageBeforeMoveBox != null && input != null)
             input.setMakeDamageBeforeMove(damageBeforeMoveBox.getValue());
+
+        if (match.getPlayer(senderRemoteController.getNickname()).getStatus().getSpecialAbility() == AbilityStatus.ADRENALINE_SHOOT) {
+            x = xSquareAdrenaline.getValue();
+            y = ySquareAdrenaline.getValue();
+            input.setAdrenalineMoveIndexes(x, y);
+        }
 
 
         try {

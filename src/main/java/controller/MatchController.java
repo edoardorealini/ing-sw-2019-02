@@ -115,7 +115,7 @@ public class MatchController{
                 System.out.println("[INFO]: Map filled with weapons");
 
                 match.getMap().fillAmmo(match.getAmmoDeck());
-                System.out.println("[INFO]: Map filled with ammos");
+                System.out.println("[INFO]: Map filled with ammo");
 
             } else
                 throw new WrongValueException("Not a valid mapID");
@@ -160,7 +160,7 @@ public class MatchController{
     }
 
 
-    public synchronized int getMaxDistanceAllowed(Player player){
+    public synchronized int getMaxDistanceAllowed(Player player) {
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
         if(abilityStatus.equals(AbilityStatus.NORMAL) || abilityStatus.equals(AbilityStatus.ADRENALINE_PICK) || abilityStatus.equals(AbilityStatus.ADRENALINE_SHOOT))
             return 3;
@@ -171,7 +171,7 @@ public class MatchController{
     }
 
     //the first spawn always occurs when a pleyer is the current player.
-    public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException{
+    public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException {
         if(!user.hasPowerUp(powerUpChosen))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
 
@@ -330,7 +330,7 @@ public class MatchController{
             if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.NORMAL))
                 moveController.move(match.getCurrentPlayer(), destination, 1);
 
-            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK))
+            if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_PICK) || match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.ADRENALINE_SHOOT))
                 moveController.move(match.getCurrentPlayer(), destination, 2);
         } catch (NotAllowedMoveException e) {
             e.printStackTrace();
@@ -1230,6 +1230,7 @@ public class MatchController{
                 board.increaseNumberOfDeaths();
 
                 p.falseDead();
+                p.getStatus().setSpecialAbilityNormal();
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
