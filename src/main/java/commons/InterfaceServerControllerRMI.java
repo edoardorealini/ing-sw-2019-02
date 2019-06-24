@@ -71,9 +71,9 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
 
-    void makeAction3Frenzy(int posX, int posY, Weapon wp, int clientHashedID, int indexOfWeaponToSwap) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
+    void makeAction3Frenzy(int posX, int posY, int numbOfWeaponToGrab, int clientHashedID, int indexOfWeaponToSwap) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
 
-    void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int clientHashedID, int indexOfWeaponToSwap) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
+    void makeAction2FrenzyLower(int posX, int posY, int numbOfWeaponToGrab, int clientHashedID, int indexOfWeaponToSwap) throws RemoteException, NotAllowedMoveException, NotAllowedCallException, WrongStatusException;
 
     void askForTagBackGrenade(String nickname) throws RemoteException;
 
