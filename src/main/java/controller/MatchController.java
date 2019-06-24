@@ -1447,12 +1447,15 @@ public class MatchController{
 
     }
 
-    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction3Frenzy(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,2);
-                grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
+                    grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                else
+                    grabController.grabWeapon(wp, -1);
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();
@@ -1463,12 +1466,15 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to execute Action 3 now, you must wait for your turn");
     }
 
-    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player) throws NotAllowedMoveException, WrongStatusException {
+    public void makeAction2FrenzyLower(Square destination,Weapon wp ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
             try {
                 moveController.move(player,destination,3);
-                grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
+                    grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                else
+                    grabController.grabWeapon(wp, -1);
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();

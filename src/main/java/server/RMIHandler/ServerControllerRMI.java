@@ -696,10 +696,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
+    public void makeAction3Frenzy(int posX, int posY, Weapon wp ,int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.makeAction3Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            matchController.makeAction3Frenzy(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)), indexOfWeaponToSwap);
             try {
                 pushMatchToAllPlayers();
             } catch (RemoteException e) {
@@ -713,10 +713,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
+    public void makeAction2FrenzyLower(int posX, int posY, Weapon wp, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
-            matchController.makeAction2FrenzyLower(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            matchController.makeAction2FrenzyLower(matchController.getMap().getSquareFromIndex(posX, posY), wp ,matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)), indexOfWeaponToSwap);
             try {
                 pushMatchToAllPlayers();
             } catch (RemoteException e) {
