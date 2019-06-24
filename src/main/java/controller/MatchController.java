@@ -1452,10 +1452,18 @@ public class MatchController{
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,2);
-                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
-                    grabController.grabWeapon(wp, indexOfWeaponToSwap);
-                else
-                    grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                    }
+                    else grabController.grabAmmoCard();
+                }
+                else{
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, -1);
+                    }
+                    else grabController.grabAmmoCard();
+                }
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();
@@ -1471,10 +1479,18 @@ public class MatchController{
         if (canDoActionFrenzyLower()){
             try {
                 moveController.move(player,destination,3);
-                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3)
-                    grabController.grabWeapon(wp, indexOfWeaponToSwap);
-                else
-                    grabController.grabWeapon(wp, -1);
+                if (indexOfWeaponToSwap >= 0 && indexOfWeaponToSwap < 3){
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, indexOfWeaponToSwap);
+                    }
+                    else grabController.grabAmmoCard();
+                }
+                else{
+                    if (destination.getType().equals(SquareType.SPAWN)){
+                        grabController.grabWeapon(wp, -1);
+                    }
+                    else grabController.grabAmmoCard();
+                }
                 goToNextStatusFrenzy(player);
             } catch (NotAllowedMoveException | WrongPositionException | NotEnoughAmmoException | NotAllowedCallException e) {
                 e.printStackTrace();

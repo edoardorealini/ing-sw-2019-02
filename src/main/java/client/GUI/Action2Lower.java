@@ -82,15 +82,15 @@ public class Action2Lower extends Application {
                         primaryStage.close();
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (WrongStatusException ex) {
                         ex.printStackTrace();
@@ -102,15 +102,15 @@ public class Action2Lower extends Application {
                         senderRemoteController.makeAction2FrenzyLower(posX.getValue(),posY.getValue(),wp,-1);
                     } catch (NotAllowedMoveException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (RemoteException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (NotAllowedCallException ex) {
                         ex.printStackTrace();
-                        PopUpSceneMethod.display("SHOOTING ERROR", ex.getMessage());
+                        PopUpSceneMethod.display("GRAB ERROR", ex.getMessage());
                         primaryStage.close();
                     } catch (WrongStatusException ex) {
                         ex.printStackTrace();
