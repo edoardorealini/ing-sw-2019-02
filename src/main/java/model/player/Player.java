@@ -1,5 +1,6 @@
 package model.player;
 
+import model.Color;
 import model.Match;
 import model.ammo.AmmoCard;
 import model.weapons.Weapon;
@@ -22,6 +23,7 @@ public class Player implements Serializable{
     private int points;
     private PlayerStatusHandler status;
     private boolean askForTagBackGrenade;
+    private boolean beenDamaged;      //for targeting scope
     private boolean dead;
     private Match match;
     private Boolean playerMoodFrenzy = false; // only for the lifeboard GUI
@@ -35,7 +37,8 @@ public class Player implements Serializable{
         this.ammo = new Ammo();
         this.points = 0;
         this.status = new PlayerStatusHandler();
-        dead = false;
+        this.dead = false;
+        this.beenDamaged = false;
         this.match = match;
         powerUps[0] = match.getPowerUpDeck().pickFirstCard();   //the player has a power up at the start of the game
 
@@ -76,23 +79,26 @@ public class Player implements Serializable{
     }
 
     public void addWeapons( Weapon w) {
-        for (int i=0; i<3; i++){
-            if (weapons[i]==null) {
+        for (int i = 0; i < 3; i++){
+            if (weapons[i] == null) {
                 this.weapons[i] = w;
                 return;
             }
         }
-
-        //the next lines are executed only if the player has already three weapons
-        //TODO switch weapon
     }
 
     public void removeWeapons(int i){
-        if (i<3 && i>=0){
-            weapons[i]=null;
-            //return "arma tolta";
+        if (i < 3 && i >= 0){
+            weapons[i] = null;
         }
-        //else return "impossibile togliere arma";
+    }
+
+    public void setBeenDamaged(boolean beenDamaged) {
+        this.beenDamaged = beenDamaged;
+    }
+
+    public boolean hasBeenDamaged() {
+        return beenDamaged;
     }
 
     public Ammo getAmmo() {
@@ -135,7 +141,7 @@ public class Player implements Serializable{
 
     // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
 
-    public synchronized void transformPowerUpToAmmo(PowerUp powerUp){
+    public synchronized void transformPowerUpToAmmo(PowerUp powerUp) {
         for (int i=0; i<3; i++){
             if (powerUp.equals(powerUps[i])){
                 match.getPowerUpDeck().addPowerUps(powerUps[i]);
@@ -152,6 +158,15 @@ public class Player implements Serializable{
         ammo.setYellowAmmo(ammo.getYellowAmmo()-yellowAmmo);
     }
 
+    public synchronized void removeSingleAmmo(Color color) {
+        switch (color) {
+            case RED: ammo.setRedAmmo(ammo.getRedAmmo()-1); break;
+            case BLUE: ammo.setBlueAmmo(ammo.getBlueAmmo()-1); break;
+            case YELLOW: ammo.setYellowAmmo(ammo.getYellowAmmo()-1); break;
+            default: break;
+        }
+    }
+
     public PowerUp[] getPowerUps() {
         return powerUps;
     }
@@ -163,8 +178,6 @@ public class Player implements Serializable{
                 return;
             }
         }
-
-        //return "spazio model.powerup esaurito";
     }
 
     // servirà per l'inzio del gioco nel quale i giocatori pescano i powerUps
@@ -175,8 +188,6 @@ public class Player implements Serializable{
                 return;
             }
         }
-
-        //return "spazio model.powerup esaurito";
     }
 
     //null pointer safe

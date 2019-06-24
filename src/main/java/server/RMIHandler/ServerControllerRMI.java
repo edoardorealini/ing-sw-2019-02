@@ -6,6 +6,7 @@ import commons.InterfaceServerControllerRMI;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
+import model.Color;
 import model.Match;
 import model.ShootMode;
 import model.ShootingParametersInput;
@@ -407,17 +408,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
-    //TODO TARGETING SCOPE
-    public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException , RemoteException {
+    @Override
+    public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useTargetingScope(targetingScope, affectedPlayer);
+            matchController.useTargetingScope(targetingScope, affectedPlayer, ammoColorToPay);
         else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
 
     @Override
-    public synchronized void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws NotAllowedTargetException, NotInYourPossessException, WrongStatusException , RemoteException {
+    public synchronized void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws  NotInYourPossessException, WrongStatusException , RemoteException {
         Player userPlayer =  matchController.getMatch().getPlayer(user);
         if (! userPlayer.getNickname().equals(hashNicknameID.get(clientHashedID)))
             throw new WrongStatusException("You can't use a Tagback Grenade now!");

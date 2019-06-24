@@ -177,7 +177,7 @@ public class ShootController{
         if (eff.getDamage() != 0 || eff.getMark() != 0)
             return;
         if (moveController.minDistBetweenSquares(player.getPosition(), square) > maxDistance)
-            throw new NotAllowedMoveException();
+            throw new NotAllowedMoveException("Move error during shoot");
 
     }
 
@@ -360,7 +360,7 @@ public class ShootController{
                     try {
                         eff.executeEffect(match, moveController, input);
                     } catch (Exception e) {
-                        throw new NotAllowedMoveException();
+                        throw new NotAllowedMoveException("Move error during shoot");
                     }
                 }
             }
@@ -437,7 +437,7 @@ public class ShootController{
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -500,7 +500,7 @@ public class ShootController{
                 throw new NotAllowedTargetException("Not valid target");
             }  catch (NotAllowedMoveException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -519,7 +519,7 @@ public class ShootController{
                 eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
                 input.getTargets().get(0).setPosition(squareTemp);
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -564,7 +564,7 @@ public class ShootController{
                             input.getTargets().get(1).setPosition(tempSquare2);
                         if (input.getTargets().size() > 2)
                             input.getTargets().get(2).setPosition(tempSquare3);
-                        throw new NotAllowedMoveException();
+                        throw new NotAllowedMoveException("Move error during shoot");
                     }
                 }
             }
@@ -660,7 +660,7 @@ public class ShootController{
                     try {
                         effect.executeEffect(match, moveController, input);
                     } catch (Exception e) {
-                        throw new NotAllowedMoveException();
+                        throw new NotAllowedMoveException("Move error during shoot");
                     }
                 }
 
@@ -818,7 +818,7 @@ public class ShootController{
                     checkCorrectVisibility(eff, getCurrPlayer(), mainTarget);
 
                 } catch (NotAllowedMoveException e) {
-                    throw new  NotAllowedMoveException();
+                    throw new  NotAllowedMoveException("Move error during shoot");
                 } catch (NotAllowedTargetException e) {
                     e.printStackTrace();
                     throw new NotAllowedTargetException("Not valid target");
@@ -899,7 +899,7 @@ public class ShootController{
                      throw new NotAllowedTargetException("Not valid target");
                  } catch (NotAllowedMoveException e) {
                      getCurrPlayer().setPosition(squareTemp);
-                     throw new NotAllowedMoveException();
+                     throw new NotAllowedMoveException("Move error during shoot");
                  }
              }
 
@@ -988,7 +988,7 @@ public class ShootController{
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1032,7 +1032,7 @@ public class ShootController{
             try {
               eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1052,7 +1052,7 @@ public class ShootController{
                 e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1060,7 +1060,7 @@ public class ShootController{
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1078,7 +1078,7 @@ public class ShootController{
         input.getSquares().clear();
 
         if (! getCurrPlayer().getPosition().getAllowedMoves().contains(dir))
-            throw new NotAllowedMoveException();
+            throw new NotAllowedMoveException("Move error during shoot");
 
         if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>1) {
             sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
@@ -1110,7 +1110,7 @@ public class ShootController{
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1189,7 +1189,7 @@ public class ShootController{
                if (mode == ShootMode.ALTERNATE)
                    eff.executeEffect(match, moveController, input);
            } catch (NotAllowedMoveException e) {
-               throw new NotAllowedMoveException();
+               throw new NotAllowedMoveException("Move error during shoot");
            }
         }
 
@@ -1208,7 +1208,7 @@ public class ShootController{
                 e.printStackTrace();
                 throw new NotAllowedTargetException("Not valid target");
             } catch (NotAllowedMoveException e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 
@@ -1216,7 +1216,7 @@ public class ShootController{
             try {
                 checkSameDirectionAllowed(getCurrPlayer(), input.getSquares().get(0), null);
             } catch (Exception e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
 
         if (mode == ShootMode.ALTERNATE) {
@@ -1232,7 +1232,7 @@ public class ShootController{
             try {
                 eff.executeEffect(match, moveController, input);
             } catch (NotAllowedMoveException e) {
-                throw new NotAllowedMoveException();
+                throw new NotAllowedMoveException("Move error during shoot");
             }
         }
 

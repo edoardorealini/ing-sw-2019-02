@@ -35,6 +35,16 @@ public class Ammo implements Serializable {
         return yellowAmmo;
     }
 
+    public synchronized int getSpecificAmmo(Color color) {
+        switch (color) {
+            case RED: return this.redAmmo;
+            case BLUE: return this.blueAmmo;
+            case YELLOW: return this.yellowAmmo;
+            default: break;
+        }
+        return 0;
+    }
+
     public synchronized void setBlueAmmo(int blueAmmo) {
         this.blueAmmo = blueAmmo;
     }
@@ -70,6 +80,7 @@ public class Ammo implements Serializable {
                 else this.setRedAmmo(this.getRedAmmo()+number);
                 break;
 
+            default: break;
         }
     }
 

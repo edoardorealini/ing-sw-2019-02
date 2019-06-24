@@ -55,10 +55,13 @@ public class EffectDamage extends Effect  implements Serializable {
 				if (player.getBoard().getTotalNumberOfDamages() > 5)
 					player.getStatus().setSpecialAbilityAdrenalineShoot();
 
+				player.setBeenDamaged(true);
+
 				for (PowerUp pow : player.getPowerUps()) {
 					if (pow != null && pow.getName() == PowerUpName.TAGBACK_GRENADE && match.getMap().getVisibileRooms(player.getPosition()).contains(match.getCurrentPlayer().getPosition().getColor())) {
 						player.setAskForTagBackGrenade(true);
 					}
+
 				}
 			}
 		} else {
@@ -78,6 +81,8 @@ public class EffectDamage extends Effect  implements Serializable {
 
 				if (target.getBoard().getTotalNumberOfDamages() > 5)
 					target.getStatus().setSpecialAbilityAdrenalineShoot();
+
+				target.setBeenDamaged(true);
 
 				if (target.getBoard().isDead())                                                            //check if the target is dead
 					target.trueDead();

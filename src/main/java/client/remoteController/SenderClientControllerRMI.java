@@ -192,7 +192,7 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void useTagBackGrenade(int indexOfTagBackGrenade) throws RemoteException, NotAllowedTargetException, WrongStatusException, NotInYourPossessException {
+    public void useTagBackGrenade(int indexOfTagBackGrenade) throws RemoteException, WrongStatusException, NotInYourPossessException {
             serverController.useTagBackGrenade(indexOfTagBackGrenade, this.nickname, match.getCurrentPlayer().getNickname(), this.hashedNickname);
     }
 

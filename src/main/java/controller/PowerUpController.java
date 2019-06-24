@@ -1,6 +1,7 @@
 package controller;
 
 import exception.*;
+import model.Color;
 import model.Match;
 import model.powerup.PowerUp;
 import model.map.*;
@@ -66,10 +67,8 @@ public class PowerUpController{
                 } catch (NotAllowedMoveException e){
                     e.printStackTrace();
                 }
-            }else
-                throw new NotAllowedMoveException("Not allowed to move in more than one direction with Newton");
-        }else
-            throw new WrongPowerUpException("Not valid PowerUp, you want to use another powerUp as a Newton");
+            } else throw new NotAllowedMoveException("Not allowed to move in more than one direction with Newton");
+        } else throw new WrongPowerUpException("Not valid PowerUp, you want to use another powerUp as a Newton");
     }
 
     public boolean checkSingleDirectionMove(Player affectedPlayer, Square destination){
@@ -86,18 +85,34 @@ public class PowerUpController{
         affectedPlayer: player che infligge il danno
         user: player che usa il powerUp
     */
-    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotAllowedTargetException {
+    public void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException {
         if(tagbackGrenade.getName().equals(PowerUpName.TAGBACK_GRENADE)){
             //the visibility check is done when the affected player tries to hit the user
             affectedPlayer.getBoard().updateMarks(1, user.getId(), affectedPlayer.getId());
             user.removePowerUps(tagbackGrenade);
             user.setAskForTagBackGrenade(false);
-        }
-        else throw new IllegalArgumentException("Not valid PowerUp");
+        } else throw new NotInYourPossessException("Not valid PowerUp");
+
     }
 
-    public void useTargetingScope(PowerUp targetingScope, Player affectedPlayer){
-        //TODO implementare, sistemare signature del metodo
+    public void useTargetingScope(PowerUp targetingScope, Color ammoColor, Player affectedPlayer) throws NotInYourPossessException, NotEnoughAmmoException {
+        if(targetingScope.getName().equals(PowerUpName.TARGETING_SCOPE)){
+            if ((match.getCurrentPlayer().getAmmo().getSpecificAmmo(ammoColor) - 1) >= 0) {
+                match.getCurrentPlayer().removeSingleAmmo(ammoColor);
+                affectedPlayer.getBoard().updateLife(1, match.getCurrentPlayer().getId(), affectedPlayer.getId());
+
+                if (affectedPlayer.getBoard().isDead())                                                            //check if the target is dead
+                    affectedPlayer.trueDead();
+
+                if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 2)
+                    affectedPlayer.getStatus().setSpecialAbilityAdrenalinePick();
+
+                if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 5)
+                    affectedPlayer.getStatus().setSpecialAbilityAdrenalineShoot();
+
+            } else throw new NotEnoughAmmoException("You don't have enough ammo to use Targeting Scope");
+        } else throw new NotInYourPossessException("Not valid PowerUp");
+
     }
 
     private boolean visibilityBetweenPlayers(Player player1, Player player2) {

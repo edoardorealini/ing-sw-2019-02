@@ -1,6 +1,7 @@
 package commons; //package commons contais the common interfaces and classes (the whole model should be included too) between Client and Server
 
 import exception.*;
+import model.Color;
 import model.player.Player;
 import model.player.PlayerStatusHandler;
 import model.powerup.PowerUp;
@@ -32,9 +33,9 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, WrongValueException, InvalidInputException, WrongPowerUpException;
 
-    void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotInYourPossessException, WrongStatusException;
+    void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException;
 
-    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException;
+    void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, int clientHashedID, Color ammoColorToPay) throws RemoteException, NotInYourPossessException, WrongStatusException, NotAllowedCallException, NotEnoughAmmoException;
 
     void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException, NotAllowedCallException ;
 

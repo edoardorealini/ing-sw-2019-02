@@ -188,9 +188,6 @@ public class GeneralWeaponPopUp extends Application {
         Label emptySpace = new Label(" ");
         Label emptySpace1 = new Label(" ");
 
-        ChoiceBox<ShootMode> choiceBoxEffect = new ChoiceBox<>();
-        ChoiceBox<ShootMode> choiceBoxEffectOpt1 = new ChoiceBox<>();
-        ChoiceBox<ShootMode> choiceBoxEffectOpt2 = new ChoiceBox<>();
         ChoiceBox<String> target1 = new ChoiceBox<>();
         ChoiceBox<String> target2 = new ChoiceBox<>();
         ChoiceBox<String> target3 = new ChoiceBox<>();
@@ -205,6 +202,9 @@ public class GeneralWeaponPopUp extends Application {
         ArrayList<ChoiceBox<ShootMode>> modes = new ArrayList<>();
         ArrayList<ChoiceBox<String>> targetPlayers = new ArrayList<>();
         ArrayList<ChoiceBox<Integer>> arraySquares = new ArrayList<>();
+        ChoiceBox<ShootMode> choiceBoxEffect = new ChoiceBox<>();
+        ChoiceBox<ShootMode> choiceBoxEffectOpt1 = new ChoiceBox<>();
+        ChoiceBox<ShootMode> choiceBoxEffectOpt2 = new ChoiceBox<>();
 
         //start filling the vbox
         vBox.getChildren().add(shootingMode);
@@ -383,10 +383,12 @@ public class GeneralWeaponPopUp extends Application {
         modesHBox.setAlignment(Pos.CENTER);
         squaresHBox.setAlignment(Pos.CENTER);
         squaresHBox1.setAlignment(Pos.CENTER);
+        squaresAdrenaline.setAlignment(Pos.CENTER);
         targetHBox.setSpacing(8);
         modesHBox.setSpacing(8);
         squaresHBox.setSpacing(8);
         squaresHBox1.setSpacing(8);
+        squaresAdrenaline.setSpacing(8);
 
         Scene scene = new Scene(splitPane,700,400);
         shootStage.setScene(scene);

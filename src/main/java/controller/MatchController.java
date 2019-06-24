@@ -40,10 +40,6 @@ public class MatchController{
     private Timer waitForWeaponLoaded;
     private TimerTask waitForWeaponLoadedTask;
     private TimerTask waitForPaymentTask;
-    // ci sono altri attributi da mettere qui? in teoria no
-    // pensare a tutta la logica di setup della partita. fornire metodi
-
-    // logica di creazione della partita e management su classe a parte, nell'utilizzatore di match controller, qui posso mettere solo dei metidi che saranno invocati da un processo apposito alla gestione dei turni.
 
     /*
         Costruttore 1
@@ -368,7 +364,7 @@ public class MatchController{
             throw new WrongStatusException("You cannot use a PowerUp now!");
     }
 
-    public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, NotAllowedTargetException, WrongStatusException {
+    public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, WrongStatusException {
         if(canUseTagbackGrenade(user)) {
             if (user.hasPowerUp(tagbackGrenade)) {
                 powerUpController.useTagbackGrenade(tagbackGrenade, user, affectedPlayer);
@@ -380,10 +376,10 @@ public class MatchController{
 
     }
 
-    public synchronized  void useTargetingScope(PowerUp targetingScope, Player affectedPlayer) throws NotInYourPossessException, WrongStatusException {
+    public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, Color ammoToPay) throws NotInYourPossessException, WrongStatusException, NotEnoughAmmoException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(targetingScope)) {
-                powerUpController.useTargetingScope(targetingScope, affectedPlayer);
+                powerUpController.useTargetingScope(targetingScope, ammoToPay, affectedPlayer);
             } else
                 throw new NotInYourPossessException("The powerUp" + targetingScope.getName() + "is not in your hand");
         }
@@ -1292,7 +1288,7 @@ public class MatchController{
             }
         }
 
-        match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first damage
+        match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first blood
     }
 
     private java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {
