@@ -42,7 +42,6 @@ public class Action1Boosted extends Application {
         short c = 0;
 
 
-        primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.setTitle("Owned weapons");
         Label text = new Label("Choose the weapon to shoot with:");
         HBox hBoxWeapon = new HBox();
@@ -136,7 +135,6 @@ public class Action1Boosted extends Application {
 
         Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
         primaryStage.setScene(scene);
-        primaryStage.showAndWait();
         primaryStage.show();
 
     }
