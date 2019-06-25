@@ -127,7 +127,7 @@ public class Board  implements Serializable {
         for (int i = 0; i < 12; i++){
             if (lifePoints[i] != 9) damage++;
         }
-        return damage==11;
+        return damage==12;
     }
 
     public int howManyHits(int id) {
