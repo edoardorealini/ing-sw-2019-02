@@ -294,7 +294,7 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(18).setOptionalModeOne(null);
         weaponDeck.get(18).setOptionalModeTwo(null);
         weaponDeck.get(18).setAlternateMode(new EffectMoveYourself(1), new EffectDamage(2, 1, 0, true, -1), new EffectMoveYourself(1), new EffectDamage(2, 1, 1, true, -1));    //same direction
-        weaponDeck.get(18).setRequiredParameters(2, 2, 1, true, false);
+        weaponDeck.get(18).setRequiredParameters(2, 2, 0, true, false);
 
 
         //SHOCKWAVE

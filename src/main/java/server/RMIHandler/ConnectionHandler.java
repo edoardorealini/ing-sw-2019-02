@@ -45,13 +45,10 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
                 if (p.getNickname().equals(nickname) && server.getMatchStatus() && p.isConnected()) //check if there is a player with the same nickname into an active match.
                     throw new InvalidInputException("Please choose another nickname, this one is already in use in another match");
 
-                if (p.getNickname().equals(nickname) && !server.getMatchStatus() && !p.isConnected()) { //lobby reconnection !
-                    //TODO agguingere le chiamate alle map per aggiornare i riferimenti
-                    return server;
-                }
-
-                if (p.getNickname().equals(nickname) && server.getMatchStatus() && !p.isConnected()) { //game reconnection !
-                    //TODO agguingere le chiamate alle map per aggiornare i riferimenti
+                if (p.getNickname().equals(nickname) && !p.isConnected() && server.getMatchStatus()) { //lobby reconnection !
+                    clientToServer.put(clientController, server);
+                    clientToHashedNickname.put(clientController, hashNickname(nickname));
+                    clientControllers.add(clientController);
                     return server;
                 }
             }
