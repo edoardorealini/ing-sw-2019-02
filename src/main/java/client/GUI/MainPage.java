@@ -225,7 +225,10 @@ public class MainPage extends Application {
         Button skipTurn = new Button(" Skip Action ");
         skipTurn.setOnAction(e -> {
             try {
-                remoteController.skipAction();
+                if(frenzyMode){
+                    remoteController.skipActionFrenzy();
+                }
+                else remoteController.skipAction();
             }catch (RemoteException ex){
                 PopUpSceneMethod.display("Network Error", "A RemoteException was called");
             }catch (WrongStatusException ex){
