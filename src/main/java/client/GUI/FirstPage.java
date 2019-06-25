@@ -48,7 +48,10 @@ public class FirstPage extends Application implements Runnable{
 
         primaryStage.setTitle("Adrenaline");
         setPrimaryStage(primaryStage);
-        primaryStage.setOnCloseRequest(e -> closePage());
+        //primaryStage.setOnCloseRequest(e -> closePage());
+        primaryStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
         this.match= new Match();
 
         /*

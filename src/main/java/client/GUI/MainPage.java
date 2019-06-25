@@ -48,6 +48,11 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage mainStage) throws Exception {
+
+        mainStage.setOnCloseRequest(e -> {
+            System.exit(0);
+        });
+
         mainStage.setTitle("Adrenaline " +remoteController.getNickname());
         SplitPane splitPane = new SplitPane();
         //left (life)
