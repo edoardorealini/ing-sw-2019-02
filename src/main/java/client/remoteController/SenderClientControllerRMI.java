@@ -307,6 +307,17 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
     }
 
+    public void skipActionFrenzy() throws RemoteException, WrongStatusException {
+        try{
+            serverController.skipActionFrenzy(this.hashedNickname);
+        }catch (RemoteException e){
+            throw new RemoteException();
+        }
+        catch (WrongStatusException e){
+            throw new WrongStatusException(e.getMessage());
+        }
+    }
+
     @Override
     public void reload(int indexOfPowerUp) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException {
         try {
