@@ -170,6 +170,19 @@ public class MainPage extends Application {
         myAmmo.setOnAction(e -> showMyAmmo());
         vBoxLife.getChildren().add(myAmmo);
 
+        Label emptyLabel = new Label(" ");
+        Button showSkullsButton = new Button(" Show Skulls ");
+        vBoxLife.getChildren().addAll(emptyLabel,showSkullsButton);
+        showSkullsButton.setOnAction(e-> {
+            Skulls skulls = new Skulls();
+            skulls.setMatch(this.match);
+            try {
+                skulls.start(new Stage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         splitPane.getItems().add(vBoxLife);
 
         //right (map)

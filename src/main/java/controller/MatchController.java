@@ -418,36 +418,40 @@ public class MatchController{
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
 
            if(!match.getPlayer(nickName).isConnected()) {
-               if(match.getActiveStatusMatch())
-                   match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
 
-               if(!match.getActiveStatusMatch())
+               if(!match.getActiveStatusMatch()) {
                    match.getPlayer(nickName).getStatus().setTurnStatusLobby();
 
-               if(!checkThereIsLobbyMaster())
-                   match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+                   if (!checkThereIsLobbyMaster())
+                       match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+               }
+
+               else{
+                   match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+               }
 
                System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
                return;
            }
         }
+        else {
+            if (match.getPlayers().size() > 4)
+                throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
 
-        if(match.getPlayers().size() > 4)
-            throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
 
+            match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
+            //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
+            //setta current player se sono il primo a connettermi
 
-        match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
-        //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
-        //setta current player se sono il primo a connettermi
+            //if (match.getPlayers().size() == 1)
+            //   match.setCurrentPlayer(match.getPlayers().get(0));
 
-        //if (match.getPlayers().size() == 1)
-        //   match.setCurrentPlayer(match.getPlayers().get(0));
+            if (!match.getActiveStatusMatch())
+                match.getPlayer(nickName).getStatus().setTurnStatusLobby();
 
-        if(!match.getActiveStatusMatch())
-            match.getPlayer(nickName).getStatus().setTurnStatusLobby();
-
-        if(!checkThereIsLobbyMaster())
-            match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+            if (!checkThereIsLobbyMaster())
+                match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+        }
 
     }
 
@@ -496,7 +500,7 @@ public class MatchController{
         return match.getActiveStatusMatch();
     }
 
-    private boolean checkPlayerPresence(String playerNickname){
+    public boolean checkPlayerPresence(String playerNickname){
         for(Player p: match.getPlayers()){
             if(p.getNickname().equals(playerNickname)){
                 return true;
@@ -872,7 +876,8 @@ public class MatchController{
         }
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionLowerFrenzy();
-            System.out.println("Settato First action frenzy lower");
+            System.out.println("Settato " +
+                    "First action frenzy lower");
         }
         System.out.println("The current player : "+match.getCurrentPlayer().getNickname() +" is in Round status " + match.getCurrentPlayer().getStatus().getTurnStatus() );
     }
@@ -891,30 +896,65 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION_FRENZY:
-                if (match.getCurrentPlayer().getId()==(match.getPlayers().size()-1)){
-                    match.setCurrentPlayer(match.getPlayers().get(0));
-                }
-                else {
-                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
-                }
                 p.getStatus().setTurnStatusEndGame();
-                goToNextStatusFrenzy(match.getCurrentPlayer());
+                endOfTurn();
+                try {
+                    serverControllerRMI.askRespawn();
+                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                setNewCurrentPlayerFrenzy();
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
-                if (match.getCurrentPlayer().getId()!=(match.getPlayers().size()-1)){
-                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
-
-                }
-                else {
-                    match.setCurrentPlayer(match.getPlayers().get(0));
-                }
                 p.getStatus().setTurnStatusEndGame();
-                goToNextStatusFrenzy(match.getCurrentPlayer());
+                endOfTurn();
+                try {
+                    serverControllerRMI.askRespawn();
+                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                setNewCurrentPlayerFrenzy();
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
+    }
+
+    private void setNewCurrentPlayerFrenzy(){
+        if(everybodyRespawned()) {
+            if (match.getCurrentPlayer().getId() == (match.getPlayers().size() - 1)) {
+                match.setCurrentPlayer(match.getPlayers().get(0));
+            } else {
+                match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId() + 1));
+            }
+            goToNextStatusFrenzy(match.getCurrentPlayer());
+        }
+        else{
+            Timer waitForRespawn = new Timer();
+            waitForRespawn.schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (everybodyRespawned()) {
+                                if (match.getCurrentPlayer().getId() == (match.getPlayers().size() - 1)) {
+                                    match.setCurrentPlayer(match.getPlayers().get(0));
+                                } else {
+                                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId() + 1));
+                                }
+                                waitForRespawn.cancel();
+                                waitForRespawn.purge();
+                            }
+                            goToNextStatusFrenzy(match.getCurrentPlayer());
+
+                        }
+                    }, 1, 3000
+            );
+
+        }
+
     }
 
     private boolean everybodyRespawned(){
@@ -924,24 +964,6 @@ public class MatchController{
 
         return true;
     }
-
-    private void putWaitFirstTurnInSpawn(){
-        for(Player p: match.getPlayers()) {
-            if (p.isInStatusWaitFirstTurn()) {
-                goToNextStatus(p);
-                try {
-                    serverControllerRMI.pushMatchToAllPlayers();
-                }catch(RemoteException e){
-                    e.printStackTrace();
-                }
-                return;
-            }
-        }
-
-
-    }
-
-    //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
     public void skipAction(Player p) throws WrongStatusException{
@@ -1269,6 +1291,8 @@ public class MatchController{
                 if (board.isOverKilled())
                     match.getKillShotTrack().setMortalShots(match.getCurrentPlayer().getId());
 
+                match.getKillShotTrack().setMortalShots(9);
+
                 match.getKillShotTrack().decreaseSkulls();      //remove just one skull
 
                 board.initializeBoard();    //resetting the board of th killed player
@@ -1362,7 +1386,9 @@ public class MatchController{
 
 
     // FRENZY METHODS
-    public synchronized void shootFrenzy(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public synchronized void shootFrenzy(ShootingParametersInput input) throws  NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+
+            shootController.setInput(input);
 
             if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
                 throw new NotEnoughAmmoException("You are trying to shoot with an unloaded weapon, nice shot!");
@@ -1418,17 +1444,15 @@ public class MatchController{
 
     }
 
-    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
+    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,1);
                     shootFrenzy(input);
                     goToNextStatusFrenzy(player);
-                } catch (WrongStatusException e) {
-                    throw new WrongStatusException(e.getMessage());
                 } catch (NotAllowedTargetException e) {
-                    throw new WrongStatusException(e.getMessage());
+                    throw new NotAllowedTargetException(e.getMessage());
                 } catch (NotEnoughAmmoException e) {
                     throw new NotEnoughAmmoException(e.getMessage());
                 } catch (NotAllowedShootingModeException e) {
@@ -1443,17 +1467,15 @@ public class MatchController{
 
     }
 
-    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
+    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
            try {
                moveController.move(player,destination,2);
                    shootFrenzy(input);
                    goToNextStatusFrenzy(player);
-               } catch (WrongStatusException e) {
-                   throw new WrongStatusException(e.getMessage());
-               } catch (NotAllowedTargetException e) {
-                   throw new WrongStatusException(e.getMessage());
+               }  catch (NotAllowedTargetException e) {
+                   throw new NotAllowedTargetException(e.getMessage());
                } catch (NotEnoughAmmoException e) {
                    throw new NotEnoughAmmoException(e.getMessage());
                } catch (NotAllowedShootingModeException e) {

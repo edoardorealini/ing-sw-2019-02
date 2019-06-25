@@ -6,6 +6,7 @@ import java.util.*;	  //NB: we have to use a List because we need to know the or
 public class KillShotTrack implements Serializable {
 	private List<Integer> mortalShots;
 	private int skulls;
+	private int totlSkulls;
 	private List<Integer> doubleKill;
 
 	public KillShotTrack() {
@@ -40,5 +41,13 @@ public class KillShotTrack implements Serializable {
 
 	public void setDoubleKill(int idPlayer) {
 		this.doubleKill.add(idPlayer);
+	}
+
+	public void setTotlSkulls(int totlSkulls) {
+		this.totlSkulls = totlSkulls;
+	}
+
+	public int getTotlSkulls() {
+		return totlSkulls;
 	}
 }

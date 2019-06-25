@@ -38,7 +38,7 @@ public class EffectMoveYourself extends Effect  implements Serializable {
 		try {
 			ctrl.move(target, destination, getMoveYourself());
 		} catch (Exception e){
-			throw new NotAllowedMoveException();
+			throw new NotAllowedMoveException("Not allowed move in executing effect (move yourself)");
 		}
 	}
 }
