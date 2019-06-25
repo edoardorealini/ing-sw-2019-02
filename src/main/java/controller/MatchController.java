@@ -880,7 +880,8 @@ public class MatchController{
         }
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionLowerFrenzy();
-            System.out.println("Settato First action frenzy lower");
+            System.out.println("Settato " +
+                    "First action frenzy lower");
         }
         System.out.println("The current player : "+match.getCurrentPlayer().getNickname() +" is in Round status " + match.getCurrentPlayer().getStatus().getTurnStatus() );
     }
@@ -899,30 +900,63 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION_FRENZY:
-                if (match.getCurrentPlayer().getId()==(match.getPlayers().size()-1)){
-                    match.setCurrentPlayer(match.getPlayers().get(0));
+                try {
+                    serverControllerRMI.askRespawn();
+                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                else {
-                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
-                }
+                setNewCurrentPlayerFrenzy();
                 p.getStatus().setTurnStatusEndGame();
                 goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
-                if (match.getCurrentPlayer().getId()!=(match.getPlayers().size()-1)){
-                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId()+1));
-
+                try {
+                    serverControllerRMI.askRespawn();
+                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                else {
-                    match.setCurrentPlayer(match.getPlayers().get(0));
-                }
+                setNewCurrentPlayerFrenzy();
                 p.getStatus().setTurnStatusEndGame();
                 goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
+    }
+
+    private void setNewCurrentPlayerFrenzy(){
+        if(everybodyRespawned()) {
+            if (match.getCurrentPlayer().getId() == (match.getPlayers().size() - 1)) {
+                match.setCurrentPlayer(match.getPlayers().get(0));
+            } else {
+                match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId() + 1));
+            }
+        }
+        else{
+            Timer waitForRespawn = new Timer();
+            waitForRespawn.schedule(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            Match model = getMatch();
+                            if (everybodyRespawned()) {
+                                if (match.getCurrentPlayer().getId() == (match.getPlayers().size() - 1)) {
+                                    match.setCurrentPlayer(match.getPlayers().get(0));
+                                } else {
+                                    match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId() + 1));
+                                }
+                                waitForRespawn.cancel();
+                                waitForRespawn.purge();
+                            }
+                        }
+                    }, 1, 3000
+            );
+
+        }
+
     }
 
     private boolean everybodyRespawned(){
@@ -932,24 +966,6 @@ public class MatchController{
 
         return true;
     }
-
-    private void putWaitFirstTurnInSpawn(){
-        for(Player p: match.getPlayers()) {
-            if (p.isInStatusWaitFirstTurn()) {
-                goToNextStatus(p);
-                try {
-                    serverControllerRMI.pushMatchToAllPlayers();
-                }catch(RemoteException e){
-                    e.printStackTrace();
-                }
-                return;
-            }
-        }
-
-
-    }
-
-    //TODO metodi nuovi che devono essere aggiunti a tutto il giro (per ora solo RMI)per essere chiamati da client (vedi appuntiClient per capire cosa intendo con "giro")
 
     //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
     public void skipAction(Player p) throws WrongStatusException{
@@ -1426,7 +1442,7 @@ public class MatchController{
 
     }
 
-    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException {
+    public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
             try {
@@ -1436,7 +1452,7 @@ public class MatchController{
                 } catch (WrongStatusException e) {
                     throw new WrongStatusException(e.getMessage());
                 } catch (NotAllowedTargetException e) {
-                    throw new WrongStatusException(e.getMessage());
+                    throw new NotAllowedTargetException(e.getMessage());
                 } catch (NotEnoughAmmoException e) {
                     throw new NotEnoughAmmoException(e.getMessage());
                 } catch (NotAllowedShootingModeException e) {
