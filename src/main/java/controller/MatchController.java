@@ -605,16 +605,18 @@ public class MatchController{
                             Player player = match.getCurrentPlayer();
                             //if i enter this timer it means that the player who launched it hasn't finished his turn
                             System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                            /*
                             player.getStatus().setTurnStatusWaitTurn();
                             setNewCurrentPlayer();
-
                             try {
                                 serverControllerRMI.askRespawn();
                                 //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
+                            */
+                            player.getStatus().setTurnStatusEndTurn();
+                            goToNextStatus(player);
 
                         }
                     };
@@ -695,17 +697,19 @@ public class MatchController{
                                 Player player = match.getCurrentPlayer();
                                 //if i enter this timer it means that the player who launched it hasn't finished his turn
                                 System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
+                                /*
                                 player.getStatus().setTurnStatusWaitTurn();
                                 setNewCurrentPlayer();
-
                                 try {
                                     serverControllerRMI.askRespawn();
                                     //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                */
 
-
+                                player.getStatus().setTurnStatusEndTurn();
+                                goToNextStatus(player);
                             }
                         };
                         turnTimer.schedule(turnTimerTask, turnDuration);
