@@ -84,6 +84,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         String hashedTemp = "";       //inizialized to emptyString;
         try {
             clientControllers.add(clientController);
+            pushMatchToAllPlayers();
 
             addPlayer(nickname);
             clientController.ping();
@@ -100,6 +101,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
             }
+
+            if(matchController.checkPlayerPresence(nickname) && matchController.getMatchStatus())
+                clientController.startGame();
+
+            pushMatchToAllPlayers();
+
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
             throw new FailedLoginException(e.getMessage());
@@ -119,7 +126,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
         finally {
             //the use of timerStatus preevents the creation of 2 or more timers!
-            if(connectedPlayers() >= 3 && connectedPlayers() < 5 && !timerStatus) {
+            if(connectedPlayers() >= 3 && connectedPlayers() < 5 && !timerStatus && !matchController.getMatchStatus()) {
                 System.out.println("[TIMER]: Starting countdown, the match will start soon . . . ");
                 timeout = new Timer();
                 timeout.schedule(
@@ -130,6 +137,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                     //startGame is called later, the first action should be calling a client to ask for the map
                                     //startGame();
                                     askMap();
+                                    timerStatus = true;
                                 }catch (RemoteException e){
                                     e.printStackTrace();
                                 }
@@ -143,7 +151,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 timerStatus = true;
             } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
 
-            if(connectedPlayers() == 5) {
+            if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
                 timeout.cancel();
                 timeout.purge();
                 try {

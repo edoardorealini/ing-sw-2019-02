@@ -418,36 +418,40 @@ public class MatchController{
                throw new FailedLoginException("[ERROR]: Player already connected, try with another nickname");
 
            if(!match.getPlayer(nickName).isConnected()) {
-               if(match.getActiveStatusMatch())
-                   match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
 
-               if(!match.getActiveStatusMatch())
+               if(!match.getActiveStatusMatch()) {
                    match.getPlayer(nickName).getStatus().setTurnStatusLobby();
 
-               if(!checkThereIsLobbyMaster())
-                   match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+                   if (!checkThereIsLobbyMaster())
+                       match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+               }
+
+               else{
+                   match.getPlayer(nickName).getStatus().setTurnStatusWaitTurn();
+               }
 
                System.out.println("[INFO]: The player " + nickName + " is already registered, relogging ... ");
                return;
            }
         }
+        else {
+            if (match.getPlayers().size() > 4)
+                throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
 
-        if(match.getPlayers().size() > 4)
-            throw new FailedLoginException("[ERROR]: The lobby is full, try again later . . .");
 
+            match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
+            //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
+            //setta current player se sono il primo a connettermi
 
-        match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
-        //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
-        //setta current player se sono il primo a connettermi
+            //if (match.getPlayers().size() == 1)
+            //   match.setCurrentPlayer(match.getPlayers().get(0));
 
-        //if (match.getPlayers().size() == 1)
-        //   match.setCurrentPlayer(match.getPlayers().get(0));
+            if (!match.getActiveStatusMatch())
+                match.getPlayer(nickName).getStatus().setTurnStatusLobby();
 
-        if(!match.getActiveStatusMatch())
-            match.getPlayer(nickName).getStatus().setTurnStatusLobby();
-
-        if(!checkThereIsLobbyMaster())
-            match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+            if (!checkThereIsLobbyMaster())
+                match.getPlayer(nickName).getStatus().setTurnStatusLobbyMaster();
+        }
 
     }
 
@@ -496,7 +500,7 @@ public class MatchController{
         return match.getActiveStatusMatch();
     }
 
-    private boolean checkPlayerPresence(String playerNickname){
+    public boolean checkPlayerPresence(String playerNickname){
         for(Player p: match.getPlayers()){
             if(p.getNickname().equals(playerNickname)){
                 return true;
