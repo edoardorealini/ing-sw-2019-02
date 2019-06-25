@@ -1471,7 +1471,7 @@ public class MatchController{
 
     }
 
-    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException {
+    public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
            try {
@@ -1481,7 +1481,7 @@ public class MatchController{
                } catch (WrongStatusException e) {
                    throw new WrongStatusException(e.getMessage());
                } catch (NotAllowedTargetException e) {
-                   throw new WrongStatusException(e.getMessage());
+                   throw new NotAllowedTargetException(e.getMessage());
                } catch (NotEnoughAmmoException e) {
                    throw new NotEnoughAmmoException(e.getMessage());
                } catch (NotAllowedShootingModeException e) {
