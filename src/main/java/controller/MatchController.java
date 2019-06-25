@@ -1390,7 +1390,7 @@ public class MatchController{
 
 
     // FRENZY METHODS
-    public synchronized void shootFrenzy(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
+    public synchronized void shootFrenzy(ShootingParametersInput input) throws  NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException {
 
             if (input.getWeapon().getWeaponStatus() != WeaponAmmoStatus.LOADED)
                 throw new NotEnoughAmmoException("You are trying to shoot with an unloaded weapon, nice shot!");
@@ -1453,8 +1453,6 @@ public class MatchController{
                 moveController.move(player,destination,1);
                     shootFrenzy(input);
                     goToNextStatusFrenzy(player);
-                } catch (WrongStatusException e) {
-                    throw new WrongStatusException(e.getMessage());
                 } catch (NotAllowedTargetException e) {
                     throw new NotAllowedTargetException(e.getMessage());
                 } catch (NotEnoughAmmoException e) {
@@ -1478,9 +1476,7 @@ public class MatchController{
                moveController.move(player,destination,2);
                    shootFrenzy(input);
                    goToNextStatusFrenzy(player);
-               } catch (WrongStatusException e) {
-                   throw new WrongStatusException(e.getMessage());
-               } catch (NotAllowedTargetException e) {
+               }  catch (NotAllowedTargetException e) {
                    throw new WrongStatusException(e.getMessage());
                } catch (NotEnoughAmmoException e) {
                    throw new NotEnoughAmmoException(e.getMessage());

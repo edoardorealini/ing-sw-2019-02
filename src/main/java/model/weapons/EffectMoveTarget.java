@@ -39,7 +39,7 @@ public class EffectMoveTarget extends Effect  implements Serializable {
 			try {
 				ctrl.move(target, destination, getMoveTarget());
 			} catch (Exception e) {
-				throw new NotAllowedMoveException();
+				throw new NotAllowedMoveException("Not allowed move in executing effect (move target)");
 			}
 		}
 	}
