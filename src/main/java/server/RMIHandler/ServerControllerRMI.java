@@ -35,7 +35,8 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     private transient InputConverter converter;
     private transient MatchController matchController;
-    private ArrayList<InterfaceClientControllerRMI> clientControllers; //todo better implementation with a Map!
+    private ArrayList<InterfaceClientControllerRMI> clientControllers;
+    private HashMap<String, InterfaceClientControllerRMI> nicknameToClient;
     private HashMap<Integer, String>  hashNicknameID;  //it maps the nickname of a player with its hashed ID, the parameter used to identify a client
     private transient Timer timeout;
     private boolean timerStatus = false;
@@ -52,6 +53,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         this.converter = new InputConverter(matchController.getMatch());
         this.clientControllers = new ArrayList<>(5);
         this.hashNicknameID = new HashMap<>();
+        this.nicknameToClient = new HashMap<>(10);
         matchController.setServerControllerRMI(this);
         getValuesFromProperties();
     }
@@ -93,7 +95,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             messageDigest.update(nickname.getBytes());
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
-
+            this.nicknameToClient.put(nickname, clientController);
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
 
@@ -271,15 +273,24 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         try {
 
             matchController.disconnectPlayer(hashNicknameID.get(clientHashedID));
+
             System.out.println("[DISCONNECT]: Disconnected Player: " + hashNicknameID.get(clientHashedID));
+
+            InterfaceClientControllerRMI toRemove = nicknameToClient.get(hashNicknameID.get(clientHashedID));
+            clientControllers.remove(toRemove);
+            nicknameToClient.remove(hashNicknameID.get(clientHashedID));
+
+            /*
             clientControllers.removeIf(c -> {
                 try {
-                    return hashNicknameID.get(clientHashedID).equals(c.getNickname());
+                    return hashNicknameID.get(clientHashedID).equals(c.getNickname()); //TODO correggere qui, non posso chiamare metodo su client controller se è disconnesso !
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     return false;
                 }
             });
+            */
+
             //TODO qui fare controllo per terminare la partita se il numero di giocatori scende sotto il 3 durante una partita attiva.
 
             if (connectedPlayers() < 3 && timeout != null) {
@@ -287,22 +298,19 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 timeout.cancel();
                 timeout.purge();
                 timerStatus = false;
-
             }
 
             System.out.println("[INFO]: The client " + hashNicknameID.get(clientHashedID) + " has correctly been disconnected");
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
-
             }
 
+            pushMatchToAllPlayers();
         }
         catch(Exception e1){
             e1.printStackTrace();
         }
     }
-
-    //TODO qui va corretto tutto aggiungendo anche il controllo sull'id hashato!!
 
     /*
         methods from moveController class

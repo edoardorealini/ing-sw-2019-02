@@ -17,9 +17,9 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
 
     private ArrayList<InterfaceServerControllerRMI> serverControllers;                              //list of all the matches ONLINE
     private ArrayList<InterfaceClientControllerRMI> clientControllers;                              //references to all the client controllers
-    private HashMap<InterfaceClientControllerRMI, InterfaceServerControllerRMI> connectedPlayersServers;   //links a connected player's controller to his controller, useful for RECONNECTIONS! (after a disconnect)
-    private HashMap<String, InterfaceServerControllerRMI> serverControllersFromNickname;
-    private HashMap<InterfaceClientControllerRMI, Integer> connectedPlayersHashed;                  // save the name of the connected players.
+    private HashMap<InterfaceClientControllerRMI, InterfaceServerControllerRMI> clientToServer;     //links a connected player's controller to his controller, useful for RECONNECTIONS! (after a disconnect)
+    private HashMap<String, InterfaceServerControllerRMI> nicknameToServer;
+    private HashMap<InterfaceClientControllerRMI, Integer> clientToHashedNickname;                  // save the name of the connected players.
 
     private Timer clientCheckerTimer;
     private TimerTask clientCheckerTask;
@@ -27,10 +27,10 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
     public ConnectionHandler() throws RemoteException{
         //here i create the first "remote controller"
         this.serverControllers = new ArrayList<>();
-        this.connectedPlayersServers = new HashMap<>(100);
         this.clientControllers = new ArrayList<>();
-        this.connectedPlayersHashed = new HashMap<>(100);
-        this.serverControllersFromNickname = new HashMap<>(100);
+        this.clientToServer = new HashMap<>(100);
+        this.nicknameToServer = new HashMap<>(100);
+        this.clientToHashedNickname = new HashMap<>(100);
     }
 
     //this method is very similar to the register method in ServerControllerRMI!
@@ -60,22 +60,22 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         for(InterfaceServerControllerRMI server: serverControllers){
             if(!server.getMatchStatus()){
                 //if there is, i return this instance of the remote object (containing all the match information!) Useless to start a new thread here!
-                System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches in this server"));
-                connectedPlayersServers.put(clientController, server);
-                connectedPlayersHashed.put(clientController, hashNickname(nickname));
-                serverControllersFromNickname.put(nickname, server);
+                System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches on this server"));
+                clientToServer.put(clientController, server);
+                clientToHashedNickname.put(clientController, hashNickname(nickname));
+                nicknameToServer.put(nickname, server);
                 clientControllers.add(clientController);
                 return server;
             }
         }
-        //otherwise i have to create a new match (by creating a new matchController and a new ServerController, then pushing it.
+        //otherwise i have to create a new match (by creating a new matchController and a new ServerController) then pushing it.
         InterfaceServerControllerRMI tmpServer = new ServerControllerRMI(new MatchController());
         serverControllers.add(tmpServer);
-        connectedPlayersServers.put(clientController, tmpServer);
-        connectedPlayersHashed.put(clientController, hashNickname(nickname));
-        serverControllersFromNickname.put(nickname, tmpServer);
+        clientToServer.put(clientController, tmpServer);
+        clientToHashedNickname.put(clientController, hashNickname(nickname));
+        nicknameToServer.put(nickname, tmpServer);
         clientControllers.add(clientController);
-        System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches in this server"));
+        System.out.println(("[CONNECTIONHANDLER]: There are " + serverControllers.size() + " active matches on this server"));
         return tmpServer;
         //se sono qui significa che non ci sono partite già iniziate.
     }
@@ -86,26 +86,26 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         this.clientCheckerTask = new TimerTask() {
             @Override
             public void run() {
-                List<InterfaceClientControllerRMI> disconnected = new ArrayList<>();
+                List<InterfaceClientControllerRMI> disconnectedPlayers = new ArrayList<>();
                 for(InterfaceClientControllerRMI controller: clientControllers){
                     try{
                         controller.ping();
                     }catch (RemoteException e){
-                        disconnected.add(controller);
+                        disconnectedPlayers.add(controller);
                     }
                 }
-                //here in disconnected collection I have all the disconnected players.
-                for(InterfaceClientControllerRMI controller: disconnected){
+                //here in disconnectedPlayers collection I have all the disconnectedPlayers players.
+                for(InterfaceClientControllerRMI controller: disconnectedPlayers){
                     try {
-                        int hashedID = connectedPlayersHashed.get(controller);
-                        connectedPlayersServers.get(controller).disconnectPlayer(hashedID);
-                        connectedPlayersServers.remove(controller);
-                        connectedPlayersHashed.remove(controller);
+                        int hashedID = clientToHashedNickname.get(controller);
+                        clientToServer.get(controller).disconnectPlayer(hashedID);
+                        clientToServer.remove(controller);
+                        clientToHashedNickname.remove(controller);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
                 }
-                clientControllers.removeAll(disconnected);
+                clientControllers.removeAll(disconnectedPlayers);
             }
         };
 

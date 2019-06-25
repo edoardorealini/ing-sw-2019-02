@@ -711,6 +711,10 @@ public class MatchController{
                 else
                     p.getStatus().setTurnStatusSpawn();
                 break;
+
+            case DISCONNECTED:
+                setNewCurrentPlayer();
+                break;
         }
     }
     //nel dubbio metti synchronized un po' ovunque e dovrebbe andare a posto  ;)
@@ -972,9 +976,6 @@ public class MatchController{
             }
 
              */
-
-            //todo qui devo cambiare chi è il master e gestire che se uno era in lobby torna in lobby quando si riconnette
-
         }
     }
 
