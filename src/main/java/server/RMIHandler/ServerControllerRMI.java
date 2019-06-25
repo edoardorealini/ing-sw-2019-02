@@ -149,7 +149,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                         }, lobbyDuration
                 );
                 timerStatus = true;
-            } //todo rendere parametrico il delay, renderlo settabile da file di properties stile libreria JPOS ! (edo)
+            } 
 
             if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
                 timeout.cancel();
