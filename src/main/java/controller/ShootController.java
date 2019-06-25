@@ -10,9 +10,7 @@ import model.map.Square;
 import model.player.Player;
 import model.weapons.Effect;
 import model.weapons.Weapon;
-
 import java.util.*;
-import java.util.logging.Logger;
 
 public class ShootController{
 
