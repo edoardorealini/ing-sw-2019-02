@@ -106,7 +106,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 clientController.startGame();
 
             pushMatchToAllPlayers();
-
+            notifyNewPlayers();
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
             throw new FailedLoginException(e.getMessage());

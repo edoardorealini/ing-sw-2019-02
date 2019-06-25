@@ -1014,6 +1014,9 @@ public class MatchController{
             }
 
              */
+
+            if(match.getPlayer(nickname).equals(match.getCurrentPlayer()))
+                setNewCurrentPlayer();
         }
     }
 
