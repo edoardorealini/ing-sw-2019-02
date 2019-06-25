@@ -111,7 +111,7 @@ public class LifeBoard extends Application {
                     listCircle.get(i).setFill(Color.GREEN);
                     break;
                 case 2:
-                    listCircle.get(i).setFill(Color.GRAY);
+                    listCircle.get(i).setFill(Color.LIGHTGRAY);
                     break;
                 case 3:
                     listCircle.get(i).setFill(Color.BLUE);
@@ -183,7 +183,7 @@ public class LifeBoard extends Application {
                     targetList.get(i).setFill(Color.GREEN);
                     break;
                 case 2:
-                    targetList.get(i).setFill(Color.GRAY);
+                    targetList.get(i).setFill(Color.LIGHTGRAY);
                     break;
                 case 3:
                     targetList.get(i).setFill(Color.BLUE);

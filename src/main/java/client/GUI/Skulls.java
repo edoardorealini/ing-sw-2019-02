@@ -175,7 +175,7 @@ public class Skulls extends Application {
                         j=1;
                         break;
                     case 2:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.GRAY);
+                        arrayCircleTop.get(indexOfSkull).setFill(Color.LIGHTGRAY);
                         i++;
                         j=1;
                         break;
@@ -210,7 +210,7 @@ public class Skulls extends Application {
                         indexOfSkull++;
                         break;
                     case 2:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.GRAY);
+                        arrayCircleDown.get(indexOfSkull).setFill(Color.LIGHTGRAY);
                         j=0;
                         i++;
                         indexOfSkull++;
