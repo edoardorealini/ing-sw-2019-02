@@ -19,6 +19,8 @@ public class ChooseFrenzyActionLower extends Application {
         VBox vbox1= new VBox(6);
 
         //action 1
+        Label title1 = new Label(" Action 1 Frenzy :");
+        Label titleEmpty1 = new Label(" ");
         Label plus1 = new Label("    +    ");
         Label plus2 = new Label("    +    ");
         Label plus3 = new Label("    +    ");
@@ -26,12 +28,14 @@ public class ChooseFrenzyActionLower extends Application {
         Label actionMove2 = new Label("  Move ");
         Label actionReload1 = new Label("  Reload  ");
         Label actionShoot1 = new Label("  Shoot ");
-        vbox1.getChildren().addAll(actionMove1,plus1,actionMove2,plus3,actionReload1,plus2,actionShoot1);
+        vbox1.getChildren().addAll(title1,titleEmpty1,actionMove1,plus1,actionMove2,plus3,actionReload1,plus2,actionShoot1);
         vbox1.setAlignment(Pos.CENTER);
         splitPane.getItems().addAll(vbox1);
 
         //action 2
         VBox vbox2= new VBox(6);
+        Label title2 = new Label(" Action 1 Frenzy :");
+        Label titleEmpty2 = new Label(" ");
         Label plus4 = new Label("    +    ");
         Label plus5 = new Label("    +    ");
         Label plus6 = new Label("    +    ");
@@ -39,7 +43,7 @@ public class ChooseFrenzyActionLower extends Application {
         Label actionMove4 = new Label("  Move ");
         Label actionMove5 = new Label("  Move ");
         Label actionGrab = new Label("  Grab  ");
-        vbox2.getChildren().addAll(actionMove3,plus4,actionMove4,plus5,actionMove5,plus6,actionGrab);
+        vbox2.getChildren().addAll(title2,titleEmpty2,actionMove3,plus4,actionMove4,plus5,actionMove5,plus6,actionGrab);
         vbox2.setAlignment(Pos.CENTER);
         splitPane.getItems().addAll(vbox2);
 

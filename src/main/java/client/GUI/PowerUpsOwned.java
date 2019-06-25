@@ -133,7 +133,7 @@ public class PowerUpsOwned extends Application {
         hBoxButtons.setAlignment(Pos.CENTER);
         hBoxButtons.setSpacing(100);
         vBox.getChildren().addAll(hBoxImages, hBoxButtons);
-        Scene scene = new Scene(vBox,(350*(a+b+c)),300);
+        Scene scene = new Scene(vBox,(350*(a+b+c)),350);
         primaryStage.setMinWidth(100);
         primaryStage.setScene(scene);
         primaryStage.show();
