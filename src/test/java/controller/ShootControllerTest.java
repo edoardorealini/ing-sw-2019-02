@@ -78,12 +78,12 @@ class ShootControllerTest {
 		//setting players and map
 		matchCtrl.getMatch().setCurrentPlayer(p1);
 		matchCtrl.getMatch().setPlayers(p1);
-		matchCtrl.getMatch().setPlayers(p3);
 		matchCtrl.getMatch().setPlayers(p2);
+		matchCtrl.getMatch().setPlayers(p3);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 0));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 0));        //set position of JOHNNTYCA$H
-		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 1));        //set position of JOHNNTYCA$H
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 2));        //set position of REALNGNEER
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of JOHNNTYCA$H
 
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.LOCK_RIFLE));
@@ -584,8 +584,8 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
 		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of REALNGNERR
-		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of JOHNNYCA$H
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1));        //set position of REALNGNERR
+		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 1));        //set position of JOHNNYCA$H
 		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of AHHHHH
 
 
@@ -595,8 +595,8 @@ class ShootControllerTest {
 		input.setShootModes(ShootMode.BASIC);
 		input.setShootModes(ShootMode.OPTIONAL2);
 		input.setTargets(p2);
-		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));		//move the target here
-		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 2));		//move yourself here
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 1));		//move the target here
+		input.setSquares(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 2));		//move yourself here
 
 
 		//executing code

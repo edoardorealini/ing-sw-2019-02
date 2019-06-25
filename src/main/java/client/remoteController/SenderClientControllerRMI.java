@@ -7,10 +7,8 @@ import client.clientController.ReceiverClientControllerRMI;
 import commons.InterfaceClientControllerRMI;
 import exception.*;
 import model.Color;
-import model.map.*;
 import model.player.*;
 import model.Match;
-import model.powerup.*;
 
 //TODO vedere server http
 import commons.InterfaceServerControllerRMI;
@@ -182,13 +180,13 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public void useTeleporter(PowerUp teleporter, Square destination) {
-        //TODO
+    public void useTeleporter(int indexOfTeleporter, int xDestination, int yDestination) throws RemoteException, WrongStatusException, NotInYourPossessException, NotAllowedMoveException, NotAllowedCallException, InvalidInputException, WrongPowerUpException {
+        serverController.useTeleporter(indexOfTeleporter, xDestination, yDestination, this.hashedNickname);
     }
 
     @Override
-    public void useNewton(PowerUp newton, Player affectedPlayer, Square destination) {
-        //TODO
+    public void useNewton(int indexOfNewton, String affectedPlayer, int xDestination, int yDestination) throws RemoteException, WrongStatusException, NotInYourPossessException, NotAllowedMoveException, NotAllowedCallException, WrongPowerUpException, WrongValueException, InvalidInputException {
+        serverController.useNewton(indexOfNewton, affectedPlayer, xDestination, yDestination, this.hashedNickname);
     }
 
     @Override

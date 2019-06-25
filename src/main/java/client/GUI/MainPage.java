@@ -215,6 +215,7 @@ public class MainPage extends Application {
             try {
                 PowerUpsOwned pu = new PowerUpsOwned();
                 pu.setMatch(match);
+                pu.setSenderClientController(remoteController);
                 pu.setPlayerWhoClickButton(match.getPlayer(remoteController.getNickname()));
                 pu.start(new Stage());
             } catch (Exception ex) {
@@ -1223,7 +1224,6 @@ public class MainPage extends Application {
         int third = 0;
 
         Stage targetingScopeStage = new Stage();
-        targetingScopeStage.initModality(Modality.APPLICATION_MODAL);
         targetingScopeStage.setTitle("Targeting Scope use");
 
         HBox imagesHBox = new HBox();

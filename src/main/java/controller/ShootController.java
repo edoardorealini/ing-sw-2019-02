@@ -60,18 +60,20 @@ public class ShootController{
 
         for (ShootMode mode : shootingModes) {
             for (Color color : weapon.getModeCost(mode)) {
-                switch (color) {
-                    case RED:
-                        r++;
-                        break;
-                    case BLUE:
-                        b++;
-                        break;
-                    case YELLOW:
-                        y++;
-                        break;
-                    default:
-                        break;
+                if (color != null) {
+                    switch (color) {
+                        case RED:
+                            r++;
+                            break;
+                        case BLUE:
+                            b++;
+                            break;
+                        case YELLOW:
+                            y++;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
@@ -93,18 +95,20 @@ public class ShootController{
         int y = 0;
 
         for (Color color : cost) {
-            switch (color) {
-                case RED:
-                    r++;
-                    break;
-                case BLUE:
-                    b++;
-                    break;
-                case YELLOW:
-                    y++;
-                    break;
-                default:
-                    break;
+            if (color != null) {
+                switch (color) {
+                    case RED:
+                        r++;
+                        break;
+                    case BLUE:
+                        b++;
+                        break;
+                    case YELLOW:
+                        y++;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -751,15 +755,18 @@ public class ShootController{
                     e.printStackTrace();
                 }
 
-                input.getTargets().clear();
-                for (Player player : match.getPlayers()) {
-                    if (input.getSquares().get(1).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
-                        input.setTargets(player);
-                }
-                try {
-                    input.getWeapon().getMode(mode).get(1).executeEffect(match, moveController, input);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (input.getSquares().size() > 1) {
+
+                    input.getTargets().clear();
+                    for (Player player : match.getPlayers()) {
+                        if (input.getSquares().get(1).equals(player.getPosition()) && !player.getNickname().equals(match.getCurrentPlayer().getNickname()))
+                            input.setTargets(player);
+                    }
+                    try {
+                        input.getWeapon().getMode(mode).get(1).executeEffect(match, moveController, input);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
 

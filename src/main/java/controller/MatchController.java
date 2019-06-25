@@ -519,16 +519,12 @@ public class MatchController{
     }
 
     private boolean canUsePowerUp(){
-        if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction() || match.getCurrentPlayer().isInStatusReloading())
-            return true;
+        return match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction() || match.getCurrentPlayer().isInStatusReloading() || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_LOWER_FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.SECOND_ACTION_FRENZY);
 
-        return false;
     }
 
     private boolean checkIfCanSkipAction(Player p){
-        if(p.isInStatusFirstAction() || p.isInStatusSecondAction() || p.isInStatusReloading())
-            return true;
-        return false;
+        return p.isInStatusFirstAction() || p.isInStatusSecondAction() || p.isInStatusReloading();
     }
 
     private boolean checkIfCanSkipActionFrenzy(Player p){
@@ -1287,8 +1283,8 @@ public class MatchController{
             }
         }
 
-        if (numberOfPeopleKilled > 2)
-            match.getKillShotTrack().setDoubleKill(match.getCurrentPlayer().getId());
+        if (numberOfPeopleKilled >= 2)
+           match.getCurrentPlayer().addPoints(1);       //double kill
     }
 
     private void scoreBoard(Board board) {

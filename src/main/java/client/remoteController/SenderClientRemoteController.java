@@ -4,10 +4,8 @@ import client.GUI.FirstPage;
 import commons.ShootingParametersClient;
 import exception.*;
 import model.Color;
-import model.map.*;
 import model.player.*;
 import model.Match;
-import model.powerup.*;
 
 import java.rmi.RemoteException;
 
@@ -30,9 +28,9 @@ public abstract class SenderClientRemoteController {
     //metodi di powerUpController
     public abstract void usePowerUpAsAmmo(int indexOfPowerUp) throws NotInYourPossessException, RemoteException, NotAllowedCallException;
 
-    public abstract void useTeleporter(PowerUp teleporter, Square destination);
+    public abstract void useTeleporter(int indexOfTeleporter, int xDestination, int yDestination) throws RemoteException, WrongStatusException, NotInYourPossessException, NotAllowedMoveException, NotAllowedCallException, InvalidInputException, WrongPowerUpException;
 
-    public abstract void useNewton(PowerUp newton, Player affectedPlayer, Square destination);
+    public abstract void useNewton(int indexOfNewton, String affectedPlayer, int xDestination, int yDestination) throws RemoteException, WrongStatusException, NotInYourPossessException, NotAllowedMoveException, NotAllowedCallException, WrongPowerUpException, WrongValueException, InvalidInputException;
 
     public abstract void useTagBackGrenade(int indexOfTagBackGrenade) throws RemoteException, NotAllowedTargetException, WrongStatusException, NotInYourPossessException;
 
