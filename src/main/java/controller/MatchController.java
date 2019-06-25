@@ -900,6 +900,8 @@ public class MatchController{
                 break;
 
             case SECOND_ACTION_FRENZY:
+                p.getStatus().setTurnStatusEndGame();
+                endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
                     //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
@@ -907,13 +909,12 @@ public class MatchController{
                     e.printStackTrace();
                 }
                 setNewCurrentPlayerFrenzy();
-                p.getStatus().setTurnStatusEndGame();
-                endOfTurn();
-                goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
+                p.getStatus().setTurnStatusEndGame();
+                endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
                     //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
@@ -921,9 +922,6 @@ public class MatchController{
                     e.printStackTrace();
                 }
                 setNewCurrentPlayerFrenzy();
-                p.getStatus().setTurnStatusEndGame();
-                endOfTurn();
-                goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
@@ -936,6 +934,7 @@ public class MatchController{
             } else {
                 match.setCurrentPlayer(match.getPlayers().get(match.getCurrentPlayer().getId() + 1));
             }
+            goToNextStatusFrenzy(match.getCurrentPlayer());
         }
         else{
             Timer waitForRespawn = new Timer();
@@ -943,7 +942,6 @@ public class MatchController{
                     new TimerTask() {
                         @Override
                         public void run() {
-                            Match model = getMatch();
                             if (everybodyRespawned()) {
                                 if (match.getCurrentPlayer().getId() == (match.getPlayers().size() - 1)) {
                                     match.setCurrentPlayer(match.getPlayers().get(0));
@@ -953,6 +951,8 @@ public class MatchController{
                                 waitForRespawn.cancel();
                                 waitForRespawn.purge();
                             }
+                            goToNextStatusFrenzy(match.getCurrentPlayer());
+
                         }
                     }, 1, 3000
             );
