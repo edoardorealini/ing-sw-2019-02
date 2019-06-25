@@ -1043,11 +1043,11 @@ public class ShootController{
         if (! getCurrPlayer().getPosition().getAllowedMoves().contains(dir))
             throw new NotAllowedMoveException("Move error during shoot");
 
-        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>1) {
+        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size() > 1) {
             sq1 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(1);
             input.setSquares(sq1);
         }
-        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size()>2 && mode == ShootMode.ALTERNATE) {
+        if (match.getMap().getAllowedSquaresInDirection(dir, getCurrPlayer().getPosition()).size() > 2 && mode == ShootMode.ALTERNATE) {
             sq2 = match.getMap().getAllowedSquaresInDirection(input.getDirection(), getCurrPlayer().getPosition()).get(2);
             input.setSquares(sq2);
         }
@@ -1056,15 +1056,14 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                if (i == 3 && input.getTargets().size()<2)
+                if (i == 3 && input.getTargets().size() < 2)
                     break;
                 checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
                 if (eff.getMoveYourself() != 0) {
-                   if (i == 2 && input.getSquares().size()>1)
+                   if (i == 2 && input.getSquares().size() > 1)
                        input.getSquares().remove(0);
-                    eff.executeEffect(match, moveController, input);
-
+                   eff.executeEffect(match, moveController, input);
                 }
                 i++;
             } catch (NotAllowedTargetException e) {
@@ -1073,6 +1072,7 @@ public class ShootController{
                 throw new NotAllowedTargetException(notValidTarget);
             } catch (NotAllowedMoveException e) {
                 getCurrPlayer().setPosition(squareTemp);
+                e.printStackTrace();
                 throw new NotAllowedMoveException("Move error during shoot");
             }
         }

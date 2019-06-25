@@ -783,8 +783,8 @@ class ShootControllerTest {
 		matchCtrl.getMatch().setPlayers(p3);
 		matchCtrl.getMatch().setPlayers(p4);
 		matchCtrl.getMatch().getCurrentPlayer().addAmmoCard(ammo);
-		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(2, 2));        //set position of MADSOMMA
-		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of REALNGNERR
+		matchCtrl.getShootController().getCurrPlayer().setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 1));        //set position of MADSOMMA
+		matchCtrl.getMatch().getPlayers().get(1).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(3, 0));        //set position of REALNGNEER
 		matchCtrl.getMatch().getPlayers().get(2).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(0, 2));        //set position of JOHNNYCA$H
 		matchCtrl.getMatch().getPlayers().get(3).setPosition(matchCtrl.getMatch().getMap().getSquareFromIndex(1, 2));        //set position of AHHHHH
 
@@ -792,10 +792,10 @@ class ShootControllerTest {
 		//setting the input
 		input.setWeapon(matchCtrl.getMatch().getWeaponDeck().getWeapon(WeaponName.POWER_GLOVE));
 		input.setShootModes(ShootMode.BASIC);
-		input.setShootModes(ShootMode.ALTERNATE);
+		//input.setShootModes(ShootMode.ALTERNATE);
 		input.setTargets(p2);
-		input.setTargets(p3);
-		input.setDirection(Directions.LEFT);
+		//input.setTargets(p3);
+		input.setDirection(Directions.DOWN);
 
 
 		//executing code
