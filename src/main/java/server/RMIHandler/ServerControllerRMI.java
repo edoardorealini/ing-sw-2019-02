@@ -699,6 +699,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    public void skipActionFrenzy(int clientHashedID) throws RemoteException, WrongStatusException {
+        try {
+            matchController.skipActionFrenzy(matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
+            pushMatchToAllPlayers();
+        }catch (WrongStatusException e){
+            e.printStackTrace();
+            throw new  WrongStatusException(e.getMessage());
+        }
+    }
+
     // FRENZY METHODS
 
     public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedCallException {

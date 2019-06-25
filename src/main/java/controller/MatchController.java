@@ -531,6 +531,12 @@ public class MatchController{
         return false;
     }
 
+    private boolean checkIfCanSkipActionFrenzy(Player p){
+        if(p.getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_FRENZY) || p.getStatus().getTurnStatus().equals(RoundStatus.SECOND_ACTION_FRENZY) || p.getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_LOWER_FRENZY))
+            return true;
+        return false;
+    }
+
     private boolean canChooseMap(){
         if(match.getCurrentPlayer().isInStatusMaster())
             return true;
@@ -942,6 +948,16 @@ public class MatchController{
         if(checkIfCanSkipAction(p)) {
             System.out.println("[TURN]: The player " + p.getNickname() + " skipped an action");
             goToNextStatus(p);
+            printPlayerStatuses();
+        }
+        else
+            throw new WrongStatusException("You cannot skip the turn now!");
+    }
+
+    public void skipActionFrenzy(Player p) throws WrongStatusException{
+        if(checkIfCanSkipActionFrenzy(p)) {
+            System.out.println("[TURN]: The player " + p.getNickname() + " skipped an action");
+            goToNextStatusFrenzy(p);
             printPlayerStatuses();
         }
         else
@@ -1407,7 +1423,6 @@ public class MatchController{
         if (canDoActionFrenzyBoosted()){
             try {
                 moveController.move(player,destination,1);
-                try {
                     shootFrenzy(input);
                     goToNextStatusFrenzy(player);
                 } catch (WrongStatusException e) {
@@ -1418,8 +1433,7 @@ public class MatchController{
                     throw new NotEnoughAmmoException(e.getMessage());
                 } catch (NotAllowedShootingModeException e) {
                     throw new NotAllowedShootingModeException(e.getMessage());
-                }
-            } catch (NotAllowedMoveException e) {
+                } catch (NotAllowedMoveException e) {
                 throw new NotAllowedMoveException(e.getMessage());
             }
         }
@@ -1434,7 +1448,6 @@ public class MatchController{
         if (canDoActionFrenzyLower()){
            try {
                moveController.move(player,destination,2);
-               try {
                    shootFrenzy(input);
                    goToNextStatusFrenzy(player);
                } catch (WrongStatusException e) {
@@ -1445,8 +1458,7 @@ public class MatchController{
                    throw new NotEnoughAmmoException(e.getMessage());
                } catch (NotAllowedShootingModeException e) {
                    throw new NotAllowedShootingModeException(e.getMessage());
-               }
-           } catch (NotAllowedMoveException e) {
+               } catch (NotAllowedMoveException e) {
                throw new NotAllowedMoveException(e.getMessage());
            }
        }
