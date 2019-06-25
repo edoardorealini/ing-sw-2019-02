@@ -908,6 +908,7 @@ public class MatchController{
                 }
                 setNewCurrentPlayerFrenzy();
                 p.getStatus().setTurnStatusEndGame();
+                endOfTurn();
                 goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
@@ -921,6 +922,7 @@ public class MatchController{
                 }
                 setNewCurrentPlayerFrenzy();
                 p.getStatus().setTurnStatusEndGame();
+                endOfTurn();
                 goToNextStatusFrenzy(match.getCurrentPlayer());
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
