@@ -1293,6 +1293,8 @@ public class MatchController{
                 if (board.isOverKilled())
                     match.getKillShotTrack().setMortalShots(match.getCurrentPlayer().getId());
 
+                match.getKillShotTrack().setMortalShots(9);
+
                 match.getKillShotTrack().decreaseSkulls();      //remove just one skull
 
                 board.initializeBoard();    //resetting the board of th killed player

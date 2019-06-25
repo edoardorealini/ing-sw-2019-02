@@ -691,8 +691,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         if (nSkulls < 0 || nSkulls > 8) // TODo non dir cazzate
             throw new NotAllowedCallException("The chosen number for skulls is not allowed");
 
-        if (checkHashedIDAsCurrentPlayer(clientHashedID))
-             matchController.getMatch().getKillShotTrack().setSkulls(nSkulls);
+        if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.getMatch().getKillShotTrack().setSkulls(nSkulls);
+            matchController.getMatch().getKillShotTrack().setTotlSkulls(nSkulls);
+        }
         else
           throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
