@@ -679,12 +679,18 @@ public class MatchController{
                 break;
 
             case RESPAWN:
+                System.out.println("[RESPAWN]: Spawning player " + p.getNickname() + " in status: " + p.getStatus().getTurnStatus());
+                System.out.println("[RESPAWN]: Spawning player " + p.getNickname() + " in AbilityStatus: " + p.getStatus().getSpecialAbility());
                 if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
                     p.setPlayerMoodFrenzy(true);
                     p.getStatus().setTurnStatusWaitTurnFrenzy();
+                    System.out.println("[RESPAWN]: Setting status to wait turn frenzy");
+
                 }
-                else
+                else {
                     p.getStatus().setTurnStatusWaitTurn();
+                    System.out.println("[RESPAWN]: Setting status to wait turn");
+                }
                 break;
 
             case WAIT_TURN:
@@ -1338,7 +1344,8 @@ public class MatchController{
                 board.increaseNumberOfDeaths();
 
                 p.falseDead();
-                p.getStatus().setSpecialAbilityNormal();
+                if(!p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) && !p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
+                    p.getStatus().setSpecialAbilityNormal();
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
