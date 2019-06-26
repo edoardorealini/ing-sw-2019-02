@@ -22,6 +22,7 @@ import model.ShootMode;
 import model.map.Directions;
 import model.player.Player;
 import model.weapons.Weapon;
+import model.weapons.WeaponAmmoStatus;
 
 import java.io.File;
 import java.rmi.Remote;
@@ -431,9 +432,9 @@ public class Action1Lower extends Application {
 
     public void reloadPopup() {
 
-        short a = 0;
-        short b = 0;
-        short c = 0;
+        int first = 0;
+        int second = 0;
+        int third = 0;
 
         Stage reloadStage = new Stage();
 
@@ -454,46 +455,46 @@ public class Action1Lower extends Application {
         reloadWeapon3.setAlignment(Pos.CENTER);
 
 
-        if (match.getCurrentPlayer().getWeapons()[0]  != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getWeaponStatus() == WeaponAmmoStatus.UNLOADED) {
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[0].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(350);
             iv0.setFitWidth(300);
             iv0.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv0);
-            reloadWeapon1.setText("Reload " + match.getCurrentPlayer().getWeapons()[0].getName());
+            reloadWeapon1.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName());
             hBoxButtons.getChildren().add(reloadWeapon1);
-            a = 1;
+            first = 1;
         }
 
-        if (match.getCurrentPlayer().getWeapons()[1] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[1].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(350);
             iv1.setFitWidth(300);
             iv1.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv1);
-            reloadWeapon2.setText("Reload " + match.getCurrentPlayer().getWeapons()[1].getName());
+            reloadWeapon2.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName());
             hBoxButtons.getChildren().add(reloadWeapon2);
-            b = 1;
+            second = 1;
         }
 
-        if (match.getCurrentPlayer().getWeapons()[2] != null){
+        if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getCurrentPlayer().getWeapons()[2].getName() + ".png");
+                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(350);
             iv2.setFitWidth(300);
             iv2.setPreserveRatio(true);
             hBoxWeapon.getChildren().add(iv2);
-            reloadWeapon3.setText("Reload " + match.getCurrentPlayer().getWeapons()[2].getName());
+            reloadWeapon3.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName());
             hBoxButtons.getChildren().add(reloadWeapon3);
-            c = 1;
+            third = 1;
         }
 
         hBoxWeapon.setMinHeight(350);
@@ -512,8 +513,8 @@ public class Action1Lower extends Application {
             try {
                 senderRemoteController.reload(0);
                 reloadStage.close();
-            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException | WrongStatusException e) {
-                e.printStackTrace();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+                //e.printStackTrace();
                 PopUpSceneMethod.display("ERROR", e.getMessage());
             }
         });
@@ -540,8 +541,10 @@ public class Action1Lower extends Application {
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
+        //TODO reloadStage.setOnCloseRequest(event -> );
 
-        Scene scene = new Scene(vBox,(300*(a+b+c) + 100),450);
+
+        Scene scene = new Scene(vBox, (300*(first+second+third) + 100), 450);
         reloadStage.setScene(scene);
         reloadStage.showAndWait();
 
