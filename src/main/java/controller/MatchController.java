@@ -679,7 +679,12 @@ public class MatchController{
                 break;
 
             case RESPAWN:
-                p.getStatus().setTurnStatusWaitTurn();
+                if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
+                    p.setPlayerMoodFrenzy(true);
+                    p.getStatus().setTurnStatusWaitTurnFrenzy();
+                }
+                else
+                    p.getStatus().setTurnStatusWaitTurn();
                 break;
 
             case WAIT_TURN:
@@ -1033,10 +1038,13 @@ public class MatchController{
         endOfTurn();
         //putting all the players in ENDGAME status
         for(Player p: match.getPlayers()){
-            p.getStatus().setTurnStatusEndGame();
+            if(p.isConnected()) //the disconnected players stay disconnected!
+                p.getStatus().setTurnStatusEndGame();
         }
 
         //Here i have to make the final calculus of points and create a scoreboard (classifica)
+
+        //Here i have to notify all the players with the final view of scores (classifica).
         return null;
     }
 
@@ -1306,7 +1314,12 @@ public class MatchController{
         for (Player p : match.getPlayers()) {
             if (p.isDead()) {
                 Board board = p.getBoard();
-                scoreBoard(board);
+
+                if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
+                    scoreBoardFrenzy(board);
+                else
+                    scoreBoardNormal(board);
+
                 if (board.getLifePoints()[11] != 9)
                     match.getPlayers().get(board.getLifePoints()[11]).getBoard().updateMarks(1, p.getId(), board.getLifePoints()[11]);  //giving the revenge mark
 
@@ -1335,7 +1348,7 @@ public class MatchController{
            match.getCurrentPlayer().addPoints(1);       //double kill
     }
 
-    private void scoreBoard(Board board) {
+    private void scoreBoardNormal(Board board) {
         //this method score the board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rank = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
@@ -1344,8 +1357,6 @@ public class MatchController{
             int hits = board.howManyHits(p.getId());
             numberOfDamages.add(hits);
         }
-
-
 
         for (int i = 0; i < numberOfDamages.size(); i++) {
             rank = addElementInRank(numberOfDamages.get(i), i, rank);
@@ -1392,6 +1403,10 @@ public class MatchController{
         currentValue.add(match.getPlayers().get(idPlayer).getNickname());
 
         return rank;
+    }
+
+    private void scoreBoardFrenzy(Board board){
+
     }
 
     /*
