@@ -199,6 +199,7 @@ public class PowerUpsOwned extends Application {
                 e.printStackTrace();
                 PopUpSceneMethod.display("ERROR IN USING POWER UP", e.getMessage());
             }
+            usePowerUp.close();
         });
 
         hBoxSquare.getChildren().addAll(x, xSquare1, y, ySquare1);
