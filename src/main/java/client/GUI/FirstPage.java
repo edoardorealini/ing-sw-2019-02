@@ -311,4 +311,8 @@ public class FirstPage extends Application implements Runnable{
     public void closePrimaryStage() {
         primaryStage.close();
     }
+
+    public void setMatch(Match match) {
+        this.match = match;
+    }
 }

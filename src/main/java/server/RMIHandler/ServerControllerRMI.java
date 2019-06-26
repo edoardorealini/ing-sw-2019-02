@@ -106,7 +106,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 clientController.startGame();
 
             pushMatchToAllPlayers();
-            notifyNewPlayers();
         } catch(FailedLoginException e){
             System.out.println(e.getMessage());
             throw new FailedLoginException(e.getMessage());
@@ -120,7 +119,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         try {
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected successfully");
-            notifyNewPlayers();
+            //notifyNewPlayers();
         }catch(Exception e){
             throw new FailedLoginException(e.getMessage());
         }

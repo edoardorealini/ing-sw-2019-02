@@ -92,6 +92,8 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     public void updateMatch(Match match){
         setMatch(match);
+        firstPage.setMatch(match);
+        firstPage.refreshPlayersInLobby();
         if(mainPage != null) {
             Platform.runLater( () -> {
                 mainPage.setMatch(match);
@@ -103,8 +105,8 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                     mainPage.setFrenzyMode(true);
                     mainPage.frenzyButtonBoosted();
                     //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE ?
-                    System.out.println("Frenzy iniziata\n");
-                    System.out.println("Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getStatus().getTurnStatus());
+                    System.out.println("[FRENZY]: Started FINAL FRENZY");
+                    System.out.println("[FRENZY]: Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getStatus().getTurnStatus());
 
                 }
 
