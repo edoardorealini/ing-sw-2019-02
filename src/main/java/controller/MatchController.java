@@ -1020,6 +1020,27 @@ public class MatchController{
         }
     }
 
+    /*
+    This routine is called when:
+        the game finishes naturally (end of frenzy mode, when all the players are in END_GAME)
+        less than 3 players are connected to the match (add control to disconnect player).
+
+        Returns: an array list with the players in order of points!.
+     */
+    private ArrayList<Player> endGameRoutine(){
+        //TODO
+        //calling the default routine end of turn (when ending the game I have to manage the points gained in the last turn).
+        endOfTurn();
+        //putting all the players in ENDGAME status
+        for(Player p: match.getPlayers()){
+            p.getStatus().setTurnStatusEndGame();
+        }
+
+        //Here i have to make the final calculus of points and create a scoreboard (classifica)
+        return null;
+    }
+
+
     public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException {
 
         boolean shootCompleted = false;
