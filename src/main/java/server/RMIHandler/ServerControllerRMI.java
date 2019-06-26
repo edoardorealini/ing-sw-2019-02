@@ -119,7 +119,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         try {
             matchController.addPlayer(nickName);
             System.out.println("[INFO]: Player " + nickName + " connected successfully");
-            //notifyNewPlayers();
+            notifyNewPlayers();
         }catch(Exception e){
             throw new FailedLoginException(e.getMessage());
         }
@@ -413,23 +413,25 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     public synchronized void useTeleporter(int indexOfPowerUp, int xDest, int yDest, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException, NotAllowedCallException, NotAllowedMoveException, WrongPowerUpException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.useTeleporter(converter.indexToPowerUp(indexOfPowerUp, matchController.getMatch().getCurrentPlayer()), converter.indexToSquare(xDest, yDest));
-        }
-        else
+            pushMatchToAllPlayers();
+        } else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
     //NB  x = i /  y = j !!
     public synchronized void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, WrongValueException, InvalidInputException, WrongPowerUpException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useNewton(converter.indexToPowerUp(indexOfPowerUp,matchController.getMatch().getCurrentPlayer()), converter.nameToPlayer(affectedPlayer), converter.indexToSquare(xDest, yDest));
-        else
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.useNewton(converter.indexToPowerUp(indexOfPowerUp, matchController.getMatch().getCurrentPlayer()), converter.nameToPlayer(affectedPlayer), converter.indexToSquare(xDest, yDest));
+            pushMatchToAllPlayers();
+        } else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
     @Override
     public synchronized void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
-        if(checkHashedIDAsCurrentPlayer(clientHashedID))
-            matchController.useTargetingScope(converter.indexToPowerUp(indexOfTargetingScope, matchController.getMatch().getCurrentPlayer()) , matchController.getMatch().getPlayer(affectedPlayer), ammoColorToPay);
-        else
+        if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
+            matchController.useTargetingScope(converter.indexToPowerUp(indexOfTargetingScope, matchController.getMatch().getCurrentPlayer()), matchController.getMatch().getPlayer(affectedPlayer), ammoColorToPay);
+            pushMatchToAllPlayers();
+        } else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }

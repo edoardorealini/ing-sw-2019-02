@@ -1116,7 +1116,8 @@ public class MainPage extends Application {
         //TODO reloadStage.setOnCloseRequest(event -> );
 
 
-        Scene scene = new Scene(vBox, (300*(first+second+third) + 100), 450);
+        Scene scene = new Scene(vBox, (300*(first+second+third)), 450);
+        reloadStage.setMinWidth(300);
         reloadStage.setScene(scene);
         reloadStage.showAndWait();
 
