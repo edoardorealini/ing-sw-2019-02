@@ -104,11 +104,15 @@ public class PowerUpController{
                 if (affectedPlayer.getBoard().isDead())                                                            //check if the target is dead
                     affectedPlayer.trueDead();
 
-                if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 2)
-                    affectedPlayer.getStatus().setSpecialAbilityAdrenalinePick();
+                if(!affectedPlayer.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) && !affectedPlayer.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
 
-                if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 5)
-                    affectedPlayer.getStatus().setSpecialAbilityAdrenalineShoot();
+                    if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 2)
+                        affectedPlayer.getStatus().setSpecialAbilityAdrenalinePick();
+
+                    if (affectedPlayer.getBoard().getTotalNumberOfDamages() > 5)
+                        affectedPlayer.getStatus().setSpecialAbilityAdrenalineShoot();
+
+                }
 
                 match.getCurrentPlayer().removePowerUps(targetingScope);
             } else throw new NotEnoughAmmoException("You don't have enough ammo to use Targeting Scope");
@@ -116,13 +120,4 @@ public class PowerUpController{
 
     }
 
-    private boolean visibilityBetweenPlayers(Player player1, Player player2) {
-        //this method returns true if player2 can be seen by player1
-        if (match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor())) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 }

@@ -876,21 +876,20 @@ public class MatchController{
 
         }
 
-        System.out.println("Finito di settare le abilitè dei player frenzy");
+        System.out.println("[FRENZY]: Setted all the new statuses correctly");
         for (Player p: match.getPlayers()){
             System.out.println(p.getNickname() + " status "+p.getStatus().getSpecialAbility());
         }
 
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionFrenzy();
-            System.out.println("Settato First action Frenzy");
+            System.out.println("[FRENZY]: Setted the current player to First_Action_Frenzy");
         }
         if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
             match.getCurrentPlayer().getStatus().setTurnStatusFirstActionLowerFrenzy();
-            System.out.println("Settato " +
-                    "First action frenzy lower");
+            System.out.println("[FRENZY]: Setted the current player to First_Action_Frenzy_Lower");
         }
-        System.out.println("The current player : "+match.getCurrentPlayer().getNickname() +" is in Round status " + match.getCurrentPlayer().getStatus().getTurnStatus() );
+        System.out.println("[FRENZY]: The current player " + match.getCurrentPlayer().getNickname() +" is in Round status " + match.getCurrentPlayer().getStatus().getTurnStatus() );
     }
 
     private void goToNextStatusFrenzy(Player p){
