@@ -3,6 +3,7 @@ package model.weapons;
 import controller.MoveController;
 import model.ShootingParametersInput;
 import model.Match;
+import model.player.AbilityStatus;
 import model.player.Player;
 import model.powerup.PowerUp;
 import model.powerup.PowerUpName;
@@ -49,11 +50,15 @@ public class EffectDamage extends Effect  implements Serializable {
 				if (player.getBoard().isDead())                                                            //check if the target is dead
 					player.trueDead();
 
-				if (player.getBoard().getTotalNumberOfDamages() > 2)
-					player.getStatus().setSpecialAbilityAdrenalinePick();
+				if(!player.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) && !player.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
 
-				if (player.getBoard().getTotalNumberOfDamages() > 5)
-					player.getStatus().setSpecialAbilityAdrenalineShoot();
+					if (player.getBoard().getTotalNumberOfDamages() > 2)
+						player.getStatus().setSpecialAbilityAdrenalinePick();
+
+					if (player.getBoard().getTotalNumberOfDamages() > 5)
+						player.getStatus().setSpecialAbilityAdrenalineShoot();
+
+				}
 
 				player.setBeenDamaged(true);
 
@@ -76,11 +81,14 @@ public class EffectDamage extends Effect  implements Serializable {
 					transferringMarks--;
 				}
 
-				if (target.getBoard().getTotalNumberOfDamages() > 2)
-					target.getStatus().setSpecialAbilityAdrenalinePick();
+				if(!target.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) && !target.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
 
-				if (target.getBoard().getTotalNumberOfDamages() > 5)
-					target.getStatus().setSpecialAbilityAdrenalineShoot();
+					if (target.getBoard().getTotalNumberOfDamages() > 2)
+						target.getStatus().setSpecialAbilityAdrenalinePick();
+
+					if (target.getBoard().getTotalNumberOfDamages() > 5)
+						target.getStatus().setSpecialAbilityAdrenalineShoot();
+				}
 
 				target.setBeenDamaged(true);
 
