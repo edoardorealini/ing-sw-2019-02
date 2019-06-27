@@ -87,14 +87,12 @@ public class FirstPage extends Application implements Runnable{
         inputName.setPromptText("Name");
         GridPane.setConstraints(inputName, 50,19);
 
-        Label typeOfConnection = new Label("Type of connection: ");
-        GridPane.setConstraints(typeOfConnection,50,20);
+        Label numberOfPort = new Label("Number of the port: ");
+        GridPane.setConstraints(numberOfPort,50,20);
 
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().add("RMI");
-        choiceBox.getItems().add("Socket");
-        choiceBox.setValue("RMI");
-        GridPane.setConstraints(choiceBox,50,21);
+        TextField numerPortText = new TextField();
+        numerPortText.setText("1338");
+        GridPane.setConstraints(numerPortText,50,21);
 
         Label ipLabel = new Label("IP: ");
         GridPane.setConstraints(ipLabel, 50,22);
@@ -108,7 +106,7 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e ->  checkInput(inputName,choiceBox,inputIp,primaryStage)); /*
+        playButton.setOnAction(e ->  checkInput(inputName,numerPortText,inputIp,primaryStage)); /*
           {
             try {
                 GeneralWeaponPopUp fp = new GeneralWeaponPopUp();
@@ -124,8 +122,8 @@ public class FirstPage extends Application implements Runnable{
         // codice per cambiare font
         nameLabel.setTextFill(Color.YELLOWGREEN);
         nameLabel.setStyle("-fx-font-weight: bold");
-        typeOfConnection.setTextFill(Color.YELLOWGREEN);
-        typeOfConnection.setStyle("-fx-font-weight: bold");
+        numberOfPort.setTextFill(Color.YELLOWGREEN);
+        numberOfPort.setStyle("-fx-font-weight: bold");
         ipLabel.setTextFill(Color.YELLOWGREEN);
         ipLabel.setStyle("-fx-font-weight: bold");
 
@@ -169,7 +167,7 @@ public class FirstPage extends Application implements Runnable{
         blend.setTopInput(blend1);
 
         nameLabel.setEffect(blend);
-        typeOfConnection.setEffect(blend);
+        numberOfPort.setEffect(blend);
         playButton.setEffect(blend);
         ipLabel.setEffect(blend);
 
@@ -180,7 +178,7 @@ public class FirstPage extends Application implements Runnable{
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
 
-        grid.getChildren().addAll(nameLabel,inputName,typeOfConnection,choiceBox,ipLabel, inputIp, playButton);
+        grid.getChildren().addAll(nameLabel,inputName,numberOfPort,numerPortText,ipLabel, inputIp, playButton);
 
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
@@ -234,7 +232,7 @@ public class FirstPage extends Application implements Runnable{
 
     }
 
-    private void checkInput(TextField inputName, ChoiceBox<String> choiceBox, TextField inputIp, Stage primaryStage){
+    private void checkInput(TextField inputName, TextField numerPortText, TextField inputIp, Stage primaryStage){
         if ((inputName.getText().isEmpty())){
             PopUpSceneMethod.display("Username Error", "Please insert a valid username");
 
@@ -242,14 +240,10 @@ public class FirstPage extends Application implements Runnable{
         else {
 
             try {
-                if (choiceBox.getValue().equals("RMI")){
+                    // TODO aggiungere numero porta (numerPortText)
                     SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), inputName.getText(), match, this);
                     settRemoteController(remoteController);
                     primaryStage.setScene(sceneLobby);
-                }
-                else{
-                    //TODO SenderClientRemoteController remoteController = new SenderClientControllerSocket(inputIp.toString(),1338);
-                }
             }
             catch (Exception e){
                 e.printStackTrace();
