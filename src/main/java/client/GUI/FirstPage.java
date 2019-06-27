@@ -1,26 +1,24 @@
 package client.GUI;
 
-import client.remoteController.SenderClientRemoteController;
 import client.remoteController.SenderClientControllerRMI;
+import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 import model.Match;
-import model.powerup.PowerUp;
-import model.weapons.WeaponName;
 
 import java.io.File;
-import java.net.URL;
-import java.nio.file.Paths;
 
 public class FirstPage extends Application implements Runnable{
 
@@ -80,26 +78,28 @@ public class FirstPage extends Application implements Runnable{
         grid.setBackground(new Background(myBI));
 
         // inserisco i nodi
-        Label nameLabel = new Label("Username: ");
+        Label nameLabel = new Label("NICKNAME: ");
         GridPane.setConstraints(nameLabel, 50,18);
 
         TextField inputName = new TextField();
         inputName.setPromptText("Name");
         GridPane.setConstraints(inputName, 50,19);
 
-        Label numberOfPort = new Label("Number of the port: ");
-        GridPane.setConstraints(numberOfPort,50,20);
-
-        TextField numerPortText = new TextField();
-        numerPortText.setText("1338");
-        GridPane.setConstraints(numerPortText,50,21);
 
         Label ipLabel = new Label("IP: ");
-        GridPane.setConstraints(ipLabel, 50,22);
+        GridPane.setConstraints(ipLabel, 50,20);
 
         TextField inputIp = new TextField();
         inputIp.setText("192.168.1.8");
-        GridPane.setConstraints(inputIp, 50,23);
+        GridPane.setConstraints(inputIp, 50,21);
+
+        Label numberOfPort = new Label("PORT: ");
+        GridPane.setConstraints(numberOfPort,50,22);
+
+        TextField numerPortText = new TextField();
+        numerPortText.setText("1338");
+        GridPane.setConstraints(numerPortText,50,23);
+
 
 
         Button playButton = new Button();
