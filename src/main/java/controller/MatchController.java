@@ -1319,7 +1319,7 @@ public class MatchController{
         int numberOfPeopleKilled = 0;   //local variable that keeps the count of how many people have been killed in order to updated doubleKill in killShot track
 
         for (Player p : match.getPlayers()) {
-            if (p.isDead()) {
+            if (p.isDead() && p.isConnected()) {
                 Board board = p.getBoard();
 
                 if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
