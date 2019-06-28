@@ -13,11 +13,13 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 
+import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class FirstPage extends Application implements Runnable{
@@ -100,7 +102,15 @@ public class FirstPage extends Application implements Runnable{
         numerPortText.setText("1338");
         GridPane.setConstraints(numerPortText,50,23);
 
+        inputIp.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER))
+                checkInput(inputName,numerPortText,inputIp,primaryStage);
+        });
 
+        numerPortText.setOnKeyPressed(e -> {
+            if(e.getCode().equals(KeyCode.ENTER))
+                checkInput(inputName,numerPortText,inputIp,primaryStage);
+        });
 
         Button playButton = new Button();
         playButton.setText("  PLAY  ");
@@ -178,7 +188,7 @@ public class FirstPage extends Application implements Runnable{
         scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                 + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
 
-        grid.getChildren().addAll(nameLabel,inputName,numberOfPort,numerPortText,ipLabel, inputIp, playButton);
+        grid.getChildren().addAll(nameLabel,inputName, ipLabel, inputIp, numberOfPort,numerPortText, playButton);
 
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);
