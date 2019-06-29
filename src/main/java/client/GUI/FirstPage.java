@@ -47,6 +47,10 @@ public class FirstPage extends Application implements Runnable{
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Adrenaline");
+        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
+                + File.separatorChar + "resources" + File.separatorChar + "icon" + File.separatorChar + "Icon.png");
+        Image image0 = new Image(file0.toURI().toString());
+        primaryStage.getIcons().add(image0);
         setPrimaryStage(primaryStage);
         //primaryStage.setOnCloseRequest(e -> closePage());
         primaryStage.setOnCloseRequest(e -> {

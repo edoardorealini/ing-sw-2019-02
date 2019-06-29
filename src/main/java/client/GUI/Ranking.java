@@ -47,7 +47,8 @@ public class Ranking extends Application {
                 if (arrayPoints.get(i) >= maxPoint) {
                     maxID = arrayPoints.get(i - 1);
                     maxPoint = arrayPoints.get(i);
-                    i = pos;
+                    pos = i-1;
+                    
                 }
             }
             arraySorted.add(maxID);
