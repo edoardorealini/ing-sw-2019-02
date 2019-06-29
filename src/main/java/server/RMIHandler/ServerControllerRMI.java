@@ -682,7 +682,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
         if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.getMatch().getKillShotTrack().setSkulls(nSkulls);
-            matchController.getMatch().getKillShotTrack().setTotlSkulls(nSkulls);
+            matchController.getMatch().getKillShotTrack().setTotalSkulls(nSkulls);
         }
         else
           throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");

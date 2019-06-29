@@ -148,7 +148,7 @@ public class Skulls extends Application {
         arrayCircleDown.add(circle8down);
 
         // inizializzo i pallini rossi
-        for (int i=1; i<=match.getKillShotTrack().getTotlSkulls();i++){
+        for (int i = 1; i<=match.getKillShotTrack().getTotalSkulls(); i++){
             arrayCircleTop.get(arrayCircleTop.size()-i).setFill(Color.RED);
         }
 
@@ -160,7 +160,7 @@ public class Skulls extends Application {
         // giocatore 4 viola
         int i=0;
         int j=0;
-        int indexOfSkull = 8 - (match.getKillShotTrack().getTotlSkulls());
+        int indexOfSkull = 8 - (match.getKillShotTrack().getTotalSkulls());
         while( i<match.getKillShotTrack().getMortalShots().size()){
             if (j==0) {
                 switch (match.getKillShotTrack().getMortalShots().get(i)) {

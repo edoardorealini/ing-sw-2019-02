@@ -1361,7 +1361,7 @@ public class MatchController{
         }
 
         for (int i = 0; i < numberOfDamages.size(); i++) {
-            rank = addElementInRank(numberOfDamages.get(i), i, rank);
+            addElementInRank(numberOfDamages.get(i), i, rank);
         }
 
         numberOfDamages.removeIf(x -> x.equals(0));   //remove the players who made no damage
@@ -1413,8 +1413,7 @@ public class MatchController{
 
     private void scoreBoardFrenzy(Board board) {
         //this method score the frenzy board of a dead player, giving points to the other players
-        int contOfPointsToGive = 0;
-        java.util.Map<Integer, List<String>> rank = new HashMap<>();
+        java.util.Map<Integer, List<String>> rankFrenzy = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
         for (Player p : match.getPlayers()) {
@@ -1423,7 +1422,7 @@ public class MatchController{
         }
 
         for (int i = 0; i < numberOfDamages.size(); i++) {
-            rank = addElementInRank(numberOfDamages.get(i), i, rank);
+            addElementInRank(numberOfDamages.get(i), i, rankFrenzy);
         }
 
         numberOfDamages.removeIf(x -> x.equals(0));   //remove the players who made no damage
@@ -1432,15 +1431,15 @@ public class MatchController{
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
 
-        for (int j = 0; j <=3; j++) {       //iterating for maximum 4 cycles because the points can be 
-            if (rank.get(numberOfDamages.get(j)).size() == 1) {
+        for (int j = 0; j <=3; j++) {       //iterating for maximum 4 cycles because the points can be only 2, 1, 1, 1
+            if (rankFrenzy.get(numberOfDamages.get(j)).size() == 1) {
                 if (j == 0)
-                    match.getPlayer(rank.get(numberOfDamages.get(j)).get(0)).addPoints(2);
+                    match.getPlayer(rankFrenzy.get(numberOfDamages.get(j)).get(0)).addPoints(2);
                 else
-                    match.getPlayer(rank.get(numberOfDamages.get(j)).get(0)).addPoints(1);
+                    match.getPlayer(rankFrenzy.get(numberOfDamages.get(j)).get(0)).addPoints(1);
             } else {
                 ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
-                for (String nickname : rank.get(numberOfDamages.get(j))) {
+                for (String nickname : rankFrenzy.get(numberOfDamages.get(j))) {
                     arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
                 }
                 do {
@@ -1453,22 +1452,46 @@ public class MatchController{
                 } while (!arrayIDPlayersSameDamage.isEmpty());
             }
         }
-
     }
 
-    /*
-    public void loginPlayer(String nickname) {
-        if(checkPlayerPresence(nickname)) {
-            //Il player è già registrato ma non era più in gioco (è in stato disconnected)
-            match.getPlayer(nickname).getStatus().setTurnStatusWaitTurn();
-            //metto il giocatore da disconnected a waitTurn !
+    private void scoreKillShotTrack(KillShotTrack killShotTrack) {
+        int cont = 0;
+        int[] points = {8, 6, 4, 2, 1, 1};
+        java.util.Map<Integer, List<String>> rankKillShotTrack = new HashMap<>();
+        ArrayList<Integer> numberOfDamages = new ArrayList<>();
+
+        for (Player p : match.getPlayers()) {
+            int hits = killShotTrack.howManyMortalShotsForPlayer(p.getId());
+            numberOfDamages.add(hits);
         }
-        else{
-            addPlayer(nickname);
+
+        for (int i = 0; i < numberOfDamages.size(); i++) {
+            addElementInRank(numberOfDamages.get(i), i, rankKillShotTrack);
+        }
+
+        numberOfDamages.removeIf(x -> x.equals(0));   //remove the players who made no damage
+        numberOfDamages = numberOfDamages.stream().distinct().collect(Collectors.toCollection(ArrayList::new));   //removing duplicates
+
+        numberOfDamages.sort(Comparator.naturalOrder());
+        Collections.reverse(numberOfDamages);
+
+        for (int n : numberOfDamages) {
+            if (rankKillShotTrack.get(n).size() == 1) {         //people that made the same damage
+                match.getPlayer(rankKillShotTrack.get(n).get(0)).addPoints(points[cont]);
+            } else {
+                ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
+                for (String nickname : rankKillShotTrack.get(n)) {
+                    arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
+                }
+                do {
+                    int idPlayer = killShotTrack.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                    match.getPlayers().get(idPlayer).addPoints(points[cont]);
+                    arrayIDPlayersSameDamage.remove(0);
+                } while (!arrayIDPlayersSameDamage.isEmpty());
+            }
+            cont++;
         }
     }
-
-     */
 
 
     // FRENZY METHODS

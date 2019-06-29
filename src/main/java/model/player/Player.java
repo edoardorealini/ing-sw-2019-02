@@ -290,59 +290,10 @@ public class Player implements Serializable{
     public boolean isInStatusWaitFirstTurn(){
         return status.getTurnStatus().equals(RoundStatus.WAIT_FIRST_TURN);
     }
+
     public boolean isInStatusRespawn(){
         return status.getTurnStatus().equals(RoundStatus.RESPAWN);
     }
-
-
-    /*
-    public void goToNextStatus(){
-        switch(status.getTurnStatus()){
-            case LOBBY_MASTER:
-                status.setTurnStatusMaster();
-                break;
-
-            case LOBBY:
-                status.setTurnStatusWaitFirstTurn();
-                break;
-
-            case WAIT_FIRST_TURN:
-                status.setTurnStatusSpawn();
-                break;
-
-            case MASTER:
-                status.setTurnStatusSpawn();
-                break;
-
-            case SPAWN:
-                status.setTurnStatusFirstAction();
-                break;
-
-            case FIRST_ACTION:
-                status.setTurnStatusSecondAction();
-                break;
-
-            case SECOND_ACTION:
-                status.setTurnStatusReloading();
-                break;
-
-            case RELOADING:
-                status.setTurnStatusEndTurn();
-                break;
-
-            case END_TURN:
-                status.setTurnStatusWaitTurn();
-                break;
-
-            case WAIT_TURN:
-                if(!dead)
-                    status.setTurnStatusFirstAction();
-                else
-                    status.setTurnStatusSpawn();
-                break;
-        }
-    }
-    */
 
     public String printPowerUps() {
         StringBuilder string = new StringBuilder();

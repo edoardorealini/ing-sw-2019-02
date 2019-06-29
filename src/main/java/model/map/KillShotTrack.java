@@ -6,7 +6,7 @@ import java.util.*;	  //NB: we have to use a List because we need to know the or
 public class KillShotTrack implements Serializable {
 	private List<Integer> mortalShots;
 	private int skulls;
-	private int totlSkulls;
+	private int totalSkulls;
 	private List<Integer> doubleKill;
 
 	public KillShotTrack() {
@@ -28,7 +28,6 @@ public class KillShotTrack implements Serializable {
 
 	public void setSkulls(int skulls) {
 		this.skulls = skulls;
-		//TODO tutta la classe +  aggiornare valore al primo turno
 	}
 
 	public void decreaseSkulls() {
@@ -43,11 +42,30 @@ public class KillShotTrack implements Serializable {
 		this.doubleKill.add(idPlayer);
 	}
 
-	public void setTotlSkulls(int totlSkulls) {
-		this.totlSkulls = totlSkulls;
+	public void setTotalSkulls(int totalSkulls) {
+		this.totalSkulls = totalSkulls;
 	}
 
-	public int getTotlSkulls() {
-		return totlSkulls;
+	public int getTotalSkulls() {
+		return totalSkulls;
 	}
+
+	public int howManyMortalShotsForPlayer (int idPlayer) {
+		int cont = 0;
+		for (int shot : mortalShots) {
+			if (shot == idPlayer)
+				cont++;
+		}
+		return cont;
+	}
+
+	public int whoMadeDamageBefore(List<Integer> arrayIDPlayer) {
+		for (int shot : mortalShots) {
+			if (arrayIDPlayer.contains(shot))
+				return shot;		//remember shot is the id of the player
+		}
+		return -1;
+	}
+
+
 }
