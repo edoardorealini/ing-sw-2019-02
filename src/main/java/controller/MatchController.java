@@ -924,7 +924,6 @@ public class MatchController{
                     }
 
                 }
-                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
@@ -948,7 +947,6 @@ public class MatchController{
                     }
 
                 }
-                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
     }
@@ -1050,19 +1048,6 @@ public class MatchController{
 
             else
                 match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
-
-            /*
-            if(match.getPlayer(nickname).isInStatusMaster() && match.getPlayers().size() > 1){
-                for(Player p: match.getPlayers()){
-                    int count = 0;
-                    if(p.getNickname().equals(nickname)){
-                        match.getPlayers().get(count + 1).getStatus().setTurnStatusMaster();
-                    }
-                    count ++;
-                }
-            }
-
-             */
 
             if(match.getPlayer(nickname).equals(match.getCurrentPlayer()))
                 setNewCurrentPlayer();
