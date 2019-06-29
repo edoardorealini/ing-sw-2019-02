@@ -1407,6 +1407,9 @@ public class MatchController{
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
 
+        if (numberOfDamages.isEmpty())
+            return;
+
         int deaths = board.getNumberOfDeaths();
 
         for (int n : numberOfDamages) {
@@ -1432,7 +1435,7 @@ public class MatchController{
                 }
             }
         }
-        if(board.getLifePoints()[0] > 0 && board.getLifePoints()[0] < match.getPlayers().size())
+        if(board.getLifePoints()[0] >= 0 && board.getLifePoints()[0] < match.getPlayers().size())
             match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first blood
     }
 
@@ -1467,6 +1470,9 @@ public class MatchController{
 
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
+
+        if (numberOfDamages.isEmpty())
+            return;
 
         for (int j = 0; j <=3; j++) {       //iterating for maximum 4 cycles because the points can be only 2, 1, 1, 1
             if (rankFrenzy.get(numberOfDamages.get(j)).size() == 1) {
@@ -1511,6 +1517,9 @@ public class MatchController{
 
         numberOfDamages.sort(Comparator.naturalOrder());
         Collections.reverse(numberOfDamages);
+
+        if (numberOfDamages.isEmpty())
+            return;
 
         for (int n : numberOfDamages) {
             if (rankKillShotTrack.get(n).size() == 1) {         //people that made the same damage

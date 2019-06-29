@@ -368,8 +368,6 @@ public class MainPage extends Application {
         hBox1.setAlignment(Pos.CENTER);
         hBox2.setAlignment(Pos.CENTER);
 
-        setFont(labelpos1,labelpos2,labelpos3,labelpos4,labelpos5,point);
-
         Scene scene = new Scene(vBoxMove);
 
         stage.setScene(scene);
@@ -1474,70 +1472,6 @@ public class MainPage extends Application {
                 PopUpSceneMethod.display("ERROR", ex.getMessage());
             }
         });
-    }
-
-    public void setFont(Label labelpos1, Label labelpos2,Label labelpos3,Label labelpos4,Label labelpos5, Label point ){
-        // ++++++++++++++++++++++++++++++++++
-        // codice per cambiare font
-        labelpos1.setTextFill(Color.YELLOWGREEN);
-        labelpos1.setStyle("-fx-font-weight: bold");
-        labelpos2.setTextFill(Color.YELLOWGREEN);
-        labelpos2.setStyle("-fx-font-weight: bold");
-        labelpos3.setTextFill(Color.YELLOWGREEN);
-        labelpos3.setStyle("-fx-font-weight: bold");
-        labelpos4.setTextFill(Color.YELLOWGREEN);
-        labelpos4.setStyle("-fx-font-weight: bold");
-        labelpos5.setTextFill(Color.YELLOWGREEN);
-        labelpos5.setStyle("-fx-font-weight: bold");
-        point.setTextFill(Color.YELLOWGREEN);
-        point.setStyle("-fx-font-weight: bold");
-        Blend blend = new Blend();
-        blend.setMode(BlendMode.MULTIPLY);
-
-        DropShadow ds = new DropShadow();
-        ds.setColor(Color.rgb(254, 235, 66, 0.3));
-        ds.setOffsetX(5);
-        ds.setOffsetY(5);
-        ds.setRadius(5);
-        ds.setSpread(0.2);
-
-        blend.setBottomInput(ds);
-
-        DropShadow ds1 = new DropShadow();
-        ds1.setColor(Color.web("#f13a00"));
-        ds1.setRadius(20);
-        ds1.setSpread(0.2);
-
-        Blend blend2 = new Blend();
-        blend2.setMode(BlendMode.MULTIPLY);
-
-        InnerShadow is = new InnerShadow();
-        is.setColor(Color.web("#feeb42"));
-        is.setRadius(9);
-        is.setChoke(0.8);
-        blend2.setBottomInput(is);
-
-        InnerShadow is1 = new InnerShadow();
-        is1.setColor(Color.web("#f13a00"));
-        is1.setRadius(5);
-        is1.setChoke(0.4);
-        blend2.setTopInput(is1);
-
-        Blend blend1 = new Blend();
-        blend1.setMode(BlendMode.MULTIPLY);
-        blend1.setBottomInput(ds1);
-        blend1.setTopInput(blend2);
-
-        blend.setTopInput(blend1);
-
-        labelpos1.setEffect(blend);
-        labelpos2.setEffect(blend);
-        labelpos3.setEffect(blend);
-        labelpos4.setEffect(blend);
-        labelpos5.setEffect(blend);
-        point.setEffect(blend);
-
-        // +++++++++++++++++++++++++++++++++++++++
     }
 
     public void createRanking() throws RemoteException{
