@@ -2,7 +2,6 @@ package server.socketHandler;
 
 import java.net.Socket;
 
-//TODO Edo
 
 public class SocketClientHandler implements Runnable{
 

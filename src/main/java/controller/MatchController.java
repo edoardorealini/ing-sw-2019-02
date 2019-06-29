@@ -160,7 +160,6 @@ public class MatchController{
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
         if(abilityStatus.equals(AbilityStatus.NORMAL) || abilityStatus.equals(AbilityStatus.ADRENALINE_PICK) || abilityStatus.equals(AbilityStatus.ADRENALINE_SHOOT))
             return 3;
-        //TODO controllare qui AbiltyStatus di due tipi in FRENZY.
         if(abilityStatus.equals(AbilityStatus.FRENZY))
             return 4;
         return 3;
@@ -512,13 +511,10 @@ public class MatchController{
     //per action si intende solo MOVE, GRAB e SHOOT
     //insieme di metodi privati che servono per fare i controlli prima di fale le azioni nei metodi di matchController
     // NB quando fai il controllo nel metodo del controller lanciare l'eccezione WrongStatusException dicendo perchè c'è errore.
-
-    //TODO controllare bene qui
     private boolean canDoAction(){
         if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction()){
             return true;
         }
-
         return false;
     }
 
@@ -740,7 +736,6 @@ public class MatchController{
     }
     //nel dubbio metti synchronized un po' ovunque e dovrebbe andare a posto  ;)
     public synchronized void setNewCurrentPlayer(){
-        //TODO controllo su giocatori disconnessi
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
         if(!everybodyRespawned()) {
@@ -1038,7 +1033,7 @@ public class MatchController{
         Returns: an array list with the players in order of points!.
      */
     private ArrayList<Player> endGameRoutine(){
-        //TODO
+        //TODO endGame Routine
         //calling the default routine end of turn (when ending the game I have to manage the points gained in the last turn).
         endOfTurn();
         //putting all the players in ENDGAME status
@@ -1348,7 +1343,6 @@ public class MatchController{
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
-
             }
         }
 

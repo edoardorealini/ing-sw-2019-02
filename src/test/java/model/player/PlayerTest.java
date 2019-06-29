@@ -143,18 +143,11 @@ class PlayerTest {
         p1.addAmmoCard(a2);
         assert(p1.getAmmo().getBlueAmmo()==2);
         assert(p1.getAmmo().getRedAmmo()==2);
-        //TODO da pensare bene per via del costo che potrebbero avere le armi
 
     }
 
  */
 
-    @Test
-    void getPowerUps() {
-        for (int i=0; i<3;i++){
-  //TODO cosa deve fare?          assert ((p1.getPowerUps())[i]==null);
-        }
-    }
 
     @Test
     void addPowerUpsCard() {

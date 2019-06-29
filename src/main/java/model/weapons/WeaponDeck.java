@@ -358,7 +358,6 @@ public class WeaponDeck implements Serializable {
         return deck.toString();
     }
 
-    //TODO ONLY FOR TEST, REMEMBER TO DELETE THIS
     public Weapon getWeapon(WeaponName name) {
         for (Weapon w: weaponDeck) {
             if (w.getName().equals(name)){
