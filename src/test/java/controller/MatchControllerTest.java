@@ -104,7 +104,7 @@ class MatchControllerTest {
 
     //it works, but there is a call on network that cannot be tested
 
-    /*
+
     @Test
     void endOfTurn() {
         matchController.getMatch().setCurrentPlayer(p0);
@@ -130,13 +130,29 @@ class MatchControllerTest {
         matchController.endOfTurn();
         System.out.println("\n");
 
+        p1.getBoard().updateLife(2, 0, 1);
+        p1.getBoard().updateLife(5, 2, 1);
+        p1.getBoard().updateLife(5, 3, 1);
+        //p1.getBoard().updateLife(1, 0, 1);
+        //p1.getBoard().updateLife(2, 3, 1);
+        p1.trueDead();
+
         for (Player p : matchController.getMatch().getPlayers()) {
             System.out.println(p.getNickname()+ "'s points:" + p.getPoints());
         }
 
         System.out.println("\n");
+        
+        matchController.endOfTurn();
+
+        for (Player p : matchController.getMatch().getPlayers()) {
+            System.out.println(p.getNickname()+ "'s points:" + p.getPoints());
+        }
+
+
+        System.out.println("\n");
         System.out.println(p1.getNickname()+ "'s " + p1.getBoard().toStringLP());
         System.out.println(p1.isDead());
     }
-*/
+
 }

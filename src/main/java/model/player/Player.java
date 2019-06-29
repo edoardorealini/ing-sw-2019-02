@@ -26,7 +26,7 @@ public class Player implements Serializable{
     private boolean beenDamaged;      //for targeting scope
     private boolean dead;
     private Match match;
-    private Boolean playerMoodFrenzy = false; // only for the lifeboard GUI
+    private Boolean frenzyBoard = false; // only for the lifeboard GUI
 
     public Player (String nickname, int id, Match match){
         this.nickname = nickname;
@@ -357,12 +357,12 @@ public class Player implements Serializable{
         return string.toString();
     }
 
-    public void setPlayerMoodFrenzy(Boolean playerMoodFrenzy) {
-        this.playerMoodFrenzy = playerMoodFrenzy;
+    public void setFrenzyBoard(Boolean frenzyBoard) {
+        this.frenzyBoard = frenzyBoard;
     }
 
-    public Boolean getPlayerMoodFrenzy() {
-        return playerMoodFrenzy;
+    public Boolean getFrenzyBoard() {
+        return frenzyBoard;
     }
 
 
