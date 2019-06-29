@@ -1,6 +1,5 @@
 package client.GUI;
 
-import client.remoteController.SenderClientRemoteController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,7 +17,6 @@ import model.player.Player;
 
 import java.util.*;
 import java.io.File;
-import java.lang.reflect.Array;
 
 public class LifeBoard extends Application {
     private Match match;
@@ -205,7 +203,7 @@ public class LifeBoard extends Application {
         markHbox.setAlignment(Pos.TOP_LEFT);
         markHbox.setPadding(new Insets(50, 0, 0, 200));
         stackPane.setStyle("-fx-background-color: #191a17");
-        if (frenzyActive && (match.getPlayer(playerClicked.getNickname()).getPlayerMoodFrenzy())){
+        if (frenzyActive && (match.getPlayer(playerClicked.getNickname()).getFrenzyBoard())){
             stackPane.getChildren().add(iv1);
         }
         else stackPane.getChildren().add(iv0);
