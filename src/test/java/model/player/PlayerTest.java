@@ -50,17 +50,17 @@ class PlayerTest {
     }
 
     @Test
-    void getBoard(){
+    void getBoard() {
         assertNotNull(p1.getBoard());
         assertNotNull(p2.getBoard());
     }
 
     @Test
     void getWeapons() {
-        assert(p1.getWeapons()!=null);
-        assert((p1.getWeapons()).length==3);
-        for (int i=0; i<3;i++){
-            assert ((p1.getWeapons())[i]==null);
+        assert (p1.getWeapons() != null);
+        assert ((p1.getWeapons()).length == 3);
+        for (int i = 0; i < 3; i++) {
+            assert ((p1.getWeapons())[i] == null);
         }
     }
 
@@ -73,13 +73,13 @@ class PlayerTest {
         p1.addWeapons(w1);
         p1.addWeapons(w2);
         p1.addWeapons(w3);
-        for (int i=0; i<3;i++){
-            assert ((p1.getWeapons())[i]!=null);
+        for (int i = 0; i < 3; i++) {
+            assert ((p1.getWeapons())[i] != null);
         }
-        assert(p1.getWeapons().length==3);
+        assert (p1.getWeapons().length == 3);
         // Cerco di fregarlo e aggiungo un'altra arma
         p1.addWeapons(w4);
-        assert(p1.getWeapons().length==3); // perfetto non ci è cascato
+        assert (p1.getWeapons().length == 3); // perfetto non ci è cascato
 
     }
 
@@ -91,8 +91,8 @@ class PlayerTest {
         p1.addWeapons(w1);
         p1.addWeapons(w2);
         p1.addWeapons(w3);
-        for (int i=0; i<3;i++){
-            assert ((p1.getWeapons())[i]!=null);
+        for (int i = 0; i < 3; i++) {
+            assert ((p1.getWeapons())[i] != null);
         }
         p1.removeWeapons(0);
         p1.removeWeapons(2);
@@ -152,24 +152,24 @@ class PlayerTest {
     @Test
     void addPowerUpsCard() {
         PowerUp c1 = new PowerUp(Color.YELLOW, PowerUpName.NEWTON);
-        PowerUp c2 = new PowerUp(Color.RED,PowerUpName.TAGBACK_GRENADE);
-        PowerUp c3 = new PowerUp(Color.BLUE,PowerUpName.TELEPORTER);
+        PowerUp c2 = new PowerUp(Color.RED, PowerUpName.TAGBACK_GRENADE);
+        PowerUp c3 = new PowerUp(Color.BLUE, PowerUpName.TELEPORTER);
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);
         p1.addPowerUpsCard(c1);
-        for (int i=0; i<3;i++){
-            assert ((p1.getPowerUps())[i]!=null);
+        for (int i = 0; i < 3; i++) {
+            assert ((p1.getPowerUps())[i] != null);
         }
-        assert (p1.getPowerUps().length==3);
+        assert (p1.getPowerUps().length == 3);
 
     }
 
     @Test
     void removePowerUps() {
-        PowerUp c1 = new PowerUp(Color.YELLOW,PowerUpName.NEWTON);
-        PowerUp c2 = new PowerUp(Color.BLUE,PowerUpName.TAGBACK_GRENADE);
-        PowerUp c3 = new PowerUp(Color.RED,PowerUpName.TELEPORTER);
+        PowerUp c1 = new PowerUp(Color.YELLOW, PowerUpName.NEWTON);
+        PowerUp c2 = new PowerUp(Color.BLUE, PowerUpName.TAGBACK_GRENADE);
+        PowerUp c3 = new PowerUp(Color.RED, PowerUpName.TELEPORTER);
         p1.addPowerUpsCard(c1);
         p1.addPowerUpsCard(c2);
         p1.addPowerUpsCard(c3);
@@ -187,8 +187,9 @@ class PlayerTest {
 
     }
 
-    @Test // per il test ho bisogno di costruire match e map
-    void transformPowerUpToAmmo(){
+    @Test
+        // per il test ho bisogno di costruire match e map
+    void transformPowerUpToAmmo() {
 
         /*
 
@@ -207,26 +208,10 @@ class PlayerTest {
 
     @Test
     void getPoints() {
-        assert(p1.getPoints()==0);
+        assert (p1.getPoints() == 0);
     }
 
     @Test
     void addPoints() {
-    }
-
-    @Test
-    void getStatus() {
-    }
-
-    @Test
-    void setStatus() {
-    }
-
-    @Test
-    void trueDead() {
-    }
-
-    @Test
-    void falseDead() {
     }
 }

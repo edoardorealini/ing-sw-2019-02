@@ -190,4 +190,17 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                     }
                 });
     }
+
+    public void createRanking() throws RemoteException{
+        mainPage.setRemoteController(senderRemoteController);
+        mainPage.setMatch(match);
+        Platform.runLater(
+                () -> {
+                    try {
+                        mainPage.createRanking();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
 }

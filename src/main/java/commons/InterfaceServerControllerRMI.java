@@ -78,4 +78,5 @@ public interface InterfaceServerControllerRMI extends Remote {
     void askForTagBackGrenade(String nickname) throws RemoteException;
 
     void closeTimer(String timerName, int clientHashedID) throws RemoteException;
+
 }

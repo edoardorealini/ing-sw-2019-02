@@ -20,4 +20,5 @@ public interface InterfaceClientControllerRMI extends Remote {
     void askForPowerUpAsAmmo() throws RemoteException;
     void askForTagBackGrenade() throws RemoteException;
     void askForTargetingScope() throws RemoteException;
+    void createRanking() throws RemoteException;
 }

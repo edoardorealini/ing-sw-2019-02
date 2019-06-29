@@ -288,6 +288,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             nicknameToClient.remove(hashNicknameID.get(clientHashedID));
 
             //TODO qui fare controllo per terminare la partita se il numero di giocatori scende sotto il 3 durante una partita attiva.
+            if(connectedPlayers() < 3) {
+                System.out.println("[MATCHCONTROLLER]: The number of players went below 3, stopping the game!");
+                matchController.endGameRoutine();
+                pushMatchToAllPlayers();
+            }
 
             if (connectedPlayers() < 3 && timeout != null) {
                 System.out.println("[INFO]: Timeout killed");
@@ -852,5 +857,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException("You cannot close a timer");
     }
 
+    public synchronized void createRanking() throws RemoteException{
+        for(InterfaceClientControllerRMI controller: clientControllers)
+            controller.createRanking();
+
+        System.out.println("[INFO]: Final Ranking ");
+
+    }
 
 }

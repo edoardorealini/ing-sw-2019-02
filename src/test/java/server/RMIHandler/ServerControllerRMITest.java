@@ -25,9 +25,4 @@ class ServerControllerRMITest {
 
     }
 
-    //impossibile fare test senza simulare l'esecuzione completa! (NOT GOOD)
-    @Test
-    void lobbyTests(){
-        //fare a manella
-    }
 }
