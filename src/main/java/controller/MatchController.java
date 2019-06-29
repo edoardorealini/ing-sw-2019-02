@@ -987,6 +987,11 @@ public class MatchController{
             );
 
         }
+        try {
+            serverControllerRMI.pushMatchToAllPlayers();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
