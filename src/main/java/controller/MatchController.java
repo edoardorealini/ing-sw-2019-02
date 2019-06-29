@@ -679,7 +679,10 @@ public class MatchController{
                 System.out.println("[RESPAWN]: Spawning player " + p.getNickname() + " in AbilityStatus: " + p.getStatus().getSpecialAbility());
                 if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
                     p.setFrenzyBoard(true);
-                    p.getStatus().setTurnStatusWaitTurnFrenzy();
+                    if(p.isEndedGame())
+                        p.getStatus().setTurnStatusEndGame();
+                    else
+                        p.getStatus().setTurnStatusWaitTurnFrenzy();
                     System.out.println("[RESPAWN]: Setting status to wait turn frenzy");
 
                 }
@@ -902,6 +905,7 @@ public class MatchController{
 
             case SECOND_ACTION_FRENZY:
                 p.getStatus().setTurnStatusEndGame();
+                p.setEndedGame(true);
                 endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
@@ -920,11 +924,11 @@ public class MatchController{
                     }
 
                 }
-                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
             case FIRST_ACTION_LOWER_FRENZY:
                 p.getStatus().setTurnStatusEndGame();
+                p.setEndedGame(true);
                 endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
@@ -943,7 +947,6 @@ public class MatchController{
                     }
 
                 }
-                //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
     }
@@ -981,6 +984,12 @@ public class MatchController{
                                 waitForRespawn.purge();
                             }
                             goToNextStatusFrenzy(match.getCurrentPlayer());
+                            try {
+                                serverControllerRMI.pushMatchToAllPlayers();
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
+
 
                         }
                     }, 1, 3000
@@ -1039,19 +1048,6 @@ public class MatchController{
 
             else
                 match.getPlayer(nickname).getStatus().setTurnStatusDisconnected();
-
-            /*
-            if(match.getPlayer(nickname).isInStatusMaster() && match.getPlayers().size() > 1){
-                for(Player p: match.getPlayers()){
-                    int count = 0;
-                    if(p.getNickname().equals(nickname)){
-                        match.getPlayers().get(count + 1).getStatus().setTurnStatusMaster();
-                    }
-                    count ++;
-                }
-            }
-
-             */
 
             if(match.getPlayer(nickname).equals(match.getCurrentPlayer()))
                 setNewCurrentPlayer();

@@ -27,6 +27,7 @@ public class Player implements Serializable{
     private boolean dead;
     private Match match;
     private Boolean frenzyBoard = false; // only for the lifeboard GUI
+    private boolean endedGame = false;
 
     public Player (String nickname, int id, Match match){
         this.nickname = nickname;
@@ -48,6 +49,14 @@ public class Player implements Serializable{
             this.status.setTurnStatusLobbyMaster();
         }
 
+    }
+
+    public void setEndedGame(boolean endedGame) {
+        this.endedGame = endedGame;
+    }
+
+    public boolean isEndedGame() {
+        return endedGame;
     }
 
     public boolean isConnected() {
