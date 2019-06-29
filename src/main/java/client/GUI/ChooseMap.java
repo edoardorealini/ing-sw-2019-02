@@ -107,7 +107,7 @@ public class ChooseMap extends Application {
         //filling the choice boxes
         selectMap.getItems().addAll(1, 2, 3, 4);
         selectMap.setValue(1);
-        nSkulls.getItems().addAll(1,5, 6, 7, 8);//TODO togliere 1
+        nSkulls.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8);//TODO togliere 1
         nSkulls.setValue(5);
 
 
