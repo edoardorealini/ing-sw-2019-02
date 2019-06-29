@@ -864,5 +864,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException("You cannot close a timer");
     }
 
+    public synchronized void createRanking() throws RemoteException{
+        for(InterfaceClientControllerRMI controller: clientControllers)
+            controller.createRanking();
+
+        System.out.println("[INFO]: Final Ranking ");
+
+    }
 
 }

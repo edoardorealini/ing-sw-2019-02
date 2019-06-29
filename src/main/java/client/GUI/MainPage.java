@@ -1534,6 +1534,16 @@ public class MainPage extends Application {
 
         // +++++++++++++++++++++++++++++++++++++++
     }
+
+    public void createRanking() throws RemoteException{
+        Ranking ranking = new Ranking();
+        ranking.setMatch(this.match);
+        try {
+            ranking.start(new Stage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
