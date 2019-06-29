@@ -27,21 +27,6 @@ class GrabControllerTest {
         matchController.getMatch().getCurrentPlayer().getStatus().setTurnStatusFirstAction();
     }
 
-    @Test
-    void getPlayer() {
-    }
-
-    @Test
-    void setPlayer() {
-    }
-
-    @Test
-    void getMatch() {
-    }
-
-    @Test
-    void setMatch() {
-    }
 
     @Test
     void grabAmmoCard(){
@@ -117,10 +102,6 @@ class GrabControllerTest {
         assertEquals(matchController.getMatch().getCurrentPlayer().getAmmo().getBlueAmmo(),(3-blueAmmo));
 
         assertNotNull(matchController.getMatch().getCurrentPlayer().getWeapons()[0]);
-
-
-
-
 
     }
 }

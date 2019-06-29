@@ -15,15 +15,8 @@ class PowerUpDeckTest {
     }
 
     @Test
-    void shuffle() {
-    }
-
-    @Test
     void pickFirstCard(){
         System.out.println(powerUpDeck.pickFirstCard().toString());
     }
 
-    @Test
-    void addPowerUps(){
-    }
 }

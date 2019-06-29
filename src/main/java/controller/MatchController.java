@@ -1034,14 +1034,12 @@ public class MatchController{
      */
     public void endGameRoutine(){
         //TODO endGame Routine
-        //calling the default routine end of turn (when ending the game I have to manage the points gained in the last turn).
-
         //putting all the players in ENDGAME status
         for(Player p: match.getPlayers()){
-            //TODO complete
-            
-            scoreBoardFrenzy(p.getBoard());
-            scoreBoardNormal(p.getBoard());
+            if(p.getFrenzyBoard())
+                scoreBoardFrenzy(p.getBoard());
+            else
+                scoreBoardNormal(p.getBoard());
             if(p.isConnected()) //the disconnected players stay disconnected!
                 p.getStatus().setTurnStatusEndGame();
         }

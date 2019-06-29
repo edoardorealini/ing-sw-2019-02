@@ -67,9 +67,6 @@ class ShootControllerTest {
 			System.out.println("oh oh, something has gone wrong, pagaaaa");
 		}
 	}
-
-
-
 	//WEAPON TEST
 
 	@Test

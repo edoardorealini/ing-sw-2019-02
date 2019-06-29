@@ -41,11 +41,6 @@ class MatchControllerTest {
         }
     }
 
-
-    @Test
-    void getMap() {
-    }
-
     @Test
     void shootTestLockRifle() {
         //setting players and map
