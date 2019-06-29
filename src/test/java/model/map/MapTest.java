@@ -38,9 +38,4 @@ class MapTest {
         assertEquals(mapTest.getMapID(), 1);
     }
 
-    @Test
-    void getSquare(){
-        //TODO
-    }
-
 }

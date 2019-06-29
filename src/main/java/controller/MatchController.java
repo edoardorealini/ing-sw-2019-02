@@ -160,7 +160,6 @@ public class MatchController{
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
         if(abilityStatus.equals(AbilityStatus.NORMAL) || abilityStatus.equals(AbilityStatus.ADRENALINE_PICK) || abilityStatus.equals(AbilityStatus.ADRENALINE_SHOOT))
             return 3;
-        //TODO controllare qui AbiltyStatus di due tipi in FRENZY.
         if(abilityStatus.equals(AbilityStatus.FRENZY))
             return 4;
         return 3;
@@ -512,13 +511,10 @@ public class MatchController{
     //per action si intende solo MOVE, GRAB e SHOOT
     //insieme di metodi privati che servono per fare i controlli prima di fale le azioni nei metodi di matchController
     // NB quando fai il controllo nel metodo del controller lanciare l'eccezione WrongStatusException dicendo perchè c'è errore.
-
-    //TODO controllare bene qui
     private boolean canDoAction(){
         if(match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction()){
             return true;
         }
-
         return false;
     }
 
@@ -682,7 +678,7 @@ public class MatchController{
                 System.out.println("[RESPAWN]: Spawning player " + p.getNickname() + " in status: " + p.getStatus().getTurnStatus());
                 System.out.println("[RESPAWN]: Spawning player " + p.getNickname() + " in AbilityStatus: " + p.getStatus().getSpecialAbility());
                 if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER)) {
-                    p.setPlayerMoodFrenzy(true);
+                    p.setFrenzyBoard(true);
                     p.getStatus().setTurnStatusWaitTurnFrenzy();
                     System.out.println("[RESPAWN]: Setting status to wait turn frenzy");
 
@@ -740,7 +736,6 @@ public class MatchController{
     }
     //nel dubbio metti synchronized un po' ovunque e dovrebbe andare a posto  ;)
     public synchronized void setNewCurrentPlayer(){
-        //TODO controllo su giocatori disconnessi
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
         if(!everybodyRespawned()) {
@@ -872,7 +867,7 @@ public class MatchController{
         for(Player p: match.getPlayers()){
             p.getStatus().setTurnStatusWaitTurnFrenzy();
             if(p.getBoard().getTotalNumberOfDamages() == 0)
-                p.setPlayerMoodFrenzy(true);
+                p.setFrenzyBoard(true);
 
         }
 
@@ -1038,7 +1033,7 @@ public class MatchController{
         Returns: an array list with the players in order of points!.
      */
     private ArrayList<Player> endGameRoutine(){
-        //TODO
+        //TODO endGame Routine
         //calling the default routine end of turn (when ending the game I have to manage the points gained in the last turn).
         endOfTurn();
         //putting all the players in ENDGAME status
@@ -1322,7 +1317,7 @@ public class MatchController{
             if (p.isDead() && p.isConnected()) {
                 Board board = p.getBoard();
 
-                if(p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY) || p.getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY_LOWER))
+                if(p.getFrenzyBoard()) //true if the board is the frenzy
                     scoreBoardFrenzy(board);
                 else
                     scoreBoardNormal(board);
@@ -1348,7 +1343,6 @@ public class MatchController{
                 p.getStatus().setTurnStatusRespawn();
 
                 numberOfPeopleKilled++;
-
             }
         }
 
@@ -1380,21 +1374,25 @@ public class MatchController{
 
         for (int n : numberOfDamages) {
             if (rank.get(n).size() == 1) {
-                int points = board.getPoints()[deaths];
-                match.getPlayer(rank.get(n).get(0)).addPoints(points);
-                deaths++;
-            } else {
-                ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
-                for (String nickname : rank.get(n)) {
-                    arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
-                }
-                do {
-                    int idPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                if (deaths <= 5) {
                     int points = board.getPoints()[deaths];
-                    match.getPlayers().get(idPlayer).addPoints(points);
+                    match.getPlayer(rank.get(n).get(0)).addPoints(points);
                     deaths++;
-                    arrayIDPlayersSameDamage.remove(0);     //TODO maybe it doesn't work for concurrent access
-                } while (!arrayIDPlayersSameDamage.isEmpty());
+                }
+            } else {
+                if (deaths <= 5) {
+                    ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
+                    for (String nickname : rank.get(n)) {
+                        arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
+                    }
+                    do {
+                        int idPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                        int points = board.getPoints()[deaths];
+                        match.getPlayers().get(idPlayer).addPoints(points);
+                        deaths++;
+                        arrayIDPlayersSameDamage.remove(0);
+                    } while (!arrayIDPlayersSameDamage.isEmpty());
+                }
             }
         }
 
@@ -1413,7 +1411,48 @@ public class MatchController{
         return rank;
     }
 
-    private void scoreBoardFrenzy(Board board){
+    private void scoreBoardFrenzy(Board board) {
+        //this method score the frenzy board of a dead player, giving points to the other players
+        int contOfPointsToGive = 0;
+        java.util.Map<Integer, List<String>> rank = new HashMap<>();
+        ArrayList<Integer> numberOfDamages = new ArrayList<>();
+
+        for (Player p : match.getPlayers()) {
+            int hits = board.howManyHits(p.getId());
+            numberOfDamages.add(hits);
+        }
+
+        for (int i = 0; i < numberOfDamages.size(); i++) {
+            rank = addElementInRank(numberOfDamages.get(i), i, rank);
+        }
+
+        numberOfDamages.removeIf(x -> x.equals(0));   //remove the players who made no damage
+        numberOfDamages = numberOfDamages.stream().distinct().collect(Collectors.toCollection(ArrayList::new));   //removing duplicates
+
+        numberOfDamages.sort(Comparator.naturalOrder());
+        Collections.reverse(numberOfDamages);
+
+        for (int j = 0; j <=3; j++) {       //iterating for maximum 4 cycles because the points can be 
+            if (rank.get(numberOfDamages.get(j)).size() == 1) {
+                if (j == 0)
+                    match.getPlayer(rank.get(numberOfDamages.get(j)).get(0)).addPoints(2);
+                else
+                    match.getPlayer(rank.get(numberOfDamages.get(j)).get(0)).addPoints(1);
+            } else {
+                ArrayList<Integer> arrayIDPlayersSameDamage = new ArrayList<>();
+                for (String nickname : rank.get(numberOfDamages.get(j))) {
+                    arrayIDPlayersSameDamage.add(match.getPlayer(nickname).getId());
+                }
+                do {
+                    int idPlayer = board.whoMadeDamageBefore(arrayIDPlayersSameDamage);
+                    if (j == 0)
+                        match.getPlayers().get(idPlayer).addPoints(2);
+                    else
+                        match.getPlayers().get(idPlayer).addPoints(1);
+                    arrayIDPlayersSameDamage.remove(0);
+                } while (!arrayIDPlayersSameDamage.isEmpty());
+            }
+        }
 
     }
 

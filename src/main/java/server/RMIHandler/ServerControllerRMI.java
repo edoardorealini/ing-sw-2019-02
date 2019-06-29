@@ -287,17 +287,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             clientControllers.remove(toRemove);
             nicknameToClient.remove(hashNicknameID.get(clientHashedID));
 
-            /*
-            clientControllers.removeIf(c -> {
-                try {
-                    return hashNicknameID.get(clientHashedID).equals(c.getNickname()); //TODO correggere qui, non posso chiamare metodo su client controller se è disconnesso !
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            });
-            */
-
             //TODO qui fare controllo per terminare la partita se il numero di giocatori scende sotto il 3 durante una partita attiva.
 
             if (connectedPlayers() < 3 && timeout != null) {
@@ -608,7 +597,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
-    //TODO capire se server effettivamente esporre questi metodi!
     public synchronized int connectedPlayers(){
         return matchController.connectedPlayers();
     }

@@ -11,7 +11,7 @@ public interface InterfaceClientControllerRMI extends Remote {
 
     void ping() throws RemoteException;
     void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException;
-    String getNickname() throws RemoteException;  //todo sostituire tutte le chiamte a questo metodo con utilizzo della mappa aggiunta per gestire le disconnessioni
+    String getNickname() throws RemoteException;
     void startGame() throws RemoteException;
     void askMap() throws  RemoteException, Exception;
     void askSpawn() throws RemoteException;
