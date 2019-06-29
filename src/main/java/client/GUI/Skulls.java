@@ -161,76 +161,77 @@ public class Skulls extends Application {
         int i=0;
         int j=0;
         int indexOfSkull = 8 - (match.getKillShotTrack().getTotalSkulls());
-        while( i<match.getKillShotTrack().getMortalShots().size()){
-            if (j==0) {
-                switch (match.getKillShotTrack().getMortalShots().get(i)) {
-                    case 0:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.YELLOW);
-                        i++;
-                        j=1;
-                        break;
-                    case 1:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.GREEN);
-                        i++;
-                        j=1;
-                        break;
-                    case 2:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.LIGHTGRAY);
-                        i++;
-                        j=1;
-                        break;
-                    case 3:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.BLUE);
-                        i++;
-                        j=1;
-                        break;
-                    case 4:
-                        arrayCircleTop.get(indexOfSkull).setFill(Color.VIOLET);
-                        i++;
-                        j=1;
-                        break;
-                    case 9:
-                        j=0;
-                        i++;
-                        break;
-                }
-            }
-            else {
-                switch (match.getKillShotTrack().getMortalShots().get(i)) {
-                    case 0:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.YELLOW);
-                        j=0;
-                        i++;
-                        indexOfSkull++;
-                        break;
-                    case 1:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.GREEN);
-                        j=0;
-                        i++;
-                        indexOfSkull++;
-                        break;
-                    case 2:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.LIGHTGRAY);
-                        j=0;
-                        i++;
-                        indexOfSkull++;
-                        break;
-                    case 3:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.BLUE);
-                        j=0;
-                        i++;
-                        indexOfSkull++;
-                        break;
-                    case 4:
-                        arrayCircleDown.get(indexOfSkull).setFill(Color.VIOLET);
-                        j=0;
-                        i++;
-                        indexOfSkull++;
-                        break;
-                    case 9:
-                        j=0;
-                        i++;
-                        indexOfSkull++;
+        if (indexOfSkull>0 && indexOfSkull<8) {
+            while (i < match.getKillShotTrack().getMortalShots().size()) {
+                if (j == 0) {
+                    switch (match.getKillShotTrack().getMortalShots().get(i)) {
+                        case 0:
+                            arrayCircleTop.get(indexOfSkull).setFill(Color.YELLOW);
+                            i++;
+                            j = 1;
+                            break;
+                        case 1:
+                            arrayCircleTop.get(indexOfSkull).setFill(Color.GREEN);
+                            i++;
+                            j = 1;
+                            break;
+                        case 2:
+                            arrayCircleTop.get(indexOfSkull).setFill(Color.LIGHTGRAY);
+                            i++;
+                            j = 1;
+                            break;
+                        case 3:
+                            arrayCircleTop.get(indexOfSkull).setFill(Color.BLUE);
+                            i++;
+                            j = 1;
+                            break;
+                        case 4:
+                            arrayCircleTop.get(indexOfSkull).setFill(Color.VIOLET);
+                            i++;
+                            j = 1;
+                            break;
+                        case 9:
+                            j = 0;
+                            i++;
+                            break;
+                    }
+                } else {
+                    switch (match.getKillShotTrack().getMortalShots().get(i)) {
+                        case 0:
+                            arrayCircleDown.get(indexOfSkull).setFill(Color.YELLOW);
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                            break;
+                        case 1:
+                            arrayCircleDown.get(indexOfSkull).setFill(Color.GREEN);
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                            break;
+                        case 2:
+                            arrayCircleDown.get(indexOfSkull).setFill(Color.LIGHTGRAY);
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                            break;
+                        case 3:
+                            arrayCircleDown.get(indexOfSkull).setFill(Color.BLUE);
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                            break;
+                        case 4:
+                            arrayCircleDown.get(indexOfSkull).setFill(Color.VIOLET);
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                            break;
+                        case 9:
+                            j = 0;
+                            i++;
+                            indexOfSkull++;
+                    }
                 }
             }
         }
