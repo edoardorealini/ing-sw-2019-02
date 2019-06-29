@@ -1032,20 +1032,23 @@ public class MatchController{
 
         Returns: an array list with the players in order of points!.
      */
-    private ArrayList<Player> endGameRoutine(){
+    public void endGameRoutine(){
         //TODO endGame Routine
         //calling the default routine end of turn (when ending the game I have to manage the points gained in the last turn).
-        endOfTurn();
+
         //putting all the players in ENDGAME status
         for(Player p: match.getPlayers()){
+            //TODO complete
+            
+            scoreBoardFrenzy(p.getBoard());
+            scoreBoardNormal(p.getBoard());
             if(p.isConnected()) //the disconnected players stay disconnected!
                 p.getStatus().setTurnStatusEndGame();
         }
 
-        //Here i have to make the final calculus of points and create a scoreboard (classifica)
+        //Here i have to make the final calculus of points and create a scoreboard (classifica) - calculus of the points from the killshottrack!
 
         //Here i have to notify all the players with the final view of scores (classifica).
-        return null;
     }
 
 
