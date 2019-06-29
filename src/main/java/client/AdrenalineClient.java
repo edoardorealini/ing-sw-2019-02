@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class AdrenalineClient {
 
     private ExecutorService executor;
-    private Match match;            //TODO capiamo bene dove metterlo e se passarlo alle varie classi
+    private Match match;
 
     public AdrenalineClient(){
         executor = Executors.newCachedThreadPool();
@@ -47,29 +47,8 @@ public class AdrenalineClient {
 
     }
 
-
-  /* TODO private void launchCLI(){
-        executor.submit(new CLI());
-        System.out.println("[INFO] : ADRENALINE CLI INTERFACE LAUNCHED");
-
-    }
-*/
     private void launchGUI(){
         executor.submit(new client.GUI.FirstPage());
     }
-
-
-    //in teoria questo metodo va chiamato dopo che l'utente ha deciso che tipo di connessione utilizzare, quindi si lancia il controller corretto.
-    //TODO spostare lato SenderClientControllerRMI
-    /*
-    private void launchClientController(){
-        try {
-            executor.submit(new ReceiverClientControllerRMI());
-        }catch(RemoteException e){
-            e.printStackTrace();
-        }
-    }
-
-     */
 
 }

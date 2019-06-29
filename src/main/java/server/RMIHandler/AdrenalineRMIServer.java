@@ -11,7 +11,6 @@ public class AdrenalineRMIServer implements Runnable{
     //private MatchController matchController; IL MATCHCONTROLLER NON SERVE CHE CE L'ABBIA QUESTA CLASSE
     private int port;
     private ServerControllerRMI remoteObjectRMI;
-    //TODO EDO qui devo aggiungere un campo che contiene l'ID del match da generare (parte da zero e cresce) DA PASSARE AL COSTRUTTORE (in modo che il connectionHandler possa settarli)
     public AdrenalineRMIServer(MatchController controller, int port) throws RemoteException {
        // matchController = controller;
         this.port = port;

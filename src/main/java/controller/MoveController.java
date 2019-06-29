@@ -115,7 +115,6 @@ public class MoveController {
     */
 
     public int minDistBetweenSquares(Square startingPoint, Square destination){
-        //TODO TEST
         List<Square> explored = new ArrayList<>(); //contiene gli squares esplorati
         List<Square> toExplore = new ArrayList<>(); //contiene gli square da esplorare
         int distance = 1;

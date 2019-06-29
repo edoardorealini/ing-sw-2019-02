@@ -10,7 +10,6 @@ import model.Color;
 import model.player.*;
 import model.Match;
 
-//TODO vedere server http
 import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
@@ -33,7 +32,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         try {
             this.match = match;
             this.firstPage = fp;
-            //TODO EDO qui devo chidere all'oggetto connectionHandler su che partita loggarmi, ergo su che oggetto remoto bindarmi.
             //TODO do not HARCODE the port ask it to the user (coglione lui se la mette sbagliata)!
             Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");

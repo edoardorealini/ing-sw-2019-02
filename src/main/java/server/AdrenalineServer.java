@@ -51,7 +51,6 @@ public class AdrenalineServer {
         }catch(Exception e){
             e.printStackTrace();
         }
-        //TODO EDO qui devo creare l'oggetto connectionHandler che si preoccupa di creare i nuovi match e bindare i controller corretti sul registry.
     }
 
     public void launchRMIConnectionHandler(int port){
