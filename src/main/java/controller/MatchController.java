@@ -910,6 +910,16 @@ public class MatchController{
                     e.printStackTrace();
                 }
                 setNewCurrentPlayerFrenzy();
+                if(checkIfAllPlayersInEndGame()) {
+                    endGameRoutine();
+                    try {
+                        serverControllerRMI.pushMatchToAllPlayers();
+                        serverControllerRMI.createRanking();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+
+                }
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
 
@@ -923,9 +933,27 @@ public class MatchController{
                     e.printStackTrace();
                 }
                 setNewCurrentPlayerFrenzy();
+                if(checkIfAllPlayersInEndGame()) {
+                    endGameRoutine();
+                    try {
+                        serverControllerRMI.pushMatchToAllPlayers();
+                        serverControllerRMI.createRanking();
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+
+                }
                 //TODO gestire fine della partita qui (controllare se tutti sono in endGame e mostrare dati partita)
                 break;
         }
+    }
+
+    private boolean checkIfAllPlayersInEndGame(){
+        for(Player p: match.getPlayers()){
+            if(!p.getStatus().getTurnStatus().equals(RoundStatus.END_GAME))
+                return false;
+        }
+        return true;
     }
 
     private void setNewCurrentPlayerFrenzy(){
@@ -1036,17 +1064,20 @@ public class MatchController{
         //TODO endGame Routine
         //putting all the players in ENDGAME status
         for(Player p: match.getPlayers()){
-            if(p.getFrenzyBoard())
+            if(p.getFrenzyBoard()) {
                 scoreBoardFrenzy(p.getBoard());
-            else
+                System.out.println("[POINTS]: Evaluated final points on frenzy board of " + p.getNickname());
+            }
+            else {
                 scoreBoardNormal(p.getBoard());
+                System.out.println("[POINTS]: Evaluated final points on normal board of " + p.getNickname());
+            }
             if(p.isConnected()) //the disconnected players stay disconnected!
                 p.getStatus().setTurnStatusEndGame();
         }
-
         //Here i have to make the final calculus of points and create a scoreboard (classifica) - calculus of the points from the killshottrack!
-
-        //Here i have to notify all the players with the final view of scores (classifica).
+        scoreKillShotTrack(match.getKillShotTrack());
+        System.out.println("[POINTS]: Evaluated final points on killshot track");
     }
 
 
@@ -1396,8 +1427,8 @@ public class MatchController{
                 }
             }
         }
-
-        match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first blood
+        if(board.getLifePoints()[0] > 0 && board.getLifePoints()[0] < match.getPlayers().size())
+            match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first blood
     }
 
     private java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {

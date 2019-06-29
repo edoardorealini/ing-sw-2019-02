@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
+import model.player.Player;
+
 import java.util.*;
 
 
@@ -30,37 +32,24 @@ public class Ranking extends Application {
 
         VBox vBox = new VBox(6);
 
-        ArrayList<Integer> arrayPoints = new ArrayList<>();
-        for (int i = 0; i<match.getPlayers().size(); i++){
-            arrayPoints.add(match.getPlayers().get(i).getId());
-            arrayPoints.add(match.getPlayers().get(i).getPoints());
-        }
+        ArrayList<Player> arraySorted = new ArrayList<>(match.getPlayers());
 
-        ArrayList<Integer> arraySorted = new ArrayList<>();
+        Collections.sort(arraySorted, new Comparator<Player>() {
+            @Override
+            public int compare(Player o1, Player o2) {
+                int points1 = o1.getPoints();
+                int points2 = o2.getPoints();
 
-        int maxID = 9;
-        int maxPoint = 0;
-        int pos = 11;
-
-        for (int j =0; j<(match.getPlayers().size()-1);j++) {
-            for (int i = 1; i < (arrayPoints.size()); i = i + 2) {
-                if (arrayPoints.get(i) >= maxPoint) {
-                    maxID = arrayPoints.get(i - 1);
-                    maxPoint = arrayPoints.get(i);
-                    pos = i-1;
-                    
-                }
+                if (points1 == points2)
+                    return 0;
+                else if (points1 < points2)
+                    return 1;
+                else
+                    return -1;
             }
-            arraySorted.add(maxID);
-            arraySorted.add(maxPoint);
-            arrayPoints.remove(pos);
-            arrayPoints.remove(pos);
-            maxID = 9;
-            maxPoint = 0;
-        }
-        arraySorted.add(arrayPoints.get(0));
-        arraySorted.add(arrayPoints.get(1));
+        });
 
+        //Collections.reverse(arraySorted);
 
         Label player1 = new Label(" ");
         Label player2 = new Label(" ");
@@ -76,7 +65,7 @@ public class Ranking extends Application {
         listPlayersLabel.add(player5);
 
         for (int i=0; i<match.getPlayers().size();i++){
-            listPlayersLabel.get(i).setText(+(i+1)+". Player "+match.getPlayers().get(arraySorted.get(i)).getNickname()+" -->  total score : "+match.getPlayers().get(i).getPoints());
+            listPlayersLabel.get(i).setText(" " + (i+1) + ". Player " + arraySorted.get(i).getNickname() + " -->  total score : " + arraySorted.get(i).getPoints());
         }
 
         vBox.setAlignment(Pos.CENTER);
