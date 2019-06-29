@@ -34,7 +34,7 @@ public class ChooseFrenzyActionLower extends Application {
 
         //action 2
         VBox vbox2= new VBox(6);
-        Label title2 = new Label(" Action 1 Frenzy :");
+        Label title2 = new Label(" Action 2 Frenzy :");
         Label titleEmpty2 = new Label(" ");
         Label plus4 = new Label("    +    ");
         Label plus5 = new Label("    +    ");
