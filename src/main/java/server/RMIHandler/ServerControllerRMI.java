@@ -41,8 +41,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private transient Timer timeout;
     private boolean timerStatus = false;
     private int lobbyDuration;
-    private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
+    private String propertyFile = "/adrenaline.properties";
 
 
     /*
@@ -62,7 +61,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         Properties propertyLoader = new Properties();
 
         try{
-            propertyLoader.load(new FileInputStream(propertyPath));
+            propertyLoader.load(getClass().getResourceAsStream(propertyFile));
             this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
         }catch (IOException e) {
             e.printStackTrace();

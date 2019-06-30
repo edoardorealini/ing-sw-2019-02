@@ -9,6 +9,7 @@ import server.socketHandler.AdrenalineSocketServer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
@@ -34,6 +35,17 @@ public class AdrenalineServer {
             this.connectionHandler = new ConnectionHandler();
             this.socketPort = socketPort;
             this.rmiPort = rmiPort;
+            executor = Executors.newCachedThreadPool();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public AdrenalineServer(){
+        try {
+            match = new Match();
+            matchController = new MatchController(match);
+            this.connectionHandler = new ConnectionHandler();
             executor = Executors.newCachedThreadPool();
         }catch(Exception e){
             e.printStackTrace();
@@ -81,6 +93,10 @@ public class AdrenalineServer {
         this.rmiPort = rmiPort;
     }
 
+    public InputStream getPropertiesInputStream(){
+        return getClass().getResourceAsStream("/adrenaline.properties");
+    }
+
     public static void main(String[] args) { //La porta si può chiedere come parametro di input in args
 
         if(args.length != 0){
@@ -99,11 +115,12 @@ public class AdrenalineServer {
         else {
             Properties loader = new Properties();
             try {
-                loader.load(new FileInputStream("." + File.separatorChar + "src" + File.separatorChar + "main"
-                        + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties"));
+
+                AdrenalineServer mainServer = new AdrenalineServer();
+                loader.load(mainServer.getPropertiesInputStream());
                 int socketPort = Integer.parseInt(loader.getProperty("defaultSocketPort"));
                 int RMIPort = Integer.parseInt(loader.getProperty("defaultRMIPort"));
-                AdrenalineServer mainServer = new AdrenalineServer(RMIPort);
+                mainServer.setRmiPort(RMIPort);
 
                 try {
                     System.out.println("WELCOME TO ADRENALINE MAIN SERVER v3.0.0");

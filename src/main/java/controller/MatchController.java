@@ -32,8 +32,7 @@ public class MatchController{
     private MoveController moveController;
     // private HashMap<WeaponName, String> weaponHashMap;
     private ServerControllerRMI serverControllerRMI;
-    private String propertyPath = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "adrenaline.properties";
+    private String propertyFile = "/adrenaline.properties";
     private int turnDuration;
     private boolean turnTimerStatus = false;
     private Timer waitForPayment;
@@ -71,7 +70,7 @@ public class MatchController{
 
         Properties propertyLoader = new Properties();
         try{
-            propertyLoader.load(new FileInputStream(propertyPath));
+            propertyLoader.load(getClass().getResourceAsStream(propertyFile));
             this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
