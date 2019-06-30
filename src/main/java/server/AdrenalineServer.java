@@ -115,9 +115,14 @@ public class AdrenalineServer {
         else {
             Properties loader = new Properties();
             try {
-
                 AdrenalineServer mainServer = new AdrenalineServer();
-                loader.load(mainServer.getPropertiesInputStream());
+                /*
+                    loader.load(mainServer.getPropertiesInputStream());
+                */
+
+                String path = "./adrenaline.properties";
+                loader.load(new FileInputStream(path));
+
                 int socketPort = Integer.parseInt(loader.getProperty("defaultSocketPort"));
                 int RMIPort = Integer.parseInt(loader.getProperty("defaultRMIPort"));
                 mainServer.setRmiPort(RMIPort);
