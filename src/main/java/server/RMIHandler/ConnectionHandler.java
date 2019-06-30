@@ -24,6 +24,10 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
     private Timer clientCheckerTimer;
     private TimerTask clientCheckerTask;
 
+    /**
+     *
+     * @throws RemoteException
+     */
     public ConnectionHandler() throws RemoteException{
         //here i create the first "remote controller"
         this.serverControllers = new ArrayList<>();
@@ -34,6 +38,15 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
     }
 
     //this method is very similar to the register method in ServerControllerRMI!
+
+    /**
+     *
+     * @param clientController
+     * @param nickname
+     * @return
+     * @throws RemoteException
+     * @throws InvalidInputException
+     */
     public InterfaceServerControllerRMI askForConnection(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, InvalidInputException {
         //per prima cosa dovrei verificare se il giocatore è già connesso su uno dei "server" che ho nella lista
         //altrimenti devo creare un server nuovo di PACCA
@@ -77,6 +90,10 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         //se sono qui significa che non ci sono partite già iniziate.
     }
 
+
+    /**
+     *
+     */
     //this method is called when the server starts, its job is to check if a client is disconnected (not declared disconnection, EG lost network connection (remoteException)
     public void startClientPinger(){
         this.clientCheckerTimer = new Timer();
@@ -109,6 +126,11 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         clientCheckerTimer.schedule(clientCheckerTask, 1, 2000);
     }
 
+    /**
+     *
+     * @param nickname
+     * @return
+     */
     private int hashNickname(String nickname){
         MessageDigest messageDigest = null;
         try {
