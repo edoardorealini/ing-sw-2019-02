@@ -1,5 +1,6 @@
 package client.GUI;
 
+import commons.FileLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,19 +41,18 @@ public class LifeBoard extends Application {
 
         
         StackPane stackPane = new StackPane();
+
         // normal board
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
-        Image image0 = new Image(file0.toURI().toString());
+        File lifeBoardNormal = FileLoader.getResourceAsFile("lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+        Image image0 = new Image(lifeBoardNormal.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
         iv0.setFitWidth(400);
         iv0.setPreserveRatio(true);
 
         // frenzy board
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                        + File.separatorChar + "resources" + File.separatorChar + "lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
-        Image image1 = new Image(file1.toURI().toString());
+        File lifeBoardAdrenalina = FileLoader.getResourceAsFile("lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+        Image image1 = new Image(lifeBoardAdrenalina.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(200);
         iv1.setFitWidth(400);

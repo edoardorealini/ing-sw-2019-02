@@ -1,5 +1,6 @@
 package client.GUI;
 
+import commons.FileLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,9 +35,8 @@ public class Skulls extends Application {
 
         StackPane stackPane = new StackPane();
         // normal board
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "skulls" + File.separatorChar + "skullsBoard.png");
-        Image image0 = new Image(file0.toURI().toString());
+        File skullsBoard = FileLoader.getResourceAsFile("skulls" + File.separatorChar + "skullsBoard.png");
+        Image image0 = new Image(skullsBoard.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
         iv0.setFitWidth(400);

@@ -2,6 +2,7 @@ package client.GUI;
 
 
 import client.remoteController.SenderClientRemoteController;
+import commons.FileLoader;
 import exception.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -57,9 +58,8 @@ public class PowerUpsOwned extends Application {
         Button usePow3 = new Button();
 
         if (playerWhoClickButton.getPowerUps()[0] != null){
-            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[0].getName() + "_" + playerWhoClickButton.getPowerUps()[0].getColor() + ".png");
-            Image image0 = new Image(file0.toURI().toString());
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[0].getName() + "_" + playerWhoClickButton.getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
             iv0.setFitWidth(250);
@@ -73,9 +73,8 @@ public class PowerUpsOwned extends Application {
         }
 
         if (playerWhoClickButton.getPowerUps()[1] != null){
-            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[1].getName() + "_" + playerWhoClickButton.getPowerUps()[1].getColor() + ".png");
-            Image image1 = new Image(file1.toURI().toString());
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[1].getName() + "_" + playerWhoClickButton.getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
             iv1.setFitWidth(250);
@@ -89,9 +88,8 @@ public class PowerUpsOwned extends Application {
         }
 
         if (playerWhoClickButton.getPowerUps()[2] != null){
-            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[2].getName() + "_" + playerWhoClickButton.getPowerUps()[2].getColor() + ".png");
-            Image image2 = new Image(file2.toURI().toString());
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[2].getName() + "_" + playerWhoClickButton.getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
             iv2.setFitWidth(250);
@@ -168,9 +166,8 @@ public class PowerUpsOwned extends Application {
         ChoiceBox<Integer> ySquare1 = new ChoiceBox<>();
         Button usePower = new Button("USE " + powerUp.getName());
 
-        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + powerUp.getName() + "_" + powerUp.getColor() + ".png");
-        Image image = new Image(file.toURI().toString());
+        File powerUpToUse = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + powerUp.getName() + "_" + powerUp.getColor() + ".png");
+        Image image = new Image(powerUpToUse.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setFitHeight(300);
         iv.setFitWidth(250);
