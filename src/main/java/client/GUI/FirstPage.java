@@ -2,6 +2,8 @@ package client.GUI;
 
 import client.remoteController.SenderClientControllerRMI;
 import client.remoteController.SenderClientRemoteController;
+import com.sun.javafx.application.LauncherImpl;
+import commons.FileLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -21,6 +23,14 @@ import model.Match;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class FirstPage extends Application implements Runnable{
 
@@ -47,38 +57,23 @@ public class FirstPage extends Application implements Runnable{
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Adrenaline");
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "icon" + File.separatorChar + "Icon.png");
-        Image image0 = new Image(file0.toURI().toString());
+        File icon = FileLoader.getResourceAsFile("icon" + File.separatorChar + "Icon.png");
+
+        Image image0 = new Image(icon.toURI().toString());
         primaryStage.getIcons().add(image0);
         setPrimaryStage(primaryStage);
-        //primaryStage.setOnCloseRequest(e -> closePage());
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
         });
         this.match= new Match();
 
-        /*
-        Bella johnny, qui ti metto esempio con URL da internet, funziona
-        Per URL intendeva prorpio una URL vera, non un path, quando chiede path ti esce scritto pathfile
-        Image image = new Image("https://picsum.photos/id/117/200/300");
-        */
-
-        //qui sotto ti metto il modo che devi usare per prendere l'immagine da file
-        //per prima cosa devi aprire il file con new File, poi renderlo leggibile (.toURI().toString())
-        //vedi qui:  https://stackoverflow.com/questions/7830951/how-can-i-load-computer-directory-images-in-javafx#8088561
-
-
         GridPane grid = new GridPane();
         grid.setVgap(10); // sapzio verticale tra boxes
         grid.setHgap(8); // spazio orizzontale tra boxes
 
-        // Imposto immagine background
-        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "AdrenalineBackground.png");
+        File file = FileLoader.getResourceAsFile("AdrenalineBackground.png");
 
-
-        BackgroundImage myBI= new BackgroundImage(new Image(file.toURI().toString()),
+         BackgroundImage myBI= new BackgroundImage(new Image(file.toURI().toString()),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         grid.setBackground(new Background(myBI));
@@ -96,7 +91,7 @@ public class FirstPage extends Application implements Runnable{
         GridPane.setConstraints(ipLabel, 50,20);
 
         TextField inputIp = new TextField();
-        inputIp.setText("192.168.1.8");
+        inputIp.setText("Insert IP here");
         GridPane.setConstraints(inputIp, 50,21);
 
         Label numberOfPort = new Label("PORT: ");
@@ -188,9 +183,9 @@ public class FirstPage extends Application implements Runnable{
         // +++++++++++++++++++++++++++++++++++++++
 
         Scene scene = new Scene(grid,996,698);
-        settScene(scene);
-        scene.getStylesheets().add((new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "Layout.css")).toURI().toString());
+
+        File styleSheet = FileLoader.getResourceAsFile("Layout.css");
+        scene.getStylesheets().add(styleSheet.toURI().toString());
 
         grid.getChildren().addAll(nameLabel,inputName, ipLabel, inputIp, numberOfPort,numerPortText, playButton);
 
@@ -265,7 +260,6 @@ public class FirstPage extends Application implements Runnable{
             }
         }
     }
-
 
     public void settScene(Scene scene){
         this.scene= scene;

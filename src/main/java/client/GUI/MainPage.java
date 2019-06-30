@@ -1,6 +1,7 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import commons.FileLoader;
 import exception.*;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
@@ -58,9 +59,8 @@ public class MainPage extends Application {
         });
 
         mainStage.setTitle("Adrenaline " +remoteController.getNickname());
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "icon" + File.separatorChar + "Icon.png");
-        Image image0 = new Image(file0.toURI().toString());
+        File icon = FileLoader.getResourceAsFile("icon" + File.separatorChar + "Icon.png");
+        Image image0 = new Image(icon.toURI().toString());
         mainStage.getIcons().add(image0);
 
         SplitPane splitPane = new SplitPane();
@@ -195,9 +195,8 @@ public class MainPage extends Application {
         splitPane.getItems().add(vBoxLife);
 
         //right (map)
-        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map" + match.getMap().getMapID() + ".png");
-        Image image = new Image(file.toURI().toString());
+        File map = FileLoader.getResourceAsFile("maps" + File.separatorChar + "map" + match.getMap().getMapID() + ".png");
+        Image image = new Image(map.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setX(0);
         iv.setY(0);
@@ -635,27 +634,24 @@ public class MainPage extends Application {
         primaryStage.setTitle("Goods In Place");
         SplitPane splitPane = new SplitPane();
 
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
-        Image image0 = new Image(file0.toURI().toString());
+        File weapon0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
+        Image image0 = new Image(weapon0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(350);
         iv0.setFitWidth(300);
         iv0.setPreserveRatio(true);
         splitPane.getItems().add(iv0);
 
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
-        Image image1 = new Image(file1.toURI().toString());
+        File weapon1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
+        Image image1 = new Image(weapon1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(350);
         iv1.setFitWidth(300);
         iv1.setPreserveRatio(true);
         splitPane.getItems().add(iv1);
 
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
-        Image image2 = new Image(file2.toURI().toString());
+        File weapon2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
+        Image image2 = new Image(weapon2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
         iv2.setFitHeight(350);
         iv2.setFitWidth(300);
@@ -676,27 +672,24 @@ public class MainPage extends Application {
         primaryStage.setTitle("Goods In Place");
         HBox hBox = new HBox(5);
 
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(0) + ".png");
-        Image image0 = new Image(file0.toURI().toString());
+        File ammo0 = FileLoader.getResourceAsFile("cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(0) + ".png");
+        Image image0 = new Image(ammo0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(60);
         iv0.setFitWidth(60);
         iv0.setPreserveRatio(true);
         hBox.getChildren().add(iv0);
 
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(1) + ".png");
-        Image image1 = new Image(file1.toURI().toString());
+        File ammo1 = FileLoader.getResourceAsFile("cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(1) + ".png");
+        Image image1 = new Image(ammo1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(60);
         iv1.setFitWidth(60);
         iv1.setPreserveRatio(true);
         hBox.getChildren().add(iv1);
 
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(2) + ".png");
-        Image image2 = new Image(file2.toURI().toString());
+        File ammo2 = FileLoader.getResourceAsFile("cards" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAmmoTile().getAmmo().get(2) + ".png");
+        Image image2 = new Image(ammo2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
         iv2.setFitHeight(60);
         iv2.setFitWidth(60);
@@ -764,11 +757,10 @@ public class MainPage extends Application {
         HBox hBox3 = new HBox(5);
 
         // BLUE AMMO
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "B.png");
-        Image blueAmmoImage1 = new Image(file0.toURI().toString());
-        Image blueAmmoImage2 = new Image(file0.toURI().toString());
-        Image blueAmmoImage3 = new Image(file0.toURI().toString());
+        File blueAmmo = FileLoader.getResourceAsFile("cards" + File.separatorChar + "B.png");
+        Image blueAmmoImage1 = new Image(blueAmmo.toURI().toString());
+        Image blueAmmoImage2 = new Image(blueAmmo.toURI().toString());
+        Image blueAmmoImage3 = new Image(blueAmmo.toURI().toString());
         ImageView blueView1 = new ImageView(blueAmmoImage1);
         ImageView blueView2 = new ImageView(blueAmmoImage2);
         ImageView blueView3 = new ImageView(blueAmmoImage3);
@@ -800,11 +792,10 @@ public class MainPage extends Application {
         }
 
         // RED AMMO
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "R.png");
-        Image redAmmoImage1 = new Image(file1.toURI().toString());
-        Image redAmmoImage2 = new Image(file1.toURI().toString());
-        Image redAmmoImage3 = new Image(file1.toURI().toString());
+        File redAmmo = FileLoader.getResourceAsFile("cards" + File.separatorChar + "R.png");
+        Image redAmmoImage1 = new Image(redAmmo.toURI().toString());
+        Image redAmmoImage2 = new Image(redAmmo.toURI().toString());
+        Image redAmmoImage3 = new Image(redAmmo.toURI().toString());
         ImageView redView1 = new ImageView(redAmmoImage1);
         ImageView redView2 = new ImageView(redAmmoImage2);
         ImageView redView3 = new ImageView(redAmmoImage3);
@@ -836,11 +827,10 @@ public class MainPage extends Application {
         }
 
         // YELLOW AMMO
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "cards" + File.separatorChar + "Y.png");
-        Image yellowAmmoImage1 = new Image(file2.toURI().toString());
-        Image yellowAmmoImage2 = new Image(file2.toURI().toString());
-        Image yellowAmmoImage3 = new Image(file2.toURI().toString());
+        File yellowAmmo = FileLoader.getResourceAsFile("cards" + File.separatorChar + "Y.png");
+        Image yellowAmmoImage1 = new Image(yellowAmmo.toURI().toString());
+        Image yellowAmmoImage2 = new Image(yellowAmmo.toURI().toString());
+        Image yellowAmmoImage3 = new Image(yellowAmmo.toURI().toString());
         ImageView yellowView1 = new ImageView(yellowAmmoImage1);
         ImageView yellowView2 = new ImageView(yellowAmmoImage2);
         ImageView yellowView3 = new ImageView(yellowAmmoImage3);
@@ -915,9 +905,8 @@ public class MainPage extends Application {
 
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0]!=null){
-            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
-            Image image0 = new Image(file0.toURI().toString());
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
             iv0.setFitWidth(250);
@@ -939,9 +928,8 @@ public class MainPage extends Application {
         });
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1]!=null){
-            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
-            Image image1 = new Image(file1.toURI().toString());
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
             iv1.setFitWidth(250);
@@ -963,9 +951,8 @@ public class MainPage extends Application {
         });
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2]!=null){
-            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
-            Image image2 = new Image(file2.toURI().toString());
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
             iv2.setFitWidth(250);
@@ -1037,9 +1024,8 @@ public class MainPage extends Application {
 
 
         if (match.getPlayer(remoteController.getNickname()).getWeapons()[0] != null && match.getPlayer(remoteController.getNickname()).getWeapons()[0].getWeaponStatus() == WeaponAmmoStatus.UNLOADED) {
-            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[0].getName() + ".png");
-            Image image0 = new Image(file0.toURI().toString());
+            File weapon0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[0].getName() + ".png");
+            Image image0 = new Image(weapon0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(350);
             iv0.setFitWidth(300);
@@ -1051,9 +1037,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getWeapons()[1] != null && match.getPlayer(remoteController.getNickname()).getWeapons()[1].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
-            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[1].getName() + ".png");
-            Image image1 = new Image(file1.toURI().toString());
+            File weapon1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[1].getName() + ".png");
+            Image image1 = new Image(weapon1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(350);
             iv1.setFitWidth(300);
@@ -1065,9 +1050,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getWeapons()[2] != null && match.getPlayer(remoteController.getNickname()).getWeapons()[2].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
-            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[2].getName() + ".png");
-            Image image2 = new Image(file2.toURI().toString());
+            File weapon2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(remoteController.getNickname()).getWeapons()[2].getName() + ".png");
+            Image image2 = new Image(weapon2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(350);
             iv2.setFitWidth(300);
@@ -1193,9 +1177,8 @@ public class MainPage extends Application {
 
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TAGBACK_GRENADE){
-            File firstFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
-            Image image0 = new Image(firstFile.toURI().toString());
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
             iv0.setFitWidth(250);
@@ -1206,9 +1189,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() == TAGBACK_GRENADE){
-            File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
-            Image image1 = new Image(secondFile.toURI().toString());
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
             iv1.setFitWidth(250);
@@ -1219,9 +1201,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() == TAGBACK_GRENADE){
-            File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
-            Image image2 = new Image(thirdFile.toURI().toString());
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TAGBACK_GRENADE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
             iv2.setFitWidth(250);
@@ -1317,9 +1298,8 @@ public class MainPage extends Application {
 
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[0] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getName() == TARGETING_SCOPE){
-            File firstFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
-            Image image0 = new Image(firstFile.toURI().toString());
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             first = 1;
             iv0.setFitHeight(300);
@@ -1330,9 +1310,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[1] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getName() == TARGETING_SCOPE){
-            File secondFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
-            Image image1 = new Image(secondFile.toURI().toString());
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             second = 1;
             iv1.setFitHeight(300);
@@ -1343,9 +1322,8 @@ public class MainPage extends Application {
         }
 
         if (match.getPlayer(remoteController.getNickname()).getPowerUps()[2] != null && match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getName() == TARGETING_SCOPE){
-            File thirdFile = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
-            Image image2 = new Image(thirdFile.toURI().toString());
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + TARGETING_SCOPE + "_" + match.getPlayer(remoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             third = 1;
             iv2.setFitHeight(300);

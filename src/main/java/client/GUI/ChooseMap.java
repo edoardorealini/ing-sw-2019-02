@@ -2,6 +2,7 @@ package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
 import com.sun.prism.paint.Gradient;
+import commons.FileLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -49,9 +50,8 @@ public class ChooseMap extends Application {
         splitPane.setOrientation(Orientation.VERTICAL);
 
         //importing the image
-        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "ChooseMapBackground.png");
-        Image image = new Image(file.toURI().toString());
+        File map = FileLoader.getResourceAsFile("ChooseMapBackground.png");
+        Image image = new Image(map.toURI().toString());
 
 
         //if we need to resize the image
@@ -107,7 +107,7 @@ public class ChooseMap extends Application {
         //filling the choice boxes
         selectMap.getItems().addAll(1, 2, 3, 4);
         selectMap.setValue(1);
-        nSkulls.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8);//TODO togliere 1
+        nSkulls.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8);//TODO togliere!!
         nSkulls.setValue(5);
 
 
