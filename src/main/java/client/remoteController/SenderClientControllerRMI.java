@@ -28,12 +28,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     private String nickname;
     private int hashedNickname;
 
-    public SenderClientControllerRMI(String serverIP, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException, InvalidInputException {
+    public SenderClientControllerRMI(String serverIP, int serverPort, String nickname, Match match, FirstPage fp) throws RemoteException, NotBoundException, FailedLoginException, InvalidInputException {
         try {
             this.match = match;
             this.firstPage = fp;
             //TODO do not HARCODE the port ask it to the user (coglione lui se la mette sbagliata)!
-            Registry registry = LocateRegistry.getRegistry(serverIP, 1338);
+            Registry registry = LocateRegistry.getRegistry(serverIP, serverPort);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             clientController = new ReceiverClientControllerRMI(match, nickname, fp, this);
 

@@ -244,13 +244,11 @@ public class FirstPage extends Application implements Runnable{
     private void checkInput(TextField inputName, TextField numerPortText, TextField inputIp, Stage primaryStage){
         if ((inputName.getText().isEmpty())){
             PopUpSceneMethod.display("Username Error", "Please insert a valid username");
-
         }
         else {
-
             try {
                     // TODO aggiungere numero porta (numerPortText)
-                    SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), inputName.getText(), match, this);
+                    SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), Integer.parseInt(numerPortText.getText()), inputName.getText(), match, this);
                     settRemoteController(remoteController);
                     primaryStage.setScene(sceneLobby);
             }

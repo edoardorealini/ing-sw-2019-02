@@ -309,7 +309,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             clientControllers.remove(toRemove);
             nicknameToClient.remove(hashNicknameID.get(clientHashedID));
 
-            if(connectedPlayers() < 3) {
+            if(connectedPlayers() < 3 && getMatchStatus()) {
                 System.out.println("[MATCHCONTROLLER]: The number of players went below 3, stopping the game!");
                 matchController.endGameRoutine();
                 pushMatchToAllPlayers();

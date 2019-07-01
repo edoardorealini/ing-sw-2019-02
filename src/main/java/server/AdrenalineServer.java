@@ -123,7 +123,6 @@ public class AdrenalineServer {
                 System.out.println("\nWELCOME TO ADRENALINE MAIN SERVER v3.0.0");
                 System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
                 System.out.println("All rights reserved, 2019\n\n");
-                System.out.println("Default port value loaded from properties file: adrenaline.properties");
                 //mainServer.launchRMIServer(RMIPort);
                 mainServer.launchRMIConnectionHandler(RMIPort);
             }catch (Exception e1){
