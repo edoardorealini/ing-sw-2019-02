@@ -64,7 +64,7 @@ public class MainPage extends Application {
         mainStage.getIcons().add(image0);
 
         SplitPane splitPane = new SplitPane();
-        //left (life)
+        //left (Life)
         VBox vBoxLife = new VBox();
         vBoxLife.setMinWidth(Region.USE_PREF_SIZE);
         vBoxLife.setSpacing(3);
@@ -81,18 +81,18 @@ public class MainPage extends Application {
         vBoxLife.getChildren().addAll(labelpos1,labelpos2,labelpos3,labelpos4,labelpos5);
 
         Button buttonLife1 = new Button();
-        buttonLife1.setText(" Show " + match.getPlayers().get(0).getNickname() + "'s life ");
+        buttonLife1.setText(" Show " + match.getPlayers().get(0).getNickname() + "'s Life ");
         buttonLife1.setOnAction(e -> {
-            LifeBoard life = new LifeBoard();
-            life.setMatch(this.match);
-            life.setPlayerClicked(match.getPlayers().get(0));
-            System.out.println("Show life "+frenzyMode);
+            LifeBoard Life = new LifeBoard();
+            Life.setMatch(this.match);
+            Life.setPlayerClicked(match.getPlayers().get(0));
+            System.out.println("Show Life "+frenzyMode);
             if (frenzyMode){
-                System.out.println("frenzy mode life");
-                life.setFrenzyActive(true);
+                System.out.println("frenzy mode Life");
+                Life.setFrenzyActive(true);
             }
             try {
-                life.start(new Stage());
+                Life.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -100,17 +100,17 @@ public class MainPage extends Application {
         vBoxLife.getChildren().add(buttonLife1);
 
         Button buttonLife2 = new Button();
-        buttonLife2.setText(" Show " + match.getPlayers().get(1).getNickname() + "'s life ");
+        buttonLife2.setText(" Show " + match.getPlayers().get(1).getNickname() + "'s Life ");
         buttonLife2.setOnAction(e -> {
-            LifeBoard life = new LifeBoard();
-            life.setMatch(this.match);
-            life.setPlayerClicked(match.getPlayers().get(1));
+            LifeBoard Life = new LifeBoard();
+            Life.setMatch(this.match);
+            Life.setPlayerClicked(match.getPlayers().get(1));
             if (frenzyMode){
-                System.out.println("frenzy mode life");
-                life.setFrenzyActive(true);
+                System.out.println("frenzy mode Life");
+                Life.setFrenzyActive(true);
             }
             try {
-                life.start(new Stage());
+                Life.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -118,17 +118,17 @@ public class MainPage extends Application {
         vBoxLife.getChildren().add(buttonLife2);
 
         Button buttonLife3 = new Button();
-        buttonLife3.setText(" Show " + match.getPlayers().get(2).getNickname() + "'s life ");
+        buttonLife3.setText(" Show " + match.getPlayers().get(2).getNickname() + "'s Life ");
         buttonLife3.setOnAction(e -> {
-            LifeBoard life = new LifeBoard();
-            life.setMatch(this.match);
-            life.setPlayerClicked(match.getPlayers().get(2));
+            LifeBoard Life = new LifeBoard();
+            Life.setMatch(this.match);
+            Life.setPlayerClicked(match.getPlayers().get(2));
             if (frenzyMode){
-                System.out.println("frenzy mode life");
-                life.setFrenzyActive(true);
+                System.out.println("frenzy mode Life");
+                Life.setFrenzyActive(true);
             }
             try {
-                life.start(new Stage());
+                Life.start(new Stage());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -137,17 +137,17 @@ public class MainPage extends Application {
 
         if (match.getPlayers().size()>=4){
             Button buttonLife4 = new Button();
-            buttonLife4.setText(" Show "+match.getPlayers().get(3).getNickname()+"'s life ");
+            buttonLife4.setText(" Show "+match.getPlayers().get(3).getNickname()+"'s Life ");
             buttonLife4.setOnAction(e -> {
-                LifeBoard life = new LifeBoard();
-                life.setMatch(this.match);
-                life.setPlayerClicked(match.getPlayers().get(3));
+                LifeBoard Life = new LifeBoard();
+                Life.setMatch(this.match);
+                Life.setPlayerClicked(match.getPlayers().get(3));
                 if (frenzyMode){
-                    System.out.println("frenzy mode life");
-                    life.setFrenzyActive(true);
+                    System.out.println("frenzy mode Life");
+                    Life.setFrenzyActive(true);
                 }
                 try {
-                    life.start(new Stage());
+                    Life.start(new Stage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -157,17 +157,17 @@ public class MainPage extends Application {
 
         if (match.getPlayers().size()>=5){
             Button buttonLife5 = new Button();
-            buttonLife5.setText(" Show "+match.getPlayers().get(4).getNickname()+"'s life ");
+            buttonLife5.setText(" Show "+match.getPlayers().get(4).getNickname()+"'s Life ");
             buttonLife5.setOnAction(e -> {
-                LifeBoard life = new LifeBoard();
-                life.setMatch(this.match);
-                life.setPlayerClicked(match.getPlayers().get(4));
+                LifeBoard Life = new LifeBoard();
+                Life.setMatch(this.match);
+                Life.setPlayerClicked(match.getPlayers().get(4));
                 if (frenzyMode){
-                    System.out.println("frenzy mode life");
-                    life.setFrenzyActive(true);
+                    System.out.println("frenzy mode Life");
+                    Life.setFrenzyActive(true);
                 }
                 try {
-                    life.start(new Stage());
+                    Life.start(new Stage());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -550,16 +550,16 @@ public class MainPage extends Application {
         Scene scene = new Scene(vBoxMove);
 
         stage.setScene(scene);
-        stage.showAndWait(); // non torna al chiamante fino a quando non si è chiusa la finestra
+        stage.showAndWait();
     }
 
     public void grab(){
         Stage stage = new Stage();
 
-        stage.initModality(Modality.APPLICATION_MODAL); // la finestra che si apre è l'unica cosa che puoi toccare se non la chiudi
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setMinHeight(300);
         stage.setTitle("Grab");
         stage.setMinWidth(270);
-        stage.setMinHeight(300);
         VBox vBoxGrab = new VBox(10);
 
         HBox hBox1 = new HBox(5);
