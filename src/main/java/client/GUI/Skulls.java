@@ -161,8 +161,7 @@ public class Skulls extends Application {
         int i=0;
         int j=0;
         int indexOfSkull = 8 - (match.getKillShotTrack().getTotalSkulls());
-        if (indexOfSkull>0 && indexOfSkull<8) {
-            while (i < match.getKillShotTrack().getMortalShots().size()) {
+            while ((i < match.getKillShotTrack().getMortalShots().size()) && (indexOfSkull<8)) {
                 if (j == 0) {
                     switch (match.getKillShotTrack().getMortalShots().get(i)) {
                         case 0:
@@ -234,7 +233,7 @@ public class Skulls extends Application {
                     }
                 }
             }
-        }
+
 
         stackPane.getChildren().addAll(hBox);
         Scene scene = new Scene(stackPane);
