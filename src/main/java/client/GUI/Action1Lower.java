@@ -52,28 +52,28 @@ public class Action1Lower extends Application {
         HBox hBoxWeapon = new HBox();
         HBox hBoxButtons = new HBox();
         VBox vBox = new VBox();
+        Button useWeapon = new Button();
         Button useWeapon1 = new Button();
         Button useWeapon2 = new Button();
-        Button useWeapon3 = new Button();
-        useWeapon1.setTextFill(Color.DARKRED);
-        useWeapon2.setTextFill(Color.DARKRED);
-        useWeapon3.setTextFill(Color.DARKRED);
+        useWeapon.setAlignment(Pos.CENTER);
         useWeapon1.setAlignment(Pos.CENTER);
         useWeapon2.setAlignment(Pos.CENTER);
-        useWeapon3.setAlignment(Pos.CENTER);
+        useWeapon.setTextFill(Color.DARKRED);
+        useWeapon1.setTextFill(Color.DARKRED);
+        useWeapon2.setTextFill(Color.DARKRED);
 
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0]  != null){
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
-            ImageView iv0 = new ImageView(image0);
-            iv0.setFitHeight(350);
-            iv0.setFitWidth(300);
-            iv0.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv0);
-            useWeapon1.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName());
-            hBoxButtons.getChildren().add(useWeapon1);
+            ImageView iv01 = new ImageView(image0);
+            iv01.setFitHeight(350);
+            iv01.setFitWidth(300);
+            iv01.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv01);
+            useWeapon.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName());
+            hBoxButtons.getChildren().add(useWeapon);
             a = 1;
         }
 
@@ -81,13 +81,13 @@ public class Action1Lower extends Application {
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
-            ImageView iv1 = new ImageView(image1);
-            iv1.setFitHeight(350);
-            iv1.setFitWidth(300);
-            iv1.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv1);
-            useWeapon2.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName());
-            hBoxButtons.getChildren().add(useWeapon2);
+            ImageView iv02 = new ImageView(image1);
+            iv02.setFitHeight(350);
+            iv02.setFitWidth(300);
+            iv02.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv02);
+            useWeapon1.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName());
+            hBoxButtons.getChildren().add(useWeapon1);
             b = 1;
         }
 
@@ -95,41 +95,41 @@ public class Action1Lower extends Application {
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
-            ImageView iv2 = new ImageView(image2);
-            iv2.setFitHeight(350);
-            iv2.setFitWidth(300);
-            iv2.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv2);
-            useWeapon3.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName());
-            hBoxButtons.getChildren().add(useWeapon3);
+            ImageView iv03 = new ImageView(image2);
+            iv03.setFitHeight(350);
+            iv03.setFitWidth(300);
+            iv03.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv03);
+            useWeapon2.setText("Use " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName());
+            hBoxButtons.getChildren().add(useWeapon2);
             c = 1;
         }
 
         hBoxWeapon.setMinHeight(350);
         hBoxWeapon.setMinWidth(300);
-        hBoxButtons.setMinHeight(80);
-        hBoxButtons.setMinWidth(100);
-        hBoxWeapon.setAlignment(Pos.CENTER);
         hBoxWeapon.setSpacing(8);
         hBoxButtons.setAlignment(Pos.CENTER);
         hBoxButtons.setSpacing(250);
         vBox.setAlignment(Pos.CENTER);
+        hBoxButtons.setMinHeight(80);
+        hBoxButtons.setMinWidth(100);
+        hBoxWeapon.setAlignment(Pos.CENTER);
         vBox.setSpacing(8);
 
         //setting the action linked to the button
-        useWeapon1.setOnAction(event -> {
+        useWeapon.setOnAction(event -> {
             this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0];
             wholeAction(new Stage());
             primaryStage.close();
         });
 
-        useWeapon2.setOnAction(event -> {
+        useWeapon1.setOnAction(event -> {
             this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1];
             wholeAction(new Stage());
             primaryStage.close();
         });
 
-        useWeapon3.setOnAction(event -> {
+        useWeapon2.setOnAction(event -> {
             this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2];
             wholeAction(new Stage());
             primaryStage.close();
@@ -186,10 +186,10 @@ public class Action1Lower extends Application {
                 + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + weapon.toString() + ".png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
-        iv.setX(0);
-        iv.setY(0);
         iv.setFitHeight(300);
         iv.setFitWidth(250);
+        iv.setX(0);
+        iv.setY(0);
         iv.setPreserveRatio(true);
 
 
@@ -197,9 +197,9 @@ public class Action1Lower extends Application {
         VBox vBox = new VBox();
         splitPane.getItems().addAll(iv,vBox);
 
+        HBox squaresHbox = new HBox();
         HBox modesHbox = new HBox();
         HBox targetHbox = new HBox();
-        HBox squaresHbox = new HBox();
         HBox squaresHbox1 = new HBox();
 
         Label shootingMode = new Label("Select the shooting modes: ");
@@ -224,7 +224,8 @@ public class Action1Lower extends Application {
         ChoiceBox<Integer> xSquare2 = new ChoiceBox<>();
         ChoiceBox<Integer> ySquare1 = new ChoiceBox<>();
         ChoiceBox<Integer> ySquare2 = new ChoiceBox<>();
-        ChoiceBox<Directions> directionBox = new ChoiceBox<>();
+        ChoiceBox<Directions> directionBox1
+                = new ChoiceBox<>();
         ChoiceBox<Boolean> damageBeforeMoveBox = new ChoiceBox<>();
         ArrayList<ChoiceBox<ShootMode>> modes = new ArrayList<>();
         ArrayList<ChoiceBox<String>> targetPlayers = new ArrayList<>();
@@ -263,12 +264,12 @@ public class Action1Lower extends Application {
                 break;
 
             case 4:
+                choiceBoxEffectOpt1.getItems().add(ShootMode.BASIC);
+                choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL1);
                 choiceBoxEffect.getItems().add(ShootMode.BASIC);
                 choiceBoxEffect.getItems().add(ShootMode.OPTIONAL1);
                 choiceBoxEffect.getItems().add(ShootMode.OPTIONAL2);
                 choiceBoxEffect.setValue(ShootMode.BASIC);
-                choiceBoxEffectOpt1.getItems().add(ShootMode.BASIC);
-                choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL1);
                 choiceBoxEffectOpt1.getItems().add(ShootMode.OPTIONAL2);
                 choiceBoxEffectOpt2.getItems().add(ShootMode.BASIC);
                 choiceBoxEffectOpt2.getItems().add(ShootMode.OPTIONAL1);
@@ -359,15 +360,19 @@ public class Action1Lower extends Application {
 
         vBox.getChildren().add(squaresHbox);
 
+        if (weapon.getRequiredParameters().needToKnowDirection()) {
+            vBox.getChildren().add(direction);
+            directionBox1
+                    .getItems().addAll(Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT);
+            directionBox1
+                    .setValue(Directions.UP);
+            vBox.getChildren().add(directionBox1
+            );
+        }
+
         if (weapon.getRequiredParameters().getNumberOfSquares() == 2)
             vBox.getChildren().add(squaresHbox1);
 
-        if (weapon.getRequiredParameters().needToKnowDirection()) {
-            vBox.getChildren().add(direction);
-            directionBox.getItems().addAll(Directions.UP, Directions.DOWN, Directions.LEFT, Directions.RIGHT);
-            directionBox.setValue(Directions.UP);
-            vBox.getChildren().add(directionBox);
-        }
 
         if (weapon.getRequiredParameters().needToKnowDamageBeforeMove()) {
             vBox.getChildren().add(damageBeforeMove);
@@ -377,15 +382,16 @@ public class Action1Lower extends Application {
         }
 
 
-        vBox.getChildren().addAll(emptySpace, emptySpace1); //TODO aggiugni bottone invia azione totale
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(8);
-        targetHbox.setAlignment(Pos.CENTER);
-        modesHbox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(emptySpace, emptySpace1);
+
         squaresHbox.setAlignment(Pos.CENTER);
         squaresHbox1.setAlignment(Pos.CENTER);
         targetHbox.setSpacing(8);
         modesHbox.setSpacing(8);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(8);
+        targetHbox.setAlignment(Pos.CENTER);
+        modesHbox.setAlignment(Pos.CENTER);
         squaresHbox.setSpacing(8);
         squaresHbox1.setSpacing(8);
 
@@ -397,7 +403,8 @@ public class Action1Lower extends Application {
             try {
                 ShootingParametersClient in = new ShootingParametersClient();
                 setInput(in);
-                fillInput(modes, targetPlayers, arraySquares, directionBox, damageBeforeMoveBox);
+                fillInput(modes, targetPlayers, arraySquares, directionBox1
+                        , damageBeforeMoveBox);
                 fillWholeInput(posX.getValue(),posY.getValue());
                 wholeStage.close();
             } catch (Exception ei) {
@@ -443,12 +450,12 @@ public class Action1Lower extends Application {
         reloadStage.initModality(Modality.APPLICATION_MODAL);
         reloadStage.setTitle("Owned weapons");
         Label text = new Label("Choose the weapon you want to reload:");
-        HBox hBoxWeapon = new HBox();
-        HBox hBoxButtons = new HBox();
         VBox vBox = new VBox();
         Button reloadWeapon1 = new Button();
         Button reloadWeapon2 = new Button();
         Button reloadWeapon3 = new Button();
+        HBox hBoxWeapon = new HBox();
+        HBox hBoxButtons = new HBox();
         reloadWeapon1.setTextFill(Color.CADETBLUE);
         reloadWeapon2.setTextFill(Color.CADETBLUE);
         reloadWeapon3.setTextFill(Color.CADETBLUE);
@@ -461,11 +468,11 @@ public class Action1Lower extends Application {
             File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
-            ImageView iv0 = new ImageView(image0);
-            iv0.setFitHeight(350);
-            iv0.setFitWidth(300);
-            iv0.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv0);
+            ImageView iv01 = new ImageView(image0);
+            iv01.setFitHeight(350);
+            iv01.setFitWidth(300);
+            iv01.setPreserveRatio(true);
+            hBoxWeapon.getChildren().add(iv01);
             reloadWeapon1.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName());
             hBoxButtons.getChildren().add(reloadWeapon1);
             first = 1;
@@ -475,12 +482,12 @@ public class Action1Lower extends Application {
             File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
-            ImageView iv1 = new ImageView(image1);
-            iv1.setFitHeight(350);
-            iv1.setFitWidth(300);
-            iv1.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv1);
+            ImageView iv02 = new ImageView(image1);
+            iv02.setFitHeight(350);
+            iv02.setFitWidth(300);
+            iv02.setPreserveRatio(true);
             reloadWeapon2.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName());
+            hBoxWeapon.getChildren().add(iv02);
             hBoxButtons.getChildren().add(reloadWeapon2);
             second = 1;
         }
@@ -489,23 +496,23 @@ public class Action1Lower extends Application {
             File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
                     + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
-            ImageView iv2 = new ImageView(image2);
-            iv2.setFitHeight(350);
-            iv2.setFitWidth(300);
-            iv2.setPreserveRatio(true);
-            hBoxWeapon.getChildren().add(iv2);
+            ImageView iv03 = new ImageView(image2);
+            iv03.setFitHeight(350);
+            iv03.setFitWidth(300);
+            iv03.setPreserveRatio(true);
             reloadWeapon3.setText("Reload " + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName());
+            hBoxWeapon.getChildren().add(iv03);
             hBoxButtons.getChildren().add(reloadWeapon3);
             third = 1;
         }
 
-        hBoxWeapon.setMinHeight(350);
-        hBoxWeapon.setMinWidth(300);
         hBoxButtons.setMinHeight(80);
         hBoxButtons.setMinWidth(100);
         hBoxWeapon.setAlignment(Pos.CENTER);
         hBoxWeapon.setSpacing(8);
         hBoxButtons.setAlignment(Pos.CENTER);
+        hBoxWeapon.setMinHeight(350);
+        hBoxWeapon.setMinWidth(300);
         hBoxButtons.setSpacing(250);
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(8);
