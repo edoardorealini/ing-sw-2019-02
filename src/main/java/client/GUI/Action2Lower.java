@@ -46,6 +46,7 @@ public class Action2Lower extends Application {
         posX.getItems().addAll(0,1,2,3);
         hBox1.getChildren().addAll(label1,posX);
         hBox1.setAlignment(Pos.CENTER);
+        posX.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(0));
 
         HBox hBox2 = new HBox(5);
         Label label2 = new Label();
@@ -55,6 +56,7 @@ public class Action2Lower extends Application {
         hBox2.getChildren().addAll(label2,posY);
         hBox2.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(title1,hBox1,hBox2);
+        posY.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(1));
 
         // grab
         Label title2 = new Label(" Grab Section ");

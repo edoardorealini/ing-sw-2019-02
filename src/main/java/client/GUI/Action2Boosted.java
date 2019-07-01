@@ -31,6 +31,7 @@ public class Action2Boosted extends Application {
         label1.setText("X : ");
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
+        posX.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(0));
         hBox1.getChildren().addAll(label1,posX);
         hBox1.setAlignment(Pos.CENTER);
 
@@ -39,6 +40,7 @@ public class Action2Boosted extends Application {
         label2.setText("Y : ");
         ChoiceBox<Integer> posY = new ChoiceBox<>();
         posY.getItems().addAll(0,1,2);
+        posY.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(1));
         hBox2.getChildren().addAll(label2,posY);
         hBox2.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(title1,hBox1,hBox2);

@@ -156,6 +156,7 @@ public class Action1Lower extends Application {
         ChoiceBox<Integer> posX = new ChoiceBox<>();
         posX.getItems().addAll(0,1,2,3);
         hBox1.getChildren().addAll(label1,posX);
+        setX(posX);
         hBox1.setAlignment(Pos.CENTER);
 
         HBox hBox2 = new HBox(5);
@@ -165,6 +166,7 @@ public class Action1Lower extends Application {
         posY.getItems().addAll(0,1,2);
         hBox2.getChildren().addAll(label2,posY);
         hBox2.setAlignment(Pos.CENTER);
+        setY(posY);
         vbox.getChildren().addAll(title1,hBox1,hBox2);
 
 
@@ -422,12 +424,12 @@ public class Action1Lower extends Application {
 
     private void setX(ChoiceBox<Integer> xChoiceBox) {
         xChoiceBox.getItems().addAll(0, 1, 2, 3);
-        xChoiceBox.setValue(0);
+        xChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(0));
     }
 
     private void setY(ChoiceBox<Integer> yChoiceBox) {
         yChoiceBox.getItems().addAll(0, 1, 2);
-        yChoiceBox.setValue(0);
+        yChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(1));
     }
 
     public void reloadPopup() {

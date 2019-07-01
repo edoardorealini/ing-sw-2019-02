@@ -153,6 +153,7 @@ public class Action1Boosted extends Application {
         posX.getItems().addAll(0,1,2,3);
         hBox0.getChildren().addAll(label1,posX);
         hBox0.setAlignment(Pos.CENTER);
+        setX(posX);
 
         HBox hBox2 = new HBox(5);
         Label label2 = new Label();
@@ -162,6 +163,7 @@ public class Action1Boosted extends Application {
         hBox2.getChildren().addAll(label2,posY);
         hBox2.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(title0,hBox0,hBox2);
+        setY(posY);
 
 
 //+++++++++++// reload
@@ -418,12 +420,12 @@ public class Action1Boosted extends Application {
 
     private void setX(ChoiceBox<Integer> xChoiceBox) {
         xChoiceBox.getItems().addAll(0, 1, 2, 3);
-        xChoiceBox.setValue(0);
+        xChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(0));
     }
 
     private void setY(ChoiceBox<Integer> yChoiceBox) {
         yChoiceBox.getItems().addAll(0, 1, 2);
-        yChoiceBox.setValue(0);
+        yChoiceBox.setValue(match.getMap().getIndex(match.getPlayer(senderRemoteController.getNickname()).getPosition()).get(1));
     }
 
     public void reloadPopup() {
