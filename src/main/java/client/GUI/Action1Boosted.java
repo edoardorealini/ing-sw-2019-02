@@ -1,6 +1,7 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import commons.FileLoader;
 import commons.ShootingParametersClient;
 import exception.*;
 import javafx.application.Application;
@@ -60,8 +61,7 @@ public class Action1Boosted extends Application {
 
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0]  != null){
-            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
+            File file0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView ivReload0 = new ImageView(image0);
             ivReload0.setFitHeight(350);
@@ -74,8 +74,7 @@ public class Action1Boosted extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null){
-            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
+            File file1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView ivReload1 = new ImageView(image1);
             ivReload1.setFitHeight(350);
@@ -88,8 +87,7 @@ public class Action1Boosted extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null){
-            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
+            File file2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView ivReload2 = new ImageView(image2);
             ivReload2.setFitHeight(350);
@@ -186,8 +184,7 @@ public class Action1Boosted extends Application {
         SplitPane splitPane = new SplitPane();
 
         //image
-        File file = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + weapon.toString() + ".png");
+        File file = FileLoader.getResourceAsFile("weapons" + File.separatorChar + weapon.toString() + ".png");
         Image image = new Image(file.toURI().toString());
         ImageView ivPrincipal = new ImageView(image);
         ivPrincipal.setX(0);
@@ -463,8 +460,7 @@ public class Action1Boosted extends Application {
 
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getWeaponStatus() == WeaponAmmoStatus.UNLOADED) {
-            File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
+            File file0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView ivReload0 = new ImageView(image0);
             ivReload0.setFitHeight(350);
@@ -477,8 +473,7 @@ public class Action1Boosted extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
-            File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
+            File file1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView ivReload1 = new ImageView(image1);
             ivReload1.setFitHeight(350);
@@ -491,8 +486,7 @@ public class Action1Boosted extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getWeaponStatus() == WeaponAmmoStatus.UNLOADED){
-            File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                    + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
+            File file2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView ivReload2 = new ImageView(image2);
             ivReload2.setFitHeight(350);

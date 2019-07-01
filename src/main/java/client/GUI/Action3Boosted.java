@@ -1,6 +1,7 @@
 package client.GUI;
 
 import client.remoteController.SenderClientRemoteController;
+import commons.FileLoader;
 import exception.NotAllowedCallException;
 import exception.NotAllowedMoveException;
 import exception.WrongStatusException;
@@ -116,8 +117,7 @@ public class Action3Boosted extends Application {
         SplitPane splitPane = new SplitPane();
 
         VBox vBox = new VBox(6);
-        File file0 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
+        File file0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(350);
@@ -132,8 +132,7 @@ public class Action3Boosted extends Application {
         splitPane.getItems().add(vBox);
 
         VBox vBox1 = new VBox(6);
-        File file1 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
+        File file1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(350);
@@ -148,8 +147,7 @@ public class Action3Boosted extends Application {
         splitPane.getItems().add(vBox1);
 
         VBox vBox2 = new VBox(6);
-        File file2 = new File("." + File.separatorChar + "src" + File.separatorChar + "main"
-                + File.separatorChar + "resources" + File.separatorChar + "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
+        File file2 = FileLoader.getResourceAsFile( "weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv2 = new ImageView(image2);
         iv2.setFitHeight(350);

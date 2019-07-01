@@ -2,7 +2,6 @@ package client.GUI;
 
 import client.remoteController.SenderClientControllerRMI;
 import client.remoteController.SenderClientRemoteController;
-import com.sun.javafx.application.LauncherImpl;
 import commons.FileLoader;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,16 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Match;
 
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
+
 
 public class FirstPage extends Application implements Runnable{
 
