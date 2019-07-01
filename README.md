@@ -22,7 +22,7 @@ All'interno di ogni cartella di distribuzione si trovano:
 
 - L'eseguibile **AdrenalineClient.jar**
 - La cartella di **dipendenza JavaFX**: "javafx-sdk-12.0.1"
-- Uno script **AdrenalineClientLauncher.sh** o **AdrenalineClientLauncher.bat** a seconda del SO in uso che permette di lanciare l'applicativo con il semplice comando:
+- Uno script **AdrenalineClientLauncher.sh** o **AdrenalineClientLauncher.bat** a seconda del SO in uso
 
    
 **AdrenalineServer**:
