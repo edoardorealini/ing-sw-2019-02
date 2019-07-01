@@ -113,9 +113,9 @@ public class Action1Boosted extends Application {
         vBox.setSpacing(8);
 
         //setting the action linked to the button
-        useweapon1.setOnAction(event -> {
+        useweapon3.setOnAction(event -> {
 
-            this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0];
+            this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2];
             wholeAction(new Stage());
             primaryStage.close();
 
@@ -129,13 +129,14 @@ public class Action1Boosted extends Application {
 
         });
 
-        useweapon3.setOnAction(event -> {
+        useweapon1.setOnAction(event -> {
 
-            this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2];
+            this.weapon = match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0];
             wholeAction(new Stage());
             primaryStage.close();
 
         });
+
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
@@ -515,26 +516,6 @@ public class Action1Boosted extends Application {
         vBox.setSpacing(8);
 
         //setting the action linked to the button
-        reloadWeapon0.setOnAction(event -> {
-            try {
-                senderRemoteController.reload(0);
-                reloadStage.close();
-            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
-                //e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
-        reloadWeapon2.setOnAction(event -> {
-            try {
-                senderRemoteController.reload(1);
-                reloadStage.close();
-            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
-                e.printStackTrace();
-                PopUpSceneMethod.display("ERROR", e.getMessage());
-            }
-        });
-
         reloadWeapon3.setOnAction(event -> {
             try {
                 senderRemoteController.reload(2);
@@ -545,9 +526,29 @@ public class Action1Boosted extends Application {
             }
         });
 
+        reloadWeapon2.setOnAction(event -> {
+            try {
+                senderRemoteController.reload(1);
+                reloadStage.close();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+
+                e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
+        reloadWeapon0.setOnAction(event -> {
+            try {
+                senderRemoteController.reload(0);
+                reloadStage.close();
+            } catch (RemoteException | NotEnoughAmmoException | NotAllowedCallException |WrongStatusException e) {
+                //e.printStackTrace();
+                PopUpSceneMethod.display("ERROR", e.getMessage());
+            }
+        });
+
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
 
-        //TODO reloadStage.setOnCloseRequest(event -> );
 
 
         Scene scene = new Scene(vBox, (300*(first+second+third) + 100), 450);
@@ -571,17 +572,18 @@ public class Action1Boosted extends Application {
 
         input.setName(weapon.getName());
 
-        boolean basicModeChosen = false;
-        boolean alternateModeChosen = false;
+        boolean basicMode = false;
+
+        boolean alternateMode = false;
 
         for (ChoiceBox<ShootMode> choiceBox : modes) {
             if (choiceBox.getValue() == ShootMode.BASIC)
-                basicModeChosen = true;
+                basicMode = true;
             if (choiceBox.getValue() == ShootMode.ALTERNATE)
-                alternateModeChosen = true;
+                alternateMode = true;
         }
 
-        if (! (basicModeChosen || alternateModeChosen))
+        if (! (basicMode || alternateMode))
             throw new NotAllowedShootingModeException("Not allowed shooting mode, please try again");
 
         //setting shooting modes
@@ -598,6 +600,7 @@ public class Action1Boosted extends Application {
         //checking no duplication in targets
         for (int i = 0; i < input.getTargetPlayers().size() - 1; i++) {
             for (int j = i + 1; j < input.getTargetPlayers().size(); j++)
+
                 if (input.getTargetPlayers().get(i).equals(input.getTargetPlayers().get(j)))
                     throw new NotAllowedTargetException("You selected the same target more than once");
         }
