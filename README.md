@@ -36,6 +36,7 @@ Nella cartella di distribuzione si trova:
 
 Per eseguire il jar è necessario lanciare da terminale uno dei due seguenti comandi:
 
+
     java -jar AdrenalineServer.jar portNumber
     java -jar AdrenalineServer.jar
     
