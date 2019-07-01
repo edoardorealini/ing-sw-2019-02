@@ -1,5 +1,6 @@
 package server;
 
+import commons.PropertiesLoader;
 import controller.MatchController;
 import model.Match;
 import server.RMIHandler.AdrenalineRMIServer;
@@ -72,7 +73,7 @@ public class AdrenalineServer {
             Registry registry = LocateRegistry.createRegistry(port);
             registry.bind("connectionHandler", connectionHandler);
             connectionHandler.startClientPinger();
-            System.out.println("Launched Server  with IP: " + InetAddress.getLocalHost().getHostAddress() + " on port " + port + ", waiting for connection requests");
+            System.out.println("Launched Server on IP: " + InetAddress.getLocalHost().getHostAddress() + ", on port: " + port + ", waiting for connection requests");
             System.out.println("[SERVER]: Connection handler launched and registered, ready to receive connections");
         }
         catch (Exception e){
@@ -102,7 +103,7 @@ public class AdrenalineServer {
         if(args.length != 0){
             AdrenalineServer mainServer = new AdrenalineServer(Integer.parseInt(args[0]));
             try {
-                System.out.println("WELCOME TO ADRENALINE MAIN SERVER v1.0.0");
+                System.out.println("\nWELCOME TO ADRENALINE MAIN SERVER v1.0.0");
                 System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
                 System.out.println("All rights reserved, 2019\n\n");
                 System.out.println("Starting server on the command line specified port ");
@@ -114,46 +115,21 @@ public class AdrenalineServer {
         }
         else {
             Properties loader = new Properties();
+            AdrenalineServer mainServer = new AdrenalineServer();
+            int RMIPort = PropertiesLoader.getDefaultRMIPort();
+            mainServer.setRmiPort(RMIPort);
+
             try {
-                AdrenalineServer mainServer = new AdrenalineServer();
-                /*
-                    loader.load(mainServer.getPropertiesInputStream());
-                */
-
-                String path = "./adrenaline.properties";
-                loader.load(new FileInputStream(path));
-
-                int socketPort = Integer.parseInt(loader.getProperty("defaultSocketPort"));
-                int RMIPort = Integer.parseInt(loader.getProperty("defaultRMIPort"));
-                mainServer.setRmiPort(RMIPort);
-
-                try {
-                    System.out.println("WELCOME TO ADRENALINE MAIN SERVER v3.0.0");
-                    System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
-                    System.out.println("All rights reserved, 2019\n\n");
-                    System.out.println("Default port value loaded from properties file: adrenaline.properties");
-                    //mainServer.launchRMIServer(RMIPort);
-                    mainServer.launchRMIConnectionHandler(RMIPort);
-                }catch (Exception e1){
-                    e1.printStackTrace();
-                }
-
-            } catch (IOException e) {
-                //error in loading properties, starting server on default ports
-                AdrenalineServer mainServer = new AdrenalineServer(1338);
-
-                try {
-                    System.out.println("WELCOME TO ADRENALINE MAIN SERVER v2.0.0");
-                    System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
-                    System.out.println("All rights reserved, 2019\n\n");
-                    System.out.println("adrenaline.properties file not found, starting server on default 1338 port");
-                    //mainServer.launchRMIServer(1338);
-                    mainServer.launchRMIConnectionHandler(1338);
-                }catch (Exception e1){
-                    e1.printStackTrace();
-                }
-
+                System.out.println("\nWELCOME TO ADRENALINE MAIN SERVER v3.0.0");
+                System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
+                System.out.println("All rights reserved, 2019\n\n");
+                System.out.println("Default port value loaded from properties file: adrenaline.properties");
+                //mainServer.launchRMIServer(RMIPort);
+                mainServer.launchRMIConnectionHandler(RMIPort);
+            }catch (Exception e1){
+                e1.printStackTrace();
             }
+
         }
     }
 

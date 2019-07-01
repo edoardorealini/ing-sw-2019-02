@@ -1,5 +1,6 @@
 package server.RMIHandler;
 
+import commons.PropertiesLoader;
 import commons.ShootingParametersClient;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
@@ -18,6 +19,7 @@ import model.powerup.PowerUp;
 import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.weapons.WeaponName;
+import server.AdrenalineServer;
 
 import javax.security.auth.login.FailedLoginException;
 import java.io.File;
@@ -58,16 +60,37 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     private void getValuesFromProperties(){
+        /*
         Properties propertyLoader = new Properties();
 
         try{
-            propertyLoader.load(getClass().getResourceAsStream(propertyFile));
+            //propertyLoader.load(getClass().getResourceAsStream(propertyFile));
+            propertyLoader.load(this.getClass().getResourceAsStream("/adrenaline.properties"));
+            System.out.println("[PROPERTIES-ServerControllerRMI]: Loaded properties from adrenaline.properties");
             this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
         }catch (IOException e) {
             e.printStackTrace();
-            System.out.println("[ERROR]: Failed loading info from properties file, setting the lobbyDuration to 30 seconds as default value");
-            lobbyDuration = 30000; //default value for turn duration set to 30 seconds
+
+            System.out.println("[ERROR]: Failed loading info from properties file");
+            System.out.println("[PROPERTIES]: Loading from outside Jar");
+
+            File jarPath=new File(ServerControllerRMI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+            String path = File.separatorChar + "adrenaline.properties";
+
+            try {
+                propertyLoader.load(new FileInputStream(propertiesPath + path));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.out.println("[ERROR]: Failed loading info from properties file");
+                System.out.println("[PROPERTIES]: Setting the lobby timer to default value 20 seconds");
+                this.lobbyDuration = 20000;
+            }
+            this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
         }
+
+         */
+        this.lobbyDuration = PropertiesLoader.getLobbyTimerDuration();
     }
 
     public ArrayList<Player> getPlayers(){

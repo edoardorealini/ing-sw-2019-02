@@ -1,5 +1,6 @@
 package controller;
 
+import commons.PropertiesLoader;
 import exception.*;
 import model.Color;
 import model.Match;
@@ -67,20 +68,36 @@ public class MatchController{
     }
 
     private void getValuesFromProperties(){
-
+        /*
         Properties propertyLoader = new Properties();
+
         try{
-            propertyLoader.load(getClass().getResourceAsStream(propertyFile));
+            propertyLoader.load(this.getClass().getResourceAsStream("/adrenaline.properties"));
+            //System.out.println("[PROPERTIES-MatchController]: Loaded properties from adrenaline.properties");
             this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR]: Failed loading info from properties file, setting the turnDuration to 2 minutes as default value");
-            turnDuration = 120000; //default value for turn duration set to 2 minutes
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("[ERROR]: Failed loading info from properties file, setting the turnDuration to 2 minutes as default value");
-            turnDuration = 120000; //default value for turn duration set to 2 minutes
+            System.out.println("[ERROR]: Failed loading info from properties file");
+            System.out.println("[PROPERTIES]: Loading from outside Jar");
+
+            File jarPath=new File(MatchController.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
+            String path = File.separatorChar + "adrenaline.properties";
+
+            try {
+                propertyLoader.load(new FileInputStream(propertiesPath + path));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.out.println("[ERROR]: Failed loading info from properties file");
+                System.out.println("[PROPERTIES]: Setting the turn timer to default value 120 seconds");
+                this.turnDuration = 120000;
+            }
+
+            this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
         }
+
+         */
+        this.turnDuration = PropertiesLoader.getTurnTimerDuration();
     }
 
     public void setServerControllerRMI(ServerControllerRMI controller){
