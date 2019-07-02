@@ -127,6 +127,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>client.AdrenalineClient</mainClass>
@@ -143,6 +144,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
                                     <mainClass>server.AdrenalineServer</mainClass>
