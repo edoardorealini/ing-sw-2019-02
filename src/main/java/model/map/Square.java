@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.*;
 import  model.Color;
 
+/**
+ * The class Square represents the single square in the map arena
+ */
 public class Square implements Serializable {
 
     private Boolean activeStatus;               //in una mappa possono esserci degli square non attivi.
@@ -16,6 +19,9 @@ public class Square implements Serializable {
     private ArrayList<Weapon> weaponBox;        //array che contiene i ref alle armi presenti nel box
     private AmmoCard ammoTile;
 
+    /**
+     * Def constructor
+     */
     public Square(){
         this.color = null;
         this.activeStatus = null;
@@ -23,16 +29,30 @@ public class Square implements Serializable {
         this.doors = null;
     }
 
+    /**
+     * This method gives back in a ArrayList all the weapons in a the square this.
+     * @return returns all the weapons in weaponbox
+     * @see Weapon
+     */
     public ArrayList<Weapon> getAvailableWeapons() {
         return weaponBox;
     }
 
+    /**
+     * Adds a weapon to the weaponBox
+     * @param weapon weapon to add to the weapon box of this square
+     * @see Weapon
+     */
     public void addWeapon(Weapon weapon){
         if(weaponBox.size() < 3) {
             weaponBox.add(weapon);
         }
     }
 
+    /**
+     * Removes a specified weapon from the weaponBox
+     * @param weapon weapon to remove
+     */
     public void removeWeapon(Weapon weapon){
             weaponBox.remove(weapon);
     }
@@ -44,6 +64,11 @@ public class Square implements Serializable {
     public void setAmmoTile(AmmoCard ammoTile) {
         this.ammoTile = ammoTile;
     }
+
+    /**
+     * Returns the status of the square, a non active square is a square that does not exist
+     * @return true if the square exixts, false otherwise
+     */
 
     public Boolean isActive() {
         return activeStatus;

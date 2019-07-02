@@ -4,6 +4,10 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.*;
 
+/**
+ *The MapBuilder class has only one method used to build the correct map given an integer identifier in input.
+ * The maps are built from specified json files containing all the information for the single squares in each map.
+ */
 public class MapBuilder implements Serializable{
     //Classe che serve per costruire le mappe.
 
@@ -14,7 +18,6 @@ public class MapBuilder implements Serializable{
     /*
         declaration of all the paths to the json files containing the map information
     */
-
     private String map1Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
             + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map1.json";
 
@@ -27,14 +30,21 @@ public class MapBuilder implements Serializable{
     private String map4Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
             + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map4.json";
 
-
+    /**
+     * Default constructor, builds the json GSON parser and and empty Map object
+     * @see Map
+     * @see Gson
+     */
     public MapBuilder() {
         map = new Map();
         json = new Gson();
     }
 
-    /*
-        makeMap builds the correct map from json according to the mapID index given in input.
+    /**
+     * makeMap builds the correct map from json according to the mapID index given in input.
+     * @param mapID integer that specifies the map to build
+     * @return  returns the map correctly built
+     * @throws IOException
      */
     public Map makeMap(int mapID) throws  IOException{
         switch (mapID){
