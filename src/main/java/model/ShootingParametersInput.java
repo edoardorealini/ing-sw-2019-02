@@ -7,6 +7,9 @@ import model.weapons.Weapon;
 
 import java.util.*;
 
+/**
+ * this class is a container of fields that will be setted by the user during the shooting action
+ */
 public class ShootingParametersInput {
 	//this class is a container of fields that will be setted by the user
 	private Weapon weapon;

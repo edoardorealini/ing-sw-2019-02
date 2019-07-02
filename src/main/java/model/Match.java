@@ -9,6 +9,11 @@ import model.weapons.WeaponDeck;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
+/**
+ * This is the most important class of model package
+ * Contains all the match information, from the players, to the map, the decks and the killshotTrack
+ */
 public class Match implements Serializable {
     private ArrayList<Player> players;
     private Player currentPlayer;
@@ -19,10 +24,11 @@ public class Match implements Serializable {
     private boolean matchIsActive;
     private KillShotTrack killShotTrack;
 
-    /*
-        costruttore di match si aspetta in input id della mappa da costruire
-    */
-
+    /**
+     * Default costructor, builds a complete match, shuffles the decks
+     * It does not build the map
+     * It exposes only a lot of getter and setter methods, the actual logic is in the controller package
+     */
     public Match(){
         this.players = new ArrayList<>();
         this.powerUpDeck = new PowerUpDeck();
@@ -35,6 +41,10 @@ public class Match implements Serializable {
         this.killShotTrack = new KillShotTrack();
     }
 
+    /**
+     * This constructor builds a copy of a given match without givin the decks (this object is pushed to the clients)
+     * @param another another match, to copy from
+     */
     public Match(Match another){
         this.players = another.players;
         this.currentPlayer = another.currentPlayer;
