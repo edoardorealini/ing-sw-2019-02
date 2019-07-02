@@ -19,7 +19,6 @@ import model.powerup.PowerUp;
 import model.powerup.PowerUpName;
 import model.weapons.Weapon;
 import model.weapons.WeaponName;
-import server.AdrenalineServer;
 
 import javax.security.auth.login.FailedLoginException;
 import java.io.File;
@@ -31,11 +30,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-//ex remoteObjectRMI
+
 /**
  * This is the class that generates the remote object, called by the client!
  * This object contains the implementation of the InterfaceServerControllerRMI
- * Contains all the client exposed methods and some more
+ * Contains all the client exposed methods that can be called remotely and some more
+ * @author edoardorealini
+ * @author MADSOMMA
+ * @author GioValca
  */
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
 
@@ -49,9 +51,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     private int lobbyDuration;
     private String propertyFile = "/adrenaline.properties";
 
-
-    /*
-        Builder
+    /**
+     * Constructor, creates a new remote controller given the match controller (sub layer)
+     * @param matchController reference to the match controller, the main controller of the game
+     * @throws RemoteException network error
      */
     public ServerControllerRMI(MatchController matchController) throws RemoteException {
         this.matchController = matchController;
@@ -63,40 +66,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         getValuesFromProperties();
     }
 
+    /**
+     * This method charges all the values from the property file
+     */
     private void getValuesFromProperties(){
-        /*
-        Properties propertyLoader = new Properties();
-
-        try{
-            //propertyLoader.load(getClass().getResourceAsStream(propertyFile));
-            propertyLoader.load(this.getClass().getResourceAsStream("/adrenaline.properties"));
-            System.out.println("[PROPERTIES-ServerControllerRMI]: Loaded properties from adrenaline.properties");
-            this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
-        }catch (IOException e) {
-            e.printStackTrace();
-
-            System.out.println("[ERROR]: Failed loading info from properties file");
-            System.out.println("[PROPERTIES]: Loading from outside Jar");
-
-            File jarPath=new File(ServerControllerRMI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            String path = File.separatorChar + "adrenaline.properties";
-
-            try {
-                propertyLoader.load(new FileInputStream(propertiesPath + path));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.out.println("[ERROR]: Failed loading info from properties file");
-                System.out.println("[PROPERTIES]: Setting the lobby timer to default value 20 seconds");
-                this.lobbyDuration = 20000;
-            }
-            this.lobbyDuration = Integer.parseInt(propertyLoader.getProperty("lobbyDuration"));
-        }
-
-         */
         this.lobbyDuration = PropertiesLoader.getLobbyTimerDuration();
     }
 
+    /**
+     * This method returns a list of all the registered players to a match
+     * @return ArrayList containing all the connected players
+     */
     public ArrayList<Player> getPlayers(){
         return matchController.getMatch().getPlayers();
     }
@@ -104,6 +84,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /*
         LOGIN METHODS
         with this method a client MUST register to the server so the server can call back the methods of InterfaceClientController
+     */
+
+    /**
+     * With register a client can register on this specific controller (and match)
+     * @param clientController  the clientController is the remoteController of the client side (a remote object)
+     * @param nickname the nickname that the user wants to use to play
+     * @return returns the clientHashedID that the client uses to identify himself when calling the server
+     * @throws FailedLoginException when the nickname is already in use or there is an error during the hash phase
      */
     public synchronized int register(InterfaceClientControllerRMI clientController, String nickname) throws FailedLoginException{
         System.out.println("[INFO]: Trying to connect a new client");
@@ -141,6 +129,13 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return hashedTemp.hashCode();
     }
 
+    /**
+     * Adds a player to the list of registered players, this method cannot be called from the client side
+     * This method also checks the number of connected players, embedding the logic that starts the game!
+     * @param nickName the nickname of the player to register
+     * @throws FailedLoginException when the nickname is already in use
+     * @throws RemoteException when a network error occurs
+     */
     private synchronized void addPlayer(String nickName) throws  FailedLoginException, RemoteException{
         try {
             matchController.addPlayer(nickName);
@@ -174,7 +169,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                         }, lobbyDuration
                 );
                 timerStatus = true;
-            } 
+            }
 
             if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
                 timeout.cancel();
@@ -190,8 +185,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    //this method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
-    //from buildmap --> call startGame() that has to be changed
+    /**
+     * This method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
+     * @throws RemoteException when a network error occurs
+     * @throws Exception manages generic things that could happen
+     */
     private synchronized void askMap() throws RemoteException, Exception{
         matchController.getMatch().setMatchIsActive(true);
         //this code is useful for having the master always in first position (he doesn't know lol)
@@ -219,6 +217,15 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * This method when called asks the match controller do build the map of the specific ID
+     * @param mapID the id of the map to build
+     * @param clientHashedID
+     * @throws NotAllowedCallException when the player making the call is not allowed to (he is not the current player)
+     * @throws WrongValueException an invalid id is given
+     * @throws WrongStatusException the player is in a not allowed status (!= MASTER)
+     * @throws RemoteException network error
+     */
     public synchronized void buildMap(int mapID, int clientHashedID) throws NotAllowedCallException, WrongValueException, WrongStatusException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             try {
@@ -238,6 +245,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
+    /**
+     * This method starts a new game, using the loaded info in the class.
+     * Basically calls a methos on each connected client activating the main page of the GUI
+     * Asks the first player to spawn
+     * @throws RemoteException
+     */
     private synchronized void startGame() throws RemoteException{
         try {
             System.out.println("[INFO]: Enough players to start the new game");
@@ -267,6 +280,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method asks all the players in status spawn or respawn to respawn
+     * Basically acrivates a pop up on the GUI asking to discard a powerUp
+     * @throws RemoteException on network error
+     */
     public void askRespawn() throws RemoteException{
         for (InterfaceClientControllerRMI controller : clientControllers) {
             if(matchController.getMatch().getPlayer(controller.getNickname()).isInStatusRespawn() || matchController.getMatch().getPlayer(controller.getNickname()).isInStatusSpawn()) {
@@ -278,12 +296,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * Prints to System.out all the player's statuses
+     */
     private void printPlayerStatuses(){
         for(Player p: matchController.getMatch().getPlayers()){
             System.out.println("[STATUS]: The player "+ p.getNickname() + " is in status: " +p.getStatus().getTurnStatus());
         }
     }
 
+    /**
+     * this method is called from a client whenever he has to spawn
+     * @param powerUpID id of the powerUp to discard (integer, order of powerUp in hand)
+     * @param clientHashedID identifies the client as usual
+     * @throws NotInYourPossessException if the player does not have the chosen powerUp
+     * @throws WrongStatusException if the player asks to spawn when he is not in status spawn or respawn
+     * @throws RemoteException on network error
+     */
     public synchronized void spawn(int powerUpID, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException{
         try {
             matchController.spawn(converter.indexToPowerUp(powerUpID, matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID))), matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -302,6 +331,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * This method is called whenever a client has to disconnect
+     * @param clientHashedID identifies the client making the call
+     * @throws RemoteException on network error
+     */
     public synchronized void disconnectPlayer(int clientHashedID) throws RemoteException {
         try {
 
@@ -343,6 +377,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         methods from moveController class
      */
 
+    /**
+     * This method is called when a player wants to make a move in the game
+     * It delegates to matchController the actual move
+     * @param iDestination x coordinate of the square to move in
+     * @param jDestination y coordinate of the square to move in
+     * @param clientHashedID identifies the client univocally
+     * @throws NotAllowedMoveException if the move exceeds the maximum distance allowed
+     * @throws RemoteException on network error
+     * @throws InvalidInputException if the given indexes are not acceptable values
+     * @throws WrongStatusException if the player is in the wrong status to make the move, he has to be either in FIRST_ACTION or SECOND_ACTION
+     * @throws NotAllowedCallException if the client hashed id is non the same as the current player
+     */
     public synchronized void move(int iDestination, int jDestination, int clientHashedID) throws NotAllowedMoveException, RemoteException, InvalidInputException, WrongStatusException, NotAllowedCallException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             Player affectedPlayer = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID));
@@ -354,9 +400,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
-
     /*
         methods from grabController class
+     */
+
+    /**
+     * This method is called by a client when a player wants to grab an ammo card from a specific location
+     * @param xDestination x coordinate of the wanted position
+     * @param yDestination y coordinate of the wanted position
+     * @param clientHashedID identifies the client making the call
+     * @throws WrongStatusException if the player is in the wrong status to make this call
+     * @throws WrongPositionException if the player cannot access to the given position to grab
+     * @throws NotAllowedCallException if the player making the call is not allowed to (not current player)
+     * @throws RemoteException on network error
+     * @throws InvalidInputException if the coordinates are not allowed valued (e.g negative values)
+     * @throws NotAllowedMoveException if the move that has to be made to grab is not allowed
      */
     public synchronized void grabAmmoCard(int xDestination, int yDestination, int clientHashedID) throws WrongStatusException, WrongPositionException, NotAllowedCallException, RemoteException, InvalidInputException, NotAllowedMoveException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -383,7 +441,22 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
 
     }
-    //lets the current player grab a weapon
+
+    /**
+     * This method is called by a client when he wants to grab a weapon froma specific location
+     * @param xDestination x coordinate of the wanted position
+     * @param yDestination y coordinate of the wanted position
+     * @param clientHashedID identifies the client making the call
+     * @param indexOfWeapon index of the weapon on the weaponBox
+     * @param indexOfWeaponToSwap index of the weapon in hand to swap
+     * @throws NotAllowedMoveException if the move that has to be made to grab is not allowed
+     * @throws InvalidInputException if the coordinates are not allowed valued (e.g negative values)
+     * @throws WrongPositionException if the player cannot access to the given position to grab
+     * @throws NotEnoughAmmoException if the player cannot pay the ammo to grab the specific weapon
+     * @throws WrongStatusException if the player is in the wrong status to make this call
+     * @throws NotAllowedCallException if the player making the call is not allowed to (not current player)
+     * @throws RemoteException on network error
+     */
     public synchronized void grabWeapon(int xDestination, int yDestination, int indexOfWeapon, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, InvalidInputException, WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             Square temp = matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)).getPosition();
@@ -429,7 +502,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /*
         methods from powerup controller
      */
-    //NB  x = i /  y = j !!
+
+    /**
+     * useTeleporter is called when a teleporter powerUp has to be used
+     * @param indexOfPowerUp index of the powerUp in hand
+     * @param xDest x coordinate of destination
+     * @param yDest y coordinate of destination
+     * @param clientHashedID id to identify caller
+     * @throws NotInYourPossessException if the player doesn't have the powerUp in hand
+     * @throws WrongStatusException if the player hasn't access to the use of powerUps
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player identified by the clientHashedID is not the current player
+     * @throws NotAllowedMoveException if the move is not allowed
+     * @throws WrongPowerUpException if the powerUp is not a Teleporter
+     * @throws InvalidInputException if the coordinates are wrong or the index is not valid
+     */
     public synchronized void useTeleporter(int indexOfPowerUp, int xDest, int yDest, int clientHashedID) throws NotInYourPossessException, WrongStatusException, RemoteException, NotAllowedCallException, NotAllowedMoveException, WrongPowerUpException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.useTeleporter(converter.indexToPowerUp(indexOfPowerUp, matchController.getMatch().getCurrentPlayer()), converter.indexToSquare(xDest, yDest));
@@ -437,7 +524,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         } else
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
-    //NB  x = i /  y = j !!
+
+    /**
+     * useNewton is called when a newton powerUp has to be used
+     * @param indexOfPowerUp index of the powerUp in hand
+     * @param xDest x coordinate of destination
+     * @param yDest y coordinate of destination
+     * @param clientHashedID id to identify caller
+     * @param affectedPlayer the player to move with the Newton effect
+     * @throws NotInYourPossessException if the player doesn't have the powerUp in hand
+     * @throws WrongStatusException if the player hasn't access to the use of powerUps
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player identified by the clientHashedID is not the current player
+     * @throws NotAllowedMoveException if the move is not allowed
+     * @throws WrongPowerUpException if the powerUp is not a Newton
+     * @throws InvalidInputException if the coordinates are wrong or the index is not valid
+     * @throws WrongValueException wrong values
+     */
     public synchronized void useNewton(int indexOfPowerUp, String affectedPlayer, int xDest, int yDest, int clientHashedID) throws NotAllowedMoveException, NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, WrongValueException, InvalidInputException, WrongPowerUpException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
             matchController.useNewton(converter.indexToPowerUp(indexOfPowerUp, matchController.getMatch().getCurrentPlayer()), converter.nameToPlayer(affectedPlayer), converter.indexToSquare(xDest, yDest));
@@ -446,6 +549,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
+    /**
+     *
+     * @param indexOfTargetingScope index of the powerUp in hand
+     * @param affectedPlayer
+     * @param clientHashedID
+     * @param ammoColorToPay
+     * @throws NotAllowedCallException
+     * @throws NotInYourPossessException
+     * @throws WrongStatusException
+     * @throws RemoteException
+     * @throws NotEnoughAmmoException
+     */
     @Override
     public synchronized void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
