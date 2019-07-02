@@ -6,6 +6,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.*;
 
+/**
+ * This class is the Server in the RMI implementation
+ * It's purpose is to create a Registry on the specified port and bind the remote controller (ServerControllerRMI)
+ * @see commons.InterfaceServerControllerRMI
+ */
 public class AdrenalineRMIServer implements Runnable{
 
     //private MatchController matchController; IL MATCHCONTROLLER NON SERVE CHE CE L'ABBIA QUESTA CLASSE
@@ -17,18 +22,17 @@ public class AdrenalineRMIServer implements Runnable{
         this.remoteObjectRMI = new ServerControllerRMI(controller);
     }
 
-    //prima prova mettendo come oggetto condiviso direttamente matchController
-    //il metodo run è come se fosse il main
+    /**
+     * This runnable executes the class purpose, binding the remote object, created in the constructor.
+     */
     public void run(){
         try {
-            //Il codice qui sotto diventa obsoleto.
             Registry registry = LocateRegistry.createRegistry(port);
             registry.bind("remoteController", remoteObjectRMI);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        //dopo tutta la parte di setup dell' oggetto remoto
         System.out.println("[RMIServer]: ready to receive remote method calls");
 
     }

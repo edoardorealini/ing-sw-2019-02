@@ -4,15 +4,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * This class eposes the static methods used to load the properties from the given property file (adrenaline.properties)
+ */
+
 public class PropertiesLoader {
 
-    /*
-            File jarPath=new File(ServerControllerRMI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            String path = File.separatorChar + "adrenaline.properties";
-
+    /**
+     * Gets the turn timer duration in milliseconds from the property file
+     * @return returns an integer containing the timer duration in milliseconds
      */
-
     public static int getTurnTimerDuration(){
         int turnTimerDuration = 120000;
         try {
@@ -38,6 +39,10 @@ public class PropertiesLoader {
         return turnTimerDuration;
     }
 
+    /**
+     * Gets the lobby timer duration in milliseconds from the property file
+     * @return returns an integer containing the lobby duration in milliseconds
+     */
     public static int getLobbyTimerDuration(){
         int lobbyTimerDuration = 20000;
         try {
@@ -56,6 +61,10 @@ public class PropertiesLoader {
         return lobbyTimerDuration;
     }
 
+    /**
+     * Gets default RMI port from the property file
+     * @return returns an integer containing the port
+     */
     public static int getDefaultRMIPort(){
         int defaultRMIPort = 1338;
         try {

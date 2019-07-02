@@ -2,6 +2,8 @@ package server.socketHandler;
 
 import java.net.Socket;
 
+// !!  DRAFT  !!
+
 
 public class SocketClientHandler implements Runnable{
 

@@ -13,6 +13,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+/**
+ * ConnectionHandler is used to manage the incoming connections from new or already registered clients.
+ * This is a class that extends UnicastRemoteObject, giving the possibility to be used from the client side
+ * @author edoardo
+ */
+
 public class ConnectionHandler extends UnicastRemoteObject implements InterfaceConnectionHandler {
 
     private ArrayList<InterfaceServerControllerRMI> serverControllers;                              //list of all the matches ONLINE
@@ -25,7 +31,7 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
     private TimerTask clientCheckerTask;
 
     /**
-     *
+     * Default constructor, it builds all the data structures used to trace all the connections
      * @throws RemoteException
      */
     public ConnectionHandler() throws RemoteException{
@@ -40,12 +46,15 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
     //this method is very similar to the register method in ServerControllerRMI!
 
     /**
-     *
-     * @param clientController
-     * @param nickname
-     * @return
+     *  this method is very similar to the register method in ServerControllerRMI,
+     *  basically is the method that a client has to call to make a connection with the server
+     * @param clientController the client must give in input his clientController (also a remote object)
+     * @param nickname the nicknama chosen by the user
+     * @return returns to the client the reference to the server controller (also a remote object)
      * @throws RemoteException
      * @throws InvalidInputException
+     * @see InterfaceClientControllerRMI
+     * @see InterfaceServerControllerRMI
      */
     public InterfaceServerControllerRMI askForConnection(InterfaceClientControllerRMI clientController, String nickname) throws RemoteException, InvalidInputException {
         //per prima cosa dovrei verificare se il giocatore è già connesso su uno dei "server" che ho nella lista
@@ -92,9 +101,11 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
 
 
     /**
-     *
+     *  This method is called when the server starts,
+     *  its job is to check if a client is disconnected (not declared disconnection, EG lost network connection (remoteException is thrown))
+     *  It's implemented as a scheduled timer to a fixed rate.
      */
-    //this method is called when the server starts, its job is to check if a client is disconnected (not declared disconnection, EG lost network connection (remoteException)
+    //
     public void startClientPinger(){
         this.clientCheckerTimer = new Timer();
         this.clientCheckerTask = new TimerTask() {
@@ -126,11 +137,6 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
         clientCheckerTimer.schedule(clientCheckerTask, 1, 2000);
     }
 
-    /**
-     *
-     * @param nickname
-     * @return
-     */
     private int hashNickname(String nickname){
         MessageDigest messageDigest = null;
         try {

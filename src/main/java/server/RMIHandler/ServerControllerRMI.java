@@ -32,7 +32,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 //ex remoteObjectRMI
-//this is the class that generates the remote object, called by the client!
+/**
+ * This is the class that generates the remote object, called by the client!
+ * This object contains the implementation of the InterfaceServerControllerRMI
+ * Contains all the client exposed methods and some more
+ */
 public class ServerControllerRMI extends UnicastRemoteObject implements InterfaceServerControllerRMI {
 
     private transient InputConverter converter;

@@ -5,13 +5,10 @@ import controller.MatchController;
 import model.Match;
 import server.RMIHandler.AdrenalineRMIServer;
 import server.RMIHandler.ConnectionHandler;
-import server.socketHandler.AdrenalineSocketServer;
+import
+        server.socketHandler.AdrenalineSocketServer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,6 +17,9 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * This is the Main class of the server part of the application
+ */
 public class AdrenalineServer {
 
     private Match match;
@@ -29,6 +29,10 @@ public class AdrenalineServer {
     private int rmiPort;
     private ExecutorService executor;
 
+    /**
+     * Another constructor, builds the match and all the controllers
+     * @param rmiPort requirest in input the port
+     */
     public AdrenalineServer(int rmiPort){
         try {
             match = new Match();
@@ -42,6 +46,10 @@ public class AdrenalineServer {
         }
     }
 
+    /**
+     * Default constructor, builds the match and all the controllers
+     *
+     */
     public AdrenalineServer(){
         try {
             match = new Match();
@@ -53,9 +61,18 @@ public class AdrenalineServer {
         }
     }
 
+    /**
+     * This method launches the runnable that manages the socketServer (receives socket connections)
+     */
     public void launchSocketServer(){
         executor.submit(new AdrenalineSocketServer(matchController, socketPort));
     }
+
+    /**
+     * This method launches the runnable that manages the RMI server (binding of remote object and receiving calls)
+     * @param port requirest the port to bind the registry to
+     * @throws RemoteException if a network error occurs
+     */
 
     public void launchRMIServer(int port) throws RemoteException {
         executor.submit(new AdrenalineRMIServer(matchController, port));
@@ -66,6 +83,10 @@ public class AdrenalineServer {
         }
     }
 
+    /**
+     * Launches the connection handles, the first remote object published on the registry, waits for connections
+     * @param port requirest the port to bind the registry to
+     */
     public void launchRMIConnectionHandler(int port){
         //qui devo istanziare un connectionHandler e pubblicarlo sul registry.
         try {
@@ -98,6 +119,10 @@ public class AdrenalineServer {
         return getClass().getResourceAsStream("/adrenaline.properties");
     }
 
+    /**
+     * Main of AdrenalineServer
+     * @param args
+     */
     public static void main(String[] args) { //La porta si può chiedere come parametro di input in args
 
         if(args.length != 0){

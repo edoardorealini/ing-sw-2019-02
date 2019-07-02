@@ -5,7 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * This class is used to load the Resource as Files
+ */
+
 public class FileLoader {
+
+    /**
+     * This method searches for the resource name given in input
+     * @param resourcePath path of the wanted resource (starting from the ../resource/ directory)
+     * @return  a File object containing the wanted resource
+     */
     public static File getResourceAsFile(String resourcePath) {
         try {
             InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
