@@ -32,7 +32,7 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
 
     /**
      * Default constructor, it builds all the data structures used to trace all the connections
-     * @throws RemoteException
+     * @throws RemoteException when a network error occurs
      */
     public ConnectionHandler() throws RemoteException{
         //here i create the first "remote controller"
@@ -51,8 +51,8 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
      * @param clientController the client must give in input his clientController (also a remote object)
      * @param nickname the nicknama chosen by the user
      * @return returns to the client the reference to the server controller (also a remote object)
-     * @throws RemoteException
-     * @throws InvalidInputException
+     * @throws RemoteException when a network error occurs
+     * @throws InvalidInputException if the input is not correct
      * @see InterfaceClientControllerRMI
      * @see InterfaceServerControllerRMI
      */

@@ -44,7 +44,7 @@ public class MapBuilder implements Serializable{
      * makeMap builds the correct map from json according to the mapID index given in input.
      * @param mapID integer that specifies the map to build
      * @return  returns the map correctly built
-     * @throws IOException
+     * @throws IOException when the json files are not found
      */
     public Map makeMap(int mapID) throws  IOException{
         switch (mapID){

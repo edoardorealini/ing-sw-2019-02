@@ -1,0 +1,16 @@
+client
+client.clientController
+client.GUI
+client.remoteController
+commons
+controller
+exception
+model
+model.ammo
+model.map
+model.player
+model.powerup
+model.weapons
+server
+server.RMIHandler
+server.socketHandler

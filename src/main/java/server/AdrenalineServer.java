@@ -121,7 +121,7 @@ public class AdrenalineServer {
 
     /**
      * Main of AdrenalineServer
-     * @param args
+     * @param args contains the port given from the command line launch command
      */
     public static void main(String[] args) { //La porta si può chiedere come parametro di input in args
 

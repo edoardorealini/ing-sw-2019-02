@@ -94,7 +94,7 @@ public class KillShotTrack implements Serializable {
 
 	/**
 	 * Used to calculate the points
-	 * @param arrayIDPlayer
+	 * @param arrayIDPlayer array containing the player that made damage
 	 * @return returns the id of the player who did the first damage
 	 * @see model.player.Player
 	 */
