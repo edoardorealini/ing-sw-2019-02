@@ -322,10 +322,10 @@ public class Map implements Serializable {
 
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return
+     *  This method returns a square given a couple of coordinates
+     * @param x x coordinate in matrix
+     * @param y y coordinate in matrix
+     * @return returns the square object from the indexes
      */
     public Square getSquareFromIndex(int x, int y){
         return squaresMatrix[x][y];
