@@ -11,10 +11,14 @@ import model.powerup.PowerUp;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * This class is the player in the game, with all his attributes
+ */
+
 public class Player implements Serializable{
 
     private String nickname;
-    private int id;                  // NB. id = 9 non si può usare, vedi inizializzazione board
+    private int id;                  // NB. not usable id = 9 see the initialization of the board
     private Square position;
     private Board board;
     private Weapon[] weapons = {null, null, null};
@@ -28,6 +32,14 @@ public class Player implements Serializable{
     private Match match;
     private Boolean frenzyBoard = false; // only for the lifeboard GUI
     private boolean endedGame = false;
+
+    /**
+     * This is the constructor of the player, it needs a unique nickname, an ID to determine the player more easy and the object match
+     * that specify on which match the player is playing
+     * @param nickname
+     * @param id
+     * @param match
+     */
 
     public Player (String nickname, int id, Match match){
         this.nickname = nickname;
@@ -51,13 +63,28 @@ public class Player implements Serializable{
 
     }
 
+    /**
+     * This method sets the attribute of the player if it has finished the game
+     * @param endedGame
+     */
+
     public void setEndedGame(boolean endedGame) {
         this.endedGame = endedGame;
     }
 
+    /**
+     * This method returns the value of the attribute End game of the player
+     * @return
+     */
+
     public boolean isEndedGame() {
         return endedGame;
     }
+
+    /**
+     * This method verifies the connection of the player to the server
+     * @return
+     */
 
     public boolean isConnected() {
         return !status.getTurnStatus().equals(RoundStatus.DISCONNECTED);
@@ -87,6 +114,11 @@ public class Player implements Serializable{
         return weapons;
     }
 
+    /**
+     * This method adds a weapon to the player's weapons
+     * @param w
+     */
+
     public void addWeapons( Weapon w) {
         for (int i = 0; i < 3; i++){
             if (weapons[i] == null) {
@@ -95,6 +127,11 @@ public class Player implements Serializable{
             }
         }
     }
+
+    /**
+     * This method removes a weapon to the player's weapons, the parameter i indicates the index of the player's weapons to remove
+     * @param i
+     */
 
     public void removeWeapons(int i){
         if (i < 3 && i >= 0){
@@ -122,6 +159,11 @@ public class Player implements Serializable{
         this.askForTagBackGrenade = askForTagBackGrenade;
     }
 
+    /**
+     * This method adds an Ammo Card to the player
+     * @param ammoCard
+     */
+
     public void addAmmoCard(AmmoCard ammoCard) {
         if ((ammo.getBlueAmmo()+ammoCard.getBlueAmmo())>=3){
             ammo.setBlueAmmo(3);
@@ -148,7 +190,10 @@ public class Player implements Serializable{
         }
     }
 
-    // metodo che serve per trasformare i powerUps in munizioni NB da chiamare solo se richiesto
+    /**
+     * This method transforms a Power Up into an Ammo of the same color
+     * @param powerUp
+     */
 
     public synchronized void transformPowerUpToAmmo(PowerUp powerUp) {
         for (int i=0; i<3; i++){
@@ -180,7 +225,12 @@ public class Player implements Serializable{
         return powerUps;
     }
 
-    public void addPowerUpsCard(PowerUp p) { // metodo in cui so quale sia il powerup da aggiungere (es PowerUp nella carta sulla mappa)
+    /**
+     * This method adds a Power Up to the player
+     * @param p
+     */
+
+    public void addPowerUpsCard(PowerUp p) {
         for (int i=0; i<3; i++){
             if (powerUps[i]==null) {
                 powerUps[i] = p;
@@ -189,8 +239,11 @@ public class Player implements Serializable{
         }
     }
 
-    // servirà per l'inzio del gioco nel quale i giocatori pescano i powerUps
-    public void addPowerUpsHaphazard() { // pesco casualmente un PowerUp
+    /**
+     * This method adds a Power Up to the player directly from the Power Up deck
+     */
+
+    public void addPowerUpsHaphazard() {
         for (int i=0; i<3; i++){
             if (powerUps[i] == null) {
                 powerUps[i] = match.getPowerUpDeck().pickFirstCard();
@@ -199,7 +252,10 @@ public class Player implements Serializable{
         }
     }
 
-    //null pointer safe
+    /**
+     * This method remove from the player a specific Power Up
+     * @param powerUp
+     */
     public void removePowerUps(PowerUp powerUp) {
         for (int i=0; i<3;i++){
             if(powerUps[i] != null) {
@@ -220,13 +276,27 @@ public class Player implements Serializable{
         points += p;
     }
 
+    /**
+     * This method returns the status of the player
+     * @see model.player.PlayerStatusHandler for the statuses
+     * @return
+     */
+
     public PlayerStatusHandler getStatus(){
         return status;
     }
 
+    /**
+     * This method sets true the attribute dead
+     */
+
     public void trueDead() {
         dead = true;
     }
+
+    /**
+     * This method sets false the attribute dead
+     */
 
     public void falseDead() {
         dead = false;
@@ -241,6 +311,11 @@ public class Player implements Serializable{
         return nickname;
     }
 
+    /**
+     * This method prints the position of the player, it is helpful for debug
+     * @return
+     */
+
     public String printPosition() {
         StringBuilder string = new StringBuilder();
         string.append("Player ");
@@ -252,7 +327,11 @@ public class Player implements Serializable{
         return string.toString();
     }
 
-    //null pointer safe
+    /**
+     * This method checks if the player has the Power Up given by parameter
+     * @param card
+     * @return
+     */
     public boolean hasPowerUp(PowerUp card){
         for (int i = 0; i < 3; i++){
             if(powerUps[i] != null) {
@@ -263,6 +342,11 @@ public class Player implements Serializable{
         }
         return false;
     }
+
+    /**
+     * Series of methods to check if the player is in these states
+     * @return
+     */
 
     public boolean isInStatusWaitTurn(){
         return status.getTurnStatus().equals(RoundStatus.WAIT_TURN);
@@ -316,6 +400,12 @@ public class Player implements Serializable{
         }
         return string.toString();
     }
+
+    /**
+     * This method sets the attribute frenzy Board of the player
+     * @see client.GUI.LifeBoard for usage
+     * @param frenzyBoard
+     */
 
     public void setFrenzyBoard(Boolean frenzyBoard) {
         this.frenzyBoard = frenzyBoard;
