@@ -39,19 +39,19 @@ public class MapBuilder implements Serializable{
     public Map makeMap(int mapID) throws  IOException{
         switch (mapID){
             case 1:
-                BufferedReader br1 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map1.json")));
+                BufferedReader br1 = new BufferedReader(new InputStreamReader(MapBuilder.class.getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map1.json")));
                 map = json.fromJson(br1, Map.class);
                 break;
             case 2:
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map2.json")));
+                BufferedReader br2 = new BufferedReader(new InputStreamReader(MapBuilder.class.getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map2.json")));
                 map = json.fromJson(br2, Map.class);
                 break;
             case 3:
-                BufferedReader br3 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map3.json")));
+                BufferedReader br3 = new BufferedReader(new InputStreamReader(MapBuilder.class.getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map3.json")));
                 map = json.fromJson(br3, Map.class);
                 break;
             case 4:
-                BufferedReader br4 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map4.json")));
+                BufferedReader br4 = new BufferedReader(new InputStreamReader(MapBuilder.class.getResourceAsStream(File.separatorChar + "maps" + File.separatorChar + "map4.json")));
                 map = json.fromJson(br4, Map.class);
                 break;
         }
