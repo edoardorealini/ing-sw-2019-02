@@ -20,10 +20,15 @@ public class AdrenalineClient {
         System.out.println("All rights reserved, July 2019\n\n");
 
         AdrenalineClient starter = new AdrenalineClient();
-        System.out.println("[LAUNCHER]: Launching a new client . . .");
 
-        starter.launchGUI();
-        System.out.println("[LAUNCHER]: Starting GUI . . .");
+        try {
+            System.out.println("[LAUNCHER]: Launching a new client . . .");
+            starter.launchGUI();
+            System.out.println("[LAUNCHER]: Starting GUI . . .");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     private void launchGUI(){
