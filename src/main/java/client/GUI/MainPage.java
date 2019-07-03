@@ -86,9 +86,7 @@ public class MainPage extends Application {
             LifeBoard Life = new LifeBoard();
             Life.setMatch(this.match);
             Life.setPlayerClicked(match.getPlayers().get(0));
-            System.out.println("Show Life "+frenzyMode);
             if (frenzyMode){
-                System.out.println("frenzy mode Life");
                 Life.setFrenzyActive(true);
             }
             try {
@@ -106,7 +104,6 @@ public class MainPage extends Application {
             Life.setMatch(this.match);
             Life.setPlayerClicked(match.getPlayers().get(1));
             if (frenzyMode){
-                System.out.println("frenzy mode Life");
                 Life.setFrenzyActive(true);
             }
             try {
@@ -124,7 +121,6 @@ public class MainPage extends Application {
             Life.setMatch(this.match);
             Life.setPlayerClicked(match.getPlayers().get(2));
             if (frenzyMode){
-                System.out.println("frenzy mode Life");
                 Life.setFrenzyActive(true);
             }
             try {
@@ -143,7 +139,6 @@ public class MainPage extends Application {
                 Life.setMatch(this.match);
                 Life.setPlayerClicked(match.getPlayers().get(3));
                 if (frenzyMode){
-                    System.out.println("frenzy mode Life");
                     Life.setFrenzyActive(true);
                 }
                 try {
@@ -163,7 +158,6 @@ public class MainPage extends Application {
                 Life.setMatch(this.match);
                 Life.setPlayerClicked(match.getPlayers().get(4));
                 if (frenzyMode){
-                    System.out.println("frenzy mode Life");
                     Life.setFrenzyActive(true);
                 }
                 try {
@@ -205,8 +199,6 @@ public class MainPage extends Application {
         iv.setPreserveRatio(true);
 
         iv.setOnMouseClicked(mouseClicked -> {
-                    //System.out.println("Click at X = " + mouseClicked.getX());
-                    //(System.out.println("Click at Y = " + mouseClicked.getY());
                     showGoodsInCoordinates(mouseClicked.getX(), mouseClicked.getY());
                 }
             );
