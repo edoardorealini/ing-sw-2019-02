@@ -294,16 +294,18 @@ public class MainPage extends Application {
         vSplitPane.setOrientation(Orientation.VERTICAL);
         vSplitPane.getItems().addAll(hBoxTop,splitPane);
 
-        Scene scene = new Scene(vSplitPane,1110,650);
+        Scene scene = new Scene(vSplitPane,1120,650);
         mainStage.setScene(scene);
+        mainStage.setMaxWidth(1120);
+        mainStage.setMaxHeight(650);
+        mainStage.setMinWidth(1120);
+        mainStage.setMinHeight(650);
         mainStage.show();
 
 
     }
 
-    /*
-        FOR TEST USE  ONLY,  REMEMBER TO REMOVE BEFORE PACKAGING THE JAR
-    */
+
     public static void main(String[] args) {
         launch(args);
     }
