@@ -1607,6 +1607,19 @@ public class MatchController{
 
     }
 
+    /**
+     * This method makes the action 1 Frenzy Boosted (move + reload + shoot)
+     * @param destination is the square where you want to move
+     * @param input is a class that contains all the input for the weapon in order to shoot
+     * @param player is the player who is doing the action
+     * @throws WrongStatusException if the player is not allowed to do this action
+     * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 1
+     * @throws NotAllowedShootingModeException if the input for the shooting is not correct
+     * @throws NotAllowedTargetException //TODO ?
+     * @see model.player.RoundStatus
+     */
+
     public void makeAction1Frenzy(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, NotAllowedMoveException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
@@ -1630,6 +1643,19 @@ public class MatchController{
 
     }
 
+    /**
+     * This method makes the action 1 Frenzy Lower (move + move + reload + shoot)
+     * @param destination is the square where you want to move
+     * @param input is a class that contains all the input for the weapon in order to shoot
+     * @param player is the player who is doing the action
+     * @throws WrongStatusException if the player is not allowed to do this action
+     * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 2
+     * @throws NotAllowedShootingModeException if the input for the shooting is not correct
+     * @throws NotAllowedTargetException //TODO ?
+     * @see model.player.RoundStatus
+     */
+
     public void makeAction1FrenzyLower(Square destination, ShootingParametersInput input, Player player) throws WrongStatusException, NotEnoughAmmoException, NotAllowedMoveException, NotAllowedShootingModeException, NotAllowedTargetException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyLower()){
@@ -1652,6 +1678,15 @@ public class MatchController{
 
     }
 
+    /**
+     * This method makes the action 2 Frenzy Boosted (move + move + move + move)
+     * @param destination is the square where you want to move
+     * @param player is the player who is doing the action
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 4
+     * @throws WrongStatusException if the player is not allowed to do this action
+     * @see model.player.RoundStatus
+     */
+
     public void makeAction2Frenzy(Square destination, Player player) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
         if (canDoActionFrenzyBoosted()){
@@ -1667,6 +1702,17 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to execute Action 2 now, you must wait for your turn");
 
     }
+
+    /**
+     * This method makes the action 3 Frenzy Boosted (move + move + grab)
+     * @param destination is the square where you want to grab
+     * @param numbOfWeaponToGrab is the index of the weapon to grab (if the square in SPAWN type)
+     * @param player is the player who is doing the action
+     * @param indexOfWeaponToSwap only if the player has already 3 weapon, he must discard one weapon before he takes the new one
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 2
+     * @throws WrongStatusException if the player is not allowed to do this action
+     * @see model.player.RoundStatus
+     */
 
     public void makeAction3Frenzy(Square destination,int numbOfWeaponToGrab,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
@@ -1694,6 +1740,17 @@ public class MatchController{
         else
             throw new WrongStatusException("You are not allowed to execute Action 3 now, you must wait for your turn");
     }
+
+    /**
+     * This method makes the action 2 Frenzy Lower (move + move + move + grab)
+     * @param destination is the square where you want to grab
+     * @param numbOfWeaponToGrab is the index of the weapon to grab (if the square in SPAWN type)
+     * @param player is the player who is doing the action
+     * @param indexOfWeaponToSwap only if the player has already 3 weapon, he must discard one weapon before he takes the new one
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 3
+     * @throws WrongStatusException if the player is not allowed to do this action
+     * @see model.player.RoundStatus
+     */
 
     public void makeAction2FrenzyLower(Square destination,int numbOfWeaponToGrab ,Player player, int indexOfWeaponToSwap) throws NotAllowedMoveException, WrongStatusException {
         System.out.println(match.getCurrentPlayer().getNickname()+" "+match.getCurrentPlayer().getStatus().getTurnStatus());
@@ -1723,10 +1780,22 @@ public class MatchController{
 
     }
 
+    /**
+     * This method verifies if a player can do the Action Frenzy Boosted
+     * @return true if the player can do the action
+     * @see model.player.RoundStatus
+     */
+
     public Boolean canDoActionFrenzyBoosted(){
         if (match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.SECOND_ACTION_FRENZY)) return true;
         else return false;
     }
+
+    /**
+     * This method verifies if a player can do the Action Frenzy Lower
+     * @return true if the player can do the action
+     * @see model.player.RoundStatus
+     */
 
     public Boolean canDoActionFrenzyLower(){
         if (match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_LOWER_FRENZY)) return true;
