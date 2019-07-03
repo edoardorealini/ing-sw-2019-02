@@ -185,12 +185,45 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    private void removeDisconnectedPlayers(){
+        ArrayList<Player> toRemove = new ArrayList<>();
+
+        for(Player p: matchController.getMatch().getPlayers())
+            if(!p.isConnected())
+                toRemove.add(p);
+
+        if(!toRemove.isEmpty()) {
+            for(Player p: toRemove){
+                InterfaceClientControllerRMI controllerToRemove = nicknameToClient.get(p.getNickname());
+                clientControllers.remove(controllerToRemove);
+                nicknameToClient.remove(p.getNickname());
+            }
+            matchController.getMatch().getPlayers().removeAll(toRemove);
+            matchController.getMatch().getPlayers().trimToSize();
+            System.out.println("sout of all players after removing");
+            for(int i = 0; i < getPlayers().size(); i++)
+                System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+            System.out.println("[DISCONNECT]: Removing the non active players, chi va via perde il posto all'osteria");
+        }
+
+        //reformatting the players IDs
+        for(int i = 0; i < getPlayers().size(); i++)
+            matchController.getMatch().getPlayers().get(i).setId(i);
+        //after reformattin the ids
+        for(int i = 0; i < getPlayers().size(); i++)
+            System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+
+    }
+
     /**
      * This method is called when the match has to start. Only the player in status "MASTER" has the ownership to choose a map and call the method buildmap
      * @throws RemoteException when a network error occurs
      * @throws Exception manages generic things that could happen
      */
     private synchronized void askMap() throws RemoteException, Exception{
+        //removing the non active players
+        removeDisconnectedPlayers();
+
         matchController.getMatch().setMatchIsActive(true);
         //this code is useful for having the master always in first position (he doesn't know lol)
         int master = 0;
@@ -768,10 +801,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             Update methods
        */
     private synchronized void updateAllPlayersStatus(){
+        ArrayList<Player> toRemove = new ArrayList<>();
         for(Player p: matchController.getMatch().getPlayers())
             matchController.goToNextStatus(p);
 
-        System.out.println("[INFO]: Updating the status of all the players.");
+        System.out.println("[INFO]: Updating the status of all the connected players.");
 
     }
 
