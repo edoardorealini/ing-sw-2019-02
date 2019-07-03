@@ -128,9 +128,9 @@ public class AdrenalineServer {
         if(args.length != 0){
             AdrenalineServer mainServer = new AdrenalineServer(Integer.parseInt(args[0]));
             try {
-                System.out.println("\nWELCOME TO ADRENALINE MAIN SERVER v1.0.0");
+                System.out.println("\nWELCOME TO ADRENALINE SERVER v2.0.0");
                 System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
-                System.out.println("All rights reserved, 2019\n\n");
+                System.out.println("All rights reserved, July 2019\n\n");
                 System.out.println("Starting server on the command line specified port ");
                 //mainServer.launchRMIServer(Integer.parseInt(args[0]));
                 mainServer.launchRMIConnectionHandler(Integer.parseInt(args[0]));
@@ -145,9 +145,9 @@ public class AdrenalineServer {
             mainServer.setRmiPort(RMIPort);
 
             try {
-                System.out.println("\nWELCOME TO ADRENALINE MAIN SERVER v3.0.0");
+                System.out.println("\nWELCOME TO ADRENALINE SERVER v2.0.0");
                 System.out.println("Developed by:  GioValca, MADSOMMA, RealNGneer");
-                System.out.println("All rights reserved, 2019\n\n");
+                System.out.println("All rights reserved, July 2019\n\n");
                 //mainServer.launchRMIServer(RMIPort);
                 mainServer.launchRMIConnectionHandler(RMIPort);
             }catch (Exception e1){
