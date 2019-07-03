@@ -4,14 +4,21 @@ import java.io.Serializable;
 import java.util.ArrayList;     // NB. id = 9 non si può usare per i giocatori
 import java.util.List;
 
+/**
+ * This class represents the life board of the player
+ */
+
 public class Board  implements Serializable {
-    private int[] lifePoints;
-    private ArrayList<Integer> marks;
+    private int[] lifePoints; // array life of the player
+    private ArrayList<Integer> marks; // arrayList for marks
     private int[] points;   //points to be assigned after death
     private int numberOfDeaths; //to be updated
 
 
-
+    /**
+     * This is the constructor of the Life Board, it has an array that is initialized to 9
+     * NB. never use 9 as player ID
+     */
     public Board(){
         lifePoints = new int[12];
 
@@ -39,11 +46,18 @@ public class Board  implements Serializable {
         points[5] = 1;
     }
 
-    public void initializeBoard(){   // serve anche per quando muore un giocatore
+    public void initializeBoard(){
         for (int i=0; i<12; i++){
             lifePoints[i]=9;
         }
     }
+
+    /**
+     * This method fills the lifePoints array with damage
+     * @param damage quantifies the damage
+     * @param idCurrentPlayer is the player ID who attacked
+     * @param idTarget is the player ID who was injured
+     */
 
     public void updateLife(int damage, int idCurrentPlayer, int idTarget){
         if (idCurrentPlayer != idTarget) {
@@ -58,6 +72,14 @@ public class Board  implements Serializable {
         }
     }
 
+    /**
+     * This method fills the marks array with damage
+     * @param damageMarks quantifies the damage
+     * @param idCurrPlayer is the player ID who attacked
+     * @param idTarget is the player ID who was injured
+     */
+
+
     public void updateMarks(int damageMarks, int idCurrPlayer, int idTarget){
         if (idCurrPlayer != idTarget) {
             int countMarks=0;
@@ -65,15 +87,12 @@ public class Board  implements Serializable {
                 if (marks.get(i) == idCurrPlayer) countMarks++;
             }
             if (countMarks<3){
-                // allora posso aggiungere dei taget
                 if (countMarks+damageMarks>3){
-                    // aggiungo la differenza tra il massimo(3) e quelli che già ho
                     for (int i=0; i<(3-countMarks); i++){
                         marks.add(marks.size(), idCurrPlayer);
                     }
                 }
                 else {
-                    // aggiungo numero di marks pari al damageMarks
                     for (int i=0; i<damageMarks; i++){
                         marks.add(marks.size(), idCurrPlayer);
                     }
@@ -82,6 +101,12 @@ public class Board  implements Serializable {
             }
         }
     }
+
+    /**
+     * This method remove the marks from the arrayList
+     * @param marksToBeRemoved is the number of marks to remove
+     * @param idStrikerPlayer is the player ID who you want to remove
+     */
 
     public void removeMarks(int marksToBeRemoved, int idStrikerPlayer){
         int countMarks=0;
@@ -97,6 +122,12 @@ public class Board  implements Serializable {
     public List<Integer> getMarks() {
         return this.marks;
     }
+
+    /**
+     * This method returns the number of marks of a specific Player ID
+     * @param idStrikerPlayer is the specific Player ID
+     * @return the number of marks
+     */
 
     public int getSpecificMarks(int idStrikerPlayer) {
         int countMarks=0;
@@ -119,6 +150,11 @@ public class Board  implements Serializable {
         else return false;
     }
 
+    /**
+     * This method indicates if the player is overkilled
+     * @return true if the player is overkilled
+     */
+
     public boolean isOverKilled() {
         int damage=0;
         for (int i = 0; i < 12; i++){
@@ -127,8 +163,12 @@ public class Board  implements Serializable {
         return damage==12;
     }
 
+    /**
+     * This method return how many hits have been made by the player given in input
+     * @param id of the player
+     * @return number of hits
+     */
     public int howManyHits(int id) {
-        //this method return how many hits have been made by the player given in input
         int damages = 0;
         for (int i=0; i<12; i++) {
             if (lifePoints[i] == id)
@@ -137,7 +177,12 @@ public class Board  implements Serializable {
         return damages;
     }
 
-    public int getTotalNumberOfDamages() {       //necessary to know the progress status of life points independently by who made damages
+    /**
+     * This method shows the progress status of life points independently by who made damages
+     * @return the number of damage
+     */
+
+    public int getTotalNumberOfDamages() {
         int damages = 0;
         for (int i=0; i<12; i++) {
             if (lifePoints[i] != 9)

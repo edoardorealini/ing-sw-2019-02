@@ -36,9 +36,9 @@ public class Player implements Serializable{
     /**
      * This is the constructor of the player, it needs a unique nickname, an ID to determine the player more easy and the object match
      * that specify on which match the player is playing
-     * @param nickname
-     * @param id
-     * @param match
+     * @param nickname nickname of the player
+     * @param id unique ID to recognize the player in the match
+     * @param match is the class that contains most of the game match
      */
 
     public Player (String nickname, int id, Match match){
@@ -65,7 +65,7 @@ public class Player implements Serializable{
 
     /**
      * This method sets the attribute of the player if it has finished the game
-     * @param endedGame
+     * @param endedGame boolean that is true if the player is in the final part of the game
      */
 
     public void setEndedGame(boolean endedGame) {
@@ -74,7 +74,7 @@ public class Player implements Serializable{
 
     /**
      * This method returns the value of the attribute End game of the player
-     * @return
+     * @return endGame
      */
 
     public boolean isEndedGame() {
@@ -83,7 +83,7 @@ public class Player implements Serializable{
 
     /**
      * This method verifies the connection of the player to the server
-     * @return
+     * @return true if the player is connected
      */
 
     public boolean isConnected() {
@@ -116,7 +116,7 @@ public class Player implements Serializable{
 
     /**
      * This method adds a weapon to the player's weapons
-     * @param w
+     * @param w weapon to add
      */
 
     public void addWeapons( Weapon w) {
@@ -129,8 +129,8 @@ public class Player implements Serializable{
     }
 
     /**
-     * This method removes a weapon to the player's weapons, the parameter i indicates the index of the player's weapons to remove
-     * @param i
+     * This method removes a weapon to the player's weapons
+     * @param i indicates the index of the player's weapons to remove
      */
 
     public void removeWeapons(int i){
@@ -161,7 +161,7 @@ public class Player implements Serializable{
 
     /**
      * This method adds an Ammo Card to the player
-     * @param ammoCard
+     * @param ammoCard it is the ammo Card to add
      */
 
     public void addAmmoCard(AmmoCard ammoCard) {
@@ -192,7 +192,7 @@ public class Player implements Serializable{
 
     /**
      * This method transforms a Power Up into an Ammo of the same color
-     * @param powerUp
+     * @param powerUp it is the Powe Up that you want to transform
      */
 
     public synchronized void transformPowerUpToAmmo(PowerUp powerUp) {
@@ -227,7 +227,7 @@ public class Player implements Serializable{
 
     /**
      * This method adds a Power Up to the player
-     * @param p
+     * @param p is the Power Up to add
      */
 
     public void addPowerUpsCard(PowerUp p) {
@@ -254,7 +254,7 @@ public class Player implements Serializable{
 
     /**
      * This method remove from the player a specific Power Up
-     * @param powerUp
+     * @param powerUp is the Power Up to remove from the player
      */
     public void removePowerUps(PowerUp powerUp) {
         for (int i=0; i<3;i++){
@@ -279,7 +279,7 @@ public class Player implements Serializable{
     /**
      * This method returns the status of the player
      * @see model.player.PlayerStatusHandler for the statuses
-     * @return
+     * @return the status of the player
      */
 
     public PlayerStatusHandler getStatus(){
@@ -313,7 +313,7 @@ public class Player implements Serializable{
 
     /**
      * This method prints the position of the player, it is helpful for debug
-     * @return
+     * @return the position of the player
      */
 
     public String printPosition() {
@@ -329,8 +329,8 @@ public class Player implements Serializable{
 
     /**
      * This method checks if the player has the Power Up given by parameter
-     * @param card
-     * @return
+     * @param card is the Power Up to check
+     * @return true if the card is contained
      */
     public boolean hasPowerUp(PowerUp card){
         for (int i = 0; i < 3; i++){
@@ -345,7 +345,7 @@ public class Player implements Serializable{
 
     /**
      * Series of methods to check if the player is in these states
-     * @return
+     * @return true if the player is in the status
      */
 
     public boolean isInStatusWaitTurn(){
@@ -404,7 +404,7 @@ public class Player implements Serializable{
     /**
      * This method sets the attribute frenzy Board of the player
      * @see client.GUI.LifeBoard for usage
-     * @param frenzyBoard
+     * @param frenzyBoard true if you want to set true the attribute frenzyBoard of the player
      */
 
     public void setFrenzyBoard(Boolean frenzyBoard) {
