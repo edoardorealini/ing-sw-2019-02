@@ -41,7 +41,11 @@ public class FirstPage extends Application implements Runnable{
 
 
     public void run() {
-        launch();
+        try {
+            launch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

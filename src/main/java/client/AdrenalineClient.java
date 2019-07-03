@@ -16,7 +16,11 @@ public class AdrenalineClient {
     public static void main(String[] args) {
 
         AdrenalineClient starter = new AdrenalineClient();
-        starter.launchGUI();
+        try {
+            starter.launchGUI();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void launchGUI(){
