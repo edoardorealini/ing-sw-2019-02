@@ -211,10 +211,6 @@ public class MatchController{
         }
     }
 
-    public synchronized boolean isAllowedMove(Square startingPoint, Square destination, int maxDistance) {
-        return moveController.isAllowedMove(startingPoint, destination, maxDistance);
-    }
-
     @Deprecated
     public synchronized void moveOneSquare(Directions direction) throws Exception {
         moveController.moveOneSquare(direction);
