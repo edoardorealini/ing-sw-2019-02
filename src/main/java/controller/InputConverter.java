@@ -10,6 +10,9 @@ import model.player.Player;
 import model.powerup.PowerUp;
 import model.weapons.Weapon;
 
+/**
+ * This class is helpful to convert the input that is received from the client to a readable one for the controller classes
+ */
 public class InputConverter {
     private Match match;
 
@@ -17,9 +20,13 @@ public class InputConverter {
         this.match = match;
     }
 
-    //TODO eccezioni per input sbagliati
+    /**
+     * This method transforms two indexes in the corresponding square in the match
+     * @param i index of the abscissa
+     * @param j index of the order
+     * @throws InvalidInputException if the square that you selected is not an active one
+     */
 
-    // prende in input le coordinate e restituisce l'oggetto square corrispondente
     public Square indexToSquare(int i, int j) throws InvalidInputException{
         if(!(i >= 0 && i <= 3 && j >= 0 && j <= 2))
             throw new InvalidInputException("Error converting the input integer coordinates to square, not a valid input");
@@ -30,34 +37,34 @@ public class InputConverter {
         return (match.getMap().getSquareFromIndex(i,j));
     }
 
-    // da utilizzare quando si vuole prendere un arma da WeaponBox
+    /**
+     * This method returns the object weapon associated to the index numberOfWeapon contained in the weapon box in the position of the player
+     * @param numberOfWeapon is the index of the weapon in the weapon Box
+     * @return the object weapon
+     */
     public Weapon intToWeapon(int numberOfWeapon){
        return match.getCurrentPlayer().getPosition().getAvailableWeapons().get(numberOfWeapon);
     }
+
+    /**
+     * This method returns the object weapon associated to the index numberOfWeapon contained in the player's weapons
+     * @param numberOfWeapon is the index of the weapon in player
+     * @return the object weapon
+     */
 
     public Weapon intToWeaponInHand(int numberOfWeapon){
         return match.getCurrentPlayer().getWeapons()[numberOfWeapon];
     }
 
 
-    // metodo che riceve una stringa che indica il movimento voluto e lo trasforma
-    public Directions stringToDirections (String movement){
-        // TODO da cambiare assolutamente questi input
-        switch (movement){
-            case "su":
-                return Directions.UP;
-            case "giù":
-                return Directions.DOWN;
-            case "destra":
-                return Directions.RIGHT;
-            case "sinistra":
-                return Directions.LEFT;
-
-        }
-        return null;
-    }
-
-    // restituisce il powerUp del giocatore in posizione indexOfPowerUp
+    /**
+     * This method returns the object power Up associated to the index indexOfPowerUp contained in the player's power Up
+     * @param indexOfPowerUp is the index of the power Up in player
+     * @param user is the object player where to search
+     * @return the object power Up
+     * @throws NotInYourPossessException if the power Up in that position not exist
+     * @see model.player.Player
+     */
     public PowerUp indexToPowerUp(int indexOfPowerUp, Player user) throws NotInYourPossessException {
         if(user.getPowerUps()[indexOfPowerUp] != null)
             return user.getPowerUps()[indexOfPowerUp];
@@ -66,15 +73,12 @@ public class InputConverter {
     }
 
 
-
-    // sereva trovare il player passando come parametro l'ID
-    public Player idToPlayer(int id){
-        for (int i=0; i<match.getPlayers().size(); i++){
-            if (match.getPlayers().get(i).getId()==id) return match.getPlayers().get(i);
-        }
-        return null;
-    }
-
+    /**
+     * This method returns the player associated to the nikname
+     * @param name is the nikname of the player to search
+     * @return the object player
+     * @throws WrongValueException if the nikname is not associated with any players
+     */
     public Player nameToPlayer(String name) throws WrongValueException {
         for(Player p: match.getPlayers()){
             if(p.getNickname().equals(name))

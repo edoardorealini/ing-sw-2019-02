@@ -550,16 +550,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     /**
-     *
+     * This method is used when a Player wats to use a TargetingScope
      * @param indexOfTargetingScope index of the powerUp in hand
-     * @param affectedPlayer
-     * @param clientHashedID
-     * @param ammoColorToPay
-     * @throws NotAllowedCallException
-     * @throws NotInYourPossessException
-     * @throws WrongStatusException
-     * @throws RemoteException
-     * @throws NotEnoughAmmoException
+     * @param affectedPlayer player to accect with the effect of the targeting scope
+     * @param clientHashedID identifies the client making the call
+     * @param ammoColorToPay needed to verify if can pay the ammo requested
+     * @throws NotAllowedCallException when the client hashed id is not the current player
+     * @throws NotInYourPossessException if the player making the call does not have the powerUp in hand
+     * @throws WrongStatusException inf the player has no rights to use the powerUp targeting scope
+     * @throws RemoteException on network error
+     * @throws NotEnoughAmmoException if the player cannot pay for the effect
      */
     @Override
     public synchronized void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, int clientHashedID, Color ammoColorToPay) throws NotAllowedCallException, NotInYourPossessException, WrongStatusException, RemoteException, NotEnoughAmmoException {
@@ -571,6 +571,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method is called when a player wants to use the TagbackGrenade powerUp
+     * @param indexOfTagBackGrenade index of powerUp in hand
+     * @param user The player that wants to use the powerUp (diferent from the current player)
+     * @param affectedPlayer the player to affect with the powerUp
+     * @param clientHashedID used to identify the player making the call
+     * @throws NotInYourPossessException if the player making the request does not have such powerUp in hand
+     * @throws WrongStatusException if the player making the request is not allowed to
+     * @throws RemoteException on network error
+     */
     @Override
     public synchronized void useTagBackGrenade(int indexOfTagBackGrenade, String user, String affectedPlayer, int clientHashedID) throws  NotInYourPossessException, WrongStatusException , RemoteException {
         Player userPlayer =  matchController.getMatch().getPlayer(user);
@@ -585,11 +595,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new WrongStatusException("You can't use a Tagback Grenade now!");
     }
 
+    /**
+     * This method is used whenever a player has to pay a cost with a powerUp
+     * @param indexOfPow index of powerUp in hand of the player
+     * @throws RemoteException on network error
+     * @throws NotInYourPossessException if the player making the request does not have such powerUp in hand
+     */
     @Override
     public void usePowerUpAsAmmo(int indexOfPow) throws RemoteException, NotInYourPossessException {
         matchController.usePowerUpAsAmmo(converter.indexToPowerUp(indexOfPow, matchController.getMatch().getCurrentPlayer()));
     }
 
+    /**
+     * This method is used by the server to ask the players to use a powerUp ad Ammo
+     * @throws RemoteException on network error
+     */
     @Override
     public void askForPowerUpAsAmmo() throws RemoteException {
         for (InterfaceClientControllerRMI clientController : clientControllers) {
@@ -602,6 +622,20 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     // Methods for shoot controller
+
+    /**
+     * This method is used whenever a user wants to make the shoot action in the game
+     * @param input contains all the input paramenters required to make a shooting action
+     * @param clientHashedID identifes the player making the request
+     * @throws NotAllowedCallException if the player is non identifued correctly (wrong hashed id)
+     * @throws NotAllowedTargetException if the targets are setted wrongly
+     * @throws NotAllowedMoveException if the requested move in the action of shooting is not allowed
+     * @throws WrongStatusException if the player cannot make the action, is in the wrong status
+     * @throws NotEnoughAmmoException if the player does not have enough ammo to shoot
+     * @throws NotAllowedShootingModeException if the shooting mode requested is wrongly setted
+     * @throws RemoteException on network error
+     * @throws InvalidInputException if there is an error in the input parameters
+     */
     @Override
     public synchronized void shoot(ShootingParametersClient input, int clientHashedID) throws NotAllowedCallException, NotAllowedTargetException, NotAllowedMoveException, WrongStatusException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException, InvalidInputException {
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -659,7 +693,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
-
     private synchronized ShootingParametersInput parseInput(ShootingParametersClient input) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException {
         Weapon weapon = null;
         ShootingParametersInput parameters = new ShootingParametersInput();
@@ -706,6 +739,15 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return parameters;
     }
 
+    /**
+     * This method is called whenever a client has to reload his weapons (if allowed to)
+     * @param indexOfWeapon index of weapon in hand to reload
+     * @param clientHashedID allows the server to identify the client making the call
+     * @throws RemoteException on network error
+     * @throws NotEnoughAmmoException if the ammo of the player is not enough to reload the weapon
+     * @throws NotAllowedCallException if the player is not allowed to make the call (not the current player)
+     * @throws WrongStatusException if the player ha no rights to make such call
+     */
     @Override
     public void reload(int indexOfWeapon, int clientHashedID) throws RemoteException, NotEnoughAmmoException, NotAllowedCallException, WrongStatusException {
         if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -724,7 +766,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     /*
             Update methods
-        */
+       */
     private synchronized void updateAllPlayersStatus(){
         for(Player p: matchController.getMatch().getPlayers())
             matchController.goToNextStatus(p);
@@ -733,6 +775,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method is used whenever the server has to notify the clints any changes in the game.
+     * For example when a player changes position, is hitted or makes an action.
+     * @throws RemoteException on newtork erros contacting the clients
+     */
     public synchronized void pushMatchToAllPlayers() throws RemoteException{
         Match sharedMatch = new Match(matchController.getMatch());
 
@@ -743,14 +790,30 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method returns the number of connected players to {@code this} match
+     * @return
+     */
     public synchronized int connectedPlayers(){
         return matchController.connectedPlayers();
     }
 
+    /**
+     * This method is used to get the status of a specific player, passed in input as his id
+     * @param idPlayer id of the player
+     * @return the whole status of the player, composed of TurnStatus and AbilityStatus
+     * @throws WrongValueException if the player is not found
+     * @see PlayerStatusHandler
+     */
     public synchronized PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
         return matchController.getPlayerStatus(idPlayer);
     }
 
+    /**
+     * This method gets the status of the match, that can be either true = active or false = not active
+     * @return the boolean containing the status of the match {@code this}
+     * @throws RemoteException on network error
+     */
     public synchronized boolean getMatchStatus() throws RemoteException{
         return matchController.getMatchStatus();
     }
@@ -789,36 +852,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         catch (RemoteException e){
             return false;
         }
-    }
-
-    //USELESS METHODS:
-    public synchronized String RMICallTest(String message, int clientHashedID) {
-        System.out.println("Called test method with message: " + message);
-        return "Called MatchController.RMICallTest(message) method with message: " + message;
-    }
-
-    public synchronized String checkConnection(String IP, int clientHashedID) {
-        System.out.println("[INFO]: Connection with client " + IP + " completed successfully.");
-        return "[RMIServer]: Connection status OK";
-    }
-
-    /*
-        this method is for test use only
-     */
-    private synchronized int hashNickname(String nickName){
-
-        String hashedTemp = "";
-
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(nickName.getBytes());
-            hashedTemp = new String(messageDigest.digest());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return hashedTemp.hashCode();
-
     }
 
     @Override

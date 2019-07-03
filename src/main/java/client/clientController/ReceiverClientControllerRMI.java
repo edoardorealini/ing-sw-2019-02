@@ -45,8 +45,9 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException{
         match.setPlayers(connectedPlayers);
         for (int i=0;i<match.getPlayers().size();i++){
-            System.out.println(match.getPlayers().get(i).getNickname());
+            System.out.println("[LOBBY]: Player "+ match.getPlayers().get(i).getNickname()+ " is in lobby");
         }
+        System.out.println("[LOBBY]: Refreshing Lobby..");
         Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Thread
     }
 

@@ -200,18 +200,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
     }
 
     @Override
-    public String checkConnection(String IP) {
-        try {
-            return serverController.checkConnection(IP, this.hashedNickname);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "[RMIServer - ERROR]: Error in checking connection";
-
-    }
-
-    @Override
     public int connectedPlayers() {
         try {
             return serverController.connectedPlayers();
