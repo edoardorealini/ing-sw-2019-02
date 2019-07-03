@@ -39,10 +39,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void askForPowerUpAsAmmo() throws RemoteException;
 
-    String RMICallTest(String message, int clientHashedID) throws RemoteException;
-
-    String checkConnection(String IP, int clientHashedID) throws RemoteException;
-
     int connectedPlayers() throws RemoteException;
 
     PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException, RemoteException;

@@ -36,8 +36,6 @@ public abstract class SenderClientRemoteController {
 
     public abstract void useTargetingScope(int indexOfTargetingScope, String affectedPlayer, Color ammoColor) throws RemoteException, NotInYourPossessException, WrongStatusException, NotEnoughAmmoException, NotAllowedCallException, NotAllowedTargetException;
 
-    public abstract String checkConnection(String IP);
-
     public abstract int connectedPlayers();
 
     public abstract PlayerStatusHandler getPlayerStatus(int idPlayer);

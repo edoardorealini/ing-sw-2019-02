@@ -766,7 +766,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     /*
             Update methods
-        */
+       */
     private synchronized void updateAllPlayersStatus(){
         for(Player p: matchController.getMatch().getPlayers())
             matchController.goToNextStatus(p);
@@ -776,8 +776,9 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     }
 
     /**
-     *
-     * @throws RemoteException
+     * This method is used whenever the server has to notify the clints any changes in the game.
+     * For example when a player changes position, is hitted or makes an action.
+     * @throws RemoteException on newtork erros contacting the clients
      */
     public synchronized void pushMatchToAllPlayers() throws RemoteException{
         Match sharedMatch = new Match(matchController.getMatch());
@@ -789,14 +790,30 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method returns the number of connected players to {@code this} match
+     * @return
+     */
     public synchronized int connectedPlayers(){
         return matchController.connectedPlayers();
     }
 
+    /**
+     * This method is used to get the status of a specific player, passed in input as his id
+     * @param idPlayer id of the player
+     * @return the whole status of the player, composed of TurnStatus and AbilityStatus
+     * @throws WrongValueException if the player is not found
+     * @see PlayerStatusHandler
+     */
     public synchronized PlayerStatusHandler getPlayerStatus(int idPlayer) throws WrongValueException{
         return matchController.getPlayerStatus(idPlayer);
     }
 
+    /**
+     * This method gets the status of the match, that can be either true = active or false = not active
+     * @return the boolean containing the status of the match {@code this}
+     * @throws RemoteException on network error
+     */
     public synchronized boolean getMatchStatus() throws RemoteException{
         return matchController.getMatchStatus();
     }
@@ -835,36 +852,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         catch (RemoteException e){
             return false;
         }
-    }
-
-    //USELESS METHODS:
-    public synchronized String RMICallTest(String message, int clientHashedID) {
-        System.out.println("Called test method with message: " + message);
-        return "Called MatchController.RMICallTest(message) method with message: " + message;
-    }
-
-    public synchronized String checkConnection(String IP, int clientHashedID) {
-        System.out.println("[INFO]: Connection with client " + IP + " completed successfully.");
-        return "[RMIServer]: Connection status OK";
-    }
-
-    /*
-        this method is for test use only
-     */
-    private synchronized int hashNickname(String nickName){
-
-        String hashedTemp = "";
-
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(nickName.getBytes());
-            hashedTemp = new String(messageDigest.digest());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        return hashedTemp.hashCode();
-
     }
 
     @Override
