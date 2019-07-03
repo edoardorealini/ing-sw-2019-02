@@ -11,9 +11,19 @@ import model.weapons.WeaponAmmoStatus;
 
 import java.util.*;
 
+/**
+ * This class control the action Grab and check if the player is allowed to do that
+ */
+
 public class GrabController{
 
     private Match match;
+
+    /**
+     * This method is the constructor for the Grab controller
+     * @param match is the current match
+     * @param moveCtrl is the Move controller (is helpful because before the Grab action you can move)
+     */
 
     public GrabController(Match match, MoveController moveCtrl){
         this.match = match;
@@ -24,6 +34,12 @@ public class GrabController{
         this.match = match;
     }
 
+    /**
+     * This method checks if the player can Grab an Ammo Card
+     * @throws WrongPositionException if the position requested is not type NOSPAWN
+     * @see model.map.SquareType fro the type of square
+     */
+
 
     public void grabAmmoCard() throws WrongPositionException {
         if(match.getCurrentPlayer().getPosition().getType() == SquareType.NOSPAWN){
@@ -33,6 +49,16 @@ public class GrabController{
         }
         else throw new WrongPositionException("Square is not type NOSPAWN");
     }
+
+    /**
+     * This method checks if the player can Grab Weapon
+     * @param weapon is the weapon to Grab
+     * @param indexOfWeaponToSwap if the player has already 3 weapons he has to chose the index of the Weapon to leave
+     * @throws WrongPositionException if the position requested is not type SPAWN
+     * @throws NotEnoughAmmoException if the player has not enough ammo to grab the weapon
+     * @throws NotAllowedCallException if the weapon is not contained in the square
+     * @see model.map.SquareType fro the type of square
+     */
 
     public void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, NotAllowedCallException {
             if(match.getCurrentPlayer().getPosition().getType() == SquareType.SPAWN){
