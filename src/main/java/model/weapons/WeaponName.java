@@ -2,6 +2,10 @@ package model.weapons;
 
 import java.io.Serializable;
 
+/**
+ * It is an enumeration for the possible name of the weapons
+ * @author Riccardo
+ */
 public enum WeaponName  implements Serializable {
 	LOCK_RIFLE,
 	ELECTROSCYTHE,
@@ -24,6 +28,5 @@ public enum WeaponName  implements Serializable {
 	SCHOCKWAVE,
 	CYBERBLADE,
 	SLEDGEHAMMER,
-	//TEST_NAME,
 }
 
