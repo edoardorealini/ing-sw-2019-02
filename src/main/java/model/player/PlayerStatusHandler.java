@@ -2,6 +2,10 @@ package model.player;
 
 import java.io.Serializable;
 
+
+/**
+ * This class is the container for the 2 player status fields: RoundStatus and AbilityStatus
+ */
 public class PlayerStatusHandler  implements Serializable {
 
     private RoundStatus turnStatus;

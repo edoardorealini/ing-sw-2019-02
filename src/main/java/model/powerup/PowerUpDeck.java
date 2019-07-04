@@ -5,6 +5,9 @@ import model.Color;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * The deck of powerUp contains all the powerUps, instanced only one time
+ */
 public class PowerUpDeck  implements Serializable {
     private List<PowerUp> powerUpDeck;
 

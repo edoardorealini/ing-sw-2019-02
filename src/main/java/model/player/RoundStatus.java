@@ -2,6 +2,9 @@ package model.player;
 
 import java.io.Serializable;
 
+/**
+ * This enumeration defines all the possible Round states on a player
+ */
 public enum RoundStatus implements Serializable{
     LOBBY,			//il giocatore si trova nella lobby in attesa che si connettano altri giocatori e che inizi la partita
     LOBBY_MASTER,	//il giocatore è nella lobby in attesa, è il PRIMO che si è connesso, quello che diventa master
