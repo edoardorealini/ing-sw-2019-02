@@ -155,7 +155,14 @@ public class MatchController{
 
     }
 
-    //metodi derivanti da classe moveController
+    /**
+     * +This method makes the move
+     * @param player current player
+     * @param destination where you want to move
+     * @param maxDistanceAllowed is the max distance allowed for this player
+     * @throws NotAllowedMoveException if something went wrong wiht the move
+     * @throws WrongStatusException if you cannot do this action right now
+     */
     public  synchronized void move(Player player, Square destination, int maxDistanceAllowed) throws NotAllowedMoveException, WrongStatusException{
         if(canDoAction()) {
             try {
@@ -171,6 +178,12 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to execute a move action now, you must wait for your turn");
     }
 
+    /**
+     * This method return the max distance allowed for the player
+     * @param player is the object player
+     * @return the max distance
+     */
+
 
     public synchronized int getMaxDistanceAllowed(Player player) {
         AbilityStatus abilityStatus = player.getStatus().getSpecialAbility();
@@ -181,7 +194,13 @@ public class MatchController{
         return 3;
     }
 
-    //the first spawn always occurs when a pleyer is the current player.
+    /**
+     * This method make the spawn
+     * @param powerUpChosen is the powerUp discarded by the player
+     * @param user is the player
+     * @throws NotInYourPossessException if you don't have such a powerUp
+     * @throws WrongStatusException if you can do this action right now
+     */
     public synchronized void spawn(PowerUp powerUpChosen, Player user) throws NotInYourPossessException, WrongStatusException {
         if(!user.hasPowerUp(powerUpChosen))
             throw new NotInYourPossessException("You don't have such powerup, please retry");
@@ -221,11 +240,11 @@ public class MatchController{
         moveController.moveOneSquare(direction, player);
     }
 
-    public synchronized int minDistBetweenSquares(Square startingPoint, Square destination) {
-        return moveController.minDistBetweenSquares(startingPoint, destination);
-    }
-
-    //metodi da grab controller
+    /**
+     * This method is used to grab an ammoCard
+     * @throws WrongStatusException if your status is not the right one
+     * @throws WrongPositionException if the position is not a spawn square
+     */
     public synchronized  void grabAmmoCard() throws WrongStatusException, WrongPositionException {
         if(canDoAction()) {
             try {
@@ -239,6 +258,17 @@ public class MatchController{
         else
             throw new WrongStatusException("You cannot grab any ammo now!");
     }
+
+    /**
+     * This method is used to grab a weapon
+     * @param weapon is the object to grab
+     * @param indexOfWeaponToSwap if you have already 3 weapon
+     * @throws WrongPositionException if the position is not a spawn square
+     * @throws NotEnoughAmmoException if you don't have enough ammo
+     * @throws WrongStatusException if your status is not the right one
+     * @throws NotAllowedCallException if the call to this method goes wrong
+     * @throws RemoteException if there are some network problems
+     */
 
     public synchronized void grabWeapon(Weapon weapon, int indexOfWeaponToSwap) throws WrongPositionException, NotEnoughAmmoException, WrongStatusException, NotAllowedCallException, RemoteException {
         if(canDoAction()) {
@@ -332,6 +362,12 @@ public class MatchController{
             throw new WrongStatusException("You cannot grab any weapons now!");
     }
 
+    /**
+     * This method makes the grab
+     * @param destination is the square where you want to grab
+     * @throws NotAllowedMoveException if the movement is not correct
+     */
+
     public synchronized void grabMove(Square destination) throws NotAllowedMoveException{
         try {
             if(match.getCurrentPlayer().getStatus().getSpecialAbility().equals(AbilityStatus.NORMAL))
@@ -345,13 +381,27 @@ public class MatchController{
         }
     }
 
-    //metodi di powerUpController
+    /**
+     * This method trasforms a power up into an ammo
+     * @param powerUp is the object power up
+     * @throws NotInYourPossessException if you don't have such powerUp
+     */
     public synchronized void usePowerUpAsAmmo(PowerUp powerUp) throws NotInYourPossessException {
             if (match.getCurrentPlayer().hasPowerUp(powerUp)) {
                 powerUpController.usePowerUpAsAmmo(powerUp);
             } else
                 throw new NotInYourPossessException("The powerUp" + powerUp.getName() + "is not in your hand");
     }
+
+    /**
+     * Trough this method you can use the teleporter
+     * @param teleporter is the object PowerUp
+     * @param destination is where you want to move
+     * @throws NotInYourPossessException if you don't have the PowerUp
+     * @throws WrongStatusException if you can do this action
+     * @throws NotAllowedMoveException if you can do such a movement
+     * @throws WrongPowerUpException if the power up is not correct
+     */
 
     public synchronized void useTeleporter(PowerUp teleporter, Square destination) throws NotInYourPossessException, WrongStatusException, NotAllowedMoveException, WrongPowerUpException {
         if(canUsePowerUp()) {
@@ -364,6 +414,16 @@ public class MatchController{
             throw new WrongStatusException("You cannot use a PowerUp now, wait for your turn!");
     }
 
+    /**
+     * Trough this method you can use the newton
+     * @param newton is the object of the PowerUp
+     * @param affectedPlayer is the player target
+     * @param destination is where you want to move him
+     * @throws WrongStatusException if you can do this action
+     * @throws NotAllowedMoveException if you can do such a movement
+     * @throws NotInYourPossessException if you don't have the PowerUp
+     * @throws WrongPowerUpException if the power up is not correct
+     */
     public synchronized void useNewton(PowerUp newton, Player affectedPlayer, Square destination) throws WrongStatusException, NotAllowedMoveException, NotInYourPossessException, WrongPowerUpException {
         if(canUsePowerUp()) {
             if (match.getCurrentPlayer().hasPowerUp(newton)) {
@@ -374,6 +434,14 @@ public class MatchController{
         else
             throw new WrongStatusException("You cannot use a PowerUp now!");
     }
+    /**
+     * Trough this method you can use the tag back grenade
+     * @param tagbackGrenade is the object of the PowerUp
+     * @param user is the player who want to use the PowerUp
+     * @param affectedPlayer is the player target
+     * @throws NotInYourPossessException if you don't have the PowerUp
+     * @throws WrongStatusException if you can do this action
+     */
 
     public synchronized void useTagbackGrenade(PowerUp tagbackGrenade, Player user, Player affectedPlayer) throws NotInYourPossessException, WrongStatusException {
         if(canUseTagbackGrenade(user)) {
@@ -386,6 +454,16 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to use a TagBack Grenade now!");
 
     }
+
+    /**
+     * Trough this method you can use the targeting scope
+     * @param targetingScope is the object of the PowerUp
+     * @param affectedPlayer is the player target
+     * @param ammoToPay is the ammo to pay
+     * @throws NotInYourPossessException if you don't have the PowerUp
+     * @throws WrongStatusException if you can do this action
+     * @throws NotEnoughAmmoException if you don't have enough ammo
+     */
 
     public synchronized void useTargetingScope(PowerUp targetingScope, Player affectedPlayer, Color ammoToPay) throws NotInYourPossessException, WrongStatusException, NotEnoughAmmoException {
         if(canUsePowerUp()) {
@@ -406,22 +484,16 @@ public class MatchController{
         return shootController;
     }
 
-    public  synchronized GrabController getGrabController() {
-        return grabController;
-    }
-
-    public  synchronized PowerUpController getPowerUpController() {
-        return powerUpController;
-    }
-
-    // metodo creazione di player
     @Deprecated
     public  synchronized void addPlayer(String nickName, int ID) {
         match.getPlayers().add(new Player(nickName, ID, getMatch()));
     }
 
-    // aggiunto da edo, genera il player solo con il nickname e mette da solo id corretto sequenzialmente basandosi sulla dimensione dell'array di player in gioco
-    //usare questo!!
+    /**
+     * This method creates a player
+     * @param nickName is the name of the new player
+     * @throws FailedLoginException if the nickname is already registered
+     */
     public synchronized void addPlayer(String nickName) throws  FailedLoginException{
 
         if(checkPlayerPresence(nickName)) {
@@ -451,11 +523,6 @@ public class MatchController{
 
 
             match.getPlayers().add(new Player(nickName, match.getPlayers().size(), getMatch()));
-            //qui devo aggiornare il numero di giocatori connessi e nel caso far partire i cronometri
-            //setta current player se sono il primo a connettermi
-
-            //if (match.getPlayers().size() == 1)
-            //   match.setCurrentPlayer(match.getPlayers().get(0));
 
             if (!match.getActiveStatusMatch())
                 match.getPlayer(nickName).getStatus().setTurnStatusLobby();
@@ -466,13 +533,10 @@ public class MatchController{
 
     }
 
-    private boolean checkThereIsMaster(){
-        for(Player p: match.getPlayers()){
-            if(p.isInStatusMaster())
-                return true;
-        }
-        return false;
-    }
+    /**
+     * This method check if there is a player on status Lobby Master
+     * @return true if there is
+     */
 
     private boolean checkThereIsLobbyMaster(){
         for(Player p: match.getPlayers()){
@@ -482,7 +546,10 @@ public class MatchController{
         return false;
     }
 
-    //returns the number of connected players
+    /**
+     *  This method says how many number of connected players there are
+     * @return is number of connected players
+     */
     public synchronized  int connectedPlayers(){
         int tmp = 0;
 
@@ -530,6 +597,11 @@ public class MatchController{
         return false;
     }
 
+    /**
+     * This method says if the current player can use PowerUps
+     * @return true if he can
+     */
+
     private boolean canUsePowerUp(){
         return match.getCurrentPlayer().isInStatusFirstAction() || match.getCurrentPlayer().isInStatusSecondAction() || match.getCurrentPlayer().isInStatusReloading() || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_LOWER_FRENZY) || match.getCurrentPlayer().getStatus().getTurnStatus().equals(RoundStatus.SECOND_ACTION_FRENZY);
 
@@ -538,6 +610,11 @@ public class MatchController{
     private boolean checkIfCanSkipAction(Player p){
         return p.isInStatusFirstAction() || p.isInStatusSecondAction() || p.isInStatusReloading();
     }
+    /**
+     * This method says if the player can skip the action in frenzy mode
+     * @param p is the player
+     * @return true if he can
+     */
 
     private boolean checkIfCanSkipActionFrenzy(Player p){
         if(p.getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_FRENZY) || p.getStatus().getTurnStatus().equals(RoundStatus.SECOND_ACTION_FRENZY) || p.getStatus().getTurnStatus().equals(RoundStatus.FIRST_ACTION_LOWER_FRENZY))
@@ -545,12 +622,23 @@ public class MatchController{
         return false;
     }
 
+    /**
+     * This method says if the current player can choose the map
+     * @return true if the player can choose
+     */
+
     private boolean canChooseMap(){
         if(match.getCurrentPlayer().isInStatusMaster())
             return true;
 
         return false;
     }
+
+    /**
+     * This method say if a player can use a TagBack grenade
+     * @param p is the player
+     * @return true if the player can use it
+     */
 
     private boolean canUseTagbackGrenade(Player p){
         return p.isInStatusWaitTurn();
@@ -570,7 +658,6 @@ public class MatchController{
 
         try {
             serverControllerRMI.askRespawn();
-            //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -578,6 +665,11 @@ public class MatchController{
 
         }
     };
+
+    /**
+     * This method brings to the next status the player
+     * @param p is the object player who is brought to the next state
+     */
 
     public void goToNextStatus(Player p){
 
@@ -613,16 +705,6 @@ public class MatchController{
                             Player player = match.getCurrentPlayer();
                             //if i enter this timer it means that the player who launched it hasn't finished his turn
                             System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
-                            /*
-                            player.getStatus().setTurnStatusWaitTurn();
-                            setNewCurrentPlayer();
-                            try {
-                                serverControllerRMI.askRespawn();
-                                //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            */
                             player.getStatus().setTurnStatusEndTurn();
                             goToNextStatus(player);
 
@@ -671,19 +753,14 @@ public class MatchController{
                 turnTimer.purge();
 
                 endOfTurn(); // manages the points to the players
-                //qui aggiungo qualcosa che manda avanti lo stato del primo giocatore dell'elenco che è in wait first turn (dandogli il diritto di essere chiamato per spawnare)
-                //putWaitFirstTurnInSpawn();
                 setNewCurrentPlayer();
-                //in set current player in teoria attendo che quelli in respawn abbiano effettuato il loro respawn.
                 try {
                     serverControllerRMI.askRespawn();
-                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                 }catch(Exception e){
                     e.printStackTrace();
                 }
 
                 p.getStatus().setTurnStatusWaitTurn();
-                //ti ricordo che qesto metodo viene chiamato ogni volta che viene eseguita un'azione o in generale quando si vuole cambiare lo stato di un giocatore (seguendo l'ordine della macchina a stati)
                 break;
 
             case RESPAWN:
@@ -719,16 +796,6 @@ public class MatchController{
                                 Player player = match.getCurrentPlayer();
                                 //if i enter this timer it means that the player who launched it hasn't finished his turn
                                 System.out.println("[TURNTIMER]: The player " + player.getNickname() + " has expired his time to complete the turn, skipping his turn . . .");
-                                /*
-                                player.getStatus().setTurnStatusWaitTurn();
-                                setNewCurrentPlayer();
-                                try {
-                                    serverControllerRMI.askRespawn();
-                                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                */
 
                                 player.getStatus().setTurnStatusEndTurn();
                                 goToNextStatus(player);
@@ -749,13 +816,16 @@ public class MatchController{
                 break;
         }
     }
-    //nel dubbio metti synchronized un po' ovunque e dovrebbe andare a posto  ;)
-    public synchronized void setNewCurrentPlayer(){
+
+    /**
+     * This method sets the new current player
+     */
+
+    private synchronized void setNewCurrentPlayer(){
         int idCurrentPlayer = match.getCurrentPlayer().getId();
 
         if(!everybodyRespawned()) {
             if (idCurrentPlayer == match.getPlayers().size() - 1) {
-                //in teoria i timer eseguono un controllo ogni secondo per vedere se i giocatori in stato di respawn hanno effettuato il respawn.
                 Timer waitForRespawn = new Timer();
                 waitForRespawn.schedule(
                         new TimerTask() {
@@ -863,9 +933,10 @@ public class MatchController{
 
 
     }
-    //setta i nuovi permessi per la frenzy
-    //setta il current player in first action (in base al tipo )
-    //setta tutti gli altri in wait turn frenzy
+
+    /**
+     * This is a method that does a lot of initialization in order to start the Frenzy mode
+     */
     private void startFrenzyMode(){
 
         if(match.getCurrentPlayer().getId() == 0) {
@@ -902,6 +973,11 @@ public class MatchController{
         System.out.println("[FRENZY]: The current player " + match.getCurrentPlayer().getNickname() +" is in Round status " + match.getCurrentPlayer().getStatus().getTurnStatus() );
     }
 
+    /**
+     * This method brings the player in the next status Frenzy
+     * @param p object player who is brought in the next status
+     */
+
     private void goToNextStatusFrenzy(Player p){
         switch(p.getStatus().getTurnStatus()){
             case WAIT_TURN_FRENZY:
@@ -921,7 +997,6 @@ public class MatchController{
                 endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
-                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -944,7 +1019,6 @@ public class MatchController{
                 endOfTurn();
                 try {
                     serverControllerRMI.askRespawn();
-                    //questo serve solo per il primo turno, ovvero per gestire la prima spawn, in teoria poi non crea problemi. (TO TEST)
                 }catch(Exception e){
                     e.printStackTrace();
                 }
@@ -957,7 +1031,6 @@ public class MatchController{
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
-
                 }
                 break;
         }
@@ -970,6 +1043,10 @@ public class MatchController{
         }
         return true;
     }
+
+    /**
+     * This method sets the new current player in the Frenzy mode
+     */
 
     private void setNewCurrentPlayerFrenzy(){
         if(everybodyRespawned()) {
@@ -1016,6 +1093,11 @@ public class MatchController{
 
     }
 
+    /**
+     * This method says if everybody is respawned
+     * @return true if everybody is respawned
+     */
+
     private boolean everybodyRespawned(){
         for(Player p: match.getPlayers())
             if(p.isInStatusRespawn())
@@ -1024,7 +1106,11 @@ public class MatchController{
         return true;
     }
 
-    //metodo per andare a skippare la fase del turno (esempio uno vuole fare una sola action)
+    /**
+     * This method is helpful to skip an action
+     * @param p player who want to skip the action
+     * @throws WrongStatusException if the player cannot do this type of action
+     */
     public void skipAction(Player p) throws WrongStatusException{
         if(checkIfCanSkipAction(p)) {
             System.out.println("[TURN]: The player " + p.getNickname() + " skipped an action");
@@ -1044,6 +1130,7 @@ public class MatchController{
         else
             throw new WrongStatusException("You cannot skip the turn now!");
     }
+    //TODO ??
 
     public void disconnectPlayer(String nickname){
         if(checkPlayerPresence(nickname)){
@@ -1066,12 +1153,8 @@ public class MatchController{
         }
     }
 
-    /*
-    This routine is called when:
-        the game finishes naturally (end of frenzy mode, when all the players are in END_GAME)
-        less than 3 players are connected to the match (add control to disconnect player).
-
-        Returns: an array list with the players in order of points!.
+    /**
+     * This method is called when the game finishes
      */
     public void endGameRoutine(){
         //putting all the players in ENDGAME status
@@ -1091,6 +1174,17 @@ public class MatchController{
         scoreKillShotTrack(match.getKillShotTrack());
         System.out.println("[POINTS]: Evaluated final points on killshot track");
     }
+
+    /**
+     * This method make the action shoot
+     * @param input is a class that contains all the input for the weapon in order to shoot
+     * @throws WrongStatusException if the player cannot do this type of action
+     * @throws NotAllowedTargetException if the problem in the shoot concerns the target
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is too much
+     * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
+     * @throws NotAllowedShootingModeException if the input for the shooting is not correct
+     * @throws RemoteException if there are some network problems
+     */
 
 
     public synchronized void shoot(ShootingParametersInput input) throws WrongStatusException, NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedShootingModeException, RemoteException {
@@ -1237,8 +1331,13 @@ public class MatchController{
             throw new WrongStatusException("You are not allowed to shoot now!");
     }
 
+    /**
+     * This method returns an array with the cost of weapon divided per colors
+     * @param cost of the weapon, is a list of color
+     * @return cost of the weapon on an array of int
+     */
+
     private synchronized int[] getWeaponCost(List<Color> cost) {
-        //this method returns an array with the cost of weapon divided per colors
         // red, blue, yellow (order)
         int[] array = {0, 0, 0};
 
@@ -1254,6 +1353,14 @@ public class MatchController{
         return array;
 
     }
+
+    /**
+     * This method is used to reload weapon
+     * @param weapon is the weapon to reload
+     * @throws NotEnoughAmmoException if the player has not enough ammo
+     * @throws WrongStatusException if the player cannot do this type of action
+     * @throws RemoteException if there are some network problems
+     */
 
     public synchronized void reloadWeapon(Weapon weapon) throws NotEnoughAmmoException, WrongStatusException, RemoteException {
 
@@ -1325,8 +1432,15 @@ public class MatchController{
 
     }
 
+    /**
+     * This method return true if the current player can pay with power ups, so that maybe we can ask him if he wants to or not
+     * @param redNeeded is the red type ammo that is asked
+     * @param blueNeeded is the blue type ammo that is asked
+     * @param yellowNeeded is the yellow type ammo that is asked
+     * @return true if the player can pay with PowerUp
+     */
     private boolean checkForPowerUpsAsAmmo(int redNeeded, int blueNeeded, int yellowNeeded) {
-        //this method return true if the current player can pay with power ups, so that maybe we can ask him if he wants to or not
+
 
         int r = 0;
         int b = 0;
@@ -1353,8 +1467,11 @@ public class MatchController{
         return(r >= redNeeded && b >= blueNeeded && y >= yellowNeeded);
     }
 
+    /**
+     * This method is called automatically by the server at the end of the turn of each player
+     */
+
     public void endOfTurn(){
-        //this method is called automatically by the server at the end of the turn of each player
         int numberOfPeopleKilled = 0;   //local variable that keeps the count of how many people have been killed in order to updated doubleKill in killShot track
 
         for (Player p : match.getPlayers()) {
@@ -1394,8 +1511,12 @@ public class MatchController{
            match.getCurrentPlayer().addPoints(1);       //double kill
     }
 
+    /**
+     * This method score the board of a dead player, giving points to the other players
+     * @param board object that contain life
+     */
+
     private void scoreBoardNormal(Board board) {
-        //this method score the board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rank = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
@@ -1445,6 +1566,8 @@ public class MatchController{
         if(board.getLifePoints()[0] >= 0 && board.getLifePoints()[0] < match.getPlayers().size())
             match.getPlayers().get(board.getLifePoints()[0]).addPoints(1);   //first blood
     }
+
+    //TODO ??
 
     private java.util.Map<Integer, List<String>> addElementInRank(int damageMade, int idPlayer, java.util.Map<Integer, List<String>> rank) {
 
