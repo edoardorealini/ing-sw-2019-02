@@ -290,7 +290,7 @@ public class MainPage extends Application {
         mainStage.setScene(scene);
         mainStage.setMaxWidth(1120);
         mainStage.setMaxHeight(650);
-        mainStage.setMinWidth(1120);
+        mainStage.setMinWidth(1140);
         mainStage.setMinHeight(650);
         mainStage.show();
 
