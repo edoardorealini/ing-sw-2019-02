@@ -68,7 +68,6 @@ public class Action2Lower extends Application {
         Label label3 = new Label("Chose the index of the weapon to relplace");
         ChoiceBox<Integer> indexOfWeapon = new ChoiceBox();
         indexOfWeapon.getItems().addAll(0,1,2);
-        indexOfWeapon.setValue(0);
         for (int i = 0; i<3; i++){
             if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[i]!=null) numberOfWeapon++;
         }
