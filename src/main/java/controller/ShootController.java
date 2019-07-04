@@ -242,7 +242,7 @@ public class ShootController{
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
                 try {
-                    checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                    checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 } catch (NotAllowedTargetException e) {
                     e.printStackTrace();
                     throw new NotAllowedTargetException(notValidTarget);
@@ -309,9 +309,9 @@ public class ShootController{
 
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
-                if (eff.getSameTarget()<input.getTargets().size()) {	//check if the user has set more than one target
+                if (eff.getIndexOfTarget()<input.getTargets().size()) {	//check if the user has set more than one target
                     try {
-                        checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                        checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                     } catch (NotAllowedTargetException e) {
                         e.printStackTrace();
                         throw new NotAllowedTargetException(notValidTarget);
@@ -332,7 +332,7 @@ public class ShootController{
 
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
-                if (eff.getSameTarget()<input.getTargets().size()) {    //check if the user has set more than one target
+                if (eff.getIndexOfTarget()<input.getTargets().size()) {    //check if the user has set more than one target
                     try {
                         eff.executeEffect(match, moveController, input);
                     } catch (Exception e) {
@@ -361,7 +361,7 @@ public class ShootController{
         for (ShootMode mode : input.getShootModes()) {
             eff = input.getWeapon().getMode(mode).get(0);
             try {
-                checkCorrectVisibility(eff, input.getTargets().get(eff.getSameTarget()-1), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, input.getTargets().get(eff.getIndexOfTarget()-1), input.getTargets().get(eff.getIndexOfTarget()));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 throw new NotAllowedTargetException(notValidTarget);
@@ -405,7 +405,7 @@ public class ShootController{
         for (ShootMode mode : input.getShootModes()) {
             eff = input.getWeapon().getMode(mode).get(0);
             try {
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
@@ -445,8 +445,8 @@ public class ShootController{
 
         try {
             for (Effect eff : input.getWeapon().getBasicMode()) {
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 eff.executeEffect(match, moveController, input);
             }
         } catch(Exception e) {
@@ -462,7 +462,7 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
                 if (mode.equals(ShootMode.ALTERNATE)) {
                     checkMaximumDistance(eff, input.getTargets().get(0), input.getSquares().get(0), eff.getMoveTarget());
@@ -522,11 +522,11 @@ public class ShootController{
 
         for (ShootMode mode : input.getShootModes()) {
             for (Effect eff : input.getWeapon().getMode(mode)) {
-                if (eff.getSameTarget() < input.getTargets().size()) {	//check if the user has set more than one target
+                if (eff.getIndexOfTarget() < input.getTargets().size()) {	//check if the user has set more than one target
                     try {
-                        checkMaximumDistance(eff, input.getTargets().get(eff.getSameTarget()), input.getSquares().get(0), eff.getMoveTarget());
-                        checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                        checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                        checkMaximumDistance(eff, input.getTargets().get(eff.getIndexOfTarget()), input.getSquares().get(0), eff.getMoveTarget());
+                        checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                        checkAllowedDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                     } catch (NotAllowedTargetException e) {
                         input.getTargets().get(0).setPosition(tempSquare1);
                         if (input.getTargets().size() > 1)
@@ -653,7 +653,7 @@ public class ShootController{
 
         try {
             Effect eff = input.getWeapon().getBasicMode().get(0);
-            checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+            checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
             eff.executeEffect(match, moveController, input);
         } catch(Exception e) {
             throw new NotAllowedTargetException(notValidTarget);
@@ -719,9 +719,9 @@ public class ShootController{
             case BASIC:
 
                 for (Effect eff : input.getWeapon().getMode(mode)) {
-                    if (input.getTargets().size() < eff.getSameTarget()) {
-                        checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                        if (!input.getSquares().contains(input.getTargets().get(eff.getSameTarget()).getPosition()))
+                    if (input.getTargets().size() < eff.getIndexOfTarget()) {
+                        checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                        if (!input.getSquares().contains(input.getTargets().get(eff.getIndexOfTarget()).getPosition()))
                             throw new NotAllowedTargetException(notValidTarget);
                     }
                 }
@@ -921,7 +921,7 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                checkSameDirectionThroughWalls(getCurrPlayer(), input.getTargets().get(eff.getSameTarget()).getPosition(), input.getDirection());
+                checkSameDirectionThroughWalls(getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()).getPosition(), input.getDirection());
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 throw new NotAllowedTargetException(notValidTarget);
@@ -950,8 +950,8 @@ public class ShootController{
                     checkMaximumDistance(eff, getCurrPlayer(), input.getSquares().get(0), eff.getMoveYourself());
                     eff.executeEffect(match, moveController, input);
                 }
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 getCurrPlayer().setPosition(squareTemp);
@@ -991,7 +991,7 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
             try {
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
             } catch (NotAllowedTargetException e) {
                 e.printStackTrace();
                 throw new NotAllowedTargetException(notValidTarget);
@@ -1065,8 +1065,8 @@ public class ShootController{
             try {
                 if (i == 3 && input.getTargets().size() < 2)
                     break;
-                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 if (eff.getMoveYourself() != 0) {
                    if (i == 2 && input.getSquares().size() > 1)
                        input.getSquares().remove(0);
@@ -1123,10 +1123,10 @@ public class ShootController{
         }
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
-            if (input.getTargets().size() > eff.getSameTarget() && mode != ShootMode.ALTERNATE) {
+            if (input.getTargets().size() > eff.getIndexOfTarget() && mode != ShootMode.ALTERNATE) {
                 try {
-                    checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
-                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getSameTarget()));
+                    checkCorrectVisibility(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
+                    checkExactDistance(eff, getCurrPlayer(), input.getTargets().get(eff.getIndexOfTarget()));
                 } catch (NotAllowedTargetException e) {
                     e.printStackTrace();
                     throw new NotAllowedTargetException(notValidTarget);
@@ -1154,7 +1154,7 @@ public class ShootController{
 
         for (Effect eff : input.getWeapon().getMode(mode)) {
            try {
-               if (input.getTargets().size() > eff.getSameTarget() && mode != ShootMode.ALTERNATE)
+               if (input.getTargets().size() > eff.getIndexOfTarget() && mode != ShootMode.ALTERNATE)
                    eff.executeEffect(match, moveController, input);
                if (mode == ShootMode.ALTERNATE)
                    eff.executeEffect(match, moveController, input);

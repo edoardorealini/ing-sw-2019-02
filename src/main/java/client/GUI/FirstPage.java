@@ -90,25 +90,25 @@ public class FirstPage extends Application implements Runnable{
         Label numberOfPort = new Label("PORT: ");
         GridPane.setConstraints(numberOfPort,50,22);
 
-        TextField numerPortText = new TextField();
-        numerPortText.setText("1338");
-        GridPane.setConstraints(numerPortText,50,23);
+        TextField numberPortText = new TextField();
+        numberPortText.setText("50000");
+        GridPane.setConstraints(numberPortText,50,23);
 
         inputIp.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER))
-                checkInput(inputName,numerPortText,inputIp,primaryStage);
+                checkInput(inputName,numberPortText,inputIp,primaryStage);
         });
 
-        numerPortText.setOnKeyPressed(e -> {
+        numberPortText.setOnKeyPressed(e -> {
             if(e.getCode().equals(KeyCode.ENTER))
-                checkInput(inputName,numerPortText,inputIp,primaryStage);
+                checkInput(inputName,numberPortText,inputIp,primaryStage);
         });
 
         Button playButton = new Button();
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e ->  checkInput(inputName,numerPortText,inputIp,primaryStage)); /*
+        playButton.setOnAction(e ->  checkInput(inputName,numberPortText,inputIp,primaryStage)); /*
           {
             try {
                 GeneralWeaponPopUp fp = new GeneralWeaponPopUp();
@@ -180,7 +180,7 @@ public class FirstPage extends Application implements Runnable{
         File styleSheet = FileLoader.getResourceAsFile("Layout.css");
         scene.getStylesheets().add(styleSheet.toURI().toString());
 
-        grid.getChildren().addAll(nameLabel,inputName, ipLabel, inputIp, numberOfPort,numerPortText, playButton);
+        grid.getChildren().addAll(nameLabel,inputName, ipLabel, inputIp, numberOfPort,numberPortText, playButton);
 
         primaryStage.setScene(scene);
         primaryStage.setMaxWidth(996);

@@ -31,7 +31,7 @@ public class AdrenalineServer {
 
     /**
      * Another constructor, builds the match and all the controllers
-     * @param rmiPort requirest in input the port
+     * @param rmiPort requires in input the port
      */
     public AdrenalineServer(int rmiPort){
         try {
@@ -70,7 +70,7 @@ public class AdrenalineServer {
 
     /**
      * This method launches the runnable that manages the RMI server (binding of remote object and receiving calls)
-     * @param port requirest the port to bind the registry to
+     * @param port requires the port to bind the registry to
      * @throws RemoteException if a network error occurs
      */
 

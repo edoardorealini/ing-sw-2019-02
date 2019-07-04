@@ -8,10 +8,11 @@ import model.weapons.Weapon;
 import java.util.*;
 
 /**
- * this class is a container of fields that will be setted by the user during the shooting action
+ * This class is a container of fields that will be set by the user during the shooting action, in order the execute teh weapon effect properly.
+ * @author Riccardo
  */
 public class ShootingParametersInput {
-	//this class is a container of fields that will be setted by the user
+	//this class is a container of fields that will be set by the user
 	private Weapon weapon;
 	private ArrayList<ShootMode> shootModes;
 	private ArrayList<Player> targets;

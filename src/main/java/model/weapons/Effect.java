@@ -2,9 +2,9 @@ package model.weapons;
 
 
 import controller.MoveController;
-import model.ShootingParametersInput;
 import exception.NotAllowedMoveException;
 import model.Match;
+import model.ShootingParametersInput;
 
 import java.io.Serializable;
 
@@ -23,10 +23,11 @@ public abstract class Effect implements Serializable {
 	private int involvedPlayers;
 	private boolean needVisibleTarget;
 	private int minShootDistance;
-	private int sameTarget;
-	private boolean sameSquare;
+	private int indexOfTarget;
 
-	//constructor
+	/**
+	 * Constructor of the class. It sets every private field its default value (0 for int, true for boolean)
+	 */
 	public Effect(){
 		damage = 0;
 		mark = 0;
@@ -35,8 +36,7 @@ public abstract class Effect implements Serializable {
 		involvedPlayers = 0;   //-1 means every player
 		needVisibleTarget = true;
 		minShootDistance = 0;   //-1 means the same square in which the striker is
-		sameTarget = 0;  //index of the array of players chosen as targets, -1 means all targets
-		sameSquare = false;
+		indexOfTarget = 0;  //index of the array of players chosen as targets, -1 means all targets
 	}
 
 	public int getDamage() {
@@ -95,18 +95,18 @@ public abstract class Effect implements Serializable {
 		return needVisibleTarget;
 	}
 
-	public int getSameTarget() {
-		return sameTarget;
+	public int getIndexOfTarget() {
+		return indexOfTarget;
 	}
 
-	public void setSameTarget(int sameTarget) {
-		this.sameTarget = sameTarget;
+	public void setIndexOfTarget(int indexOfTarget) {
+		this.indexOfTarget = indexOfTarget;
 	}
 
 	/**
-	 * This method will we be implemented in the children
+	 * This method will execute the particular effect on which it will be called.
 	 * @param match	is the reference to the match
-	 * @param ctrl	is thee reference to the moveController
+	 * @param ctrl	is the reference to the moveController
 	 * @param input	is an instance of {@link ShootingParametersInput}
 	 * @throws NotAllowedMoveException	thrown only in the implementation of {@link EffectMoveYourself} and {@link EffectMoveTarget}
 	 */

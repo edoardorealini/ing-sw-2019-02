@@ -1,9 +1,17 @@
 package model.weapons;
 
-import java.io.Serializable;
-import java.util.*;
-import  model.Color;
+import model.Color;
 
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+/**
+ * This class represents the Weapon Deck and it is instanced only once (per match). Her constructor builds every possible weapon and
+ * it also sets the relevant fields for each {@link Weapon}.
+ * @author Riccardo
+ */
 
 public class WeaponDeck implements Serializable {
     private LinkedList<Weapon> weaponDeck;
@@ -327,8 +335,13 @@ public class WeaponDeck implements Serializable {
         weaponDeck.get(20).setRequiredParameters(2, 1, 1, false, false);
     }
 
+    /**
+     * Protected method used only for tests that checks if the given weapon is in the deck.
+     * @param weapon Name of the searched weapon
+     * @return True if the weapon is contains in the deck, False if it is not contained
+     */
 
-    public boolean isInDeck(WeaponName weapon) {
+    boolean isInDeck(WeaponName weapon) {
         Iterator<Weapon> iterDeck = weaponDeck.iterator();
         while (iterDeck.hasNext()) {
            if(iterDeck.next().getName().equals(weapon)) {
@@ -338,15 +351,29 @@ public class WeaponDeck implements Serializable {
         return false;
     }
 
+    /**
+     * This method shuffles the WeaponDeck, randomizing the order of the cards
+     */
+
     public void shuffleDeck() {
         Collections.shuffle(this.weaponDeck);
     }
+
+    /**
+     * This method gets and returns the first card on the top of the deck.
+     * @return The first card of the deck
+     */
 
     public Weapon pickFirstCard() {
         Weapon temp = weaponDeck.getFirst();
         weaponDeck.removeFirst();
         return temp;
     }
+
+    /**
+     * Returns the toString implementation of deck (used only for tests).
+     * @return The sorted list of the cards contained in the deck.
+     */
 
     @Override
     public String toString() {
@@ -357,6 +384,12 @@ public class WeaponDeck implements Serializable {
         }
         return deck.toString();
     }
+
+    /**
+     * Getter used only in JUnit tests.
+     * @param name Name of the wanted weapon
+     * @return The reference to the wanted weapon
+     */
 
     public Weapon getWeapon(WeaponName name) {
         for (Weapon w: weaponDeck) {

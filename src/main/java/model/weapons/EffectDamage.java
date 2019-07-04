@@ -1,8 +1,8 @@
 package model.weapons;
 
 import controller.MoveController;
-import model.ShootingParametersInput;
 import model.Match;
+import model.ShootingParametersInput;
 import model.player.AbilityStatus;
 import model.player.Player;
 import model.powerup.PowerUp;
@@ -10,7 +10,13 @@ import model.powerup.PowerUpName;
 
 import java.io.Serializable;
 
-public class EffectDamage extends Effect  implements Serializable {
+/**
+ * This class represents the damage effect that a weapon can have.
+ * Her valid fields (inherited from the father {@link Effect}) are damage, involvedPlayers, minShootDistance, needVisibleTarget, indexOfTarget.
+ * @author Riccardo
+ */
+
+public class EffectDamage extends Effect implements Serializable {
 
 	public EffectDamage (int damage, int targets, int sameTarget, boolean visible, int distance) {
 		this.setDamage(damage);
@@ -20,9 +26,14 @@ public class EffectDamage extends Effect  implements Serializable {
 		this.setMark(0);
 		this.setMoveTarget(0);
 		this.setMoveYourself(0);
-		this.setSameTarget(sameTarget);
+		this.setIndexOfTarget(sameTarget);
 	}
 
+
+	/**
+	 * Returns the toString implementation of effect.
+	 * @return "Damage of x", where x represents the damage made.
+	 */
 	@Override
 	public String toString() {
 		StringBuilder name = new StringBuilder();
@@ -31,12 +42,20 @@ public class EffectDamage extends Effect  implements Serializable {
 		return name.toString();
 	}
 
+
+	/**
+	 *
+	 * @param match	is the reference to the match
+	 * @param ctrl	is the reference to the moveController
+	 * @param input	is an instance of {@link ShootingParametersInput}
+	 */
+
 	@Override
 	public void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) {
 		//local variables that increase readability
 		Player currentPlayer = match.getCurrentPlayer();
 
-		if (getSameTarget() == -1) {
+		if (getIndexOfTarget() == -1) {
 			for (Player player : input.getTargets()) {
 				int transferringMarks = player.getBoard().getSpecificMarks(currentPlayer.getId());
 
@@ -70,8 +89,8 @@ public class EffectDamage extends Effect  implements Serializable {
 				}
 			}
 		} else {
-			if (input.getTargets().size() > getSameTarget()) {
-				Player target = input.getTargets().get(getSameTarget());
+			if (input.getTargets().size() > getIndexOfTarget()) {
+				Player target = input.getTargets().get(getIndexOfTarget());
 				int transferringMarks = target.getBoard().getSpecificMarks(currentPlayer.getId());
 
 				target.getBoard().updateLife(this.getDamage(), currentPlayer.getId(), target.getId());                    //updating life points of the target
