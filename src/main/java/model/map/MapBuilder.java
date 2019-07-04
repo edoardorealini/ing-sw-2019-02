@@ -18,17 +18,17 @@ public class MapBuilder implements Serializable{
     /*
         declaration of all the paths to the json files containing the map information
     */
-    private String map1Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map1.json";
+    private String map1Path = "." + "/" + "src" + "/" + "main"
+            + "/" + "resources" + "/" + "maps" + "/" + "map1.json";
 
-    private String map2Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map2.json";
+    private String map2Path = "." + "/" + "src" + "/" + "main"
+            + "/" + "resources" + "/" + "maps" + "/" + "map2.json";
 
-    private String map3Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map3.json";
+    private String map3Path = "." + "/" + "src" + "/" + "main"
+            + "/" + "resources" + "/" + "maps" + "/" + "map3.json";
 
-    private String map4Path = "." + File.separatorChar + "src" + File.separatorChar + "main"
-            + File.separatorChar + "resources" + File.separatorChar + "maps" + File.separatorChar + "map4.json";
+    private String map4Path = "." + "/" + "src" + "/" + "main"
+            + "/" + "resources" + "/" + "maps" + "/" + "map4.json";
 
     /**
      * Default constructor, builds the json GSON parser and and empty Map object
@@ -46,22 +46,22 @@ public class MapBuilder implements Serializable{
      * @return  returns the map correctly built
      * @throws IOException when the json files are not found
      */
-    public Map makeMap(int mapID) throws  IOException{
+    public Map makeMap(int mapID) throws IOException{
         switch (mapID){
             case 1:
-                BufferedReader br1 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + File.separatorChar + "map1.json")));
+                BufferedReader br1 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + "/" + "map1.json")));
                 map = json.fromJson(br1, Map.class);
                 break;
             case 2:
-                BufferedReader br2 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + File.separatorChar + "map2.json")));
+                BufferedReader br2 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + "/" + "map2.json")));
                 map = json.fromJson(br2, Map.class);
                 break;
             case 3:
-                BufferedReader br3 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + File.separatorChar + "map3.json")));
+                BufferedReader br3 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + "/" + "map3.json")));
                 map = json.fromJson(br3, Map.class);
                 break;
             case 4:
-                BufferedReader br4 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + File.separatorChar + "map4.json")));
+                BufferedReader br4 = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("maps" + "/" + "map4.json")));
                 map = json.fromJson(br4, Map.class);
                 break;
         }

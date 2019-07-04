@@ -52,14 +52,12 @@ public class FirstPage extends Application implements Runnable{
     public void start(Stage primaryStage) throws Exception {
 
         primaryStage.setTitle("Adrenaline");
-        File icon = FileLoader.getResourceAsFile("icon" + File.separatorChar + "Icon.png");
+        File icon = FileLoader.getResourceAsFile("icon" + "/" + "Icon.png");
 
         Image image0 = new Image(icon.toURI().toString());
         primaryStage.getIcons().add(image0);
         setPrimaryStage(primaryStage);
-        primaryStage.setOnCloseRequest(e -> {
-            System.exit(0);
-        });
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
         this.match= new Match();
 
         GridPane grid = new GridPane();

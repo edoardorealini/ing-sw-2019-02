@@ -119,7 +119,7 @@ public class Action2Lower extends Application {
         SplitPane splitPane = new SplitPane();
 
         VBox vBox = new VBox(6);
-        File file0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
+        File file0 = FileLoader.getResourceAsFile("weapons" + "/" + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(0).getName() + ".png");
         Image image0 = new Image(file0.toURI().toString());
         ImageView iv = new ImageView(image0);
         iv.setFitHeight(350);
@@ -134,7 +134,7 @@ public class Action2Lower extends Application {
         splitPane.getItems().add(vBox);
 
         VBox vBox1 = new VBox(6);
-        File file1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
+        File file1 = FileLoader.getResourceAsFile("weapons" + "/" + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(1).getName() + ".png");
         Image image1 = new Image(file1.toURI().toString());
         ImageView iv0 = new ImageView(image1);
         iv0.setFitHeight(350);
@@ -149,7 +149,7 @@ public class Action2Lower extends Application {
         splitPane.getItems().add(vBox1);
 
         VBox vBox2 = new VBox(6);
-        File file2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
+        File file2 = FileLoader.getResourceAsFile("weapons" + "/" + match.getMap().getSquareFromIndex(x,y).getAvailableWeapons().get(2).getName() + ".png");
         Image image2 = new Image(file2.toURI().toString());
         ImageView iv1 = new ImageView(image2);
         iv1.setFitHeight(350);

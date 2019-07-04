@@ -82,7 +82,7 @@ public class MatchController{
 
             File jarPath=new File(MatchController.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            String path = File.separatorChar + "adrenaline.properties";
+            String path = "/" + "adrenaline.properties";
 
             try {
                 propertyLoader.load(new FileInputStream(propertiesPath + path));

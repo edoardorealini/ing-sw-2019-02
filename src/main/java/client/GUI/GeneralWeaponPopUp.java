@@ -65,7 +65,7 @@ public class GeneralWeaponPopUp extends Application {
 
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getWeaponStatus() == WeaponAmmoStatus.LOADED){
-            File file0 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
+            File file0 = FileLoader.getResourceAsFile("weapons" + "/" + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[0].getName() + ".png");
             Image image0 = new Image(file0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(350);
@@ -78,7 +78,7 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getWeaponStatus() == WeaponAmmoStatus.LOADED){
-            File file1 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
+            File file1 = FileLoader.getResourceAsFile("weapons" + "/" + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[1].getName() + ".png");
             Image image1 = new Image(file1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(350);
@@ -91,7 +91,7 @@ public class GeneralWeaponPopUp extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2] != null && match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getWeaponStatus() == WeaponAmmoStatus.LOADED){
-            File file2 = FileLoader.getResourceAsFile("weapons" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
+            File file2 = FileLoader.getResourceAsFile("weapons" + "/" + match.getPlayer(senderRemoteController.getNickname()).getWeapons()[2].getName() + ".png");
             Image image2 = new Image(file2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(350);
@@ -151,7 +151,7 @@ public class GeneralWeaponPopUp extends Application {
         this.input = new ShootingParametersClient();
 
         //image
-        File file = FileLoader.getResourceAsFile("weapons" + File.separatorChar + weapon.toString() + ".png");
+        File file = FileLoader.getResourceAsFile("weapons" + "/" + weapon.toString() + ".png");
         Image image = new Image(file.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setX(0);

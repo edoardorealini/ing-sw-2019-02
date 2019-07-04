@@ -8,7 +8,11 @@ import model.Match;
 
 import java.io.Serializable;
 
-public abstract class Effect  implements Serializable {
+/**
+ * This is an abstract class that
+ */
+
+public abstract class Effect implements Serializable {
 	private int damage;
 	private int mark;
 	private int moveYourself;
@@ -28,7 +32,7 @@ public abstract class Effect  implements Serializable {
 		involvedPlayers = 0;   //-1 means every player
 		needVisibleTarget = true;
 		minShootDistance = 0;   //-1 means the same square in which the striker is
-		sameTarget = 0;  //index of the array of players choosen as targets, -1 means all targets
+		sameTarget = 0;  //index of the array of players chosen as targets, -1 means all targets
 		sameSquare = false;
 	}
 

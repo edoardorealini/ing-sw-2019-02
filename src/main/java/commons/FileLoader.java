@@ -18,7 +18,13 @@ public class FileLoader {
      */
     public static File getResourceAsFile(String resourcePath) {
         try {
-            InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
+            System.out.println(resourcePath);
+            FileLoader.class.getClassLoader();
+            System.out.println("Sto cercando " + ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath));
+            System.out.println("URL: " + ClassLoader.getSystemClassLoader().getResource(resourcePath));
+            InputStream in;
+            in = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
+            System.out.println("In value = " + in);
             if (in == null) {
                 return null;
             }

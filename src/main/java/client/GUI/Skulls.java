@@ -35,7 +35,7 @@ public class Skulls extends Application {
 
         StackPane stackPane = new StackPane();
         // normal board
-        File skullsBoard = FileLoader.getResourceAsFile("skulls" + File.separatorChar + "skullsBoard.png");
+        File skullsBoard = FileLoader.getResourceAsFile("skulls" + "/" + "skullsBoard.png");
         Image image0 = new Image(skullsBoard.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);

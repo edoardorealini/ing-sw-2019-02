@@ -43,7 +43,7 @@ public class LifeBoard extends Application {
         StackPane stackPane = new StackPane();
 
         // normal board
-        File lifeBoardNormal = FileLoader.getResourceAsFile("lifeBoards" + File.separatorChar + "LifeBoardNormal" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+        File lifeBoardNormal = FileLoader.getResourceAsFile("lifeBoards" + "/" + "LifeBoardNormal" + "/" + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
         Image image0 = new Image(lifeBoardNormal.toURI().toString());
         ImageView iv0 = new ImageView(image0);
         iv0.setFitHeight(200);
@@ -51,7 +51,7 @@ public class LifeBoard extends Application {
         iv0.setPreserveRatio(true);
 
         // frenzy board
-        File lifeBoardAdrenalina = FileLoader.getResourceAsFile("lifeBoards" + File.separatorChar + "LifeboardAdrenalina" + File.separatorChar + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
+        File lifeBoardAdrenalina = FileLoader.getResourceAsFile("lifeBoards" + "/" + "LifeboardAdrenalina" + "/" + match.getPlayer(playerClicked.getNickname()).getId() + ".png");
         Image image1 = new Image(lifeBoardAdrenalina.toURI().toString());
         ImageView iv1 = new ImageView(image1);
         iv1.setFitHeight(200);

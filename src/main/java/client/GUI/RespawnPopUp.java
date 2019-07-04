@@ -88,7 +88,7 @@ public class RespawnPopUp extends Application {
 
 
         if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0]!=null){
-            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + "/" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[0].getColor() + ".png");
             Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
@@ -100,7 +100,7 @@ public class RespawnPopUp extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1]!=null){
-            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + "/" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
@@ -112,7 +112,7 @@ public class RespawnPopUp extends Application {
         }
 
         if (match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2]!=null){
-            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + "/" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getName() + "_" + match.getPlayer(senderRemoteController.getNickname()).getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);

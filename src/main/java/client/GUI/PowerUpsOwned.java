@@ -58,7 +58,7 @@ public class PowerUpsOwned extends Application {
         Button usePow3 = new Button();
 
         if (playerWhoClickButton.getPowerUps()[0] != null){
-            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[0].getName() + "_" + playerWhoClickButton.getPowerUps()[0].getColor() + ".png");
+            File powerUp0 = FileLoader.getResourceAsFile("powerUpCards" + "/" + playerWhoClickButton.getPowerUps()[0].getName() + "_" + playerWhoClickButton.getPowerUps()[0].getColor() + ".png");
             Image image0 = new Image(powerUp0.toURI().toString());
             ImageView iv0 = new ImageView(image0);
             iv0.setFitHeight(300);
@@ -73,7 +73,7 @@ public class PowerUpsOwned extends Application {
         }
 
         if (playerWhoClickButton.getPowerUps()[1] != null){
-            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[1].getName() + "_" + playerWhoClickButton.getPowerUps()[1].getColor() + ".png");
+            File powerUp1 = FileLoader.getResourceAsFile("powerUpCards" + "/" + playerWhoClickButton.getPowerUps()[1].getName() + "_" + playerWhoClickButton.getPowerUps()[1].getColor() + ".png");
             Image image1 = new Image(powerUp1.toURI().toString());
             ImageView iv1 = new ImageView(image1);
             iv1.setFitHeight(300);
@@ -88,7 +88,7 @@ public class PowerUpsOwned extends Application {
         }
 
         if (playerWhoClickButton.getPowerUps()[2] != null){
-            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + playerWhoClickButton.getPowerUps()[2].getName() + "_" + playerWhoClickButton.getPowerUps()[2].getColor() + ".png");
+            File powerUp2 = FileLoader.getResourceAsFile("powerUpCards" + "/" + playerWhoClickButton.getPowerUps()[2].getName() + "_" + playerWhoClickButton.getPowerUps()[2].getColor() + ".png");
             Image image2 = new Image(powerUp2.toURI().toString());
             ImageView iv2 = new ImageView(image2);
             iv2.setFitHeight(300);
@@ -166,7 +166,7 @@ public class PowerUpsOwned extends Application {
         ChoiceBox<Integer> ySquare1 = new ChoiceBox<>();
         Button usePower = new Button("USE " + powerUp.getName());
 
-        File powerUpToUse = FileLoader.getResourceAsFile("powerUpCards" + File.separatorChar + powerUp.getName() + "_" + powerUp.getColor() + ".png");
+        File powerUpToUse = FileLoader.getResourceAsFile("powerUpCards" + "/" + powerUp.getName() + "_" + powerUp.getColor() + ".png");
         Image image = new Image(powerUpToUse.toURI().toString());
         ImageView iv = new ImageView(image);
         iv.setFitHeight(300);
