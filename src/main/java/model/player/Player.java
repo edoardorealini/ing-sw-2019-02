@@ -63,6 +63,10 @@ public class Player implements Serializable{
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     /**
      * This method sets the attribute of the player if it has finished the game
      * @param endedGame boolean that is true if the player is in the final part of the game
