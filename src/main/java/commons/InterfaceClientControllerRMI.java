@@ -7,6 +7,12 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+
+/**
+ * See implemetation for method descrioption
+ * @see client.clientController.ReceiverClientControllerRMI
+ * This interface is shared between client and server
+ */
 public interface InterfaceClientControllerRMI extends Remote {
 
     void ping() throws RemoteException;

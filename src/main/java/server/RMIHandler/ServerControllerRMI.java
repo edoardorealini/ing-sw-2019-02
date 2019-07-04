@@ -1,9 +1,9 @@
 package server.RMIHandler;
 
-import commons.PropertiesLoader;
-import commons.ShootingParametersClient;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
+import commons.PropertiesLoader;
+import commons.ShootingParametersClient;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
@@ -21,9 +21,6 @@ import model.weapons.Weapon;
 import model.weapons.WeaponName;
 
 import javax.security.auth.login.FailedLoginException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
@@ -277,7 +274,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /**
      * This method when called asks the match controller do build the map of the specific ID
      * @param mapID the id of the map to build
-     * @param clientHashedID
+     * @param clientHashedID identifies the client
      * @throws NotAllowedCallException when the player making the call is not allowed to (he is not the current player)
      * @throws WrongValueException an invalid id is given
      * @throws WrongStatusException the player is in a not allowed status (!= MASTER)
@@ -851,7 +848,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     /**
      * This method returns the number of connected players to {@code this} match
-     * @return
+     * @return number of connected players
      */
     public synchronized int connectedPlayers(){
         return matchController.connectedPlayers();
@@ -896,7 +893,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         return hashNicknameID.get(hashedID).equals(matchController.getMatch().getCurrentPlayer().getNickname());
     }
 
-    //connection check
+    /**
+     * This method is used to check the connection on a specific player in This server
+     * @param nickname nickname of the player to check connection
+     * @return returns a boolean indicating wether the player with such nickname is connected or not
+     * @throws RemoteException on network error
+     */
     @Override
     public synchronized boolean checkIfConnected(String nickname) throws RemoteException {
         try {
@@ -913,9 +915,16 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * This method sets the number of remaining skulls in the mortal path
+     * @param nSkulls number of skull to set
+     * @param clientHashedID identyfies the player in the match
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException thrown when a player calls the method but he is not the current player
+     */
     @Override
     public void setSkulls(int nSkulls, int clientHashedID) throws RemoteException, NotAllowedCallException {
-        if (nSkulls < 0 || nSkulls > 8) // TODo non dire cazzate, metti minore di 5
+        if (nSkulls < 5 || nSkulls > 8)
             throw new NotAllowedCallException("The chosen number for skulls is not allowed");
 
         if (checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -926,6 +935,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
           throw new NotAllowedCallException("You are not allowed to execute this action now, wait for your turn!");
     }
 
+    /**
+     * This method is called by an active client when he wants to skip an action
+     * @param clientHashedID identifies the client making the call
+     * @throws RemoteException on network error
+     * @throws WrongStatusException if the player cannot skip the turn (he is waiting for his turn)
+     */
     public void skipAction(int clientHashedID) throws RemoteException, WrongStatusException {
         try {
             matchController.skipAction(matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -936,6 +951,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * This method is similar to skipAction but it's used during the frenzy mode, has different paramenters on status controls
+     * @param clientHashedID identifies the client making the calls
+     * @throws RemoteException on network error
+     * @throws WrongStatusException if the player cannot skip the turn (he is waiting for his turn)
+     */
     public void skipActionFrenzy(int clientHashedID) throws RemoteException, WrongStatusException {
         try {
             matchController.skipActionFrenzy(matchController.getMatch().getPlayer(hashNicknameID.get(clientHashedID)));
@@ -946,8 +967,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
-    // FRENZY METHODS
-
+    /**
+     * This method is used by a player when he wants to perform a franzy action. In particular this method creates the Move + Reload + Shoot action
+     * @param posX x coordinate of destination square
+     * @param posY y coordinate of destination square
+     * @param input contains all the shooting inputs
+     * @param clientHashedID identifies the client when making the call
+     * @throws RemoteException on network error
+     * @throws NotAllowedTargetException if the specified target(s) in shoot are not allowed (see rules)
+     * @throws NotAllowedShootingModeException if the shooting mode is not available for the chosen weapon
+     * @throws InvalidInputException if the input paramenter has a general error
+     * @throws WrongStatusException if the player making the call is not in First of Second action Frenzy mode
+     * @throws NotAllowedMoveException if the requested move is not allowed (see rules)
+     * @throws NotEnoughAmmoException if the player has not enough ammo to reload or use his weapon
+     * @throws NotAllowedCallException if the player making the call is not the current player
+     */
     public void makeAction1Frenzy(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws RemoteException, NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, NotAllowedCallException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -984,6 +1018,21 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method is used to make the action Shoot but with 2 moves (action1 frenzy allows to make 1 move)
+     * @param posX x coordinate of destination
+     * @param posY y coordinate of destination
+     * @param input input of shoot action
+     * @param clientHashedID identifies the player making the call
+     * @throws NotAllowedTargetException if the specified target(s) in shoot are not allowed (see rules)
+     * @throws NotAllowedShootingModeException if the shooting mode is not available for the chosen weapon
+     * @throws InvalidInputException if the input paramenter has a general error
+     * @throws WrongStatusException if the player making the call is not in First of Second action Frenzy mode
+     * @throws NotAllowedMoveException if the requested move is not allowed (see rules)
+     * @throws NotEnoughAmmoException if the player has not enough ammo to reload or use his weapon
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player making the call is not the current player
+     */
     public void makeAction1FrenzyLower(int posX, int posY, ShootingParametersClient input, int clientHashedID) throws NotAllowedTargetException, NotAllowedShootingModeException, InvalidInputException, WrongStatusException, NotAllowedMoveException, NotEnoughAmmoException, RemoteException, NotAllowedCallException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -1020,6 +1069,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     *  This method embodies the controls and actions to realize the second action in frenzy mode.
+     *  With second action has to be intended that with this method you can make the move up to 4 squares!
+     * @param posX x coordinate of destination square
+     * @param posY y coordinate of sqaure
+     * @param clientHashedID identifies the client making the call
+     * @throws NotAllowedMoveException if the requested move exceeds the maximum distance (4)
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player making the call is not the current player
+     * @throws WrongStatusException if the player making the call is in the wrong status
+     */
     public void makeAction2Frenzy(int posX, int posY, int clientHashedID) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -1037,6 +1097,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * This method allows you to make the action where you move up to 2 squares and the grab
+     * @param posX x coordinate of destination
+     * @param posY y coordinate of destination
+     * @param numbOfWeaponToGrab index of weapon to grab in map
+     * @param clientHashedID identifies the player making the call
+     * @param indexOfWeaponToSwap index of weapon in hand to swap with picked one
+     * @throws NotAllowedMoveException if the move exceeds 2 squares distance
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player making the call is not the current player
+     * @throws WrongStatusException if the player is in the wrong status of his turn
+     */
     public void makeAction3Frenzy(int posX, int posY, int numbOfWeaponToGrab ,int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -1054,6 +1126,18 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * With this method you can perform the grab with 3 of maximum distance of move
+     * @param posX x coordinate of destinations
+     * @param posY y coordinate of destination
+     * @param numbOfWeaponToGrab index of weapon to grab in map
+     * @param clientHashedID identifies the player making the call
+     * @param indexOfWeaponToSwap index of weapon in hand to swap with picked one
+     * @throws NotAllowedMoveException if the move exceeds 3 squares distance
+     * @throws RemoteException on network error
+     * @throws NotAllowedCallException if the player making the call is not the current player
+     * @throws WrongStatusException if the player is in the wrong status of his turn
+     */
     public void makeAction2FrenzyLower(int posX, int posY, int numbOfWeaponToGrab, int clientHashedID, int indexOfWeaponToSwap) throws NotAllowedMoveException, RemoteException, NotAllowedCallException, WrongStatusException {
 
         if(checkHashedIDAsCurrentPlayer(clientHashedID)) {
@@ -1071,6 +1155,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     * With this method you can ask to a specific client to use the tagback grenade
+     * @param nickname nickname of the player to ask to
+     * @throws RemoteException on network error
+     */
     @Override
     public void askForTagBackGrenade(String nickname) throws RemoteException {
         //nickname is the name of the player whom I am asking to use the tagBack Grenade
@@ -1082,6 +1171,12 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
     }
 
+    /**
+     * closes the timer of speficied name
+     * @param timerName name of the timer to close
+     * @param clientHashedID client that makes the request
+     * @throws RemoteException on network error
+     */
     @Override
     public void closeTimer(String timerName, int clientHashedID) throws RemoteException {
         if (checkHashedIDAsCurrentPlayer(clientHashedID))
@@ -1090,6 +1185,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             throw new RemoteException("You cannot close a timer");
     }
 
+    /**
+     * creates the final ranking and displays it to the players
+     * @throws RemoteException on network error
+     */
     public synchronized void createRanking() throws RemoteException{
         for(InterfaceClientControllerRMI controller: clientControllers)
             controller.createRanking();
@@ -1098,6 +1197,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     }
 
+    /**
+     *   PING !
+     * @throws RemoteException as usual, on network error :)
+     */
     public void ping() throws RemoteException{
         return;
     }

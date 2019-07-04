@@ -26,13 +26,6 @@ public class Board  implements Serializable {
             lifePoints[i]=9;
         }
 
-        //todo rimuovere!!!
-
-        for (int i=0; i < 10; i++){
-            lifePoints[i]=2;
-        }
-
-
         marks = new ArrayList<>();
 
         numberOfDeaths = 0;

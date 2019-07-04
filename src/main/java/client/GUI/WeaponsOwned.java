@@ -14,7 +14,6 @@ import model.Match;
 import model.player.Player;
 
 import java.io.File;
-// TODO da testare quando si riescono a far partire le partite
 // NB. come invocare questa classe:
 // 1) crea la classe
 // 2) setMatch

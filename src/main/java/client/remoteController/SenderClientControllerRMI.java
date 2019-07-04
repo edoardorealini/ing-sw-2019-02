@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class contains all the stubs for communicating with the server through RMI.
+ * Basically it has the same methods exposed in the InterfaceServerControllerRMI but uses the user input as input for the calls.
+ * This class implements (SenderClientRemoteController) with the RMI network management
+ */
 public class SenderClientControllerRMI extends SenderClientRemoteController {
 
     private Match match;
@@ -37,7 +42,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         try {
             this.match = match;
             this.firstPage = fp;
-            //TODO do not HARCODE the port ask it to the user (coglione lui se la mette sbagliata)!
             Registry registry = LocateRegistry.getRegistry(serverIP, serverPort);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             clientController = new ReceiverClientControllerRMI(match, nickname, fp, this);

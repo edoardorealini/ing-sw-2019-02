@@ -35,7 +35,6 @@ public class Action1Lower extends Application {
     private Weapon weapon;
     private SenderClientRemoteController senderRemoteController;
     private ShootingParametersClient input;
-    //TODO private Whole action input;
 
     public static void main(String[] args) {
         launch(args);
@@ -543,9 +542,6 @@ public class Action1Lower extends Application {
         });
 
         vBox.getChildren().addAll(hBoxWeapon, text, hBoxButtons);
-
-        //TODO reloadStage.setOnCloseRequest(event -> );
-
 
         Scene scene = new Scene(vBox, (300*(first+second+third) + 100), 450);
         reloadStage.setScene(scene);

@@ -19,6 +19,13 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+
+/**
+ * This class is the remote object that the client exports to the server when connecting.
+ * It is used by the server to act directly on the client
+ * Double way communication
+ * here are implemented all the methods that the server can call remotely to the client
+ */
 public class ReceiverClientControllerRMI extends UnicastRemoteObject implements InterfaceClientControllerRMI, ReceiverClientController {
 
     private Match match;
@@ -38,10 +45,19 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     //here are implemented all the methods that the server can call remotely to the client
 
+    /**
+     * This  method is called by the server to check connection
+     * @throws RemoteException when the client is disconnected
+     */
     public void ping() throws RemoteException{
         return;
     }
 
+    /**
+     * Updates the view of the connected players
+     * @param connectedPlayers updated connectedPlayers passed by the server
+     * @throws RemoteException if network fails
+     */
     public void updateConnectedPlayers(ArrayList<Player> connectedPlayers) throws RemoteException{
         match.setPlayers(connectedPlayers);
         for (int i=0;i<match.getPlayers().size();i++){
@@ -51,6 +67,9 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         Platform.runLater(() -> firstPage.refreshPlayersInLobby());// Update on JavaFX Application Thread
     }
 
+    /**
+     * The server calls automatically this method when a client can pay a cost with a powerUp
+     */
     public void askForPowerUpAsAmmo() {
         mainPage.setRemoteController(senderRemoteController);
         mainPage.setMatch(match);
@@ -68,10 +87,18 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     }
 
+    /**
+     * Gets the nickname linked to this controller
+     * @return returns the nickname
+     * @throws RemoteException network error
+     */
     public String getNickname() throws RemoteException{
         return this.nickname;
     }
 
+    /**
+     * This method is called when the match is started, the client has to see the MainPage
+     */
     public void startGame(){
         System.out.println("[SERVER]: Starting a new game");
         mainPage = new MainPage();
@@ -91,6 +118,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         );
     }
 
+    /**
+     * Updates the values in the client copy of the match object
+     * @param match the updated match from the server (without the decks)
+     */
     public void updateMatch(Match match){
         setMatch(match);
         Platform.runLater( () -> {
@@ -107,7 +138,6 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 if(match.getPlayer(senderRemoteController.getNickname()).getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)){
                     mainPage.setFrenzyMode(true);
                     mainPage.frenzyButtonBoosted();
-                    //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE (REFRESH POSIZIONE GIOCATORI)?
                     System.out.println("[FRENZY]: Started FINAL FRENZY");
                     System.out.println("[FRENZY]: Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getStatus().getTurnStatus());
 
@@ -125,6 +155,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         this.match = m;
     }
 
+    /**
+     * Used to ask the map to the MASTER player (opens the chooseMap window)
+     * @throws Exception thrown by Application start method (JavaFX)
+     */
     public void askMap() throws Exception{
         // Platform.runLater( () -> firstPage.closePrimaryStage());
         chooseMap = new ChooseMap();
@@ -133,7 +167,6 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 () -> {
                     // Update UI here.
                     try {
-                        //todo qui va chiusa la finestra con la lobby (come si fa @johnny)
                         chooseMap.start(new Stage());
                     }catch (Exception e){
                         e.printStackTrace();
@@ -143,6 +176,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
 
     }
 
+    /**
+     * This method is called by the server on the client when he has to spawn or respawn
+     * @throws RemoteException on network error
+     */
     public void askSpawn() throws RemoteException{
         respawnPopUp = new RespawnPopUp();
         respawnPopUp.setSenderRemoteController(senderRemoteController);
@@ -161,9 +198,13 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     }
 
     public void waitForMap(){
-        //TODO notifica ai giocatori in lobby che il game è startato e che il master sta scegliendo la mappa
+        //LOL
     }
 
+    /**
+     * Asks to use the tagback grenade
+     * @throws RemoteException on network error
+     */
     @Override
     public void askForTagBackGrenade() throws RemoteException {
         mainPage.setRemoteController(senderRemoteController);
@@ -178,6 +219,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                     });
     }
 
+    /**
+     * Asks the client to use the targeting scope
+     * @throws RemoteException on network error
+     */
     @Override
     public void askForTargetingScope() throws RemoteException {
         mainPage.setRemoteController(senderRemoteController);
@@ -192,6 +237,10 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 });
     }
 
+    /**
+     * During the final moments of the game, called to popUp the ranking of the match
+     * @throws RemoteException on network error
+     */
     public void createRanking() throws RemoteException{
         mainPage.setRemoteController(senderRemoteController);
         mainPage.setMatch(match);

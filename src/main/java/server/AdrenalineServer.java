@@ -5,8 +5,7 @@ import controller.MatchController;
 import model.Match;
 import server.RMIHandler.AdrenalineRMIServer;
 import server.RMIHandler.ConnectionHandler;
-import
-        server.socketHandler.AdrenalineSocketServer;
+import server.socketHandler.AdrenalineSocketServer;
 
 import java.io.InputStream;
 import java.net.InetAddress;
