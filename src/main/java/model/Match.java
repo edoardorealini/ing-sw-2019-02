@@ -1,7 +1,8 @@
 package model;
 
 import model.ammo.AmmoDeck;
-import model.map.*;
+import model.map.KillShotTrack;
+import model.map.Map;
 import model.player.Player;
 import model.powerup.PowerUpDeck;
 import model.weapons.WeaponDeck;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  * This is the most important class of model package
- * Contains all the match information, from the players, to the map, the decks and the killshotTrack
+ * Contains all the match information, from the players, to the map, the decks and the killShotTrack
  */
 public class Match implements Serializable {
     private ArrayList<Player> players;
@@ -25,7 +26,7 @@ public class Match implements Serializable {
     private KillShotTrack killShotTrack;
 
     /**
-     * Default costructor, builds a complete match, shuffles the decks
+     * Default constructor, builds a complete match, shuffles the decks
      * It does not build the map
      * It exposes only a lot of getter and setter methods, the actual logic is in the controller package
      */
@@ -42,7 +43,7 @@ public class Match implements Serializable {
     }
 
     /**
-     * This constructor builds a copy of a given match without givin the decks (this object is pushed to the clients)
+     * This constructor builds a copy of a given match without given the decks (this object is pushed to the clients)
      * @param another another match, to copy from
      */
     public Match(Match another){
@@ -78,10 +79,6 @@ public class Match implements Serializable {
         this.ammoDeck = ammoDeck;
     }
 
-    public void setPowerUpDeck(PowerUpDeck powerUpDeck) {
-        this.powerUpDeck = powerUpDeck;
-    }
-
     public AmmoDeck getAmmoDeck() {
         return ammoDeck;
     }
@@ -94,10 +91,6 @@ public class Match implements Serializable {
 
     public Map getMap() {
         return map;
-    }
-
-    public int howManyPlayers(){
-        return players.size();
     }
 
     public void setPlayers(Player player){

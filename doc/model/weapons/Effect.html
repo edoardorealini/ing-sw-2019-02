@@ -158,6 +158,69 @@ implements java.io.Serializable</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="memberSummary">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#damage">damage</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#involvedPlayers">involvedPlayers</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#mark">mark</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#minShootDistance">minShootDistance</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveTarget">moveTarget</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#moveYourself">moveYourself</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#needVisibleTarget">needVisibleTarget</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sameSquare">sameSquare</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#indexOfTarget">indexOfTarget</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <section role="region">
 <ul class="blockList">
@@ -279,7 +342,7 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSameTarget(int)">setSameTarget</a></span>&#8203;(int&nbsp;sameTarget)</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSameTarget(int)">setSameTarget</a></span>&#8203;(int&nbsp;indexOfTarget)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -299,6 +362,97 @@ implements java.io.Serializable</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a id="damage">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>damage</h4>
+<pre>private&nbsp;int damage</pre>
+</li>
+</ul>
+<a id="mark">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>mark</h4>
+<pre>private&nbsp;int mark</pre>
+</li>
+</ul>
+<a id="moveYourself">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>moveYourself</h4>
+<pre>private&nbsp;int moveYourself</pre>
+</li>
+</ul>
+<a id="moveTarget">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>moveTarget</h4>
+<pre>private&nbsp;int moveTarget</pre>
+</li>
+</ul>
+<a id="involvedPlayers">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>involvedPlayers</h4>
+<pre>private&nbsp;int involvedPlayers</pre>
+</li>
+</ul>
+<a id="needVisibleTarget">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>needVisibleTarget</h4>
+<pre>private&nbsp;boolean needVisibleTarget</pre>
+</li>
+</ul>
+<a id="minShootDistance">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>minShootDistance</h4>
+<pre>private&nbsp;int minShootDistance</pre>
+</li>
+</ul>
+<a id="indexOfTarget">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>indexOfTarget</h4>
+<pre>private&nbsp;int indexOfTarget</pre>
+</li>
+</ul>
+<a id="sameSquare">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>sameSquare</h4>
+<pre>private&nbsp;boolean sameSquare</pre>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <section role="region">
 <ul class="blockList">
@@ -466,7 +620,7 @@ implements java.io.Serializable</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>setSameTarget</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setSameTarget&#8203;(int&nbsp;sameTarget)</pre>
+<pre class="methodSignature">public&nbsp;void&nbsp;setSameTarget&#8203;(int&nbsp;indexOfTarget)</pre>
 </li>
 </ul>
 <a id="executeEffect(model.Match,controller.MoveController,model.ShootingParametersInput)">

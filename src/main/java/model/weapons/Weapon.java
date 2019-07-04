@@ -1,12 +1,22 @@
 package model.weapons;
+
+import model.Color;
 import model.ShootMode;
-import  model.Color;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+/**
+ * This class represents the general weapon. It contains all the possible fields that describe a weapon (name, color, cost, cost of the effects,
+ * the status of the weapon and the required parameters necessary to be used properly).
+ * It also has four ArrayList of effects ({@link EffectDamage}, {@link EffectMark}, {@link EffectMoveYourself}, {@link EffectMoveTarget}) which,
+ * combined together, constitute the possible ShootingMode ({@link ShootMode}).
+ * @author Riccardo
+ */
 
-public class Weapon  implements Serializable {
+public class Weapon implements Serializable {
 
     //attributes
     private WeaponName name;
@@ -72,20 +82,13 @@ public class Weapon  implements Serializable {
         return Collections.emptyList();
     }
 
-    public List<Color> getCost() { return this.cost; }
+    public List<Color> getCost() {
+        return this.cost;
+    }
 
     public List<Color> getCostOpt1() {
         return costOpt1;
     }
-
-    public List<Color> getCostOpt2() {
-        return costOpt2;
-    }
-
-    public List<Color> getCostAlternate() {
-        return costAlternate;
-    }
-
 
 
     void setCost(Color one){
@@ -107,19 +110,11 @@ public class Weapon  implements Serializable {
         this.costOpt1.add(one);
     }
 
-    void setCostOpt1(Color one, Color two){
-        this.costOpt1.add(one);
-        this.costOpt1.add(two);
-    }
-
     void setCostOpt2(Color one){
         this.costOpt2.add(one);
     }
 
-    void setCostOpt2(Color one, Color two){
-        this.costOpt2.add(one);
-        this.costOpt2.add(two);
-    }
+    //overloading setCostAlternate
 
     void setCostAlternate(Color one){
         this.costAlternate.add(one);
@@ -129,8 +124,6 @@ public class Weapon  implements Serializable {
         this.costAlternate.add(one);
         this.costAlternate.add(two);
     }
-
-
 
     public WeaponAmmoStatus getWeaponStatus() {
         return ammoStatus;
@@ -158,29 +151,10 @@ public class Weapon  implements Serializable {
         this.basicMode.add(c);
     }
 
-    void setBasicMode(Effect a, Effect b, Effect c, Effect d) {
-        this.basicMode.add(a);
-        this.basicMode.add(b);
-        this.basicMode.add(c);
-        this.basicMode.add(d);
-    }
-
-
     //overloading setOptionalModeOne
 
     void setOptionalModeOne(Effect a) {
         this.optionalModeOne.add(a);
-    }
-
-    void setOptionalModeOne(Effect a, Effect b) {
-        this.optionalModeOne.add(a);
-        this.optionalModeOne.add(b);
-    }
-
-    void setOptionalModeOne(Effect a, Effect b, Effect c) {
-        this.optionalModeOne.add(a);
-        this.optionalModeOne.add(b);
-        this.optionalModeOne.add(c);
     }
 
     void setOptionalModeOne(Effect a, Effect b, Effect c, Effect d) {
@@ -200,12 +174,6 @@ public class Weapon  implements Serializable {
     void setOptionalModeTwo(Effect a, Effect b) {
         this.optionalModeTwo.add(a);
         this.optionalModeTwo.add(b);
-    }
-
-    void setOptionalModeTwo(Effect a, Effect b, Effect c) {
-        this.optionalModeTwo.add(a);
-        this.optionalModeTwo.add(b);
-        this.optionalModeTwo.add(c);
     }
 
 
@@ -233,6 +201,10 @@ public class Weapon  implements Serializable {
         this.alternateMode.add(d);
     }
 
+    /**
+     * It returns the toString implementation.
+     * @return the name of the weapon
+     */
 
     @Override
     public String toString() {
@@ -240,6 +212,12 @@ public class Weapon  implements Serializable {
         nameWeapon = this.name.toString();
         return nameWeapon;
     }
+
+    /**
+     * This method returns the effects which build the specific ShootMode given in input.
+     * @param mode is the enum that indicates the ShootMode the user is asking more about.
+     * @return an ArraList<{@link Effect}>
+     */
 
     public List<Effect> getMode(ShootMode mode) {
         switch (mode) {
@@ -255,21 +233,12 @@ public class Weapon  implements Serializable {
         return Collections.emptyList();
     }
 
-
 	public List<Effect> getBasicMode() {
 		return basicMode;
 	}
 
 	public List<Effect> getOptionalModeOne() {
 		return optionalModeOne;
-	}
-
-	public List<Effect> getOptionalModeTwo() {
-		return optionalModeTwo;
-	}
-
-	public List<Effect> getAlternateMode() {
-		return alternateMode;
 	}
 
 	void setRequiredParameters(int shootModeType, int numberOfTargets, int numberOfSquares, boolean direction, boolean makeDamageBeforeMove) {

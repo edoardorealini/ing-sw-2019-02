@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * This class eposes the static methods used to load the properties from the given property file (adrenaline.properties)
+ * This class exposes the static methods used to load the properties from the given property file (adrenaline.properties)
  */
 
 public class PropertiesLoader {
@@ -66,7 +66,7 @@ public class PropertiesLoader {
      * @return returns an integer containing the port
      */
     public static int getDefaultRMIPort(){
-        int defaultRMIPort = 1338;
+        int defaultRMIPort = 50000;
         try {
             Properties mainProperties = new Properties();
             FileInputStream file;
