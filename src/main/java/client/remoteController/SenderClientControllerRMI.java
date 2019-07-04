@@ -14,9 +14,14 @@ import commons.InterfaceServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SenderClientControllerRMI extends SenderClientRemoteController {
 
@@ -40,6 +45,8 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             connectionHandler = (InterfaceConnectionHandler) registry.lookup("connectionHandler");
             serverController = connectionHandler.askForConnection(clientController, nickname);
 
+            startServerPinger(serverController);
+
             System.out.println("[INFO]: LOOKUP AND BINDING GONE CORRECTLY");
             this.hashedNickname = serverController.register(clientController, nickname); //the server now has a controller to call methods on the client and return to the client his hashed nickname
             this.nickname = nickname;
@@ -58,6 +65,35 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             throw new FailedLoginException(e.getMessage());
         }
     }
+
+    public void startServerPinger(InterfaceServerControllerRMI serverControllerToPing) {
+        Timer serverCheckerTimer = new Timer(true);
+        TimerTask serverCheckerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try{
+
+                    Timer timer = new Timer(true);
+                    TimerTask interruptTimerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            System.exit(0);
+                        }
+                    };
+
+                    timer.schedule(interruptTimerTask, 2000);
+                    serverControllerToPing.ping();
+                    timer.cancel();
+                }catch (RemoteException e){
+                    System.exit(0);
+                }
+            }
+        };
+
+        serverCheckerTimer.schedule(serverCheckerTask, 1000, 4000);
+
+    }
+
 
     @Override
     public void setMatch(Match match) {
@@ -345,5 +381,9 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
             e.printStackTrace();
             throw new RemoteException(e.getMessage());
         }
+    }
+
+    public void ping() throws  RemoteException{
+        serverController.ping();
     }
 }

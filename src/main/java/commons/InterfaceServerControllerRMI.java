@@ -75,4 +75,6 @@ public interface InterfaceServerControllerRMI extends Remote {
 
     void closeTimer(String timerName, int clientHashedID) throws RemoteException;
 
+    void ping() throws RemoteException;
+
 }

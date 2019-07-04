@@ -290,7 +290,7 @@ public class MainPage extends Application {
         mainStage.setScene(scene);
         mainStage.setMaxWidth(1120);
         mainStage.setMaxHeight(650);
-        mainStage.setMinWidth(1120);
+        mainStage.setMinWidth(1140);
         mainStage.setMinHeight(650);
         mainStage.show();
 
@@ -710,30 +710,30 @@ public class MainPage extends Application {
         List<Integer> pos4;
         List<Integer> pos5;
 
-        if (!match.getPlayers().get(0).isInStatusSpawn() && !match.getPlayers().get(0).isInStatusWaitFirstTurn()) {
+        if (!match.getPlayers().get(0).isInStatusSpawn() && !match.getPlayers().get(0).isInStatusWaitFirstTurn() && !match.getPlayers().get(0).isInStatusMaster()) {
             pos1 = match.getMap().getIndex(match.getPlayers().get(0).getPosition());
             labelpos1.setText("Position of " + match.getPlayers().get(0).getNickname() + " is X,Y :" + pos1 + " \n Status: " + match.getPlayers().get(0).getStatus().getTurnStatus());
         }
         else labelpos1.setText("Not spawned yet");
-        if (!match.getPlayers().get(1).isInStatusSpawn() && !match.getPlayers().get(1).isInStatusWaitFirstTurn()) {
+        if (!match.getPlayers().get(1).isInStatusSpawn() && !match.getPlayers().get(1).isInStatusWaitFirstTurn() && !match.getPlayers().get(1).isInStatusMaster()) {
             pos2 = match.getMap().getIndex(match.getPlayers().get(1).getPosition());
             labelpos2.setText("Position of " + match.getPlayers().get(1).getNickname() + " is X,Y :" + pos2  + " \n Status: " + match.getPlayers().get(1).getStatus().getTurnStatus());
         }
         else labelpos2.setText("Not spawned yet");
-        if (!match.getPlayers().get(2).isInStatusSpawn() && !match.getPlayers().get(2).isInStatusWaitFirstTurn()) {
+        if (!match.getPlayers().get(2).isInStatusSpawn() && !match.getPlayers().get(2).isInStatusWaitFirstTurn() && !match.getPlayers().get(2).isInStatusMaster()) {
             pos3 = match.getMap().getIndex(match.getPlayers().get(2).getPosition());
             labelpos3.setText("Position of " + match.getPlayers().get(2).getNickname() + " is X,Y :" + pos3  + " \n Status: " + match.getPlayers().get(2).getStatus().getTurnStatus());
         }
         else labelpos3.setText("Not spawned yet");
         if (match.getPlayers().size()>=4) {
-            if (!match.getPlayers().get(3).isInStatusSpawn() && !match.getPlayers().get(3).isInStatusWaitFirstTurn()) {
+            if (!match.getPlayers().get(3).isInStatusSpawn() && !match.getPlayers().get(3).isInStatusWaitFirstTurn() && !match.getPlayers().get(3).isInStatusMaster()) {
                 pos4 = match.getMap().getIndex(match.getPlayers().get(3).getPosition());
                 labelpos4.setText("Position of " + match.getPlayers().get(3).getNickname() + " is X,Y :" +pos4  + " \n Status: " + match.getPlayers().get(3).getStatus().getTurnStatus());
             }
             else labelpos4.setText("Not spawned yet");
         }
         if (match.getPlayers().size()>=5) {
-            if (!match.getPlayers().get(4).isInStatusSpawn() && !match.getPlayers().get(4).isInStatusWaitFirstTurn()) {
+            if (!match.getPlayers().get(4).isInStatusSpawn() && !match.getPlayers().get(4).isInStatusWaitFirstTurn() && !match.getPlayers().get(4).isInStatusMaster()) {
                 pos5 = match.getMap().getIndex(match.getPlayers().get(4).getPosition());
                 labelpos5.setText("Position of " + match.getPlayers().get(4).getNickname() + " is X,Y :" + pos5  + " \n Status: " + match.getPlayers().get(4).getStatus().getTurnStatus());
             }
