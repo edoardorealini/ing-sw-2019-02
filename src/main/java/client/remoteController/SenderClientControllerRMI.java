@@ -66,13 +66,12 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         }
     }
 
-    public void startServerPinger(InterfaceServerControllerRMI serverControllerToPing) {
+    private void startServerPinger(InterfaceServerControllerRMI serverControllerToPing) {
         Timer serverCheckerTimer = new Timer(true);
         TimerTask serverCheckerTask = new TimerTask() {
             @Override
             public void run() {
                 try{
-
                     Timer timer = new Timer(true);
                     TimerTask interruptTimerTask = new TimerTask() {
                         @Override
@@ -80,18 +79,18 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
                             System.exit(0);
                         }
                     };
+                    timer.schedule(interruptTimerTask, 2500);
 
-                    timer.schedule(interruptTimerTask, 2000);
                     serverControllerToPing.ping();
                     timer.cancel();
+
                 }catch (RemoteException e){
                     System.exit(0);
                 }
             }
         };
 
-        serverCheckerTimer.schedule(serverCheckerTask, 1000, 4000);
-
+        serverCheckerTimer.schedule(serverCheckerTask, 2000, 4000);
     }
 
 
