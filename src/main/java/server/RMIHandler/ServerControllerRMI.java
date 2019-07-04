@@ -146,6 +146,17 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
         finally {
             //the use of timerStatus preevents the creation of 2 or more timers!
+            if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
+                timeout.cancel();
+                timeout.purge();
+                try {
+                    askMap();
+                }catch (Exception e){
+                    System.out.println("[ERROR]: Error launching the chooseMap window");
+                    e.printStackTrace();
+                }
+            }
+
             if(connectedPlayers() >= 3 && connectedPlayers() < 5 && !timerStatus && !matchController.getMatchStatus()) {
                 System.out.println("[TIMER]: Starting countdown, the match will start soon . . . ");
                 timeout = new Timer();
@@ -170,18 +181,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                 );
                 timerStatus = true;
             }
-
-            if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
-                timeout.cancel();
-                timeout.purge();
-                try {
-                    askMap();
-                }catch (Exception e){
-                    System.out.println("[ERROR]: Error launching the chooseMap window");
-                    e.printStackTrace();
-                }
-            }
-
         }
     }
 
@@ -207,11 +206,11 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             */
             System.out.println("[DISCONNECT]: Removing the non active players, chi va via perde il posto all'osteria");
 
+            //reformatting the players IDs
+            for(int i = 0; i < getPlayers().size(); i++)
+                matchController.getMatch().getPlayers().get(i).setId(i);
         }
 
-        //reformatting the players IDs
-        for(int i = 0; i < getPlayers().size(); i++)
-            matchController.getMatch().getPlayers().get(i).setId(i);
         //after reformattin the ids
         /*
             for(int i = 0; i < getPlayers().size(); i++)
@@ -245,6 +244,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         matchController.getMatch().setCurrentPlayer(matchController.getMatch().getPlayers().get(0));
 
         pushMatchToAllPlayers();
+
         System.out.println("[INFO]: Asking for the map to the MASTER player.");
         //here i notify the player in MASTER that has to choose the map.
         for(InterfaceClientControllerRMI controller: clientControllers) {
