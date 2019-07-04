@@ -9,6 +9,10 @@ import model.Match;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class is implemented in RMI mode and Socket mode (still to be implemented)
+ * Having this class can make all the existing code compatible with 2 different connection methods
+ */
 public abstract class SenderClientRemoteController {
 
     public abstract Match getMatch();
