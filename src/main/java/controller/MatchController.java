@@ -1459,8 +1459,12 @@ public class MatchController{
         return rank;
     }
 
+    /**
+     * This method scores the frenzy board of a dead player, giving points to the other players
+     * @param board object that contains the life board and targhet board
+     */
+
     private void scoreBoardFrenzy(Board board) {
-        //this method score the frenzy board of a dead player, giving points to the other players
         java.util.Map<Integer, List<String>> rankFrenzy = new HashMap<>();
         ArrayList<Integer> numberOfDamages = new ArrayList<>();
 
@@ -1505,6 +1509,11 @@ public class MatchController{
         }
     }
 
+    /**
+     * This method scores the kill shot track
+     * @param killShotTrack object that contains the kill shot track
+     */
+
     private void scoreKillShotTrack(KillShotTrack killShotTrack) {
         int cont = 0;
         int[] points = {8, 6, 4, 2, 1, 1};
@@ -1546,6 +1555,15 @@ public class MatchController{
             cont++;
         }
     }
+
+    /**
+     * This is the method to make the action shoot in Frenzy mode
+     * @param input is a class that contains all the input for the weapon in order to shoot
+     * @throws NotAllowedTargetException if the problem in the shoot concerns the target
+     * @throws NotAllowedMoveException if the square is not an active one, or the distance is too much
+     * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
+     * @throws NotAllowedShootingModeException if the input for the shooting is not correct
+     */
 
 
     // FRENZY METHODS
@@ -1616,7 +1634,7 @@ public class MatchController{
      * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
      * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 1
      * @throws NotAllowedShootingModeException if the input for the shooting is not correct
-     * @throws NotAllowedTargetException //TODO ?
+     * @throws NotAllowedTargetException if the problem in the shoot concerns the target
      * @see model.player.RoundStatus
      */
 
@@ -1652,7 +1670,7 @@ public class MatchController{
      * @throws NotEnoughAmmoException if the player cannot reload his weapon because he doesn't have enough ammo
      * @throws NotAllowedMoveException if the square is not an active one, or the distance is more than 2
      * @throws NotAllowedShootingModeException if the input for the shooting is not correct
-     * @throws NotAllowedTargetException //TODO ?
+     * @throws NotAllowedTargetException if the problem in the shoot concerns the target
      * @see model.player.RoundStatus
      */
 
