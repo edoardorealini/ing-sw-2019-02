@@ -9,7 +9,10 @@ import model.Match;
 import java.io.Serializable;
 
 /**
- * This is an abstract class that
+ * This is an abstract class that is used to create four children: {@link EffectDamage}, {@link EffectMark}, {@link EffectMoveYourself}, {@link EffectMoveTarget},
+ * in which it is implemented the abstract method  {@link #executeEffect(Match, MoveController, ShootingParametersInput)}.
+ * This class represents the possible effects a weapon can have.
+ * @author Riccardo
  */
 
 public abstract class Effect implements Serializable {
@@ -35,7 +38,6 @@ public abstract class Effect implements Serializable {
 		sameTarget = 0;  //index of the array of players chosen as targets, -1 means all targets
 		sameSquare = false;
 	}
-
 
 	public int getDamage() {
 		return this.damage;
@@ -101,13 +103,14 @@ public abstract class Effect implements Serializable {
 		this.sameTarget = sameTarget;
 	}
 
+	/**
+	 * This method will we be implemented in the children
+	 * @param match	is the reference to the match
+	 * @param ctrl	is thee reference to the moveController
+	 * @param input	is an instance of {@link ShootingParametersInput}
+	 * @throws NotAllowedMoveException	thrown only in the implementation of {@link EffectMoveYourself} and {@link EffectMoveTarget}
+	 */
+
 	public abstract void executeEffect(Match match, MoveController ctrl, ShootingParametersInput input) throws NotAllowedMoveException;
 
-	public boolean isSameSquare() {
-		return sameSquare;
-	}
-
-	public void setSameSquare(boolean sameSquare) {
-		this.sameSquare = sameSquare;
-	}
 }
