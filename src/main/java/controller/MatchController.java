@@ -23,6 +23,9 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class contain all the information and controller for the game
+ */
 
 public class MatchController{
 
@@ -31,7 +34,6 @@ public class MatchController{
     private PowerUpController powerUpController;
     private ShootController shootController;
     private MoveController moveController;
-    // private HashMap<WeaponName, String> weaponHashMap;
     private ServerControllerRMI serverControllerRMI;
     private String propertyFile = "/adrenaline.properties";
     private int turnDuration;
@@ -40,63 +42,28 @@ public class MatchController{
     private Timer waitForWeaponLoaded;
     private TimerTask waitForWeaponLoadedTask;
     private TimerTask waitForPaymentTask;
-
-    /*
-        Costruttore 1
-    */
+    
     public MatchController() {
         this.match = new Match();
 
-        this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
+        this.moveController = new MoveController(this.match);
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
         this.shootController = new ShootController(this.match, this.moveController);
         getValuesFromProperties();
     }
 
-    /*
-        Costruttore 2 (non builda match ma lo prende in input)
-    */
     public MatchController(Match match) {
         this.match = match;
 
-        this.moveController = new MoveController(this.match);       //oggetto comune a tutti i controller!
+        this.moveController = new MoveController(this.match);
         this.grabController = new GrabController(this.match, this.moveController);
         this.powerUpController = new PowerUpController(this.match, this.moveController);
-        this.shootController = new ShootController(this.match, this.moveController); //pullando va a post
+        this.shootController = new ShootController(this.match, this.moveController);
         getValuesFromProperties();
     }
 
     private void getValuesFromProperties(){
-        /*
-        Properties propertyLoader = new Properties();
-
-        try{
-            propertyLoader.load(this.getClass().getResourceAsStream("/adrenaline.properties"));
-            //System.out.println("[PROPERTIES-MatchController]: Loaded properties from adrenaline.properties");
-            this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR]: Failed loading info from properties file");
-            System.out.println("[PROPERTIES]: Loading from outside Jar");
-
-            File jarPath=new File(MatchController.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            String propertiesPath=jarPath.getParentFile().getAbsolutePath();
-            String path = "/" + "adrenaline.properties";
-
-            try {
-                propertyLoader.load(new FileInputStream(propertiesPath + path));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.out.println("[ERROR]: Failed loading info from properties file");
-                System.out.println("[PROPERTIES]: Setting the turn timer to default value 120 seconds");
-                this.turnDuration = 120000;
-            }
-
-            this.turnDuration = Integer.parseInt(propertyLoader.getProperty("turnDuration"));
-        }
-
-         */
         this.turnDuration = PropertiesLoader.getTurnTimerDuration();
     }
 
@@ -112,6 +79,13 @@ public class MatchController{
         return match.getMap();
     }
 
+    /**
+     * This method creates the map
+     * @param mapID is the number of the map to create
+     * @throws WrongValueException if the id is not valid
+     * @throws WrongStatusException if is not the player who can choose the map
+     */
+
     public synchronized void buildMap(int mapID) throws WrongValueException, WrongStatusException{
         if(canChooseMap()) {
             if (mapID <= 4 && mapID >= 1) {
@@ -120,7 +94,7 @@ public class MatchController{
                     match.setMap(new MapBuilder().makeMap(mapID));
                     System.out.println("[INFO]: Map "+ mapID+ " built correctly.");
                 } catch (Exception e) {
-                    e.printStackTrace(); //non serve per ora gestire con logger
+                    e.printStackTrace();
                 }
 
                 match.getMap().fillWeaponBox(match.getWeaponDeck());
@@ -140,6 +114,11 @@ public class MatchController{
 
     }
 
+    /**
+     * This method creates the map
+     * @param mapID is the number of the map to create
+     * @throws Exception if the id is not valid
+     */
     //ONLY for tests, do not expose it
     public synchronized void buildMapForTest(int mapID) throws Exception{
         if(mapID <= 4 && mapID >= 1) {
@@ -147,7 +126,7 @@ public class MatchController{
             try {
                 match.setMap(new MapBuilder().makeMap(mapID));
             } catch (Exception e) {
-                e.printStackTrace(); //non serve per ora gestire con logger
+                e.printStackTrace();
             }
         }
         else
