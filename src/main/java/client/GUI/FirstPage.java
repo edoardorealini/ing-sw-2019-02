@@ -240,7 +240,6 @@ public class FirstPage extends Application implements Runnable{
         }
         else {
             try {
-                    // TODO aggiungere numero porta (numerPortText)
                     SenderClientRemoteController remoteController = new SenderClientControllerRMI(inputIp.getText(), Integer.parseInt(numerPortText.getText()), inputName.getText(), match, this);
                     settRemoteController(remoteController);
                     primaryStage.setScene(sceneLobby);

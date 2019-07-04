@@ -1074,7 +1074,6 @@ public class MatchController{
         Returns: an array list with the players in order of points!.
      */
     public void endGameRoutine(){
-        //TODO endGame Routine
         //putting all the players in ENDGAME status
         for(Player p: match.getPlayers()){
             if(p.getFrenzyBoard()) {

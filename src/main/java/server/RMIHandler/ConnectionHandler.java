@@ -108,14 +108,15 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
      */
     //
     public void startClientPinger(){
-        this.clientCheckerTimer = new Timer(true);
+        this.clientCheckerTimer = new Timer();
         this.clientCheckerTask = new TimerTask() {
             @Override
             public void run() {
                 List<InterfaceClientControllerRMI> disconnectedPlayers = new ArrayList<>();
                 for(InterfaceClientControllerRMI controller: clientControllers){
                     try {
-                        Timer timer = new Timer(true);
+                        Timer timer = new Timer();
+
                         TimerTask interruptTimerTask = new TimerTask() {
                             @Override
                             public void run() {
@@ -134,9 +135,12 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
                                 timer.cancel();
                             }
                         };
+
+
                         timer.schedule(interruptTimerTask, 1500);
                         controller.ping();
                         timer.cancel();
+
                     } catch (RemoteException e) {
                         disconnectedPlayers.add(controller);
                     }

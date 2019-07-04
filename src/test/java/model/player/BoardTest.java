@@ -9,8 +9,6 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
-    //TODO rimettere a posto quando ho eseguito tutti i test (quelli in cui metto le vite settate quasi al massimo in modo forzato)!!
-    /*
 
     private MatchController matchController = new MatchController();
     private Player currPlayer = new Player("JJ", 1 , matchController.getMatch());
@@ -87,5 +85,4 @@ class BoardTest {
         assertTrue(b1.isDead());
     }
 
-     */
 }

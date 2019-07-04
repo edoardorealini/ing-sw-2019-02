@@ -20,9 +20,6 @@ import model.Match;
 
 import java.io.File;
 
-
-//TODO NB: settare il player prima di chiamare questo popup
-
 public class RespawnPopUp extends Application {
 
     private Match match;

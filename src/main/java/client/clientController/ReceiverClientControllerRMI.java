@@ -107,7 +107,6 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 if(match.getPlayer(senderRemoteController.getNickname()).getStatus().getSpecialAbility().equals(AbilityStatus.FRENZY)){
                     mainPage.setFrenzyMode(true);
                     mainPage.frenzyButtonBoosted();
-                    //TODO QUI CHIAMARE METODO CHE REFRESHA MAIN PAGE (REFRESH POSIZIONE GIOCATORI)?
                     System.out.println("[FRENZY]: Started FINAL FRENZY");
                     System.out.println("[FRENZY]: Current Player: "+match.getCurrentPlayer().getNickname()+ " in status "+match.getCurrentPlayer().getStatus().getTurnStatus());
 
@@ -133,7 +132,6 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
                 () -> {
                     // Update UI here.
                     try {
-                        //todo qui va chiusa la finestra con la lobby (come si fa @johnny)
                         chooseMap.start(new Stage());
                     }catch (Exception e){
                         e.printStackTrace();
@@ -161,7 +159,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
     }
 
     public void waitForMap(){
-        //TODO notifica ai giocatori in lobby che il game è startato e che il master sta scegliendo la mappa
+        //LOL
     }
 
     @Override

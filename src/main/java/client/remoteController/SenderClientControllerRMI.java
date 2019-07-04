@@ -37,7 +37,6 @@ public class SenderClientControllerRMI extends SenderClientRemoteController {
         try {
             this.match = match;
             this.firstPage = fp;
-            //TODO do not HARCODE the port ask it to the user (coglione lui se la mette sbagliata)!
             Registry registry = LocateRegistry.getRegistry(serverIP, serverPort);
             System.out.println("[INFO]: REGISTRY LOCATED CORRECTLY");
             clientController = new ReceiverClientControllerRMI(match, nickname, fp, this);
