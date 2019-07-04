@@ -200,18 +200,23 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             }
             matchController.getMatch().getPlayers().removeAll(toRemove);
             matchController.getMatch().getPlayers().trimToSize();
-            System.out.println("sout of all players after removing");
-            for(int i = 0; i < getPlayers().size(); i++)
-                System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+            /*
+                System.out.println("sout of all players after removing");
+                for(int i = 0; i < getPlayers().size(); i++)
+                    System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+            */
             System.out.println("[DISCONNECT]: Removing the non active players, chi va via perde il posto all'osteria");
+
         }
 
         //reformatting the players IDs
         for(int i = 0; i < getPlayers().size(); i++)
             matchController.getMatch().getPlayers().get(i).setId(i);
         //after reformattin the ids
-        for(int i = 0; i < getPlayers().size(); i++)
-            System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+        /*
+            for(int i = 0; i < getPlayers().size(); i++)
+                System.out.println(i + " : " + matchController.getMatch().getPlayers().get(i) + " Id : " + matchController.getMatch().getPlayers().get(i).getId());
+        */
 
     }
 
