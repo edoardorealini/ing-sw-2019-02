@@ -34,7 +34,7 @@ public class PowerUpController{
      * and the update of the powerup card position (returning to deck)
      *
      * it can only be used when the player has to pay a cost (picking a weapon)
-     * @param powerUp
+     * @param powerUp powerUp to use as ammo
      */
     public void usePowerUpAsAmmo(PowerUp powerUp) {
         for(int i = 0; i < 3; i++) {
@@ -100,7 +100,7 @@ public class PowerUpController{
 
     /**
      * Use of tagback Grenade
-     * @param tagbackGrenade
+     * @param tagbackGrenade powerUp to use as tagback, kidding, it has to be a tagback!
      * @param user who makes the damage
      * @param affectedPlayer player who gets damage
      * @throws NotInYourPossessException if you are trying to use another thing as a tagback

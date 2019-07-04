@@ -25,8 +25,8 @@ public class InputConverter {
      * @param i index of the abscissa
      * @param j index of the order
      * @throws InvalidInputException if the square that you selected is not an active one
+     * @return the requested square
      */
-
     public Square indexToSquare(int i, int j) throws InvalidInputException{
         if(!(i >= 0 && i <= 3 && j >= 0 && j <= 2))
             throw new InvalidInputException("Error converting the input integer coordinates to square, not a valid input");

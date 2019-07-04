@@ -74,7 +74,7 @@ public class MoveController {
      * @param player player to be moved
      * @param destination destination of the move action
      * @param maxDistanceAllowed integer representing the maximum distance of move allowed measured in squares
-     * @throws NotAllowedMoveException
+     * @throws NotAllowedMoveException if you cannot make such move with such input paramenters
      */
     public void move(Player player, Square destination, int maxDistanceAllowed) throws  NotAllowedMoveException{
         if(! isAllowedMove(player.getPosition(), destination, maxDistanceAllowed))

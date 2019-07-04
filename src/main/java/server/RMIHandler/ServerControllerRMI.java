@@ -1,9 +1,9 @@
 package server.RMIHandler;
 
-import commons.PropertiesLoader;
-import commons.ShootingParametersClient;
 import commons.InterfaceClientControllerRMI;
 import commons.InterfaceServerControllerRMI;
+import commons.PropertiesLoader;
+import commons.ShootingParametersClient;
 import controller.InputConverter;
 import controller.MatchController;
 import exception.*;
@@ -21,9 +21,6 @@ import model.weapons.Weapon;
 import model.weapons.WeaponName;
 
 import javax.security.auth.login.FailedLoginException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
@@ -277,7 +274,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
     /**
      * This method when called asks the match controller do build the map of the specific ID
      * @param mapID the id of the map to build
-     * @param clientHashedID
+     * @param clientHashedID identifies the client
      * @throws NotAllowedCallException when the player making the call is not allowed to (he is not the current player)
      * @throws WrongValueException an invalid id is given
      * @throws WrongStatusException the player is in a not allowed status (!= MASTER)
@@ -851,7 +848,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
     /**
      * This method returns the number of connected players to {@code this} match
-     * @return
+     * @return number of connected players
      */
     public synchronized int connectedPlayers(){
         return matchController.connectedPlayers();

@@ -10,6 +10,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * See implemetation for method descrioption
+ * @see server.RMIHandler.ServerControllerRMI
+ * This interface is shared between client and server
+ */
 public interface InterfaceServerControllerRMI extends Remote {
 
     ArrayList<Player> getPlayers() throws RemoteException;
