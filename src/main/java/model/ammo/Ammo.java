@@ -4,6 +4,9 @@ import model.Color;
 
 import java.io.Serializable;
 
+/**
+ * This class represents the ammo that a player has in hand
+ */
 public class Ammo implements Serializable {
     private int redAmmo;
     private int blueAmmo;

@@ -3,6 +3,9 @@ package model.ammo;
 import java.util.*;
 import java.io.Serializable;
 
+/**
+ * This class represents the ammo tiles that are present on the map
+ */
 public class AmmoCard  implements Serializable {
     private int redAmmo;
     private int blueAmmo;

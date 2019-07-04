@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.*;
 import model.powerup.PowerUpDeck;
 
+/**
+ * This class represets the ammo deck, containing all the possible ammo tiles (once)
+ */
 public class AmmoDeck  implements Serializable {
     private LinkedList<AmmoCard> ammoDeck;
 
