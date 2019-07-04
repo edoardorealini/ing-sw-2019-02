@@ -100,10 +100,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             clientControllers.add(clientController);
             pushMatchToAllPlayers();
 
-            addPlayer(nickname);
-            clientController.ping();
-
-            System.out.println("[INFO]: Client " + nickname + " pinged");
             System.out.println("[INFO]: There are: " + clientControllers.size() + " players connected and " +  matchController.getMatch().getPlayers().size() + " players registered to the server");
             //creating a token that the client will use to identify on the server!
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -111,9 +107,14 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             hashedTemp = new String(messageDigest.digest());
             this.hashNicknameID.put(hashedTemp.hashCode(), nickname);
             this.nicknameToClient.put(nickname, clientController);
+
+            addPlayer(nickname);
+            clientController.ping();
+
+            System.out.println("[INFO]: Client " + nickname + " pinged");
+
             for(Player p: matchController.getMatch().getPlayers()){
                 System.out.println("[INFO]: The client "+ p.getNickname() + " is now in status:" + p.getStatus().getTurnStatus());
-
             }
 
             if(matchController.checkPlayerPresence(nickname) && matchController.getMatchStatus())
@@ -146,16 +147,6 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
         }
         finally {
             //the use of timerStatus preevents the creation of 2 or more timers!
-            if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
-                timeout.cancel();
-                timeout.purge();
-                try {
-                    askMap();
-                }catch (Exception e){
-                    System.out.println("[ERROR]: Error launching the chooseMap window");
-                    e.printStackTrace();
-                }
-            }
 
             if(connectedPlayers() >= 3 && connectedPlayers() < 5 && !timerStatus && !matchController.getMatchStatus()) {
                 System.out.println("[TIMER]: Starting countdown, the match will start soon . . . ");
@@ -178,6 +169,34 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
                                 }
                             }
                         }, lobbyDuration
+                );
+                timerStatus = true;
+            }
+
+            if(connectedPlayers() == 5 && !matchController.getMatchStatus()) {
+                timeout.cancel();
+                timeout.purge();
+                timeout = new Timer();
+                timeout.schedule(
+                        new TimerTask() {
+                            @Override
+                            public void run() {
+                                try {
+                                    //startGame is called later, the first action should be calling a client to ask for the map
+                                    //startGame();
+                                    askMap();
+                                    timeout.cancel();
+                                    timeout.purge();
+                                    timerStatus = true;
+                                }catch (RemoteException e){
+                                    e.printStackTrace();
+                                }
+                                catch (Exception e){
+                                    System.out.println("[ERROR]: Error launching the chooseMap window");
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 1
                 );
                 timerStatus = true;
             }
@@ -269,6 +288,7 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
             try {
                 //building the map
                 matchController.buildMap(mapID);
+                pushMatchToAllPlayers();
                 //starting the game pushing the updated model on all the clients ( this method calls the main page of the GUI ! )
                 startGame();
             } catch (WrongValueException e) {
@@ -1076,6 +1096,10 @@ public class ServerControllerRMI extends UnicastRemoteObject implements Interfac
 
         System.out.println("[INFO]: Final Ranking ");
 
+    }
+
+    public void ping() throws RemoteException{
+        return;
     }
 
 }

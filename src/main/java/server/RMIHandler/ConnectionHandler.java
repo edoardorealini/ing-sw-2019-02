@@ -7,6 +7,7 @@ import controller.MatchController;
 import exception.InvalidInputException;
 import model.player.Player;
 
+import java.rmi.ConnectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
@@ -107,15 +108,36 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
      */
     //
     public void startClientPinger(){
-        this.clientCheckerTimer = new Timer();
+        this.clientCheckerTimer = new Timer(true);
         this.clientCheckerTask = new TimerTask() {
             @Override
             public void run() {
                 List<InterfaceClientControllerRMI> disconnectedPlayers = new ArrayList<>();
                 for(InterfaceClientControllerRMI controller: clientControllers){
-                    try{
+                    try {
+                        Timer timer = new Timer(true);
+                        TimerTask interruptTimerTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                disconnectedPlayers.add(controller);
+                                for(InterfaceClientControllerRMI controller: disconnectedPlayers){
+                                    try {
+                                        int hashedID = clientToHashedNickname.get(controller);
+                                        clientToServer.get(controller).disconnectPlayer(hashedID);
+                                        clientToServer.remove(controller);
+                                        clientToHashedNickname.remove(controller);
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                clientControllers.removeAll(disconnectedPlayers);
+                                timer.cancel();
+                            }
+                        };
+                        timer.schedule(interruptTimerTask, 1500);
                         controller.ping();
-                    }catch (RemoteException e){
+                        timer.cancel();
+                    } catch (RemoteException e) {
                         disconnectedPlayers.add(controller);
                     }
                 }
@@ -134,7 +156,7 @@ public class ConnectionHandler extends UnicastRemoteObject implements InterfaceC
             }
         };
 
-        clientCheckerTimer.schedule(clientCheckerTask, 1, 2000);
+        clientCheckerTimer.schedule(clientCheckerTask, 1, 3000);
     }
 
     private int hashNickname(String nickname){

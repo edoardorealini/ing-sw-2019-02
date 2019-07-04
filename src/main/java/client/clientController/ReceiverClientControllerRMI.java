@@ -95,7 +95,7 @@ public class ReceiverClientControllerRMI extends UnicastRemoteObject implements 
         setMatch(match);
         Platform.runLater( () -> {
                 firstPage.setMatch(match);
-        firstPage.refreshPlayersInLobby();
+                firstPage.refreshPlayersInLobby();
         });
         if(mainPage != null) {
             Platform.runLater( () -> {
