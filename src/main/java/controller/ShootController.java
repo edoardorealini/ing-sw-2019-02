@@ -284,7 +284,7 @@ public class ShootController{
 
     /**
      * This method sets the field input, instance of {@link ShootingParametersInput}, which will be used in every method of this class.
-     * It will be filled with parameters that come from the GUI.
+     * It will be filled with parameters received from the client.
      * @param inputGui Input coming from the GUI
      */
 
@@ -309,6 +309,12 @@ public class ShootController{
 
 
     //shoot methods
+
+    /**
+     * This is only used for Lock Rifle: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     */
 
     public void shootLockRifle () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for LOCK RIFLE
@@ -348,6 +354,12 @@ public class ShootController{
         }
     }
 
+    /**
+     * This is only used for Electroscythe: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     */
+
     public void shootElectroScythe () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method is valid only for ELECTRO SCYTHE
 
@@ -378,6 +390,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for Machine Gun: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootMachineGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for MACHINE GUN
@@ -418,6 +437,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for T.H.O.R.: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootTHOR () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for T.H.O.R.
@@ -465,6 +491,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for Plasma Gun: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootPlasmaGun () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Plasma Gun
@@ -515,6 +548,11 @@ public class ShootController{
         }
     }
 
+    /**
+     * This is only used for Whisper: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     */
+
     public void shootWhisper () throws NotAllowedTargetException {
         //this method is valid only for Whisper
 
@@ -529,6 +567,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for Tractor Beam: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootTractorBeam () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException{
         //this method is valid only for Tractor Beam
@@ -575,6 +620,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for Cannon Vortex: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootCannonVortex () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Cannon Vortex
@@ -653,6 +705,13 @@ public class ShootController{
 
     }
 
+    /**
+     * This is only used for Furnace: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotAllowedShootingModeException Thrown if the chosen mode is not valid
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
+
     public void shootFurnace () throws NotAllowedTargetException, NotAllowedMoveException, NotAllowedShootingModeException {
         //this method is valid only for Furnace
 
@@ -719,9 +778,13 @@ public class ShootController{
 
                 default:
                     throw new NotAllowedShootingModeException("Not allowed shooting mode");
-
         }
     }
+
+    /**
+     * This is only used for T.H.O.R.: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     */
 
     public void shootHeatseeker () throws NotAllowedTargetException {
         //this method is valid only for Heatseeker
@@ -735,6 +798,12 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for Hellion: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     */
 
     public void shootHellion () throws NotAllowedTargetException, NotEnoughAmmoException {
         //this method in valid only for Hellion
@@ -771,6 +840,13 @@ public class ShootController{
         }
 
     }
+
+    /**
+     * This is only used for FlameThrower: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedShootingModeException Thrown if the chosen mode is not valid
+     */
 
     public void shootFlameThrower () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
         //this method is valid only for FlameThrower
@@ -854,6 +930,13 @@ public class ShootController{
 
     }
 
+    /**
+     * This is only used for Grenade Launcher: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
+
     public void shootGrenadeLauncher () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Grenade Launcher
         Player mainTarget = input.getTargets().get(0);
@@ -908,9 +991,14 @@ public class ShootController{
                 }
             }
         }
-
-
     }
+
+    /**
+     * This is only used for Rocket Launcher: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootRocketLauncher () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Rocket Launcher
@@ -988,6 +1076,11 @@ public class ShootController{
          }
     }
 
+    /**
+     * This is only used for RailGun: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     */
+
     public void shootRailGun () throws NotAllowedTargetException {
         //this method is valid only for Rail Gun
 
@@ -1012,8 +1105,15 @@ public class ShootController{
         }
     }
 
-    public void shootCyberblade () throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
-        //this method is valid only for Cyberblade
+    /**
+     * This is only used for Cyber Blade: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
+
+    public void shootCyberBlade() throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
+        //this method is valid only for CyberBlade
         Effect eff;
         Square squareTemp = getCurrPlayer().getPosition();
 
@@ -1060,6 +1160,12 @@ public class ShootController{
         }
     }
 
+    /**
+     * This is only used for ZX-2: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
+
     public void shootZX2 () throws NotAllowedTargetException, NotAllowedMoveException {
         //this method is valid only for ZX2
         ShootMode mode = input.getShootModes().get(0);
@@ -1080,8 +1186,13 @@ public class ShootController{
                 throw new NotAllowedMoveException("Move error during shoot");
             }
         }
-
     }
+
+    /**
+     * This is only used for Shotgun: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootShotgun () throws NotAllowedTargetException, NotAllowedMoveException {
         //this method is valid only for Shotgun
@@ -1108,8 +1219,14 @@ public class ShootController{
                 throw new NotAllowedMoveException("Move error during shoot");
             }
         }
-
     }
+
+    /**
+     * This is only used for Power Glove: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootPowerGlove () throws NotAllowedTargetException, NotAllowedMoveException, NotEnoughAmmoException {
         //this method is valid only for Power Glove
@@ -1182,8 +1299,14 @@ public class ShootController{
                 e.printStackTrace();
             }
         }
-
     }
+
+    /**
+     * This is only used for Schock Wave: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootSchockWave () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Shockwave
@@ -1237,8 +1360,14 @@ public class ShootController{
                throw new NotAllowedMoveException("Move error during shoot");
            }
         }
-
     }
+
+    /**
+     * This is only used for SledgeHammer: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
+     * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
+     * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
+     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     */
 
     public void shootSledgehammer () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedMoveException {
         //this method is valid only for Sledgehammer
@@ -1280,7 +1409,6 @@ public class ShootController{
                 throw new NotAllowedMoveException("Move error during shoot");
             }
         }
-
     }
 
 }

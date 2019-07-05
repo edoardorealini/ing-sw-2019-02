@@ -682,7 +682,7 @@ class ShootControllerTest {
 		//executing code
 		try {
 			matchCtrl.getShootController().setInput(input);
-			matchCtrl.getShootController().shootCyberblade();
+			matchCtrl.getShootController().shootCyberBlade();
 			System.out.println("\n");
 			System.out.println(p1.getNickname() + "'s " + p1.getBoard().toStringLP());
 			System.out.println(p2.getNickname() + "'s " + p2.getBoard().toStringLP());

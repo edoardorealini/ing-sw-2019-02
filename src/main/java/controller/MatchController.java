@@ -15,10 +15,6 @@ import model.weapons.*;
 import server.RMIHandler.ServerControllerRMI;
 
 import javax.security.auth.login.FailedLoginException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1195,7 +1191,7 @@ public class MatchController{
                     case WHISPER: shootController.shootWhisper(); break;
                     case PLASMA_GUN: shootController.shootPlasmaGun(); break;
                     case LOCK_RIFLE: shootController.shootLockRifle(); break;
-                    case CYBERBLADE: shootController.shootCyberblade(); break;
+                    case CYBERBLADE: shootController.shootCyberBlade(); break;
                     case HEATSEEKER: shootController.shootHeatseeker(); break;
                     case SCHOCKWAVE: shootController.shootSchockWave(); break;
                     case POWER_GLOVE: shootController.shootPowerGlove(); break;
@@ -1491,8 +1487,8 @@ public class MatchController{
     }
 
     /**
-     * This method score the board of a dead player, giving points to the other players
-     * @param board object that contain life
+     * This method scores the board of a dead player, giving points to the other players
+     * @param board object that contains life
      */
 
     private void scoreBoardNormal(Board board) {
@@ -1562,7 +1558,7 @@ public class MatchController{
 
     /**
      * This method scores the frenzy board of a dead player, giving points to the other players
-     * @param board object that contains the life board and targhet board
+     * @param board object that contains the life board and target board
      */
 
     private void scoreBoardFrenzy(Board board) {
@@ -1693,7 +1689,7 @@ public class MatchController{
                     case WHISPER: shootController.shootWhisper(); break;
                     case PLASMA_GUN: shootController.shootPlasmaGun(); break;
                     case LOCK_RIFLE: shootController.shootLockRifle(); break;
-                    case CYBERBLADE: shootController.shootCyberblade(); break;
+                    case CYBERBLADE: shootController.shootCyberBlade(); break;
                     case HEATSEEKER: shootController.shootHeatseeker(); break;
                     case SCHOCKWAVE: shootController.shootSchockWave(); break;
                     case POWER_GLOVE: shootController.shootPowerGlove(); break;

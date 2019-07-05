@@ -7,11 +7,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InputConverterTest {
-    Match match = new Match();
-    InputConverter ic = new InputConverter(match);
-    MatchController mc = new MatchController(match);
+    private Match match = new Match();
+    private InputConverter ic = new InputConverter(match);
+    private MatchController mc = new MatchController(match);
 
-    //TODO
     @BeforeEach
     void setUp() {
         try {

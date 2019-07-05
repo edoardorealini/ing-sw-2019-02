@@ -108,19 +108,9 @@ public class FirstPage extends Application implements Runnable{
         playButton.setText("  PLAY  ");
         playButton.getStyleClass().add("button-play");
         GridPane.setConstraints(playButton,50,24);
-        playButton.setOnAction(e ->  checkInput(inputName,numberPortText,inputIp,primaryStage)); /*
-          {
-            try {
-                GeneralWeaponPopUp fp = new GeneralWeaponPopUp();
-               fp.setMatch(this.getMatch());
-               fp.setWeapon(match.getWeaponDeck().getWeapon(WeaponName.THOR));
-               fp.start(new Stage());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });  //checkInput(inputName,choiceBox,inputIp,primaryStage));
-        // */
-        // ++++++++++++++++++++++++++++++++++
+        playButton.setOnAction(e ->  checkInput(inputName,numberPortText,inputIp,primaryStage));
+
+
         // codice per cambiare font
         nameLabel.setTextFill(Color.YELLOWGREEN);
         nameLabel.setStyle("-fx-font-weight: bold");
