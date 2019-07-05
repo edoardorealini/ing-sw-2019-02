@@ -14,6 +14,8 @@ La prova consiste nell'implementazione in Java del gioco da tavolo Adrenalina di
 
 **Guida all' avvio dei Jar:**
 
+Tutti i Jar eseguibili si trovano nella cartella di progetto "release"
+
 **AdrenalineClient**: 
 
 Distribuito in 3 versioni differenti a seconda del SO (causa dipendenza JavaFX)
@@ -22,7 +24,7 @@ All'interno di ogni cartella di distribuzione si trovano:
 
 - L'eseguibile **AdrenalineClient.jar**
 - La cartella di **dipendenza JavaFX**: "javafx-sdk-12.0.1"
-- Uno script **AdrenalineClientLauncher.sh** o **AdrenalineClientLauncher.bat** a seconda del SO in uso
+- Uno script **launcher.sh** o **launcher.bat** a seconda del SO in uso
 
    
 **AdrenalineServer**:
@@ -38,5 +40,4 @@ Per eseguire il jar è necessario lanciare da terminale uno dei due seguenti com
     java -jar AdrenalineServer.jar portNumber
     java -jar AdrenalineServer.jar
     
-Nel secondo caso il valore della porta su cui lanciare il server sarà caricato dal file di properties
-    
+Nel secondo caso il valore della porta su cui lanciare il server sarà caricato dal file di properties. Viene incluso nel Jar del server anche un launcher.sh per semplificare l'avvio.
