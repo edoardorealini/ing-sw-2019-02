@@ -216,7 +216,7 @@ public class Weapon implements Serializable {
     /**
      * This method returns the effects which build the specific ShootMode given in input.
      * @param mode is the enum that indicates the ShootMode the user is asking more about.
-     * @return an ArraList<{@link Effect}>
+     * @return an ArrayList
      */
 
     public List<Effect> getMode(ShootMode mode) {

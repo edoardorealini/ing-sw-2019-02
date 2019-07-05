@@ -442,7 +442,7 @@ public class ShootController{
      * This is only used for T.H.O.R.: it checks if the input parameters are valid and, eventually, execute the effect of the weapon.
      * @throws NotAllowedTargetException Thrown if the chosen target is not a valid option
      * @throws NotEnoughAmmoException Thrown if the user does not have enough ammo to pay the optional effects
-     * @throws NotAllowedMoveException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
+     * @throws NotAllowedShootingModeException Thrown if there a problem in {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}
      */
 
     public void shootTHOR () throws NotAllowedTargetException, NotEnoughAmmoException, NotAllowedShootingModeException {
