@@ -1,8 +1,11 @@
 package controller;
 
+import exception.NotAllowedMoveException;
+import exception.NotAllowedShootingModeException;
+import exception.NotAllowedTargetException;
+import exception.NotEnoughAmmoException;
 import model.Color;
 import model.Match;
-import exception.*;
 import model.ShootMode;
 import model.ShootingParametersInput;
 import model.map.Directions;
@@ -10,7 +13,16 @@ import model.map.Square;
 import model.player.Player;
 import model.weapons.Effect;
 import model.weapons.Weapon;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This is the ShootController, an important class that rules all the shooting routine.
+ * The idea is: check if everything the user wants to do is allowed and, only after that, execute the effects of the weapon
+ * using {@link model.weapons.Effect#executeEffect(Match, MoveController, ShootingParametersInput)}.
+ * @author Riccardo
+ */
 
 public class ShootController{
 
@@ -34,22 +46,25 @@ public class ShootController{
         return match.getCurrentPlayer();
     }
 
-    public Match getMatch() {
-        //implementation of the abstract method inheritated from the father
-        return match;
-    }
-
-
-    //check methods
+    /**
+     * This method checks the visibility between two players.
+     * @param player1 Reference to player 1
+     * @param player2 Reference to player 2
+     * @return True if player 1 can see player 2
+     */
 
     private boolean visibilityBetweenPlayers(Player player1, Player player2) {
-        //this method returns true if player2 can be seen by player1
-
         return match.getMap().getVisibileRooms(player1.getPosition()).contains(player2.getPosition().getColor());
     }
 
-    public void checkPayAmmo(Weapon weapon, List<ShootMode> shootingModes) throws NotEnoughAmmoException {
-        //this method check if the player can pay ammo for the optional effects
+    /**
+     * This method checks if the player can pay ammo for the optional effects.
+     * @param weapon The object of the weapon which the user wants to use
+     * @param shootingModes The shooting modes chosen by the player.
+     * @throws NotEnoughAmmoException Thrown only if the player doesn't have enough ammo
+     */
+
+     void checkPayAmmo(Weapon weapon, List<ShootMode> shootingModes) throws NotEnoughAmmoException {
 
         int r = 0;
         int b = 0;
@@ -84,8 +99,12 @@ public class ShootController{
 
     }
 
-    public void payAmmo(List<Color> cost) {
-        //this method makes the player pay ammo for the optional effects
+    /**
+     * This method makes the player pay ammo for the optional effects
+     * @param cost List of the colors of the ammo that needed to be paid
+     */
+
+    void payAmmo(List<Color> cost) {
 
         if (cost.isEmpty())
             return;
@@ -115,6 +134,14 @@ public class ShootController{
         getCurrPlayer().removeAmmo(r, b, y);
     }
 
+    /**
+     * This method checks the correct visibility between two players depending on the requirements of the effect.
+     * @param eff Reference to the effect that later will be executed
+     * @param player1 Reference to player 1
+     * @param player2 Reference to player 2
+     * @throws NotAllowedTargetException Thrown if the player is not an allowed target depending on the visibiliy
+     */
+
     private void checkCorrectVisibility(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
         //this method checks if the visibility required by the weapon is respected
         if (eff.getMoveTarget() != 0 || eff.getMoveYourself() != 0)
@@ -123,12 +150,28 @@ public class ShootController{
             throw new NotAllowedTargetException(notValidTarget);
     }
 
+    /**
+     * This method checks if the distance between player 1 and player 2 is bigger than the minShootDistance required by the effect
+     * @param eff Reference to the effect that later will be executed
+     * @param player1 Reference to player 1
+     * @param player2 Reference to player 2
+     * @throws NotAllowedTargetException Thrown if the distance between Player 1 and player 2 is too small
+     */
+
     private void checkAllowedDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
         //this method checks if the distance required by the weapon is respected
         if (moveController.minDistBetweenSquares(player1.getPosition(), player2.getPosition()) < eff.getMinShootDistance())
             throw new NotAllowedTargetException(notValidTarget);
 
     }
+
+    /**
+     * This method checks if the distance between player 1 and player 2 is equal to the minShootDistance required by the effect
+     * @param eff Reference to the effect that later will be executed
+     * @param player1 Reference to player 1
+     * @param player2 Reference to player 2
+     * @throws NotAllowedTargetException Thrown if the distance between Player 1 and player 2 is different from the minShootDistance required by the effect
+     */
 
     private void checkExactDistance(Effect eff, Player player1, Player player2) throws NotAllowedTargetException {
         //this method checks if the distance required by the weapon is the same that separate the two players, ONLY FOR DAMAGE EFFECT
@@ -148,18 +191,32 @@ public class ShootController{
         }
     }
 
+    /**
+     * This method checks if the distance between the player and the destination is a valid value.
+     * @param eff Reference to the effect that later will be executed
+     * @param player Reference to player that need to move
+     * @param square Reference to the destination square
+     * @throws NotAllowedMoveException Thrown if the destination is too far
+     */
+
     private void checkMaximumDistance(Effect eff, Player player, Square square, int maxDistance) throws NotAllowedMoveException {
         //this method checks if the distance between the player and the square is smaller then the set parameter
         if (eff.getDamage() != 0 || eff.getMark() != 0)
             return;
         if (moveController.minDistBetweenSquares(player.getPosition(), square) > maxDistance)
             throw new NotAllowedMoveException("Move error during shoot");
-
     }
 
+    /**
+     * This method checks if it is an allowed move in a specific direction (walls cannot be passed).
+     * @param player1 Reference to player
+     * @param square  Reference to the destination square
+     * @param direction Direction on which should stay the player and the destination square
+     * @throws NotAllowedTargetException Thrown if the movement is not happening in only one direction
+     */
+
     private void checkSameDirectionAllowed(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
-        //this method checks if the square and the position of the player are on the same line (walls cannot be passed)
-        if(direction!=null) {
+        if(direction != null) {
             if (match.getMap().getAllowedSquaresInDirection(direction, player1.getPosition()).contains(square)) {
                 return;
             } else {
@@ -181,9 +238,17 @@ public class ShootController{
         throw new NotAllowedTargetException(notValidTarget);
     }
 
+    /**
+     * This method checks if it is an allowed move in a specific direction (walls can be passed).
+     * @param player1 Reference to player
+     * @param square  Reference to the destination square
+     * @param direction Direction on which should stay the player and the destination square
+     * @throws NotAllowedTargetException Thrown if the movement is not happening in only one direction
+     */
+
     private void checkSameDirectionThroughWalls(Player player1, Square square, Directions direction) throws NotAllowedTargetException {
         //this method checks if the square and the position of the player are on the same line (don't care about the walls)
-        if(direction!=null) {
+        if(direction != null) {
             if (match.getMap().getAllSquaresInDirection(direction, player1.getPosition()).contains(square)) {
                 return;
             } else {
@@ -205,31 +270,41 @@ public class ShootController{
         throw new NotAllowedTargetException(notValidTarget);
     }
 
+    /**
+     * This method checks if two squares are in the same room.
+     * @param s1 Square 1
+     * @param s2 Square 2
+     * @throws NotAllowedTargetException Thrown if the two squares are not in the same room
+     */
+
     private void checkDifferentRoom(Square s1, Square s2) throws NotAllowedTargetException {
         if (s1.getColor() == s2.getColor())
             throw new NotAllowedTargetException(notValidTarget);
     }
 
-    public void setInput (ShootingParametersInput input1) {
+    /**
+     * This method sets the field input, instance of {@link ShootingParametersInput}, which will be used in every method of this class.
+     * It will be filled with parameters that come from the GUI.
+     * @param inputGui Input coming from the GUI
+     */
+
+    public void setInput (ShootingParametersInput inputGui) {
         //this method allows me to copy the input parameters received from the client
-        input.setWeapon(input1.getWeapon());
-        input.setDirection(input1.getDirection());
-        input.setMakeDamageBeforeMove(input1.getMakeDamageBeforeMove());
+        input.setWeapon(inputGui.getWeapon());
+        input.setDirection(inputGui.getDirection());
+        input.setMakeDamageBeforeMove(inputGui.getMakeDamageBeforeMove());
         input.getTargets().clear();
         input.getSquares().clear();
         input.getShootModes().clear();
-        for (Player player : input1.getTargets()) {
+        for (Player player : inputGui.getTargets()) {
             input.setTargets(player);
         }
-        for (Square square : input1.getSquares()) {
+        for (Square square : inputGui.getSquares()) {
             input.setSquares(square);
         }
-        for (ShootMode mode : input1.getShootModes()) {
+        for (ShootMode mode : inputGui.getShootModes()) {
             input.setShootModes(mode);
         }
-
-
-
     }
 
 
@@ -973,7 +1048,7 @@ public class ShootController{
             payAmmo(input.getWeapon().getModeCost(mode));
         }
 
-        getCurrPlayer().setPosition(squareTemp);      //reset the player to his initial posisition
+        getCurrPlayer().setPosition(squareTemp);      //reset the player to his initial position
 
         for (ShootMode mode : input.getShootModes()) {
             eff = input.getWeapon().getMode(mode).get(0);
