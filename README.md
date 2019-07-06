@@ -18,7 +18,7 @@ Tutti i Jar eseguibili si trovano nella cartella di progetto "release"
 
 **AdrenalineClient**: 
 
-Distribuito in 3 versioni differenti a seconda del SO (causa dipendenza JavaFX)
+Distribuito in 3 versioni differenti a seconda del SO (causa dipendenza JavaFX). Nota bene: il jar eseguibile per il client è unico e uguale in tutte e 3 le cartelle di "distribuzione", che cambia è solo la cartella di JavaFX.
 
 All'interno di ogni cartella di distribuzione si trovano:
 
